@@ -1,11 +1,10 @@
 Package: MeanRarity
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Estimates Diversity Using The Mean Rarity Framework
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Roswell, Michael and Dushoff, Jonathan
+Maintainer: Michael Roswell <mroswell.rutgers@gmail.comt>
+Description: This package contains functions to estimate [Hill] diversity as a function of a scaling parameter \ell, as well as various convenience functions for sampling communities, estimating diversity from subsamples, and computing uncertainty estimates. 
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true

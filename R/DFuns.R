@@ -4,18 +4,21 @@
 ##############################################################
 
 #transformation and back-transformation functions
+#' @export
 pfun=function(x, pow){
   if (pow==0) return(log(x))
   r <- sign(pow)*(x)^pow
   return(r)
 }
 
+#' @export
 ipfun=function(x, pow){
   if (pow==0) return(exp(x))
   r <- sign(pow)*(x)^(1/pow)
   return(r)
 }
 
+#' @export
 dfun<-function(ab, l){
   ab<-ab[ab!=0]
   rp <- ab/sum(ab)

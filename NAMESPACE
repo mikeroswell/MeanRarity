@@ -1,3 +1,4 @@
 exportPattern("^[[:alpha:]]+")
 importFrom("stats", "qgamma", "qlnorm", "quantile", "rmultinom",
                 "rpois", "runif", "uniroot")
+import("furrr")

@@ -30,13 +30,15 @@ subcom<-function(com, size){
 # }
 
 #estimates hill with order q for each comm at each size in sequence
+#this might be the only place parallel is used, figure out if necessary and then
+#either allow to not always be parallelized or consider omiting entirely
 raref<-function(from, to, by, comm,n=1, q){
   # ifelse(para==T, {
-  require(furrr)
-  nc<-detectCores()-1
-  plan(strategy=multiprocess, workers=nc)
-  p<-future_map_dfr(1:n, function(z){map_dfr(lapply(seq(from, to, by), function(b){
-    o1<-apply(subcom(comm, b),1, function(x){
+  nc<-parallel::detectCores()-1
+  furrr::plan(strategy=multiprocess, workers=nc)
+  p<-furrr::future_map_dfr(1:n, function(z){
+    furrr::map_dfr(lapply(seq(from, to, by), function(b){
+      o1<-apply(subcom(comm, b),1, function(x){
       # if(q==2){
       #     est<-Nielsen(x)
       # }
@@ -52,7 +54,7 @@ raref<-function(from, to, by, comm,n=1, q){
     return(data.frame(comm=row.names(comm), divest=o1[1,], divzhang=o1[2,], divemp=o1[3,], coverage=o1[4,], inds=o1[5,], ell=o1[6,]))
   }), rbind)}) #},
 
-  # p<-map_dfr(1:n, function(z){map_dfr(lapply(seq(from, to, by), function(b){
+  # p<-purrr:map_dfr(1:n, function(z){map_dfr(lapply(seq(from, to, by), function(b){
   #     o1<-apply(subcom(comm, b),1, function(x){
   #         # if(q==2){
   #         #     est<-Nielsen(x)
@@ -83,13 +85,14 @@ truemu<-function(comm, size, reps, l,...){
 }
 
 
-
+# sample a [relative] abundance vector with replacement
 sample_infinite<-function(commSAD, size){
   namevec<-sample(1:length(commSAD), size=size, prob=commSAD, replace=T)
   mysam <- unlist(lapply(1:length(commSAD), function(y){
     length(which(namevec==y))}))#substample the whole community with # individuals=size)
   return(mysam)}
 
+#estimate empirical mean rarity (given l) for a finite-sized sample from a species abundance distribution (sampling with replacement)
 truemu_inf<-function(comm, size, reps, l,...){ #comm is abundance vector; size, reps, l all constants
   sam<-replicate(reps, sample_infinite(comm, size=size))
 

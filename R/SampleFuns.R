@@ -1,8 +1,9 @@
 
 ### Convenience functions to sample community data, estimate empirical mean diversities
 # library(iNEXT)
-library(tidyverse)
+# library(tidyverse)
 # library(EntropyEstimation)
+requireNamespace("furrr")
 #function to take an abundance vector and subsample to size
 subsam<-function(ab_vec, size=sum(ab_vec)){
   inds<-unlist(lapply(1:length(ab_vec), function(x){

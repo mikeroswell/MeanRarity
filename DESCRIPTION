@@ -5,6 +5,6 @@ Version: 0.1.0
 Author: Roswell, Michael and Dushoff, Jonathan
 Maintainer: Michael Roswell <mroswell.rutgers@gmail.comt>
 Description: This package contains functions to estimate [Hill] diversity as a function of a scaling parameter \ell, as well as various convenience functions for sampling communities, estimating diversity from subsamples, and computing uncertainty estimates. 
-License: What license is it under?
+License: LGPL-3
 Encoding: UTF-8
 LazyData: true

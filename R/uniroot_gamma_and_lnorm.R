@@ -18,6 +18,7 @@
 #' and gives relative abundance estimates for each species
 #' @param x Shape paramter for a gamma distribution, a scalar
 #' @param rich Total number of species in the SAD, an integer
+#' @seealso qgamma
 #'
 #' @export
 #' @examples
@@ -42,16 +43,20 @@ divers_gamma<-function(rich, x){
 #' @param x Shape paramter for a gamma distribution, a scalar
 #' @param rich Total number of species in the SAD, an integer
 #' @param simpson Target value for inverse simpson diversity of the simulated SAD, a scalar
+#' @param distr Distribution type (currently lnorm or gamma) to call for "divers_" function, a character string
 #' @param totAB Not implemented, could have a finite-size version with a fixed # of individuals in pool
+#' @seealso dfun
 #'
 #' @export
 #' @examples
 #'
-#' ur_gamma(x = 2, rich = 10, simpson = 6)
-#' ur_gamma(x = 0.2, rich = 10, simpson = 6)
-#' ur_gamma(x = 1.235383382 , rich = 10, simpson = 6) #very close, depends on sensitivity.
-ur_gamma<-function(x,rich=rich, simpson=simpson, totAb=totAb,...){
-    simpson-dfun(divers_gamma(rich, x), -1)}
+#' ur_distr(x = 2, rich = 10, simpson = 6, distr = "gamma")
+#' ur_gamma(x = 0.2, rich = 10, simpson = 6, distr = "gamma")
+#' ur_gamma(x = 1.235383382 , rich = 10, simpson = 6, distr = "gamma") #very close, depends on sensitivity.
+ur_distr<-function(x,rich=rich, simpson=simpson, distr="lnorm", totAb=totAb, ...){
+    simpson-dfun(get(paste0("divers_", distr))(rich, x), -1)}
+
+
 
 # gamShape<-uniroot(ur_gamma, lower=1e-2, upper=1e2)
 # gamShape
@@ -59,17 +64,62 @@ ur_gamma<-function(x,rich=rich, simpson=simpson, totAb=totAb,...){
 # ur_gamma(1e-5)
 
 #define my lognormal distribution
+
+#' relative abundances given lognormal disribution
+#'
+#' This is a wrapper for `qlnrom` that
+#' takes the number of species and a shape parameter (sd of the log(lognormal)))
+#' and gives relative abundance estimates for each species
+#' @param x Shape paramter sdlog, a scalar
+#' @param rich Total number of species in the SAD, an integer
+#' @seealso qlnorm
+#'
+#' @export
+#' @examples
 divers_lnorm<-function(rich, x){
     qlnorm(seq((1/rich)/2, 1-(1/rich)/2, (1/rich)), meanlog=10, sdlog=x)
     }
 
-#function for uniroot to optimize, according to simpsons
-ur_lognorm<-function(x, rich=rich, simpson=simpson, ...){ ddiff=simpson-dfun(divers_lnorm(rich, x), -1)
-    return(ddiff)}
 
-fit_SAD<-function(totAb=1e7, rich=50, simpson=40, int_lwr=1e-4,int_uppr=1e2, dstr="lnorm"){
-    #check feasibility
-    if(simpson>rich){return("ERROR: Hill-Simpson diversity cannot be greater than richness")}
+
+#' fit a SAD given diversity and a distributional assumption
+#'
+#' Takes a true richness, an inverse-Simpson diversity, and a
+#' distributional assumption. Fits an optimal SAD given these constraints
+#' using stats::uniroot.
+#'
+#' Returns a list.
+#'
+#' First element of the list is the name of the
+#' distribution and the fitted shape parameter
+#'
+#' Second element is Hill diversity of the SAD for \ell = 1, 0, and -1
+#'
+#' Third element is a vector of relative abundances for each species in SAD
+#'
+#' @param totAb Not implemented, for finite communities
+#' @param rich Total number of species in the SAD, an integer
+#' @param simpson Hill-Simpson diversity of the SAD, a real number in [1,rich]
+#' @param int_lwr Lower bound of seach space for uniroot; a small number close to 0 to deal with potential boundary issues for `stats::uniroot` (a scalar)
+#' @param int_upr Upper bound of search space for uniroot (scalar)
+#' @param distr Name of the distribution ("lnorm" or "gamma")
+#' @seealso stats::uniroot
+#'
+#' @export
+#' @examples
+#' #test function
+#' fit_SAD(dstr = "lnorm") #works
+#' fit_SAD(dstr = "nonsense")  #gives custom error (though not as error message)
+#' fit_SAD(dstr = "gamma") #works
+#' fit_SAD(dstr = "lnorm", rich = 50, simpson = 90) #gives custom error (though not as error message)
+#' fit_SAD(dstr = "lnorm", rich = 50, simpson = 2) #works
+#' fit_SAD(dstr = "gamma", rich = 50, simpson = 2) #works
+#' fit_SAD(dstr = "gamma", rich = 10, simpson = 6)
+
+fit_SAD<-function(totAb=1e7, rich=50, simpson=40
+                  , int_lwr=1e-4,int_uppr=1e2, dstr="lnorm"){
+    #check feasibility; these should be actual errors in future versions
+    if(simpson>rich| simpson<1){return("ERROR: Hill-Simpson diversity cannot be greater than richness or less than 1")}
 
     #check dstr makes sense
     ifelse( !(dstr %in% c("lnorm", "gamma")), return("ERROR: dstr must be either `lnorm` or `gamma`"),
@@ -77,7 +127,7 @@ fit_SAD<-function(totAb=1e7, rich=50, simpson=40, int_lwr=1e-4,int_uppr=1e2, dst
         #generate SAD when dstr=lnorm
         {if(dstr=="lnorm"){
             #uses an optimizer called uniroot to find x when ur_lognorm(x)==0
-                fit_par=tryCatch(uniroot(function(x){ur_lognorm(simpson=simpson, rich=rich,x)}, lower=int_lwr, upper=int_uppr), error=function(e) message("ERROR: test int_lwr and int_uppr in ur_ function, output must have opposite signs"))
+                fit_par=tryCatch(stats::uniroot(function(x){ur_distr(simpson=simpson, rich=rich,x)}, lower=int_lwr, upper=int_uppr), error=function(e) message("ERROR: test int_lwr and int_uppr in ur_ function, output must have opposite signs"))
 
                 #make sure to return rel abundances!
                 abus=tryCatch(divers_lnorm(rich, fit_par$root), error=function(e) {message("did not fit param")
@@ -91,7 +141,7 @@ fit_SAD<-function(totAb=1e7, rich=50, simpson=40, int_lwr=1e-4,int_uppr=1e2, dst
         if(dstr=="gamma"){
 
             #uses an optimizer called uniroot to find x when ur_gamma(x)==0
-            fit_par=tryCatch(uniroot(function(x){ur_gamma(simpson=simpson, rich=rich, x)}, lower=int_lwr, upper=int_uppr), error=function(e) message("ERROR: test int_lwr and int_uppr in ur_ function, output must have opposite signs"))
+            fit_par=tryCatch(stats::uniroot(function(x){ur_distr(simpson=simpson, rich=rich, x)}, lower=int_lwr, upper=int_uppr), error=function(e) message("ERROR: test int_lwr and int_uppr in ur_ function, output must have opposite signs"))
 
             #make sure to return rel abundances!
             abus=tryCatch(divers_gamma(rich,  fit_par$root), error=function(e) {
@@ -115,14 +165,7 @@ fit_SAD<-function(totAb=1e7, rich=50, simpson=40, int_lwr=1e-4,int_uppr=1e2, dst
     )
 }
 
-#test function
-# fit_SAD(dstr = "lnorm") #works
-# fit_SAD(dstr = "nonsense")  #gives custom error (though not as error message)
-# fit_SAD(dstr = "gamma") #works
-# fit_SAD(dstr = "lnorm", rich = 50, simpson = 90) #gives custom error (though not as error message)
-# fit_SAD(dstr = "lnorm", rich = 50, simpson = 2) #works
-# fit_SAD(dstr = "gamma", rich = 50, simpson = 2) #works
-# fit_SAD(dstr = "gamma", rich = 10, simpson = 6)
+
 
 
 

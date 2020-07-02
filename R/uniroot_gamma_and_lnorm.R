@@ -10,6 +10,20 @@
 
 
 #define my gamma distribution
+
+#' relative abundances given gamma disribution
+#'
+#' This is a wrapper for `qgamma` that
+#' takes the number of species and a shape parameter
+#' and gives relative abundance estimates for each species
+#' @param x Shape paramter for a gamma distribution, a scalar
+#' @param rich Total number of species in the SAD, an integer
+#'
+#' @export
+#' @examples
+#' divers_gamma(rich = 10, x = 0.2)
+#'
+#' divers_gamma(rich = 10, x = 2)
 divers_gamma<-function(rich, x){
     qgamma(seq((1/rich)/2, 1-(1/rich)/2, (1/rich)), shape=x, scale=10/x)
 }
@@ -17,7 +31,27 @@ divers_gamma<-function(rich, x){
 
 
 #function for uniroot to optimize, according to simpsons
-ur_gamma<-function(x,rich=rich, simpson=simpson, totAb=totAb,...){simpson-dfun(divers_gamma(rich, x), -1)}
+
+#' difference between target and realized diversity of simulated SAD (gamma distribution)
+#'
+#' Subtracts realized inverse simpson diversity of
+#' the simulated species abundance distribution from the target value.
+#' When this difference = 0 the shape paramter of the gamma distribution is
+#' considered optimal
+#'
+#' @param x Shape paramter for a gamma distribution, a scalar
+#' @param rich Total number of species in the SAD, an integer
+#' @param simpson Target value for inverse simpson diversity of the simulated SAD, a scalar
+#' @param totAB Not implemented, could have a finite-size version with a fixed # of individuals in pool
+#'
+#' @export
+#' @examples
+#'
+#' ur_gamma(x = 2, rich = 10, simpson = 6)
+#' ur_gamma(x = 0.2, rich = 10, simpson = 6)
+#' ur_gamma(x = 1.235383382 , rich = 10, simpson = 6) #very close, depends on sensitivity.
+ur_gamma<-function(x,rich=rich, simpson=simpson, totAb=totAb,...){
+    simpson-dfun(divers_gamma(rich, x), -1)}
 
 # gamShape<-uniroot(ur_gamma, lower=1e-2, upper=1e2)
 # gamShape
@@ -82,12 +116,13 @@ fit_SAD<-function(totAb=1e7, rich=50, simpson=40, int_lwr=1e-4,int_uppr=1e2, dst
 }
 
 #test function
-# fit_SAD(dstr="lnorm") #works
-# fit_SAD(dstr="nonsense")  #gives custom error (though not as error message)
-# fit_SAD(dstr="gamma") #works
-# fit_SAD(dstr="lnorm", rich=50, simpson=90) #gives custom error (though not as error message)
-# fit_SAD(dstr="lnorm", rich=50, simpson=2) #works
-# fit_SAD(dstr="gamma", rich=50, simpson=2) #works
+# fit_SAD(dstr = "lnorm") #works
+# fit_SAD(dstr = "nonsense")  #gives custom error (though not as error message)
+# fit_SAD(dstr = "gamma") #works
+# fit_SAD(dstr = "lnorm", rich = 50, simpson = 90) #gives custom error (though not as error message)
+# fit_SAD(dstr = "lnorm", rich = 50, simpson = 2) #works
+# fit_SAD(dstr = "gamma", rich = 50, simpson = 2) #works
+# fit_SAD(dstr = "gamma", rich = 10, simpson = 6)
 
 
 

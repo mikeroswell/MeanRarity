@@ -76,6 +76,7 @@ ur_distr<-function(x,rich=rich, simpson=simpson, distr="lnorm", totAb=totAb, ...
 #'
 #' @export
 #' @examples
+#' divers_lnorm(rich = 10, x = 1)
 divers_lnorm<-function(rich, x){
     qlnorm(seq((1/rich)/2, 1-(1/rich)/2, (1/rich)), meanlog=10, sdlog=x)
     }
@@ -86,28 +87,31 @@ divers_lnorm<-function(rich, x){
 #'
 #' Takes a true richness, an inverse-Simpson diversity, and a
 #' distributional assumption. Fits an optimal SAD given these constraints
-#' using stats::uniroot.
+#' using \code{stats::uniroot}.
 #'
-#' Returns a list.
+
 #'
-#' First element of the list is the name of the
-#' distribution and the fitted shape parameter
-#'
-#' Second element is Hill diversity of the SAD for \ell = 1, 0, and -1
-#'
-#' Third element is a vector of relative abundances for each species in SAD
-#'
-#' @param totAb Not implemented, for finite communities
+
 #' @param rich Total number of species in the SAD, an integer
 #' @param simpson Hill-Simpson diversity of the SAD, a real number in [1,rich]
 #' @param int_lwr Lower bound of seach space for uniroot; a small number close to 0 to deal with potential boundary issues for `stats::uniroot` (a scalar)
 #' @param int_upr Upper bound of search space for uniroot (scalar)
 #' @param distr Name of the distribution ("lnorm" or "gamma")
-#' @seealso stats::uniroot
+#' @param totAb Not implemented, for finite communities
+#'
+#' @seealso \code{stats::uniroot, dfun}
+#'
+#' @return  Returns a list with three elements.
+#'
+#' \code{distribution_info} contains name of the
+#' distribution and the fitted shape parameter
+#'
+#' \code{community_info} gives richness, Hill-Shannon, and Hill=Simpson diversity of the SAD
+#'
+#' \code{rel_abundances} is a vector of relative abundances for each species in SAD
 #'
 #' @export
 #' @examples
-#' #test function
 #' fit_SAD(dstr = "lnorm") #works
 #' fit_SAD(dstr = "nonsense")  #gives custom error (though not as error message)
 #' fit_SAD(dstr = "gamma") #works
@@ -116,8 +120,9 @@ divers_lnorm<-function(rich, x){
 #' fit_SAD(dstr = "gamma", rich = 50, simpson = 2) #works
 #' fit_SAD(dstr = "gamma", rich = 10, simpson = 6)
 
-fit_SAD<-function(totAb=1e7, rich=50, simpson=40
-                  , int_lwr=1e-4,int_uppr=1e2, dstr="lnorm"){
+fit_SAD<-function(rich = 50, simpson = 40
+                  , dstr = "lnorm", int_lwr = 1e-4, int_uppr = 1e2
+                 , totAb = 1e7){
     #check feasibility; these should be actual errors in future versions
     if(simpson>rich| simpson<1){return("ERROR: Hill-Simpson diversity cannot be greater than richness or less than 1")}
 

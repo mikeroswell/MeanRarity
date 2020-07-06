@@ -33,7 +33,7 @@ divers_gamma<-function(rich, x){
 
 #function for uniroot to optimize, according to simpsons
 
-#' difference between target and realized diversity of simulated SAD (gamma distribution)
+#' Difference between target and realized diversity of simulated SAD (gamma distribution)
 #'
 #' Subtracts realized inverse simpson diversity of
 #' the simulated species abundance distribution from the target value.
@@ -45,7 +45,7 @@ divers_gamma<-function(rich, x){
 #' @param simpson Target value for inverse simpson diversity of the simulated SAD, a scalar
 #' @param distr Distribution type (currently lnorm or gamma) to call for "divers_" function, a character string
 #' @param totAB Not implemented, could have a finite-size version with a fixed # of individuals in pool
-#' @seealso dfun
+#' @seealso \code{\link{dfun}}
 #'
 #' @export
 #' @examples
@@ -65,14 +65,14 @@ ur_distr<-function(x,rich=rich, simpson=simpson, distr="lnorm", totAb=totAb, ...
 
 #define my lognormal distribution
 
-#' relative abundances given lognormal disribution
+#' Relative abundances given lognormal disribution
 #'
 #' This is a wrapper for `qlnrom` that
 #' takes the number of species and a shape parameter (sd of the log(lognormal)))
-#' and gives relative abundance estimates for each species
-#' @param x Shape paramter sdlog, a scalar
-#' @param rich Total number of species in the SAD, an integer
-#' @seealso qlnorm
+#' and gives relative abundance estimates for each species.
+#' @param x Shape parameter \code{sdlog}, a scalar.
+#' @param rich Total number of species in the SAD, an integer.
+#' @seealso \code{\link{[stats]qlnorm}}
 #'
 #' @export
 #' @examples
@@ -83,7 +83,7 @@ divers_lnorm<-function(rich, x){
 
 
 
-#' fit a SAD given diversity and a distributional assumption
+#' Fit a SAD given diversity and a distributional assumption
 #'
 #' Takes a true richness, an inverse-Simpson diversity, and a
 #' distributional assumption. Fits an optimal SAD given these constraints
@@ -92,16 +92,16 @@ divers_lnorm<-function(rich, x){
 
 #'
 
-#' @param rich Total number of species in the SAD, an integer
-#' @param simpson Hill-Simpson diversity of the SAD, a real number in [1,rich]
-#' @param int_lwr Lower bound of seach space for uniroot; a small number close to 0 to deal with potential boundary issues for `stats::uniroot` (a scalar)
-#' @param int_upr Upper bound of search space for uniroot (scalar)
-#' @param distr Name of the distribution ("lnorm" or "gamma")
-#' @param totAb Not implemented, for finite communities
+#' @param rich Total number of species in the SAD, an integer.
+#' @param simpson Hill-Simpson diversity of the SAD, a real number in [1,rich].
+#' @param int_lwr Lower bound of search space for uniroot; default is a small number close to 0 to deal with potential boundary issues for \code{stats::uniroot} (a scalar).
+#' @param int_upr Upper bound of search space for \code{uniroot} (scalar).
+#' @param distr Name of the distribution (\code{"lnorm}" or \code{"gamma"}).
+#' @param totAb Not implemented; would be a necessary contstraint for fitting finite communities.
 #'
-#' @seealso \code{stats::uniroot, dfun}
+#' @seealso \link\code{[stats]uniroot, dfun}}}
 #'
-#' @return  Returns a list with three elements.
+#' @return  A list with three elements.
 #'
 #' \code{distribution_info} contains name of the
 #' distribution and the fitted shape parameter
@@ -113,9 +113,9 @@ divers_lnorm<-function(rich, x){
 #' @export
 #' @examples
 #' fit_SAD(dstr = "lnorm") #works
-#' fit_SAD(dstr = "nonsense")  #gives custom error (though not as error message)
+#' fit_SAD(dstr = "nonsense")  #returns error
 #' fit_SAD(dstr = "gamma") #works
-#' fit_SAD(dstr = "lnorm", rich = 50, simpson = 90) #gives custom error (though not as error message)
+#' fit_SAD(dstr = "lnorm", rich = 50, simpson = 90) #returns error
 #' fit_SAD(dstr = "lnorm", rich = 50, simpson = 2) #works
 #' fit_SAD(dstr = "gamma", rich = 50, simpson = 2) #works
 #' fit_SAD(dstr = "gamma", rich = 10, simpson = 6)
@@ -124,10 +124,10 @@ fit_SAD<-function(rich = 50, simpson = 40
                   , dstr = "lnorm", int_lwr = 1e-4, int_uppr = 1e2
                  , totAb = 1e7){
     #check feasibility; these should be actual errors in future versions
-    if(simpson>rich| simpson<1){return("ERROR: Hill-Simpson diversity cannot be greater than richness or less than 1")}
+    if(simpson>rich| simpson<1){stop("Hill-Simpson diversity cannot be greater than richness nor less than 1")}
 
     #check dstr makes sense
-    ifelse( !(dstr %in% c("lnorm", "gamma")), return("ERROR: dstr must be either `lnorm` or `gamma`"),
+    ifelse( !(dstr %in% c("lnorm", "gamma")), stop("dstr must be either `lnorm` or `gamma`"),
 
         #generate SAD when dstr=lnorm
         {if(dstr=="lnorm"){

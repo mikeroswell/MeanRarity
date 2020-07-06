@@ -5,7 +5,16 @@
 
 #transformation and back-transformation functions
 
-#' power transformation
+#' Power transformation
+#'
+#' Transform a vector by raising to a power
+#'
+#' @param x a numeric vector
+#' @param pow the value of the exponent to which all values are raised
+#'
+#' @return a numeric vector with same length as x
+#'
+#'
 #' @export
 pfun=function(x, pow){
   if (pow==0) return(log(x))
@@ -13,7 +22,15 @@ pfun=function(x, pow){
   return(r)
 }
 
-#' inverse function for power transformation
+#' Inverse function for power transformation
+#'
+#' Transform a vector by raising to a power... specifically 1/pow
+#'
+#' @param x a numeric vector
+#' @param pow the value of the exponent the inverse to which all values are raised
+#'
+#' @return a numeric vector with same length as x
+#'
 #' @export
 ipfun=function(x, pow){
   if (pow==0) return(exp(x))
@@ -23,7 +40,7 @@ ipfun=function(x, pow){
   return(r)
 }
 
-#' estimate Hill diversity
+#' Estimate Hill diversity
 #'
 #' We parameterize Hill diversity \eqn{D} as a the frequency-weighted mean species rarity, with scaling exponent l
 #' \deqn{D=\sum{p_i*r_i^{l}}^{-l}}

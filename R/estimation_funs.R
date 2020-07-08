@@ -400,42 +400,6 @@ ChaoHill <- function(dat, datatype=c("abundance", "incidence"), from=0, to=3, in
 }
 
 
-#----------------------------
-# Plot of confidence interval
-#----------------------------
-#' conf.reg(x_axis,LCL,UCL,...) is a function to plot the confidence region.
-#'
-#' \code{conf.reg} uses polygon to draw a confidence band plot
-#'
-#' @param x_axis a vector of diversity orders.
-#' @param LCL a vector of lower confidence bounds.
-#' @param UCL a vector of upper confidence bounds.
-#' @param ... further arguments to be passed to \code{polygon}
-#' @return a polygon plot
-
-conf.reg=function(x_axis,LCL,UCL,...) {
-  x.sort <- order(x_axis)
-  x <- x_axis[x.sort]
-  LCL <- LCL[x.sort]
-  UCL <- UCL[x.sort]
-  polygon(c(x,rev(x)),c(LCL,rev(UCL)), ...)
-}
-
-##############################################################################
-### iNEXT coverage function
-##############################################################################
-Chat.Ind <- function(x, m=sum(x)){
-  x <- x[x>0]
-  n <- sum(x)
-  f1 <- sum(x == 1)
-  f2 <- sum(x == 2)
-  A <- ifelse(f2 > 0, (n-1)*f1/((n-1)*f1+2*f2), (n-1)*f1/((n-1)*f1+2))
-  Sub <- function(m){
-    out <- 1-f1/n*A
-  }
-  sapply(m, Sub)
-}
-
 
 
 #########################################

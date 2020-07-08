@@ -17,6 +17,7 @@ Imports:
     scales,
     ggplot2,
     magrittr
+    , iNEXT
 RoxygenNote: 7.1.0
 Authors@R: 
    c( person(given = "Michael",

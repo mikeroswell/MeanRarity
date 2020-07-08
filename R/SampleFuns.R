@@ -1,9 +1,7 @@
 
 ### Convenience functions to sample community data, estimate empirical mean diversities
-# library(iNEXT)
-# library(tidyverse)
-# library(EntropyEstimation)
-requireNamespace("furrr")
+
+
 #' Take an abundance vector and subsample to size
 #'
 #' Take a finite sample of individuals without replacement from a finite abundance vector.
@@ -85,14 +83,14 @@ raref<-function(from, to, by, comm, n = 1, l, cores = NULL){
   nc<-parallel::detectCores()-1
   furrr::plan(strategy=multiprocess, workers=ifelse(is.null(cores), nc, cores))
   p<-furrr::future_map_dfr(1:n, function(z){
-    furrr::map_dfr(lapply(seq(from, to, by), function(b){
+    purrr::map_dfr(lapply(seq(from, to, by), function(b){
       o1<-apply(subcom(comm, b),1, function(x){
       # if(q==2){
       #     est<-Nielsen(x)
       # }
       # else{
       mrest<-fsd(ab=x,l=l)
-      est<-Chao_Hill_abu(x, q=1-l)#}
+      est<-SpadeR::Chao_Hill_abu(x, q=1-l)#}
       emp<-dfun(ab=x, l=l)
 
       coverage<-iNEXT:::Chat.Ind(x)
@@ -122,7 +120,9 @@ raref<-function(from, to, by, comm, n = 1, l, cores = NULL){
 
 
 ################
-#' Compute emprical average sample diveristy under sampling without replacement
+#' Compute emprical average sample diversity
+#'
+#' Based on replicate samples from a finite pool (samples taken without replacment).
 #'
 #' @param ab Numeric vector of species abundances.
 #' @param size Scalar, number of individuals in sample
@@ -144,17 +144,34 @@ truemu<-function(ab, size, reps, l,...){
 }
 
 
-# sample a [relative] abundance vector with replacement
+#'  Sample a [relative] abundance vector with replacement
+#'
+#'  @param commSAD Numeric vector of [relative] abundances
+#'  @param size Scalar, number of individuals in finite samples
+#'
+#'  @return A vector of integer species abundances
+#'
+#'  @export
 sample_infinite<-function(commSAD, size){
   namevec<-sample(1:length(commSAD), size=size, prob=commSAD, replace=T)
   mysam <- unlist(lapply(1:length(commSAD), function(y){
     length(which(namevec==y))}))#substample the whole community with # individuals=size)
   return(mysam)}
 
-#estimate empirical mean rarity (given l) for a finite-sized sample from a species abundance distribution (sampling with replacement)
+#' Estimate empirical mean rarity (given l) for a finite-sized sample
+#'
+#' Samples taken from a species abundance distribution (sampling with replacement)
+#'
+#' @param comm numeric vector of species [relative] abundances
+#' @param size scalar, number of individuals in each sample
+#' @param reps Scalar, number of replicate samples
+#' @param l Scalar, exponent for scaling mean rarity
+#'
+#' @return Scalar, empirical mean sample diversity given sampling with replacement
+#'
+#' @noRd
 truemu_inf<-function(comm, size, reps, l,...){ #comm is abundance vector; size, reps, l all constants
   sam<-replicate(reps, sample_infinite(comm, size=size))
-
   return(
     mean(
       apply(sam,2, function(x){dfun(x, l)})

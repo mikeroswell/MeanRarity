@@ -9,7 +9,7 @@ Chao_Hill_abu(x, q)
 \arguments{
 \item{x}{a vector of species sample frequencies.}
 
-\item{q}{a numeric or a vector of diversity order; The suggested range for q is [0, 3].}
+\item{q}{a numeric or a vector of diversity order; The suggested range for q is \link{0, 3}.}
 }
 \value{
 a numerical vector of diversity.

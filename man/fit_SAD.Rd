@@ -16,7 +16,7 @@ fit_SAD(
 \arguments{
 \item{rich}{Total number of species in the SAD, an integer.}
 
-\item{simpson}{Hill-Simpson diversity of the SAD, a real number in [1,rich].}
+\item{simpson}{Hill-Simpson diversity of the SAD, a real number in \link{1,rich}.}
 
 \item{int_lwr}{Lower bound of search space for uniroot; default is a small
 number close to 0 to deal with potential boundary issues for
@@ -32,14 +32,14 @@ finite communities.}
 \value{
 A list with three elements.
 
-  \code{distribution_info} contains name of the distribution and the fitted
-  shape parameter.
+\code{distribution_info} contains name of the distribution and the fitted
+shape parameter.
 
-  \code{community_info} gives richness, Hill-Shannon, and Hill=Simpson
-  diversity of the SAD.
+\code{community_info} gives richness, Hill-Shannon, and Hill=Simpson
+diversity of the SAD.
 
-  \code{rel_abundances} is a vector of relative abundances for each species
-  in SAD.
+\code{rel_abundances} is a vector of relative abundances for each species
+in SAD.
 }
 \description{
 Takes a true richness, an inverse-Simpson diversity, and a distributional

@@ -24,5 +24,5 @@ inverse) This is useful for visualizing generalized means.
 }
 \seealso{
 \code{\link[scales]{trans_new}}, \code{\link[scales]{trans_breaks}},
-  \code{\link{pfun}}, \code{\link{ipfun}}, \code{\link{prettify}}
+\code{\link{pfun}}, \code{\link{ipfun}}, \code{\link{prettify}}
 }

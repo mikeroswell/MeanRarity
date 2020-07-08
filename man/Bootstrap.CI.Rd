@@ -27,20 +27,20 @@ To save running time, use a smaller value (e.g. B = 200)..}
 \value{
 a numeric vector.
 Bt_prob_inc = function(x){
-    n = x[1]
-    x = x[-1]
-    U = sum(x)
-    f1 = sum(x==1)
-    f2 = sum(x==2)
-    A = ifelse(f2>0,2*f2/((n-1)*f1+2*f2),ifelse(f1>0,2/((n-1)*(f1-1)+2),1))
-    C=1-f1/U*(1-A)
-    W=U/n*(1-C)/sum(x/n*(1-x/n)^n)
+n = x\link{1}
+x = x\link{-1}
+U = sum(x)
+f1 = sum(x==1)
+f2 = sum(x==2)
+A = ifelse(f2>0,2\emph{f2/((n-1)\emph{f1+2}f2),ifelse(f1>0,2/((n-1)}(f1-1)+2),1))
+C=1-f1/U*(1-A)
+W=U/n*(1-C)/sum(x/n*(1-x/n)^n)\preformatted{p.new=x/n*(1-W*(1-x/n)^n)
+f0 = ceiling(ifelse(f2>0,(n-1)/n*f1^2/(2*f2),(n-1)/n*f1*(f1-1)/2))
+p0=U/n*(1-C)/f0
+p.new=c(p.new,rep(p0,f0))
+return(p.new)
+}
 
-    p.new=x/n*(1-W*(1-x/n)^n)
-    f0 = ceiling(ifelse(f2>0,(n-1)/n*f1^2/(2*f2),(n-1)/n*f1*(f1-1)/2))
-    p0=U/n*(1-C)/f0
-    p.new=c(p.new,rep(p0,f0))
-    return(p.new)
 }
 
 #' Bt_prob(x,datatype) combines the two functions Bt_prob_abu and Bt_prob_inc for a specified datatype.
@@ -49,20 +49,20 @@ Bt_prob_inc = function(x){
 #' @return a numeric vector.
 
 Bt_prob = function(x,datatype = c("abundance","incidence")){
-    datatype = match.arg(datatype,c("abundance","incidence"))
-    if(datatype == "abundance"){
-        prob = Bt_prob_abu(x)
-    }else{
-        prob = Bt_prob_inc(x)
-    }
-    return(prob)
+datatype = match.arg(datatype,c("abundance","incidence"))
+if(datatype == "abundance"){
+prob = Bt_prob_abu(x)
+}else{
+prob = Bt_prob_inc(x)
+}
+return(prob)
 }
 Bootstrap.CI(x,q,B,datatype,conf) is a function of calculating the bootsrapping standard error based on abundance data or incidence data.
 
 a list, consisting of 3 matrices including respectively the difference between the average and lower confidence bound of the B bootstrap estimates,
- the difference between the upper confidence bound and the average of the B bootstrap estimates, and the bootstrap standard error of the diversity estimate.
- In each matrix, the first row gives the results for the empirical diversity, and the second row gives the results for the proposed diversity estimates.
- Columns give the results for different orders of q.
+the difference between the upper confidence bound and the average of the B bootstrap estimates, and the bootstrap standard error of the diversity estimate.
+In each matrix, the first row gives the results for the empirical diversity, and the second row gives the results for the proposed diversity estimates.
+Columns give the results for different orders of q.
 }
 \description{
 Bt_prob_inc(x) is a function of estimating the species incidence probabilities in the bootstrap assemblage based on incidence data.

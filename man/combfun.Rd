@@ -2,7 +2,7 @@
 % Please edit documentation in R/balance.R
 \name{combfun}
 \alias{combfun}
-\title{Sums duplicate values, for determining [species] weights}
+\title{Sums duplicate values, for determining \link{species} weights}
 \usage{
 combfun(x)
 }
@@ -11,7 +11,7 @@ combfun(x)
 }
 \value{
 A vector of weights, where only unique quantities have weights. The
-  length of the new vector could be much shorter than \code{length(x)}.
+length of the new vector could be much shorter than \code{length(x)}.
 }
 \description{
 Intended for use in constructing rarity plots, this function takes a numeric

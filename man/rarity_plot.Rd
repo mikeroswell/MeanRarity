@@ -11,6 +11,6 @@ Construct the full balance plot for scale ell, with reference means=means
 }
 \seealso{
 This function depends on internal functions in the \code{MeanRarity}
-  package which can be accessed with \code{:::} e.g.
-  \code{MeanRarity:::scale_plot}
+package which can be accessed with \code{:::} e.g.
+\code{MeanRarity:::scale_plot}
 }

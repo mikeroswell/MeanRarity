@@ -1,14 +1,35 @@
 Package: MeanRarity
 Type: Package
 Title: Estimates Diversity Using The Mean Rarity Framework
-Version: 0.1.0
+Version: 0.0.0.9000
 Date: 2020-07-01
-Author: Roswell, Michael and Dushoff, Jonathan
 Maintainer: Michael Roswell <mroswell.rutgers@gmail.comt>
 Description: This package contains functions to estimate [Hill] diversity as a function of a scaling parameter \ell, as well as various convenience functions for sampling communities, estimating diversity from subsamples, and computing uncertainty estimates. 
 License: LGPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: stats::qgamma, stats::qlnorm
-Depends: furrr, stats, parallel, purrr, future
+Imports: 
+    furrr,
+    stats,
+    parallel,
+    purrr,
+    future,
+    scales,
+    ggplot2,
+    magrittr
 RoxygenNote: 7.1.0
+Authors@R: 
+   c( person(given = "Michael",
+           family = "Roswell",
+           role = c("aut", "cre"),
+           email = "mike.roswell@gmail.com",
+           comment = c(ORCID = "0000-0002-8479-9184"))
+    , person(given = "Jonathan",
+           family = "Dushoff",
+           role = c("aut"),
+           email = "jdushoff@gmail.com",
+           comment = c(ORCID = "0000-0003-0506-4794"))
+           )
+Roxygen: list(markdown = TRUE)
+Suggests: 
+    testthat

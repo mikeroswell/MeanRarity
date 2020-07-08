@@ -16,8 +16,8 @@ Numeric vector of species relative abundances
 }
 \description{
 This is a wrapper for \code{qlnrom} that
-     takes the number of species and a shape parameter (sd of the log(lognormal)))
-     and gives relative abundance estimates for each species.
+takes the number of species and a shape parameter (sd of the log(lognormal)))
+and gives relative abundance estimates for each species.
 }
 \examples{
 divers_lnorm(rich = 10, x = 1)

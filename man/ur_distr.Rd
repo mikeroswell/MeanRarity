@@ -30,7 +30,7 @@ of individuals in pool.}
 }
 \value{
 a scalar, the difference between empirical and target Hill-Simpson
-  diversity
+diversity
 }
 \description{
 Subtracts realized inverse simpson diversity of the simulated species

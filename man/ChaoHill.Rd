@@ -33,8 +33,8 @@ To save running time, use a smaller value (e.g. B = 200).}
 }
 \value{
 a list, consisting of 4 matrices including respectively diversity estimates, bootstrap standard errors, lower confidence bounds, and upper confidence bounds.
- In each matrix, the first row gives the results for the empirical diversity, and the second row gives the results for the proposed diversity estimates.
- Columns give the results for different orders of q.
+In each matrix, the first row gives the results for the empirical diversity, and the second row gives the results for the proposed diversity estimates.
+Columns give the results for different orders of q.
 }
 \description{
 ChaoHill(dat, datatype, from, to, interval, B, conf) is the function of calculating the empirical and the proposed diversity profile,

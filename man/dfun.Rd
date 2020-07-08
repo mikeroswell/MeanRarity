@@ -16,18 +16,17 @@ Generalized mean community rarity with scaling exponent \code{"l"}.
 }
 \description{
 We parameterize Hill diversity \eqn{D} as a the frequency-weighted mean species rarity, with scaling exponent l
-     \deqn{D = \sum{p_i * r_i^{l}}^{-l}}
-     where rarity of species i \eqn{r_1 = 1/p_i}.
+\deqn{D = \sum{p_i * r_i^{l}}^{-l}}
+where rarity of species i \eqn{r_1 = 1/p_i}.
 }
 \details{
 This is equivalent to the \eqn{q} notation of Jost 2006
-     \deqn{D=\sum{p_i{q}}^{1-q}}
-     where \eqn{q=1-l}.
-
-     When \code{l = 1}, arithmetic mean rarity (species richness).
-     When \code{l = 0}, geometric mean rarity (Hill-Shannon diversity).
-     When \code{l = -1}, harmonic mean rarity (Hill-Simpson diversity,
-     the inverse of the Simpson concentration (Simpson 1949))
+\deqn{D=\sum{p_i{q}}^{1-q}}
+where \eqn{q=1-l}.\preformatted{ When \code{l = 1}, arithmetic mean rarity (species richness).
+ When \code{l = 0}, geometric mean rarity (Hill-Shannon diversity).
+ When \code{l = -1}, harmonic mean rarity (Hill-Simpson diversity,
+ the inverse of the Simpson concentration (Simpson 1949))
+}
 }
 \examples{
 dfun(c(20,8,5,4,2,1), 1)

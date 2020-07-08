@@ -16,14 +16,15 @@
 
 #' Sums duplicate values, for determining [species] weights
 #'
-#' Intended for use in constructing rarity plots, this function takes a numeric vector of integers representing species abundances,
-#' and returns the weights for each, unique rarity value. This is to solve overplotting and convey the total "weight" of all species
-#' of a given rarity.
+#' Intended for use in constructing rarity plots, this function takes a numeric
+#' vector of integers representing species abundances, and returns the weights
+#' for each, unique rarity value. This is to solve overplotting and convey the
+#' total "weight" of all species of a given rarity.
 #'
 #' @param x numeric vector
 #'
-#' @return A vector of weights, where only unique quantities have weights.
-#' The length of the new vector could be much shorter than \code{length(x)}.
+#' @return A vector of weights, where only unique quantities have weights. The
+#'   length of the new vector could be much shorter than \code{length(x)}.
 #' @export
 #' @examples
 #' combfun(c(1,2,3,3,3,4,5, 9))
@@ -52,17 +53,18 @@ prettify <- function(breaks){
 
 #' Power scale transformation.
 #'
-#' This is a function for nice scale transformations for \code{ggplot2}, including when \code{pow < 0}
+#' This is a function for nice scale transformations for \code{ggplot2},
+#' including when \code{pow < 0}
 #'
-#' This function is for power transformations (i.e. raising to a power and inverse)
-#' This is useful for visualizing generalized means.
+#' This function is for power transformations (i.e. raising to a power and
+#' inverse) This is useful for visualizing generalized means.
 #'
 #' @param pow Exponent of power tranformation, scalar.
 #' @param nb Number of desired breaks (approximate), scalar.
 #'
 #' @return A scale transformation object for plotting in ggplot.
-#' @seealso \code{\link[scales]{trans_new}}, \code{\link[scales]{trans_breaks}}, \code{\link{pfun}},
-#'       \code{\link{ipfun}}, \code{\link{prettify}}
+#' @seealso \code{\link[scales]{trans_new}}, \code{\link[scales]{trans_breaks}},
+#'   \code{\link{pfun}}, \code{\link{ipfun}}, \code{\link{prettify}}
 #' @export
 power_trans = function(pow, nb) scales::trans_new(name="power"
    , transform = function(x) pfun(x, pow)
@@ -92,16 +94,20 @@ fancy_rep<-function(df){
 
 #' Base plot onto which balance plot is printed
 #'
-#' Takes abundance and various scale/dimension arguments to craft a ggplot object for rarity plots
+#' Takes abundance and various scale/dimension arguments to craft a ggplot
+#' object for rarity plots
 #'
 #' @param abundance Numeric vector of (integer) species abundances.
-#' @param fill_col Color for filling each of the boxes representing a single individual.
+#' @param fill_col Color for filling each of the boxes representing a single
+#'   individual.
 #' @param y_extent Scalar, how tall to draw y-axis.
 #' @param x_max Scalar, approximately how far right should x-axis extend.
 #' @param x_min Scalar, approximately how far left should x-axis extend.
 #' @param base_size Typeface size for ggplot text (scalar).
-#' @param noco Scalar, shrinks text and points if plotting muliple balance plots in a single plotting window
-#' @param lines Logical, should each individual be plotted as a "box" or should individuals be summarized simply as the height of a line segment
+#' @param noco Scalar, shrinks text and points if plotting muliple balance plots
+#'   in a single plotting window
+#' @param lines Logical, should each individual be plotted as a "box" or should
+#'   individuals be summarized simply as the height of a line segment
 #' @param verbose Logical, should the function return a pile of text
 #'
 #' @return ggplot object with some elements of a balance plot
@@ -178,7 +184,8 @@ base_plot <- function(abundance, pointScale
 #'
 #' @param p ggplot object
 #' @param base_size Typeface size for ggplot text (scalar).
-#' @param noco Scalar, shrinks text and points if plotting muliple balance plots in a single plotting window
+#' @param noco Scalar, shrinks text and points if plotting muliple balance plots
+#'   in a single plotting window
 #'
 #' @return also a ggplot object, with some theme elements specified
 #'
@@ -200,12 +207,15 @@ theme_plot <- function(p, base_size=24, noco=1,...){
 #' Rescales baseplot x-axis, adds space to allow matching scales between comms
 #'
 #' @param ell exponent for scaling generalized mean
-#' @param fill_col Color for filling each of the boxes representing a single individual.
+#' @param fill_col Color for filling each of the boxes representing a single
+#'   individual.
 #' @param y_extent Scalar, how tall to draw y-axis.
 #' @param x_max Scalar, approximately how far right should x-axis extend.
 #' @param x_min Scalar, approximately how far left should x-axis extend.
-#' @param noco Scalar, shrinks text and points if plotting muliple balance plots in a single plotting window
-#' @param lines Logical, should each individual be plotted as a "box" or should individuals be summarized simply as the height of a line segment
+#' @param noco Scalar, shrinks text and points if plotting muliple balance plots
+#'   in a single plotting window
+#' @param lines Logical, should each individual be plotted as a "box" or should
+#'   individuals be summarized simply as the height of a line segment
 #' @param nbreaks Integer, approximate number of x-axis tick marks
 #'
 #' @return a gpplot object with some of the theme items set
@@ -235,7 +245,8 @@ scale_plot <- function(
 #'
 #' @param ab Numeric vector of integer species abundances
 #' @param ell Exponent for type of mean rarity (scalar)
-#' @param noco Scalar, shrinks text and points if plotting muliple balance plots in a single plotting window
+#' @param noco Scalar, shrinks text and points if plotting muliple balance plots
+#'   in a single plotting window
 #'
 #' @return geom object to add to a ggplot object to construct balance plot
 #'
@@ -277,7 +288,14 @@ fulcrum<-function(ab, ell, y_extent=max(max(combfun(ab)), 15), x_max=1
 
 #' Construct the full balance plot for scale ell, with reference means=means
 #'
-#' @seealso This function depends on internal functions in the \code{MeanRarity} package which can be accessed with \code{:::} e.g. \code{MeanRarity:::scale_plot}
+#' @seealso This function depends on internal functions in the \code{MeanRarity}
+#'   package which can be accessed with \code{:::} e.g.
+#'   \code{MeanRarity:::scale_plot}
+#'
+#'
+#' @export
+
+
 rarity_plot <- function(ab
                         , ell
                         , means=-1:1
@@ -372,7 +390,11 @@ ab<-c(20,8,5,4,2,1) #candidate for user's guide
 # dev.off()
 ##############
 # RAD plot code
-radplot<-function(comm, maxrich=length(comm), maxab=max(comm), fill, shape=16){
+radplot<-function(comm
+                  , maxrich=length(comm)
+                  , maxab=max(comm)
+                  , fill
+                  , shape=16){
     comm<-comm[comm!=0]
     rawrnk<-tibble(abund=comm, rnk=row_number(comm))
     toplot<-rawrnk %>%

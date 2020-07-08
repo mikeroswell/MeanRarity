@@ -34,4 +34,9 @@ Authors@R:
            )
 Roxygen: list(markdown = TRUE)
 Suggests: 
-    testthat
+    testthat,
+    spelling,
+    knitr,
+    rmarkdown
+Language: en-US
+VignetteBuilder: knitr

@@ -48,9 +48,13 @@ assumption. Fits an optimal SAD given these constraints using
 }
 \examples{
 fit_SAD(dstr = "lnorm") #works
+\dontrun{
 fit_SAD(dstr = "nonsense")  #returns error
+}
 fit_SAD(dstr = "gamma") #works
+\dontrun{
 fit_SAD(dstr = "lnorm", rich = 50, simpson = 90) #returns error
+}
 fit_SAD(dstr = "lnorm", rich = 50, simpson = 2) #works
 fit_SAD(dstr = "gamma", rich = 50, simpson = 2) #works
 fit_SAD(dstr = "gamma", rich = 10, simpson = 6)

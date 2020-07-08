@@ -13,16 +13,24 @@
 ## think about squeezing when rarities aren't equal but are close s.t. boxes overlap... smart option that can calculate whether overlap occurs? Currently, have the lines=T option to plot species as lines if overlap is a problem (set by user)
 
 #quick function to add together identical values
-#' sums duplicate values
+
+#' Sums duplicate values, for determining [species] weights
+#' 
+#' Intended for use in constructing rarity plots, this function takes a numeric vector of integers representing species abundances,
+#' and returns the weights for each, unique rarity value. This is to solve overplotting and convey the total "weight" of all species 
+#' of a given rarity. 
 #' 
 #' @param x numeric vector
+#' 
+#' @return A vector of weights, where only unique quantities have weights. 
+#' The length of the new vector could be much shorter than \code{length(x)}. 
 #' @export
-#' @example 
-#' combfun(c(1,2,3,3,3,4,5))
+#' @examples 
+#' combfun(c(1,2,3,3,3,4,5, 9))
 combfun<-function(x){x=x[order(x)]; y=unique(x)*as.numeric(table(x)); return (y)}
 
 
-#' round numbers, more aggressively the larger they are
+#' Round numbers, more aggressively the larger they are
 #' 
 #' @param breaks is a numeric vector 
 #' intended for the breaks returned by \code{scales::transbreaks}
@@ -30,8 +38,8 @@ combfun<-function(x){x=x[order(x)]; y=unique(x)*as.numeric(table(x)); return (y)
 #' @return numeric vector of same length as input, rounded nicely
 #' 
 #' @export
-#' @example prettify(sqrt(2:7))
-#' @example prettify(sqrt(seq(2e3, 2e5, 4739)))
+#' @examples prettify(sqrt(2:7))
+#' @examples prettify(sqrt(seq(2e3, 2e5, 4739)))
 prettify <- function(breaks){
     digits <- -floor(log10(abs(breaks))) + 1
     digits[breaks == 0] <- 0
@@ -42,18 +50,19 @@ prettify <- function(breaks){
     return(raw) #klugey fix to -Inf
 }
 
-#' power scale transformation
+#' Power scale transformation.
 #' 
 #' This is a function for nice scale transformations for \code{ggplot2}, including when \code{pow < 0}
 #' 
 #' This function is for power transformations (i.e. raising to a power and inverse)
-#' This is useful for visualizing generalized means
+#' This is useful for visualizing generalized means.
 #' 
-#' @param pow exponent of power tranformation, scalar
-#' @param nb number of desired breaks (approximate), scalar
+#' @param pow Exponent of power tranformation, scalar.
+#' @param nb Number of desired breaks (approximate), scalar.
 #' 
-#' @return a scale transformation object for plotting in ggplot
-#' @seealso \code{scales::trans_new, scales::transbreaks, pfun, ipfun, prettify}
+#' @return A scale transformation object for plotting in ggplot.
+#' @seealso \link{\code{scales::trans_new, scales::transbreaks, pfun, ipfun, prettify}}
+#' @export
 power_trans = function(pow, nb) scales::trans_new(name="power"
    , transform = function(x) pfun(x, pow)
    , inverse = function(x) ipfun(x, pow)

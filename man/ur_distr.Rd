@@ -2,7 +2,8 @@
 % Please edit documentation in R/uniroot_gamma_and_lnorm.R
 \name{ur_distr}
 \alias{ur_distr}
-\title{difference between target and realized diversity of simulated SAD (gamma distribution)}
+\title{Difference between target and realized diversity of simulated SAD (gamma
+     distribution).}
 \usage{
 ur_distr(
   x,
@@ -14,21 +15,25 @@ ur_distr(
 )
 }
 \arguments{
-\item{x}{Shape paramter for a gamma distribution, a scalar}
+\item{x}{Shape paramter for a gamma distribution, a scalar.}
 
-\item{rich}{Total number of species in the SAD, an integer}
+\item{rich}{Total number of species in the SAD, an integer.}
 
-\item{simpson}{Target value for inverse simpson diversity of the simulated SAD, a scalar}
+\item{simpson}{Target value for inverse simpson diversity of the simulated
+SAD, a scalar.}
 
-\item{distr}{Distribution type (currently lnorm or gamma) to call for "divers_" function, a character string}
+\item{distr}{Distribution type (currently lnorm or gamma) to call for
+"divers_" function, a character string.}
 
-\item{totAB}{Not implemented, could have a finite-size version with a fixed # of individuals in pool}
+\item{totAB}{Not implemented, could have a finite-size version with a fixed #
+  of individuals in pool.
+
+ @return a scalar, the difference between empirical and target Hill-Simpson diversity}
 }
 \description{
-Subtracts realized inverse simpson diversity of
-the simulated species abundance distribution from the target value.
-When this difference = 0 the shape paramter of the gamma distribution is
-considered optimal
+Subtracts realized inverse simpson diversity of the simulated species
+     abundance distribution from the target value. When this difference = 0 the
+     shape paramter of the gamma distribution is considered optimal.
 }
 \examples{
 
@@ -37,5 +42,5 @@ ur_gamma(x = 0.2, rich = 10, simpson = 6, distr = "gamma")
 ur_gamma(x = 1.235383382 , rich = 10, simpson = 6, distr = "gamma") #very close, depends on sensitivity.
 }
 \seealso{
-dfun
+\code{\link{dfun}}
 }

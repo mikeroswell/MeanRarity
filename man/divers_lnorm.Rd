@@ -2,23 +2,26 @@
 % Please edit documentation in R/uniroot_gamma_and_lnorm.R
 \name{divers_lnorm}
 \alias{divers_lnorm}
-\title{relative abundances given lognormal disribution}
+\title{Relative abundances given lognormal disribution}
 \usage{
 divers_lnorm(rich, x)
 }
 \arguments{
-\item{rich}{Total number of species in the SAD, an integer}
+\item{rich}{Total number of species in the SAD, an integer.}
 
-\item{x}{Shape paramter sdlog, a scalar}
+\item{x}{Shape parameter \code{sdlog}, a scalar.}
+}
+\value{
+Numeric vector of species relative abundances
 }
 \description{
-This is a wrapper for `qlnrom` that
-takes the number of species and a shape parameter (sd of the log(lognormal)))
-and gives relative abundance estimates for each species
+This is a wrapper for \code{qlnrom} that
+     takes the number of species and a shape parameter (sd of the log(lognormal)))
+     and gives relative abundance estimates for each species.
 }
 \examples{
 divers_lnorm(rich = 10, x = 1)
 }
 \seealso{
-qlnorm
+\code{\link{[stats]qlnorm}}
 }

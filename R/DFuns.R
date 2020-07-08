@@ -1,19 +1,13 @@
-###### Here are the key mean rarity functions
-
-###############################################################
-##############################################################
-
-#transformation and back-transformation functions
+# Here are the key mean rarity functions
 
 #' Power transformation
 #'
-#' Transform a vector by raising to a power
+#' Transform a vector by raising to a power.
 #'
-#' @param x a numeric vector
-#' @param pow the value of the exponent to which all values are raised
+#' @param x A numeric vector.
+#' @param pow The value of the exponent to which all values are raised.
 #'
-#' @return a numeric vector with same length as x
-#'
+#' @return A numeric vector with same length as \code{x}.
 #'
 #' @export
 pfun=function(x, pow){
@@ -24,43 +18,46 @@ pfun=function(x, pow){
 
 #' Inverse function for power transformation
 #'
-#' Transform a vector by raising to a power... specifically 1/pow
+#' Transform a vector by raising to a power... specifically 1/pow.
 #'
-#' @param x a numeric vector
-#' @param pow the value of the exponent the inverse to which all values are raised
+#' @param x A numeric vector.
+#' @param pow The reciprocal of the exponent to which all values
+#' in \code{x} are raised.
 #'
-#' @return a numeric vector with same length as x
+#' @return A numeric vector with same length as \code{x}.
 #'
 #' @export
 ipfun=function(x, pow){
   if (pow==0) return(exp(x))
   x<-ifelse(sign(pow)*x<0,0,x) #added so that ggplot padding doesnt introduce negative values to scale
   r <- (sign(pow)*(x))^(1/pow)
-
   return(r)
 }
+
 
 #' Estimate Hill diversity
 #'
 #' We parameterize Hill diversity \eqn{D} as a the frequency-weighted mean species rarity, with scaling exponent l
-#' \deqn{D=\sum{p_i*r_i^{l}}^{-l}}
-#' where rarity of species i \eqn{r_1=1/p_i}
+#'      \deqn{D = \sum{p_i * r_i^{l}}^{-l}}
+#'      where rarity of species i \eqn{r_1 = 1/p_i}.
 #'
-#' This is equivalent to the "q" notation of Jost 2006
-#' \deqn{D=\sum{p_i{q}}^{1-q}}
-#' where \eqn{q=1-l}
+#' @details This is equivalent to the \eqn{q} notation of Jost 2006
+#'      \deqn{D=\sum{p_i{q}}^{1-q}}
+#'      where \eqn{q=1-l}.
 #'
-#' @param ab a numeric vector of species abundances or relative abundances
-#' @param l scaling exponent for the mean, can be any real number
+#'      When \code{l = 1}, arithmetic mean rarity (species richness).
+#'      When \code{l = 0}, geometric mean rarity (Hill-Shannon diversity).
+#'      When \code{l = -1}, harmonic mean rarity (Hill-Simpson diversity,
+#'      the inverse of the Simpson concentration (Simpson 1949))
 #'
-#' @return generalized mean community rarity with scaling exponent "l".
 #'
-#' When \code{l = 1}, arithmetic mean rarity (species richness).
-#' When \code{l = 0], geometric mean rarity (Hill-Shannon diversity)
-#' When \code{l = -1}, harmonic mean rarity (Hill-Simpson diversity, the inverse of the Simpson concentration (Simpson 1949))
+#' @param ab A numeric vector of species abundances or relative abundances.
+#' @param l Scaling exponent for the mean, can be any real number.
 #'
-
+#' @return Generalized mean community rarity with scaling exponent \code{"l"}.
+#'
 #' @export
+#' @examples dfun(c(20,8,5,4,2,1), 1)
 dfun<-function(ab, l){
   ab<-ab[ab!=0]
   rp <- ab/sum(ab)

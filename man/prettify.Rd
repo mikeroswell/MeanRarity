@@ -2,7 +2,7 @@
 % Please edit documentation in R/balance.R
 \name{prettify}
 \alias{prettify}
-\title{round numbers, more aggressively the larger they are}
+\title{Round numbers, more aggressively the larger they are}
 \usage{
 prettify(breaks)
 }
@@ -14,5 +14,9 @@ intended for the breaks returned by \code{scales::transbreaks}}
 numeric vector of same length as input, rounded nicely
 }
 \description{
-round numbers, more aggressively the larger they are
+Round numbers, more aggressively the larger they are
+}
+\examples{
+prettify(sqrt(2:7))
+prettify(sqrt(seq(2e3, 2e5, 4739)))
 }

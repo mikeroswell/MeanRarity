@@ -4,7 +4,17 @@
 # library(tidyverse)
 # library(EntropyEstimation)
 requireNamespace("furrr")
-#function to take an abundance vector and subsample to size
+#' Take an abundance vector and subsample to size
+#'
+#' Take a finite sample of individuals without replacement from a finite abundance vector.
+#'
+#' @param ab_vec A numeric vector of species abundances
+#' @param size Number of individuals to sample, defaults to all of them, a scalar
+#'
+#' @return A numeric vector of species abundances, including 0's
+#'
+#' @export
+#' @examples subsam(1:9, 15)
 subsam<-function(ab_vec, size=sum(ab_vec)){
   inds<-unlist(lapply(1:length(ab_vec), function(x){
     rep(x, ab_vec[x])
@@ -15,7 +25,15 @@ subsam<-function(ab_vec, size=sum(ab_vec)){
   }))
   return(ss)
 }
-#take a subset of a bunch of community vectors, each subset of equal size
+#' Subsample of several community vectors
+
+#' A wrapper of \code{\link{subsam}} to take a subset of a bunch of communities,
+#' each subset of equal abundance.
+#'
+#' @param com A list of abundance vectors.
+#' @param size Number of individuals to sample, a scalar.
+#'
+#' @export
 subcom<-function(com, size){
   t(apply(com, 1, function(x){
     subsam(x, size)}

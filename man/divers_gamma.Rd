@@ -2,7 +2,7 @@
 % Please edit documentation in R/uniroot_gamma_and_lnorm.R
 \name{divers_gamma}
 \alias{divers_gamma}
-\title{relative abundances given gamma disribution}
+\title{Relative abundances given gamma disribution}
 \usage{
 divers_gamma(rich, x)
 }
@@ -12,9 +12,9 @@ divers_gamma(rich, x)
 \item{x}{Shape paramter for a gamma distribution, a scalar}
 }
 \description{
-This is a wrapper for `qgamma` that
+Wrapper for \code{[stats] qgamma} that
 takes the number of species and a shape parameter
-and gives relative abundance estimates for each species
+and gives relative abundance estimates for each species.
 }
 \examples{
 divers_gamma(rich = 10, x = 0.2)

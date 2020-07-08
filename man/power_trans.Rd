@@ -2,21 +2,25 @@
 % Please edit documentation in R/balance.R
 \name{power_trans}
 \alias{power_trans}
-\title{scale transformation based on \code{pfun} and \code{ipfun}}
+\title{Power scale transformation.}
 \usage{
 power_trans(pow, nb)
 }
 \arguments{
-\item{pow}{exponent of power tranformation, scalar}
+\item{pow}{Exponent of power tranformation, scalar.}
 
-\item{nb}{number of desired breaks (approximate), scalar}
+\item{nb}{Number of desired breaks (approximate), scalar.}
 }
 \value{
-a scale transformation object for plotting in ggplot
+A scale transformation object for plotting in ggplot.
 }
 \description{
 This is a function for nice scale transformations for \code{ggplot2}, including when \code{pow < 0}
 }
+\details{
+This function is for power transformations (i.e. raising to a power and inverse)
+This is useful for visualizing generalized means.
+}
 \seealso{
-\code{scales::trans_new, scales::transbreaks, pfun, ipfun, prettify}
+\link{\code{scales::trans_new, scales::transbreaks, pfun, ipfun, prettify}}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/uniroot_gamma_and_lnorm.R
 \name{fit_SAD}
 \alias{fit_SAD}
-\title{fit a SAD given diversity and a distributional assumption}
+\title{Fit a SAD given diversity and a distributional assumption}
 \usage{
 fit_SAD(
   rich = 50,
@@ -14,42 +14,47 @@ fit_SAD(
 )
 }
 \arguments{
-\item{rich}{Total number of species in the SAD, an integer}
+\item{rich}{Total number of species in the SAD, an integer.}
 
-\item{simpson}{Hill-Simpson diversity of the SAD, a real number in [1,rich]}
+\item{simpson}{Hill-Simpson diversity of the SAD, a real number in [1,rich].}
 
-\item{int_lwr}{Lower bound of seach space for uniroot; a small number close to 0 to deal with potential boundary issues for `stats::uniroot` (a scalar)}
+\item{int_lwr}{Lower bound of search space for uniroot; default is a small
+number close to 0 to deal with potential boundary issues for
+\code{stats::uniroot} (a scalar).}
 
-\item{totAb}{Not implemented, for finite communities}
+\item{totAb}{Not implemented; would be a necessary contstraint for fitting
+finite communities.}
 
-\item{int_upr}{Upper bound of search space for uniroot (scalar)}
+\item{int_upr}{Upper bound of search space for \code{uniroot} (scalar).}
 
-\item{distr}{Name of the distribution ("lnorm" or "gamma")}
+\item{distr}{Name of the distribution (\code{"lnorm"} or \code{"gamma"}).}
 }
 \value{
-Returns a list with three elements.
+A list with three elements.
 
-\code{distribution_info} contains name of the
-distribution and the fitted shape parameter
+  \code{distribution_info} contains name of the distribution and the fitted
+  shape parameter.
 
-\code{community_info} gives richness, Hill-Shannon, and Hill=Simpson diversity of the SAD
+  \code{community_info} gives richness, Hill-Shannon, and Hill=Simpson
+  diversity of the SAD.
 
-\code{rel_abundances} is a vector of relative abundances for each species in SAD
+  \code{rel_abundances} is a vector of relative abundances for each species
+  in SAD.
 }
 \description{
-Takes a true richness, an inverse-Simpson diversity, and a
-distributional assumption. Fits an optimal SAD given these constraints
-using \code{stats::uniroot}.
+Takes a true richness, an inverse-Simpson diversity, and a distributional
+assumption. Fits an optimal SAD given these constraints using
+\code{stats::uniroot}.
 }
 \examples{
 fit_SAD(dstr = "lnorm") #works
-fit_SAD(dstr = "nonsense")  #gives custom error (though not as error message)
+fit_SAD(dstr = "nonsense")  #returns error
 fit_SAD(dstr = "gamma") #works
-fit_SAD(dstr = "lnorm", rich = 50, simpson = 90) #gives custom error (though not as error message)
+fit_SAD(dstr = "lnorm", rich = 50, simpson = 90) #returns error
 fit_SAD(dstr = "lnorm", rich = 50, simpson = 2) #works
 fit_SAD(dstr = "gamma", rich = 50, simpson = 2) #works
 fit_SAD(dstr = "gamma", rich = 10, simpson = 6)
 }
 \seealso{
-\code{stats::uniroot, dfun}
+\code{\link[stats]{uniroot}}; \code{\link{dfun}}
 }

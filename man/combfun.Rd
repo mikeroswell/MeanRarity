@@ -2,13 +2,22 @@
 % Please edit documentation in R/balance.R
 \name{combfun}
 \alias{combfun}
-\title{sums duplicate values}
+\title{Sums duplicate values, for determining [species] weights}
 \usage{
 combfun(x)
 }
 \arguments{
 \item{x}{numeric vector}
 }
+\value{
+A vector of weights, where only unique quantities have weights. 
+The length of the new vector could be much shorter than \code{length(x)}.
+}
 \description{
-sums duplicate values
+Intended for use in constructing rarity plots, this function takes a numeric vector of integers representing species abundances,
+and returns the weights for each, unique rarity value. This is to solve overplotting and convey the total "weight" of all species 
+of a given rarity.
+}
+\examples{
+combfun(c(1,2,3,3,3,4,5, 9))
 }

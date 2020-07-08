@@ -247,18 +247,43 @@ Bootstrap.CI = function(x,q,B = 1000,datatype = c("abundance","incidence"),conf 
 # myt<-function(x, true){pt((mean(x)-true)/(sd(x)/sqrt(length(x))), df=length(x-1))}
 
 ################################################################
-#MR function to take abundance vector and "l" and return the quantile of B bootstrap iterations of Chao technique that true value falls on. Could be extended to include sample Hill as Chao seems to have
+#MR function to
 # x<-1:5
 # B<-10
 # l<-1
 # truediv<-5
 
-checkchao<-function(x, B, l, truediv, conf=0.95){ #, truemu_n
+#'  Assess Chao and Jost 2015 Hill diversity CI
+#'
+#'  Given empirical abundances \code{x}, use the Chao and Jost 2015 MEE method
+#'  to estimate the sampling distribution of the Hill diversity (given exponent
+#'  \code{l}), and see where known, true diversity \code{truediv} falls in that
+#'  distribution
+#'
+#'  This function could be extended to look at e.g. incidence-based estimations.
+#'
+#'  @param x Numeric vector of integer species abundances in a sample
+#'  @param B Scalar, number of replicat bootstrap draws
+#'  @param l Scalar, exponent for scaling rarity in computing Hill diversity
+#'  @param truediv Scalar, known true Hill diversity of the pool from whcih
+#'    sample is drawn, for comparison to estimated sampling distribution
+#'  @param conf Scalar, target coverage probability of estimated CI
+#'
+#'  @return data.frame with estimated p-value for true diversity, the diversity
+#'    values of the upper and lower estimated cofidence limits, the asymptotic
+#'    Hill diversity estimate, and the empirical diversity
+#'
+#'  @export
+checkchao<-function(x
+                    , B
+                    , l
+                    , truediv
+                    , conf=0.95){ #, truemu_n
   n<-sum(x)
   #columns of this matrix are replicate boostraps
-  data.bt = rmultinom(B,n,Bt_prob_abu(x))
+  data.bt = stats::rmultinom(B,n,Bt_prob_abu(x))
   #get estimator for each bootstrapped sample
-  pro = apply(data.bt,2,function(boot)Chao_Hill_abu(boot,1-l))
+  pro = apply(data.bt,2,function(boot)SpadeR:::Chao_Hill_abu(boot,1-l))
   #mean correction
   pro<-pro-mean(pro)+Chao_Hill_abu(x, 1-l)
 
@@ -274,7 +299,7 @@ checkchao<-function(x, B, l, truediv, conf=0.95){ #, truemu_n
                 , lower=lower
                 , upper=upper
                 , truediv=truediv
-                , "chaoest"=Chao_Hill_abu(x, 1-l)
+                , "chaoest"=SpadeR:::Chao_Hill_abu(x, 1-l)
                 , "obsD"=dfun(x,l)
             )
 

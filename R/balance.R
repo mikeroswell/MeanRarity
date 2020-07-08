@@ -61,7 +61,7 @@ prettify <- function(breaks){
 #' @param nb Number of desired breaks (approximate), scalar.
 #'
 #' @return A scale transformation object for plotting in ggplot.
-#' @seealso \code{\link[scales]{trans_new}}, \code{\link[scales]{transbreaks}}, \code{\link{pfun}},
+#' @seealso \code{\link[scales]{trans_new}}, \code{\link[scales]{trans_breaks}}, \code{\link{pfun}},
 #'       \code{\link{ipfun}}, \code{\link{prettify}}
 #' @export
 power_trans = function(pow, nb) scales::trans_new(name="power"
@@ -75,7 +75,13 @@ power_trans = function(pow, nb) scales::trans_new(name="power"
    , domain = c(1, 10000) #this is to deal with -Inf
 )
 
-# replicate to make stacks with geom_point
+#' Replicate abundance vector to make stacks with geom_point
+#'
+#' @param df data.frame of abundances and rarities.
+#'
+#' @return data.frame with 1 row per individual for each species for plotting.
+#'
+#' @noRd
 fancy_rep<-function(df){
     return(data.frame(df[rep(1:nrow(df), df$abundance),])
            %>% group_by(abundance)
@@ -84,6 +90,23 @@ fancy_rep<-function(df){
     )
 }
 
+#' Base plot onto which balance plot is printed
+#'
+#' Takes abundance and various scale/dimension arguments to craft a ggplot object for rarity plots
+#'
+#' @param abundance Numeric vector of (integer) species abundances.
+#' @param fill_col Color for filling each of the boxes representing a single individual.
+#' @param y_extent Scalar, how tall to draw y-axis.
+#' @param x_max Scalar, approximately how far right should x-axis extend.
+#' @param x_min Scalar, approximately how far left should x-axis extend.
+#' @param base_size Typeface size for ggplot text (scalar).
+#' @param noco Scalar, shrinks text and points if plotting muliple balance plots in a single plotting window
+#' @param lines Logical, should each individual be plotted as a "box" or should individuals be summarized simply as the height of a line segment
+#' @param verbose Logical, should the function return a pile of text
+#'
+#' @return ggplot object with some elements of a balance plot
+#'
+#' @noRd
 base_plot <- function(abundance, pointScale
                       , fill_col="lightgrey" #can set to match communities
                       , y_extent=max(max(abundance),15) #how tall to draw y
@@ -151,7 +174,15 @@ base_plot <- function(abundance, pointScale
 	return(theme_plot(base, base_size=base_size, noco=noco))
 }
 
-#set preferences for axes etc.
+#' Set preferences for axes etc. for balance plots
+#'
+#' @param p ggplot object
+#' @param base_size Typeface size for ggplot text (scalar).
+#' @param noco Scalar, shrinks text and points if plotting muliple balance plots in a single plotting window
+#'
+#' @return also a ggplot object, with some theme elements specified
+#'
+#' @noRd
 theme_plot <- function(p, base_size=24, noco=1,...){
 	return(p
 		+ theme_tufte(base_family = "sans", base_size=base_size/noco)
@@ -166,11 +197,30 @@ theme_plot <- function(p, base_size=24, noco=1,...){
 	)
 }
 
-#starts with baseplot, rescales x-axis, adds space to allow matching scales between comms
+#' Rescales baseplot x-axis, adds space to allow matching scales between comms
+#'
+#' @param ell exponent for scaling generalized mean
+#' @param fill_col Color for filling each of the boxes representing a single individual.
+#' @param y_extent Scalar, how tall to draw y-axis.
+#' @param x_max Scalar, approximately how far right should x-axis extend.
+#' @param x_min Scalar, approximately how far left should x-axis extend.
+#' @param noco Scalar, shrinks text and points if plotting muliple balance plots in a single plotting window
+#' @param lines Logical, should each individual be plotted as a "box" or should individuals be summarized simply as the height of a line segment
+#' @param nbreaks Integer, approximate number of x-axis tick marks
+#'
+#' @return a gpplot object with some of the theme items set
+#'
+#' @noRd
 scale_plot <- function(
-        ab, ell, fill_col="lightgrey", y_extent=max(max(ab), 15)
-        , x_max=sum(ab)/min(ab), x_min=sum(ab)/max(ab), noco=1
-        , lines=F, nbreaks=5, ...
+        ab
+        , ell
+        , fill_col="lightgrey"
+        , y_extent=max(max(ab), 15)
+        , x_max=sum(ab)/min(ab)
+        , x_min=sum(ab)/max(ab)
+        , noco=1
+        , lines=F
+        , nbreaks=5, ...
 ){
     return (base_plot(ab, fill_col=fill_col, y_extent=y_extent
 	            , x_max=x_max, x_min=x_min, noco=noco, lines=lines, ...)
@@ -181,7 +231,15 @@ scale_plot <- function(
 	        )
 }
 
-#plots reference points at means with power "ell"
+#' Reference points at means with power \code{ell}
+#'
+#' @param ab Numeric vector of integer species abundances
+#' @param ell Exponent for type of mean rarity (scalar)
+#' @param noco Scalar, shrinks text and points if plotting muliple balance plots in a single plotting window
+#'
+#' @return geom object to add to a ggplot object to construct balance plot
+#'
+#' @noRd
 mean_points <- function(ab, ell, noco=1){
     ab<-ab[ab!=0]
 	div <- Vectorize(dfun, vectorize.args=("l"))(ab, ell)
@@ -192,7 +250,9 @@ mean_points <- function(ab, ell, noco=1){
 	))
 }
 
-#plot the fulcrum
+#' Plot the fulcrum
+#'
+#' @noRd
 fulcrum<-function(ab, ell, y_extent=max(max(combfun(ab)), 15), x_max=1
                   , x_min=1, fill_col="light_grey"
                   , base_size=24, noco=1, nbreaks=5, verbose=T){
@@ -215,14 +275,30 @@ fulcrum<-function(ab, ell, y_extent=max(max(combfun(ab)), 15), x_max=1
     )
 }
 
-#construct the full plot for scale ell, with reference means=means
-rarity_plot <- function(ab, ell, means=-1:1, noco=1, lines=F, ...){
+#' Construct the full balance plot for scale ell, with reference means=means
+#'
+#' @seealso This function depends on internal functions in the \code{MeanRarity} package which can be accessed with \code{:::} e.g. \code{MeanRarity:::scale_plot}
+rarity_plot <- function(ab
+                        , ell
+                        , means=-1:1
+                        , noco=1
+                        , lines=F
+                        , ...){
     ab<-ab[ab!=0]
     print(cat("     rarity plot expects a square viewport and resizes points based on\n     min(dev.size() and noco (for number of columns).\n     Selecting lines=T will plot stacks of individuals as a line element,\n     which tends to be more robust to window size.\n     lines=T may be the best way to deal with overplotting,\n     which results from several species with similar but not identical rarities.\n "))
 	return(
-		scale_plot(ab, ell, noco=noco, lines=lines,...)
-		+ mean_points(ab, means, noco=noco)
-		+ fulcrum(ab, ell, noco=noco, ...)
+		scale_plot(ab
+		           , ell
+		           , noco=noco
+		           , lines=lines
+		           ,...)
+		+ mean_points(ab
+		              , means
+		              , noco=noco)
+		+ fulcrum(ab
+		          , ell
+		          , noco=noco
+		          , ...)
 		+ scale_color_brewer(type="qual", palette="Set1")
 		# + scale_color_viridis_d(option="plasma")
 		# +scale_color_manual(values=c("#AA8E39", "#294F6D", "#4B2D73"))

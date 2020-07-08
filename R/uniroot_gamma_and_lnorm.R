@@ -54,7 +54,8 @@ divers_gamma<-function(rich, x){
 #'
 #' ur_distr(x = 2, rich = 10, simpson = 6, distr = "gamma")
 #' ur_distr(x = 0.2, rich = 10, simpson = 6, distr = "gamma")
-#' ur_distr(x = 1.235383382 , rich = 10, simpson = 6, distr = "gamma") #very close, depends on sensitivity.
+#' ur_distr(x = 1.235383382 , rich = 10
+#'      , simpson = 6, distr = "gamma") #very close, depends on sensitivity.
 ur_distr<-function(x,rich=rich, simpson=simpson, distr="lnorm", totAb=totAb, ...){
     simpson-dfun(get(paste0("divers_", distr))(rich, x), -1)}
 

@@ -29,11 +29,11 @@ divers_gamma<-function(rich, x){
 
 
 #' Difference between target and realized diversity of simulated SAD (gamma
-#'      distribution).
+#' distribution).
 #'
 #' Subtracts realized inverse simpson diversity of the simulated species
-#'      abundance distribution from the target value. When this difference = 0 the
-#'      shape paramter of the gamma distribution is considered optimal.
+#' abundance distribution from the target value. When this difference = 0 the
+#' shape paramter of the gamma distribution is considered optimal.
 #'
 #' @param x Shape paramter for a gamma distribution, a scalar.
 #' @param rich Total number of species in the SAD, an integer.
@@ -44,7 +44,8 @@ divers_gamma<-function(rich, x){
 #' @param totAB Not implemented, could have a finite-size version with a fixed #
 #'   of individuals in pool.
 #'
-#'  @return a scalar, the difference between empirical and target Hill-Simpson diversity
+#' @return a scalar, the difference between empirical and target Hill-Simpson
+#'   diversity
 #'
 #' @seealso \code{\link{dfun}}
 #'
@@ -52,8 +53,8 @@ divers_gamma<-function(rich, x){
 #' @examples
 #'
 #' ur_distr(x = 2, rich = 10, simpson = 6, distr = "gamma")
-#' ur_gamma(x = 0.2, rich = 10, simpson = 6, distr = "gamma")
-#' ur_gamma(x = 1.235383382 , rich = 10, simpson = 6, distr = "gamma") #very close, depends on sensitivity.
+#' ur_distr(x = 0.2, rich = 10, simpson = 6, distr = "gamma")
+#' ur_distr(x = 1.235383382 , rich = 10, simpson = 6, distr = "gamma") #very close, depends on sensitivity.
 ur_distr<-function(x,rich=rich, simpson=simpson, distr="lnorm", totAb=totAb, ...){
     simpson-dfun(get(paste0("divers_", distr))(rich, x), -1)}
 

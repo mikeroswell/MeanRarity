@@ -9,5 +9,6 @@ Description: This package contains functions to estimate [Hill] diversity as a f
 License: LGPL-3
 Encoding: UTF-8
 LazyData: true
+Imports: stats::qgamma, stats::qlnorm
 Depends: furrr, stats, parallel, purrr, future
 RoxygenNote: 7.1.0

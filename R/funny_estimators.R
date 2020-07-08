@@ -45,5 +45,5 @@ sApp <- function(ab){
   n <- sum(ab)
   return(1/(
     sum(ab/n)*((ab-1)/(n-1)))
-  ))
+  )
 }

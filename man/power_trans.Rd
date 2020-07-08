@@ -22,5 +22,6 @@ This function is for power transformations (i.e. raising to a power and inverse)
 This is useful for visualizing generalized means.
 }
 \seealso{
-\link{\code{scales::trans_new, scales::transbreaks, pfun, ipfun, prettify}}
+\code{\link[scales]{trans_new}}, \code{\link[scales]{transbreaks}}, \code{\link{pfun}},
+      \code{\link{ipfun}}, \code{\link{prettify}}
 }

@@ -7,7 +7,7 @@
 prettify(breaks)
 }
 \arguments{
-\item{breaks}{is a numeric vector 
+\item{breaks}{is a numeric vector
 intended for the breaks returned by \code{scales::transbreaks}}
 }
 \value{

@@ -3,7 +3,7 @@
 \name{ur_distr}
 \alias{ur_distr}
 \title{Difference between target and realized diversity of simulated SAD (gamma
-     distribution).}
+distribution).}
 \usage{
 ur_distr(
   x,
@@ -26,20 +26,22 @@ SAD, a scalar.}
 "divers_" function, a character string.}
 
 \item{totAB}{Not implemented, could have a finite-size version with a fixed #
-  of individuals in pool.
-
- @return a scalar, the difference between empirical and target Hill-Simpson diversity}
+of individuals in pool.}
+}
+\value{
+a scalar, the difference between empirical and target Hill-Simpson
+  diversity
 }
 \description{
 Subtracts realized inverse simpson diversity of the simulated species
-     abundance distribution from the target value. When this difference = 0 the
-     shape paramter of the gamma distribution is considered optimal.
+abundance distribution from the target value. When this difference = 0 the
+shape paramter of the gamma distribution is considered optimal.
 }
 \examples{
 
 ur_distr(x = 2, rich = 10, simpson = 6, distr = "gamma")
-ur_gamma(x = 0.2, rich = 10, simpson = 6, distr = "gamma")
-ur_gamma(x = 1.235383382 , rich = 10, simpson = 6, distr = "gamma") #very close, depends on sensitivity.
+ur_distr(x = 0.2, rich = 10, simpson = 6, distr = "gamma")
+ur_distr(x = 1.235383382 , rich = 10, simpson = 6, distr = "gamma") #very close, depends on sensitivity.
 }
 \seealso{
 \code{\link{dfun}}

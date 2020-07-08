@@ -25,6 +25,8 @@ subsam<-function(ab_vec, size=sum(ab_vec)){
   }))
   return(ss)
 }
+
+
 #' Subsample of several community vectors
 
 #' A wrapper of \code{\link{subsam}} to take a subset of a bunch of communities,
@@ -47,13 +49,18 @@ subcom<-function(com, size){
 #   return(d)
 # }
 
-#estimates hill with order q for each comm at each size in sequence
-#this might be the only place parallel is used, figure out if necessary and then
-#either allow to not always be parallelized or consider omiting entirely
-raref<-function(from, to, by, comm,n=1, q){
+
+#' Estimate Hill diversity with order l=1-q under rarefaction
+#'
+#' This is a function (currently run in parallel with \code{\link[parallel]} and \code{\link[furrr]}) that returns rarefied Hill diversity estimates for a list of sample (or true) abundance vectors.
+#'
+#'
+#' Note to developer:  this might be the only place parallel is used, figure out if necessary and then
+#'    either allow to not always be parallelized or consider omiting entirely
+raref<-function(from, to, by, comm,n=1, l, cores= NULL){
   # ifelse(para==T, {
   nc<-parallel::detectCores()-1
-  furrr::plan(strategy=multiprocess, workers=nc)
+  furrr::plan(strategy=multiprocess, workers=ifelse(is.null(cores), nc, cores))
   p<-furrr::future_map_dfr(1:n, function(z){
     furrr::map_dfr(lapply(seq(from, to, by), function(b){
       o1<-apply(subcom(comm, b),1, function(x){
@@ -61,9 +68,9 @@ raref<-function(from, to, by, comm,n=1, q){
       #     est<-Nielsen(x)
       # }
       # else{
-      mrest<-fsd(ab=x,l=-q+1)
-      est<-Chao_Hill_abu(x, q=q)#}
-      emp<-dfun(ab=x, l=-q+1)
+      mrest<-fsd(ab=x,l=l)
+      est<-Chao_Hill_abu(x, q=1-l)#}
+      emp<-dfun(ab=x, l=l)
 
       coverage<-Chat.Ind(x)
       out<-rbind(divest=est, zhangest=mrest, divemp=emp, coverage=coverage, size=rep(b, length(est)), q=rep(1-q, length(est)))
@@ -92,9 +99,20 @@ raref<-function(from, to, by, comm,n=1, q){
 
 
 ################
-#truemu computes the emprical average sample diveristy under sampling without replacement
-truemu<-function(comm, size, reps, l,...){
-  sam<-replicate(reps, subsam(comm, size))
+#' Compute emprical average sample diveristy under sampling without replacement
+#'
+#' @param ab Numeric vector of species abundances.
+#' @param size Scalar, number of individuals in sample
+#' @param reps Scalar, number of replicate samples to take
+#' @param l Scalar, exponent determining type of mean rarity
+#'
+#' @return scalar, empricial measure of the mean sample diversity from a larger pool
+#'
+#' @seealso \code{\link{dfun}}; \code{\link{subsam}}
+#'
+#' @export
+truemu<-function(ab, size, reps, l,...){
+  sam<-replicate(reps, subsam(ab, size))
   return(
     mean(
       apply(sam,2, function(x){dfun(x, l)})

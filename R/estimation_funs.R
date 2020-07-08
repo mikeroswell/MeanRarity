@@ -437,28 +437,7 @@ Chat.Ind <- function(x, m=sum(x)){
 }
 
 
-#fudge simpson to test performance
 
-fsr<-function(x){
-  (x-0.8)/(sum(x)-0.8)
-}
-
-
-fsd<-function(ab, l){
-  ab<-ab[ab!=0]
-  rp <- ab/sum(ab)
-  fs<-fsr(ab)
-  if(l==0) {return(exp(sum(rp*log(1/fs))))}
-  return(sign(l)*ipfun(sign(l)*sum(rp*pfun(1/fs, l)),l))
-}
-
-# JD's function: takes vector of sample abundances and returns Simpson's estimator of Simpson's Diversity
-sApp <- function(samp){
-  n <- sum(samp)
-  return(1/(
-    sum((samp/n)*((samp-1)/(n-1)))
-  ))
-}
 #########################################
 # ttest
 # myt<-function(x, true){pt((mean(x)-true)/(sd(x)/sqrt(length(x))), df=length(x-1))}

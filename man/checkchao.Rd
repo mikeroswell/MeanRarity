@@ -18,7 +18,7 @@ This function could be extended to look at e.g. incidence-based estimations.
 @param x Numeric vector of integer species abundances in a sample
 @param B Scalar, number of replicat bootstrap draws
 @param l Scalar, exponent for scaling rarity in computing Hill diversity
-@param truediv Scalar, known true Hill diversity of the pool from whcih
+@param truediv Scalar, known true Hill diversity of the pool from which
 sample is drawn, for comparison to estimated sampling distribution
 @param conf Scalar, target coverage probability of estimated CI
 
@@ -26,5 +26,5 @@ sample is drawn, for comparison to estimated sampling distribution
 values of the upper and lower estimated cofidence limits, the asymptotic
 Hill diversity estimate, and the empirical diversity
 
-@export
+@noRd
 }

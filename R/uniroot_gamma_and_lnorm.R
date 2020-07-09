@@ -67,7 +67,7 @@ ur_distr<-function(x,rich=rich, simpson=simpson, distr="lnorm", totAb=totAb, ...
 
 #define my lognormal distribution
 
-#' Relative abundances given lognormal disribution
+#' Relative abundances given lognormal distribution
 #'
 #' This is a wrapper for \code{qlnrom} that
 #'      takes the number of species and a shape parameter (sd of the log(lognormal)))
@@ -100,7 +100,7 @@ divers_lnorm<-function(rich, x){
 #'   \code{stats::uniroot} (a scalar).
 #' @param int_upr Upper bound of search space for \code{uniroot} (scalar).
 #' @param distr Name of the distribution (\code{"lnorm"} or \code{"gamma"}).
-#' @param totAb Not implemented; would be a necessary contstraint for fitting
+#' @param totAb Not implemented; would be a necessary constraint for fitting
 #'   finite communities.
 #'
 #' @return A list with three elements.

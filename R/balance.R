@@ -59,7 +59,7 @@ prettify <- function(breaks){
 #' This function is for power transformations (i.e. raising to a power and
 #' inverse) This is useful for visualizing generalized means.
 #'
-#' @param pow Exponent of power tranformation, scalar.
+#' @param pow Exponent of power transformation, scalar.
 #' @param nb Number of desired breaks (approximate), scalar.
 #'
 #' @return A scale transformation object for plotting in ggplot.
@@ -86,8 +86,8 @@ power_trans = function(pow, nb) scales::trans_new(name="power"
 #' @noRd
 fancy_rep<-function(df){
     return(data.frame(df[rep(1:nrow(df), df$abundance),])
-           %>% group_by(abundance)
-           %>% mutate(gr=1:length(abundance), inds=rep(length(abundance)
+           %>% dplyr::group_by(abundance)
+           %>% dplyr::mutate(gr=1:length(abundance), inds=rep(length(abundance)
                , length(abundance)))
     )
 }
@@ -129,7 +129,7 @@ base_plot <- function(abundance, pointScale
 
 
     #make plotting data
-    rf <- tibble(names = as.factor(1:length(abundance))
+    rf <- tibble::tibble(names = as.factor(1:length(abundance))
 		, abundance
 		, rarity = sum(abundance)/abundance
 	)
@@ -137,30 +137,30 @@ base_plot <- function(abundance, pointScale
 	y_extent<-max(y_extent, max(combfun(abundance)))
 	#14 is empirically derived scaling factor; but isn't quite right.
 	# Seems like stuff below axis is about 2.5* height of 1 line of text
-	pointScale<-(14*(min(dev.size("cm"))/noco-(2.5*0.0353*base_size)))
+	pointScale<-(14*(min(grDevices::dev.size("cm"))/noco-(2.5*0.0353*base_size)))
 	pointsize <- pointScale/(y_extent*1.1)
 
 	#0.5; shape is centered on  x,y; offset so it rests upon x, y-1
 	goff <- 0.5
 
 	#ggplot command to generate basic plot object
-	base <- (ggplot(rfrepeated, aes(x=rarity, y=abundance))
+	base <- (ggbplot2::ggplot(rfrepeated, aes(x=rarity, y=abundance))
 	         +(if(lines==T){
-	             rfdull<-rf %>% group_by(rarity) %>% summarize(inds=sum(abundance))
+	             rfdull<-rf %>% dplyr::group_by(rarity) %>% dplyr::summarize(inds=sum(abundance))
 	   #line segments
-	             geom_segment(data=rfdull, aes(x=rarity, xend=rarity, y=inds, yend=0)
-	                           , color=rgb(0,0,0,0.4)
+	             ggplot2::geom_segment(data=rfdull, ggplot2::aes(x=rarity, xend=rarity, y=inds, yend=0)
+	                           , color=grDevices::rgb(0,0,0,0.4)
 	                           , size=1
 	                           )
 	         } else{
 
 	   #bricks
-	    geom_point(aes(y=gr-goff, alpha=0.2), size=pointsize, fill=fill_col
+	           ggplot2::geom_point(aes(y=gr-goff, alpha=0.2), size=pointsize, fill=fill_col
 		             , shape=22, color="black", stroke=0.5/noco)
 	         })
 		# plank
-		+ geom_segment(
-			aes(x, y, xend=xend, yend=yend)
+		+ ggplot2::geom_segment(
+		  ggplot2::aes(x, y, xend=xend, yend=yend)
 			, data=data.frame(
 				x=c(min(rf$rarity))
 				, y=c(0)
@@ -170,11 +170,11 @@ base_plot <- function(abundance, pointScale
 		)
 
 #fix plank location and add space above and below data range
-		+scale_y_continuous(
+		+ggplot2::scale_y_continuous(
 		    expand=c(0,0)
 		    , limits=c(y_extent-1.05*y_extent, 1.05*y_extent)
 		)
-    	+ labs(y="individuals")
+    	+ ggplot2::labs(y="individuals")
 	)
 	#calls the function theme plot to generate basic figure
 	return(theme_plot(base, base_size=base_size, noco=noco))
@@ -192,13 +192,13 @@ base_plot <- function(abundance, pointScale
 #' @noRd
 theme_plot <- function(p, base_size=24, noco=1,...){
 	return(p
-		+ theme_tufte(base_family = "sans", base_size=base_size/noco)
-		+ theme(legend.position="none")
-		+ theme(
-		    axis.text=element_text(color="black") # better than Wickham's grey?
-		    , axis.line.x = element_line(colour = 'black'
+		+ ggthemes::theme_tufte(base_family = "sans", base_size=base_size/noco)
+		+ ggplot2::theme(legend.position="none")
+		+ ggplot2::theme(
+		    axis.text=ggplot2::element_text(color="black") # better than Wickham's grey?
+		    , axis.line.x = ggplot2::element_line(colour = 'black'
 		                                 , size=0.2, linetype='solid')
-			, axis.line.y = element_line(colour = 'black'
+			, axis.line.y = ggplot2::element_line(colour = 'black'
 			                             , size=0.2, linetype='solid')
 		)
 	)
@@ -234,9 +234,9 @@ scale_plot <- function(
 ){
     return (base_plot(ab, fill_col=fill_col, y_extent=y_extent
 	            , x_max=x_max, x_min=x_min, noco=noco, lines=lines, ...)
-		+ scale_x_continuous(trans=power_trans(pow=ell, nb=nbreaks), labels=signif)
-		+ geom_point(aes(x,y) #allows for x min and max points to determine axes
-		  , data=tibble(x=c(x_max, x_min), y=c(0,0))
+		+ ggplot2::scale_x_continuous(trans=power_trans(pow=ell, nb=nbreaks), labels=signif)
+		+ ggplot2::geom_point(aes(x,y) #allows for x min and max points to determine axes
+		  , data=tibble::tibble(x=c(x_max, x_min), y=c(0,0))
 		  , color="white", alpha=0)
 	        )
 }
@@ -254,10 +254,10 @@ scale_plot <- function(
 mean_points <- function(ab, ell, noco=1){
     ab<-ab[ab!=0]
 	div <- Vectorize(dfun, vectorize.args=("l"))(ab, ell)
-	return(geom_point(
-		data=tibble(x=div, y=0*div, clr=1:length(div))
+	return(ggplot2::geom_point(
+		data=tibble::tibble(x=div, y=0*div, clr=1:length(div))
 		, aes(x, y, color=as.factor(clr))
-		, size=0.2*min(dev.size("cm"))/noco
+		, size=0.2*min(rDevices::dev.size("cm"))/noco
 	))
 }
 
@@ -276,12 +276,12 @@ fulcrum<-function(ab, ell, y_extent=max(max(combfun(ab)), 15), x_max=1
                 , paste("max observed rarity =", sum(ab)/min(ab))
                 , paste("min observed rarity =", sum(ab)/max(ab))))}
 
-    return(geom_point(
-        data=tibble(x=div, y=-0.03*y_extent) # gets fulcrum point close.
+    return(ggplot2::geom_point(
+        data=tibble::tibble(x=div, y=-0.03*y_extent) # gets fulcrum point close.
         , size=(0.48*min(dev.size("cm"))-(2.5*0.0353*base_size))/noco #scales with plotting device and number of columns
         # , size=rel(0.3)
         , shape=17
-        , aes(x, y)
+        , ggplot2::aes(x, y)
     )
     )
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/uniroot_gamma_and_lnorm.R
 \name{divers_lnorm}
 \alias{divers_lnorm}
-\title{Relative abundances given lognormal disribution}
+\title{Relative abundances given lognormal distribution}
 \usage{
 divers_lnorm(rich, x)
 }

@@ -7,7 +7,7 @@
 power_trans(pow, nb)
 }
 \arguments{
-\item{pow}{Exponent of power tranformation, scalar.}
+\item{pow}{Exponent of power transformation, scalar.}
 
 \item{nb}{Number of desired breaks (approximate), scalar.}
 }

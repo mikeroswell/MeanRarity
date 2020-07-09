@@ -32,6 +32,8 @@ a list, consisting of 3 matrices including respectively the difference between t
 the difference between the upper confidence bound and the average of the B bootstrap estimates, and the bootstrap standard error of the diversity estimate.
 In each matrix, the first row gives the results for the empirical diversity, and the second row gives the results for the proposed diversity estimates.
 Columns give the results for different orders of q.
+
+@noRd
 }
 \description{
 Bt_prob_abu(x) is a function of estimating the species probabilities in the bootstrap assemblage based on abundance data.

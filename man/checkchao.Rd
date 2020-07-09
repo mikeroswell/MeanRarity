@@ -16,7 +16,7 @@ distribution
 This function could be extended to look at e.g. incidence-based estimations.
 
 @param x Numeric vector of integer species abundances in a sample
-@param B Scalar, number of replicat bootstrap draws
+@param B Scalar, number of replicate bootstrap draws
 @param l Scalar, exponent for scaling rarity in computing Hill diversity
 @param truediv Scalar, known true Hill diversity of the pool from which
 sample is drawn, for comparison to estimated sampling distribution

@@ -4,7 +4,7 @@ Title: Estimates Diversity Using The Mean Rarity Framework
 Version: 0.0.0.9000
 Date: 2020-07-01
 Maintainer: Michael Roswell <mroswell.rutgers@gmail.comt>
-Description: This package contains functions to estimate [Hill] diversity as a function of a scaling parameter \ell, as well as various convenience functions for sampling communities, estimating diversity from subsamples, and computing uncertainty estimates. 
+Description: This package contains functions to estimate [Hill] diversity as a function of a scaling parameter \eqn{\ell}, as well as various convenience functions for sampling communities, estimating diversity from subsamples, and computing uncertainty estimates. 
 License: LGPL-3
 Encoding: UTF-8
 LazyData: true
@@ -17,7 +17,7 @@ Imports:
     scales,
     ggplot2,
     magrittr
-    ,SpadeR
+    , SpadeR
     , iNEXT
 RoxygenNote: 7.1.0
 Authors@R: 

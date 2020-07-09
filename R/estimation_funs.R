@@ -125,12 +125,13 @@
 #'  the difference between the upper confidence bound and the average of the B bootstrap estimates, and the bootstrap standard error of the diversity estimate.
 #'  In each matrix, the first row gives the results for the empirical diversity, and the second row gives the results for the proposed diversity estimates.
 #'  Columns give the results for different orders of q.
+#'
+#'  @noRd
 
 # x<-subsam(usersguide, 10)
 # q<-0
 # datatype<-"abundance"
 # B<-1000
-
 Bootstrap.CI = function(x,q,B = 1000,datatype = c("abundance","incidence"),conf = 0.95){
     datatype = match.arg(datatype,c("abundance","incidence"))
     p.new = SpadeR:::Bt_prob_abu(x)
@@ -199,7 +200,7 @@ Bootstrap.CI = function(x,q,B = 1000,datatype = c("abundance","incidence"),conf 
 #'  This function could be extended to look at e.g. incidence-based estimations.
 #'
 #'  @param x Numeric vector of integer species abundances in a sample
-#'  @param B Scalar, number of replicat bootstrap draws
+#'  @param B Scalar, number of replicate bootstrap draws
 #'  @param l Scalar, exponent for scaling rarity in computing Hill diversity
 #'  @param truediv Scalar, known true Hill diversity of the pool from which
 #'    sample is drawn, for comparison to estimated sampling distribution

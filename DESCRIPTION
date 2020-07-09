@@ -9,14 +9,15 @@ License: LGPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    furrr,
-    stats,
-    parallel,
-    purrr,
-    future,
-    scales,
-    ggplot2,
-    magrittr
+    furrr
+    , stats
+    , parallel
+    , purrr
+    , future
+    , scales
+    , ggplot2
+    , dplyr
+    , magrittr
     , SpadeR
     , iNEXT
 RoxygenNote: 7.1.0

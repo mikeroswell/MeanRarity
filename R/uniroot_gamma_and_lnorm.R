@@ -37,7 +37,7 @@ divers_gamma<-function(rich, x){
 #' abundance distribution from the target value. When this difference = 0 the
 #' shape paramter of the gamma distribution is considered optimal.
 #'
-#' @param x Shape paramter for a gamma distribution, a scalar.
+#' @param x Shape paramter for a either lognormal or gamma distribution, a scalar.
 #' @param rich Total number of species in the SAD, an integer.
 #' @param simpson Target value for inverse simpson diversity of the simulated
 #'   SAD, a scalar.
@@ -116,8 +116,8 @@ divers_lnorm<-function(rich, x){
 #'
 #' @return A list with three elements.
 #'
-#'   \code{distribution_info} contains name of the distribution and the fitted
-#'   shape parameter.
+#'   \code{distribution_info} Contains the name of the distribution and the fitted
+#'   shape parameter value.
 #'
 #'   \code{community_info} gives richness, Hill-Shannon, and Hill=Simpson
 #'   diversity of the SAD.
@@ -127,36 +127,33 @@ divers_lnorm<-function(rich, x){
 #'
 #'
 #'
-#' @seealso \code{\link[stats]{uniroot}}; \code{\link{dfun}}
+#' @seealso \code{\link[stats]{uniroot}}, \code{\link{dfun}}
 #' @export
 #' @examples
 #' fit_SAD(dstr = "lnorm") #works
-#' \dontrun{
-#' fit_SAD(dstr = "nonsense")  #returns error
-#' }
 #' fit_SAD(dstr = "gamma") #works
-#' \dontrun{
-#' fit_SAD(dstr = "lnorm", rich = 50, simpson = 90) #returns error
-#' }
 #' fit_SAD(dstr = "lnorm", rich = 50, simpson = 2) #works
 #' fit_SAD(dstr = "gamma", rich = 50, simpson = 2) #works
 #' fit_SAD(dstr = "gamma", rich = 10, simpson = 6)
+#'
+#' \dontrun{
+#' fit_SAD(dstr = "nonsense")  #returns error
+#' fit_SAD(dstr = "lnorm", rich = 50, simpson = 90) #returns error
+#' }
 
 fit_SAD<-function(rich = 50, simpson = 40
-                  , dstr = "lnorm", int_lwr = 1e-4, int_uppr = 1e2
+                  , distr = "lnorm", int_lwr = 1e-4, int_uppr = 1e2
                  , totAb = 1e7){
     #check feasibility; these should be actual errors in future versions
     if(simpson>rich| simpson<1){
         stop("Hill-Simpson diversity cannot be greater than richness nor less than 1")}
 
     #check dstr makes sense
-    ifelse( !(dstr %in% c("lnorm", "gamma")),
-            stop("dstr must be either `lnorm` or `gamma`"),
+    ifelse( !(distr %in% c("lnorm", "gamma")),
+            stop("distr must be either `lnorm` or `gamma`"),
 
-        #generate SAD when dstr=lnorm
-        {if(dstr=="lnorm"){
-            #uses an optimizer called uniroot to find x when ur_lognorm(x)==0
-                fit_par=tryCatch(stats::uniroot(function(x){ur_distr(simpson=simpson, rich=rich,x)}
+        #generate SAD optimized with uniroot to find x when ur_distr==0
+                {fit_par=tryCatch(stats::uniroot(function(x){ur_distr(simpson=simpson, rich=rich, x, distr=distr)}
                                                 , lower=int_lwr, upper=int_uppr)
                                  , error=function(e) message("test int_lwr and int_uppr in ur_ function, output must have opposite signs")
                                  )
@@ -167,38 +164,18 @@ fit_SAD<-function(rich = 50, simpson = 40
                     return(rep(100, length(rich)))
                                   }
                 )
+
+        # return relative abundances
                 abus<-abus/sum(abus)
-
-        }
-
-            #generate SAD when dstr="gamma"
-        if(dstr=="gamma"){
-
-            #uses an optimizer called uniroot to find x when ur_gamma(x)==0
-            fit_par=tryCatch(stats::uniroot(function(x){ur_distr(simpson=simpson, rich=rich, x)}
-                                            , lower=int_lwr, upper=int_uppr)
-                             , error=function(e) message("test int_lwr and int_uppr in ur_ function, output must have opposite signs"))
-
-            #make sure to return rel abundances!
-            abus=tryCatch(divers_gamma(rich,  fit_par$root)
-                          , error=function(e) {
-                message("did not fit param")
-                return(rep(100, length(rich)))
-                }
-            )
-            abus<-abus/sum(abus)
-        }
-
-            #return Hill-Shannon also
+        #return Hill-Shannon also
         shannon=dfun(abus, 0)
         # if(sum(abus==0)>0) print("WARNING: you simulated species with 0 abundance")
 
-        return(list("distribution_info"=c("distribution"=dstr, "fitted parameter"=fit_par$root)
+        return(list("distribution_info"=c("distribution"=distr, "fitted parameter"=fit_par$root)
                     , "community_info"=c("richness"=rich, "Hill-Shannon"=shannon, "Hill-Simpson"=simpson)
                     , "rel_abundances"=abus
 
-                   ))
-        }
+                   ))}
     )
 }
 

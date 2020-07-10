@@ -11,12 +11,14 @@
 
 #' Relative abundances given gamma disribution
 #'
-#' Wrapper for \code{[stats] qgamma} that
+#' Wrapper for \code{\link[stats]{qgamma}} that
 #' takes the number of species and a shape parameter
 #' and gives relative abundance estimates for each species.
+#'
 #' @param x Shape paramter for a gamma distribution, a scalar
 #' @param rich Total number of species in the SAD, an integer
-#' @seealso qgamma
+#'
+#' @seealso \code{\link[stats]{qgamma}}
 #'
 #' @export
 #' @examples
@@ -24,7 +26,7 @@
 #'
 #' divers_gamma(rich = 10, x = 2)
 divers_gamma<-function(rich, x){
-    qgamma(seq((1/rich)/2, 1-(1/rich)/2, (1/rich)), shape=x, scale=10/x)
+    stats::qgamma(seq((1/rich)/2, 1-(1/rich)/2, (1/rich)), shape=x, scale=10/x)
 }
 
 
@@ -82,7 +84,7 @@ ur_distr<-function(x,rich=rich, simpson=simpson, distr="lnorm", totAb=totAb, ...
 #' @examples
 #' divers_lnorm(rich = 10, x = 1)
 divers_lnorm<-function(rich, x){
-    qlnorm(seq((1/rich)/2, 1-(1/rich)/2, (1/rich)), meanlog=10, sdlog=x)
+    stats::qlnorm(seq((1/rich)/2, 1-(1/rich)/2, (1/rich)), meanlog=10, sdlog=x)
     }
 
 
@@ -92,6 +94,15 @@ divers_lnorm<-function(rich, x){
 #' Takes a true richness, an inverse-Simpson diversity, and a distributional
 #' assumption. Fits an optimal SAD given these constraints using
 #' \code{stats::uniroot}.
+#'
+#' The way the SAD is fit, we assume infinite abundance, but finite and
+#'      fixed diversity. In particular, richness is fixed. The parametric
+#'      fits use continuous distributions. Species abundances are given at
+#'      evenly spaced intervals along those continuos distributions. The distributions
+#'      are described by a shape parameter (the scale parameter of the lognormal
+#'      is fixed), and the value of that parameter is chosen such that the relative
+#'      abundances assigned to the species give the target Hill-Simpson dversity.
+#'
 #'
 #' @param rich Total number of species in the SAD, an integer.
 #' @param simpson Hill-Simpson diversity of the SAD, a real number in [1,rich].
@@ -113,6 +124,8 @@ divers_lnorm<-function(rich, x){
 #'
 #'   \code{rel_abundances} is a vector of relative abundances for each species
 #'   in SAD.
+#'
+#'
 #'
 #' @seealso \code{\link[stats]{uniroot}}; \code{\link{dfun}}
 #' @export

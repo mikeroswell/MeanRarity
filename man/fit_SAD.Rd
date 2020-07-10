@@ -46,6 +46,15 @@ Takes a true richness, an inverse-Simpson diversity, and a distributional
 assumption. Fits an optimal SAD given these constraints using
 \code{stats::uniroot}.
 }
+\details{
+The way the SAD is fit, we assume infinite abundance, but finite and
+fixed diversity. In particular, richness is fixed. The parametric
+fits use continuous distributions. Species abundances are given at
+evenly spaced intervals along those continuos distributions. The distributions
+are described by a shape parameter (the scale parameter of the lognormal
+is fixed), and the value of that parameter is chosen such that the relative
+abundances assigned to the species give the target Hill-Simpson dversity.
+}
 \examples{
 fit_SAD(dstr = "lnorm") #works
 \dontrun{

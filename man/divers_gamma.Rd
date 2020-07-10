@@ -12,7 +12,7 @@ divers_gamma(rich, x)
 \item{x}{Shape paramter for a gamma distribution, a scalar}
 }
 \description{
-Wrapper for \code{[stats] qgamma} that
+Wrapper for \code{\link[stats]{qgamma}} that
 takes the number of species and a shape parameter
 and gives relative abundance estimates for each species.
 }
@@ -22,5 +22,5 @@ divers_gamma(rich = 10, x = 0.2)
 divers_gamma(rich = 10, x = 2)
 }
 \seealso{
-qgamma
+\code{\link[stats]{qgamma}}
 }

@@ -14,7 +14,7 @@ rarity_plot(ab, ell, means = -1:1, noco = 1, lines = F, ...)
 \item{means}{Numeric vector of scaling exponent values corresponding to
 reference \link{Pythagorean} means.}
 
-\item{noco}{Scalar, shrinks text and points if plotting muliple balance plots
+\item{noco}{Scalar, shrinks text and points if plotting multiple balance plots
 in a single plotting window.}
 
 \item{lines}{Logical, should each individual be plotted as a "box" or should

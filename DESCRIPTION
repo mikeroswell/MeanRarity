@@ -20,6 +20,8 @@ Imports:
     , magrittr
     , SpadeR
     , iNEXT
+    , ggthemes
+    , tibble
 RoxygenNote: 7.1.0
 Authors@R: 
    c( person(given = "Michael",

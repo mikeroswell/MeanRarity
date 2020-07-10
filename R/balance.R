@@ -104,7 +104,7 @@ fancy_rep<-function(df){
 #' @param x_max Scalar, approximately how far right should x-axis extend.
 #' @param x_min Scalar, approximately how far left should x-axis extend.
 #' @param base_size Typeface size for ggplot text (scalar).
-#' @param noco Scalar, shrinks text and points if plotting muliple balance plots
+#' @param noco Scalar, shrinks text and points if plotting multiple balance plots
 #'   in a single plotting window
 #' @param lines Logical, should each individual be plotted as a "box" or should
 #'   individuals be summarized simply as the height of a line segment
@@ -188,7 +188,7 @@ base_plot <- function(abundance, pointScale
 #'
 #' @param p ggplot object
 #' @param base_size Typeface size for ggplot text (scalar).
-#' @param noco Scalar, shrinks text and points if plotting muliple balance plots
+#' @param noco Scalar, shrinks text and points if plotting multiple balance plots
 #'   in a single plotting window
 #'
 #' @return A ggplot object, with some theme elements specified
@@ -216,7 +216,7 @@ theme_plot <- function(p, base_size=24, noco=1,...){
 #' @param y_extent Scalar, how tall to draw y-axis.
 #' @param x_max Scalar, approximately how far right should x-axis extend.
 #' @param x_min Scalar, approximately how far left should x-axis extend.
-#' @param noco Scalar, shrinks text and points if plotting muliple balance plots
+#' @param noco Scalar, shrinks text and points if plotting multiple balance plots
 #'   in a single plotting window
 #' @param lines Logical, should each individual be plotted as a "box" or should
 #'   individuals be summarized simply as the height of a line segment
@@ -249,7 +249,7 @@ scale_plot <- function(
 #'
 #' @param ab Numeric vector of integer species abundances
 #' @param ell Exponent for type of mean rarity (scalar)
-#' @param noco Scalar, shrinks text and points if plotting muliple balance plots
+#' @param noco Scalar, shrinks text and points if plotting multiple balance plots
 #'   in a single plotting window
 #'
 #' @return geom object to add to a ggplot object to construct balance plot
@@ -273,10 +273,10 @@ mean_points <- function(ab, ell, noco=1){
 #' @param y_extent Scalar, how tall to draw y-axis.
 #' @param x_max Scalar, approximately how far right should x-axis extend.
 #' @param x_min Scalar, approximately how far left should x-axis extend.
-#' @param noco Scalar, shrinks text and points if plotting muliple balance plots
-#'   in a single plotting window
+#' @param noco Scalar, shrinks text and points if plotting multiple balance plots
+#'   in a single plotting window.
 #' @param nbreaks Integer, approximate number of x-axis tick marks.
-#' @param verbose Logical, should the function return a pile of text
+#' @param verbose Logical, should the function return a pile of text.
 #'
 #'
 #' @noRd
@@ -350,7 +350,7 @@ fulcrum<-function(ab, ell
 #'
 #' @param ab Numeric vector of integer species abundances
 #' @param ell Exponent for type of mean rarity (scalar)
-#' @param noco Scalar, shrinks text and points if plotting muliple balance plots
+#' @param noco Scalar, shrinks text and points if plotting multiple balance plots
 #'   in a single plotting window.
 #' @param lines Logical, should each individual be plotted as a "box" or should
 #'   individuals be summarized simply as the height of a line segment.
@@ -431,11 +431,11 @@ rarity_series <- function(ab, lrange=-1:1, means=lrange,...){
 #' @export
 white_y<-function(p){
     return(p
-           +theme(axis.text.y=element_text(color="white")
-                  , axis.title.y=element_text(color="white")
-                  , axis.ticks.y = element_line(color="white")
-                  , axis.line.y = element_line(color="white")
-                  , axis.line.x=element_line(
+           + ggplot2::theme(axis.text.y = ggplot2::element_text(color="white")
+                  , axis.title.y = ggplot2::element_text(color="white")
+                  , axis.ticks.y = ggplot2::element_line(color="white")
+                  , axis.line.y = ggplot2::element_line(color="white")
+                  , axis.line.x = ggplot2::element_line(
                       colour = 'black', size=0.2, linetype='solid'
                     )
                   )
@@ -457,11 +457,11 @@ white_y<-function(p){
 #' @export
 omit_y<-function(p){
     return(p
-           +theme(axis.text.y = element_blank()
-                  , axis.title.y = element_blank()
-                  , axis.ticks.y = element_blank()
-                  , axis.line.y = element_blank()
-                  , axis.line.x=element_line(
+           + ggplot2::theme(axis.text.y = ggplot2::element_blank()
+                  , axis.title.y = ggplot2::element_blank()
+                  , axis.ticks.y = ggplot2::element_blank()
+                  , axis.line.y = ggplot2::element_blank()
+                  , axis.line.x = ggplot2::element_line(
                       colour = 'black', size=0.2, linetype='solid'
                   )
            )

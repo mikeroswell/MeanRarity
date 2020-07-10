@@ -26,7 +26,7 @@ To save running time, use a smaller value (e.g. B = 200)..}
 }
 \value{
 a numeric vector.
-Bootstrap.CI(x,q,B,datatype,conf) is a function of calculating the bootsrapping standard error based on abundance data or incidence data.
+Bootstrap.CI(x,q,B,datatype,conf) is a function of calculating the bootstrapping standard error based on abundance data or incidence data.
 
 a list, consisting of 3 matrices including respectively the difference between the average and lower confidence bound of the B bootstrap estimates,
 the difference between the upper confidence bound and the average of the B bootstrap estimates, and the bootstrap standard error of the diversity estimate.

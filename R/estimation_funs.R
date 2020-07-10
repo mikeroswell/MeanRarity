@@ -114,7 +114,7 @@
 
 # Copied Fn from SpadeR but commented out a lot of incidence stuff need to keep this version for code in Roswell et al. 2020 Oikos.
 
-#' Bootstrap.CI(x,q,B,datatype,conf) is a function of calculating the bootsrapping standard error based on abundance data or incidence data.
+#' Bootstrap.CI(x,q,B,datatype,conf) is a function of calculating the bootstrapping standard error based on abundance data or incidence data.
 #' @param x a vector of species sample frequencies (for abundance data) or incidence-based sample frequencies (1st entry must be the number of sampling unit).
 #' @param q a numeric or a vector of diversity order.
 #' @param B an integer to specify the number of replications in the bootstrap procedure, B = 1000 is suggested for constructing confidence intervals;
@@ -190,27 +190,27 @@ Bootstrap.CI = function(x,q,B = 1000,datatype = c("abundance","incidence"),conf 
 # l<-1
 # truediv<-5
 
-#'  Assess Chao and Jost 2015 Hill diversity CI
+#' Assess Chao and Jost 2015 Hill diversity CI
 #'
-#'  Given empirical abundances \code{x}, use the Chao and Jost 2015 MEE method
-#'  to estimate the sampling distribution of the Hill diversity (given exponent
-#'  \code{l}), and see where known, true diversity \code{truediv} falls in that
-#'  distribution
+#' Given empirical abundances \code{x}, use the Chao and Jost 2015 MEE method
+#'      to estimate the sampling distribution of the Hill diversity (given exponent
+#'      \code{l}), and see where known, true diversity \code{truediv} falls in that
+#'      distribution
 #'
-#'  This function could be extended to look at e.g. incidence-based estimations.
+#' This function could be extended to look at e.g. incidence-based estimations.
 #'
-#'  @param x Numeric vector of integer species abundances in a sample
-#'  @param B Scalar, number of replicate bootstrap draws
-#'  @param l Scalar, exponent for scaling rarity in computing Hill diversity
-#'  @param truediv Scalar, known true Hill diversity of the pool from which
+#' @param x Numeric vector of integer species abundances in a sample
+#' @param B Scalar, number of replicate bootstrap draws
+#' @param l Scalar, exponent for scaling rarity in computing Hill diversity
+#' @param truediv Scalar, known true Hill diversity of the pool from which
 #'    sample is drawn, for comparison to estimated sampling distribution
-#'  @param conf Scalar, target coverage probability of estimated CI
+#' @param conf Scalar, target coverage probability of estimated CI
 #'
-#'  @return data.frame with estimated p-value for true diversity, the diversity
+#' @return data.frame with estimated p-value for true diversity, the diversity
 #'    values of the upper and lower estimated cofidence limits, the asymptotic
 #'    Hill diversity estimate, and the empirical diversity
 #'
-#'  @noRd
+#' @noRd
 checkchao<-function(x
                     , B
                     , l

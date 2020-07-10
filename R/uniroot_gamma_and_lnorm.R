@@ -101,7 +101,7 @@ divers_lnorm<-function(rich, x){
 #'      evenly spaced intervals along those continuos distributions. The distributions
 #'      are described by a shape parameter (the scale parameter of the lognormal
 #'      is fixed), and the value of that parameter is chosen such that the relative
-#'      abundances assigned to the species give the target Hill-Simpson dversity.
+#'      abundances assigned to the species give the target Hill-Simpson diversity.
 #'
 #'
 #' @param rich Total number of species in the SAD, an integer.

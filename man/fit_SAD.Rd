@@ -7,7 +7,7 @@
 fit_SAD(
   rich = 50,
   simpson = 40,
-  dstr = "lnorm",
+  distr = "lnorm",
   int_lwr = 1e-04,
   int_uppr = 100,
   totAb = 1e+07
@@ -18,6 +18,8 @@ fit_SAD(
 
 \item{simpson}{Hill-Simpson diversity of the SAD, a real number in \link{1,rich}.}
 
+\item{distr}{Name of the distribution (\code{"lnorm"} or \code{"gamma"}).}
+
 \item{int_lwr}{Lower bound of search space for uniroot; default is a small
 number close to 0 to deal with potential boundary issues for
 \code{stats::uniroot} (a scalar).}
@@ -26,14 +28,12 @@ number close to 0 to deal with potential boundary issues for
 finite communities.}
 
 \item{int_upr}{Upper bound of search space for \code{uniroot} (scalar).}
-
-\item{distr}{Name of the distribution (\code{"lnorm"} or \code{"gamma"}).}
 }
 \value{
 A list with three elements.
 
-\code{distribution_info} contains name of the distribution and the fitted
-shape parameter.
+\code{distribution_info} Contains the name of the distribution and the fitted
+shape parameter value.
 
 \code{community_info} gives richness, Hill-Shannon, and Hill=Simpson
 diversity of the SAD.
@@ -56,18 +56,17 @@ is fixed), and the value of that parameter is chosen such that the relative
 abundances assigned to the species give the target Hill-Simpson dversity.
 }
 \examples{
-fit_SAD(dstr = "lnorm") #works
+#works
+fit_SAD(distr = "gamma") #works
+fit_SAD(distr = "lnorm", rich = 50, simpson = 2) #works
+fit_SAD(distr = "gamma", rich = 50, simpson = 2) #works
+fit_SAD(distr = "gamma", rich = 10, simpson = 6)
+
 \dontrun{
-fit_SAD(dstr = "nonsense")  #returns error
+fit_SAD(distr = "nonsense")  #returns error
+fit_SAD(distr = "lnorm", rich = 50, simpson = 90) #returns error
 }
-fit_SAD(dstr = "gamma") #works
-\dontrun{
-fit_SAD(dstr = "lnorm", rich = 50, simpson = 90) #returns error
-}
-fit_SAD(dstr = "lnorm", rich = 50, simpson = 2) #works
-fit_SAD(dstr = "gamma", rich = 50, simpson = 2) #works
-fit_SAD(dstr = "gamma", rich = 10, simpson = 6)
 }
 \seealso{
-\code{\link[stats]{uniroot}}; \code{\link{dfun}}
+\code{\link[stats]{uniroot}}, \code{\link{dfun}}
 }

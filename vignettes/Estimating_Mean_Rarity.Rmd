@@ -11,9 +11,21 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
+  
+###########
+# this seems like it could go in a vignette.
+
+# plot some rarity "balance plots" for guide to measuring diversity (Roswell et al. 2020 Oikos....)
+# pdf(file="figures/rarity_plots_for_guide.pdf")
+# rarity_plot(ab, 1)+scale_color_brewer(type="qual", palette="Dark2") #also changed base_size to 30 or maybe 32 and doubled point size.
+# white_y(rarity_plot(ab,0))+scale_color_brewer(type="qual", palette="Dark2")
+# white_y(rarity_plot(ab,-1))+scale_color_brewer(type="qual", palette="Dark2")
+# dev.off()
+##############
 )
 ```
 
 ```{r setup}
 library(MeanRarity)
 ```
+

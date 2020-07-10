@@ -29,5 +29,5 @@ where \eqn{q=1-l}.\preformatted{ When \code{l = 1}, arithmetic mean rarity (spec
 }
 }
 \examples{
-dfun(c(20,8,5,4,2,1), 1)
+dfun(c(20,8,5,4,2,1), -1)
 }

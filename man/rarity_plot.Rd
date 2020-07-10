@@ -2,15 +2,75 @@
 % Please edit documentation in R/balance.R
 \name{rarity_plot}
 \alias{rarity_plot}
-\title{Construct the full balance plot for scale ell, with reference means=means}
+\title{Construct the full balance plot}
 \usage{
 rarity_plot(ab, ell, means = -1:1, noco = 1, lines = F, ...)
 }
+\arguments{
+\item{ab}{Numeric vector of integer species abundances}
+
+\item{ell}{Exponent for type of mean rarity (scalar)}
+
+\item{noco}{Scalar, shrinks text and points if plotting muliple balance plots
+in a single plotting window.}
+
+\item{lines}{Logical, should each individual be plotted as a "box" or should
+individuals be summarized simply as the height of a line segment.}
+}
 \description{
-Construct the full balance plot for scale ell, with reference means=means
+This function takes the abundance vector, scaling exponent, and target means
+(Default the pythagorean means), and returns a formatted 1-panel ggplot
+object]
+}
+\details{
+Hill diversity, or "mean rarity," is the balance point for the community
+along the rarity scale. The image produced by \code{rarity_plot} illustrates
+this balance. Each block represents an individual, and because Hill
+diversities are weighted by abundance the “mass” of each “block” is the same
+regardless of species identity. Each individual’s x-axis value is given its
+species’ "rarity," which is the reciprocal of its relative abundance. The
+parameter \code{ell} controls how rarity is scaled. A community’s balance
+point along the rarity scale, pictured as a triangular fulcrum, is the mean
+rarity, or diversity, of the community.
+
+To ease comparison across scales, by default the Pythagorean means are marked
+with reference points: the arithmetic mean with a rose dot, the geometric
+mean with a blue dot, and the harmonic mean with a green dot. The arithmetic
+scale provides high leverage to very rare species; although they carry little
+weight (few individuals), these species influence the mean a great deal
+because they sit far to the right of the rarity scale. The arithmetic mean
+rarity of the community is the Hill diversity when ℓ = 1, and is equal to
+species richness. The logarithmic scale provides less leverage to very rare
+species. Thus, the geometric mean rarity of the community is lower. The
+geometric mean rarity is also known as the Hill-Shannon diversity, or the
+Hill diversity when ℓ = 0. The reciprocal scale accords more leverage to low
+rarity values. Thus, the harmonic mean rarity, also known as the Hill-Simpson
+diversity, or Hill diversity when ℓ  = -1, is much lower still. An
+interactive online application that enables users to specify species
+abundances and the scaling parameter is available at
+\url{https://mean-rarity.shinyapps.io/rshiny_app1/}
+
+The scaling of various plot elements depends on the plotting device.
+Rstudio's seems especially touchy based on window size. The defaults here
+pertain to the standard 7"x7" plotting window given by \code{quartz()} or
+\code{pdf()}. They also seem to play nice on the shiny app
+\url{https://mean-rarity.shinyapps.io/rshiny_app1/}. Other window sizes or
+devices may require tweaking.
+}
+\examples{
+ab<-c(20,8,5,4,2,1)
+# includes stacking
+# ab <- c(20, 15, 9, 3, 2, 1, 1)
+# ab <- c(100, 20, 15, 9, 3, 2, 1, 1)
+# ab <- c(50,30,20,0,0,0)
+# ab <- c(4,3,2)
+# ab <- c(20, 15, 9, 3, 2, 1, 1, 0, 0)
+# ab <- c(200,100, 20, 15, 9, 3, 2, 1, 1)
+# ab <- floor(exp(rnorm(50, 4, 1.5)))
+rarity_plot(ab, 1)
 }
 \seealso{
-This function depends on internal functions in the \code{MeanRarity}
+This function depends on internal functions in the \code{\link{MeanRarity}}
 package which can be accessed with \code{:::} e.g.
-\code{MeanRarity:::scale_plot}
+\code{MeanRarity:::scale_plot}.
 }

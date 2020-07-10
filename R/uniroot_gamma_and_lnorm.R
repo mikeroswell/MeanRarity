@@ -58,7 +58,7 @@ divers_gamma<-function(rich, x){
 #' ur_distr(x = 0.2, rich = 10, simpson = 6, distr = "gamma")
 #' ur_distr(x = 1.235383382 , rich = 10
 #'      , simpson = 6, distr = "gamma") #very close, depends on sensitivity.
-ur_distr<-function(x,rich=rich, simpson=simpson, distr="lnorm", totAb=totAb, ...){
+ur_distr<-function(x,rich=rich, simpson=simpson, distr=distr, totAb=totAb, ...){
     simpson-dfun(get(paste0("divers_", distr))(rich, x), -1)}
 
 
@@ -130,19 +130,19 @@ divers_lnorm<-function(rich, x){
 #' @seealso \code{\link[stats]{uniroot}}, \code{\link{dfun}}
 #' @export
 #' @examples
-#' fit_SAD(dstr = "lnorm") #works
-#' fit_SAD(dstr = "gamma") #works
-#' fit_SAD(dstr = "lnorm", rich = 50, simpson = 2) #works
-#' fit_SAD(dstr = "gamma", rich = 50, simpson = 2) #works
-#' fit_SAD(dstr = "gamma", rich = 10, simpson = 6)
+#' #works
+#' fit_SAD(distr = "gamma") #works
+#' fit_SAD(distr = "lnorm", rich = 50, simpson = 2) #works
+#' fit_SAD(distr = "gamma", rich = 50, simpson = 2) #works
+#' fit_SAD(distr = "gamma", rich = 10, simpson = 6)
 #'
 #' \dontrun{
-#' fit_SAD(dstr = "nonsense")  #returns error
-#' fit_SAD(dstr = "lnorm", rich = 50, simpson = 90) #returns error
+#' fit_SAD(distr = "nonsense")  #returns error
+#' fit_SAD(distr = "lnorm", rich = 50, simpson = 90) #returns error
 #' }
 
 fit_SAD<-function(rich = 50, simpson = 40
-                  , distr = "lnorm", int_lwr = 1e-4, int_uppr = 1e2
+                  , distr = "lnorm", int_lwr = 1e-04, int_uppr = 1e2
                  , totAb = 1e7){
     #check feasibility; these should be actual errors in future versions
     if(simpson>rich| simpson<1){
@@ -153,9 +153,9 @@ fit_SAD<-function(rich = 50, simpson = 40
             stop("distr must be either `lnorm` or `gamma`"),
 
         #generate SAD optimized with uniroot to find x when ur_distr==0
-                {fit_par=tryCatch(stats::uniroot(function(x){ur_distr(simpson=simpson, rich=rich, x, distr=distr)}
+                {fit_par = tryCatch(stats::uniroot(function(x){ur_distr(simpson=simpson, rich=rich, x=x, distr=distr, totAb=totAb)}
                                                 , lower=int_lwr, upper=int_uppr)
-                                 , error=function(e) message("test int_lwr and int_uppr in ur_ function, output must have opposite signs")
+                                 , error=function(e) message("test int_lwr and int_uppr as values for `x` in ur_distr(); output must have opposite signs")
                                  )
 
                 #make sure to return rel abundances!
@@ -165,7 +165,7 @@ fit_SAD<-function(rich = 50, simpson = 40
                                   }
                 )
 
-        # return relative abundances
+        # relative abundances
                 abus<-abus/sum(abus)
         #return Hill-Shannon also
         shannon=dfun(abus, 0)

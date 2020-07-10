@@ -5,17 +5,10 @@
 \title{Difference between target and realized diversity of simulated SAD (gamma
 distribution).}
 \usage{
-ur_distr(
-  x,
-  rich = rich,
-  simpson = simpson,
-  distr = "lnorm",
-  totAb = totAb,
-  ...
-)
+ur_distr(x, rich = rich, simpson = simpson, distr = distr, totAb = totAb, ...)
 }
 \arguments{
-\item{x}{Shape paramter for a gamma distribution, a scalar.}
+\item{x}{Shape paramter for a either lognormal or gamma distribution, a scalar.}
 
 \item{rich}{Total number of species in the SAD, an integer.}
 

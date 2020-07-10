@@ -144,7 +144,7 @@ base_plot <- function(abundance, pointScale
 	goff <- 0.5
 
 	#ggplot command to generate basic plot object
-	base <- (ggbplot2::ggplot(rfrepeated, aes(x=rarity, y=abundance))
+	base <- (ggplot2::ggplot(rfrepeated, ggplot2::aes(x=rarity, y=abundance))
 	         +(if(lines==T){
 	             rfdull<-rf %>% dplyr::group_by(rarity) %>% dplyr::summarize(inds=sum(abundance))
 	   #line segments
@@ -155,17 +155,21 @@ base_plot <- function(abundance, pointScale
 	         } else{
 
 	   #bricks
-	           ggplot2::geom_point(aes(y=gr-goff, alpha=0.2), size=pointsize, fill=fill_col
-		             , shape=22, color="black", stroke=0.5/noco)
+	           ggplot2::geom_point(ggplot2::aes(y = gr - goff, alpha = 0.2)
+	                               , size = pointsize
+	                               , fill = fill_col
+		                             , shape = 22
+		                             , color = "black"
+		                             , stroke = 0.5/noco)
 	         })
 		# plank
 		+ ggplot2::geom_segment(
 		  ggplot2::aes(x, y, xend=xend, yend=yend)
-			, data=data.frame(
-				x=c(min(rf$rarity))
-				, y=c(0)
-				, xend=c(max(rf$rarity))
-				, yend=c(0)
+			, data = data.frame(
+				x = c(min(rf$rarity))
+				, y = c(0)
+				, xend = c(max(rf$rarity))
+				, yend = c(0)
 			)
 		)
 
@@ -187,7 +191,7 @@ base_plot <- function(abundance, pointScale
 #' @param noco Scalar, shrinks text and points if plotting muliple balance plots
 #'   in a single plotting window
 #'
-#' @return also a ggplot object, with some theme elements specified
+#' @return A ggplot object, with some theme elements specified
 #'
 #' @noRd
 theme_plot <- function(p, base_size=24, noco=1,...){
@@ -235,7 +239,7 @@ scale_plot <- function(
     return (base_plot(ab, fill_col=fill_col, y_extent=y_extent
 	            , x_max=x_max, x_min=x_min, noco=noco, lines=lines, ...)
 		+ ggplot2::scale_x_continuous(trans=power_trans(pow=ell, nb=nbreaks), labels=signif)
-		+ ggplot2::geom_point(aes(x,y) #allows for x min and max points to determine axes
+		+ ggplot2::geom_point(ggplot2::aes(x,y) #allows for x min and max points to determine axes
 		  , data=tibble::tibble(x=c(x_max, x_min), y=c(0,0))
 		  , color="white", alpha=0)
 	        )
@@ -256,17 +260,35 @@ mean_points <- function(ab, ell, noco=1){
 	div <- Vectorize(dfun, vectorize.args=("l"))(ab, ell)
 	return(ggplot2::geom_point(
 		data=tibble::tibble(x=div, y=0*div, clr=1:length(div))
-		, aes(x, y, color=as.factor(clr))
-		, size=0.2*min(rDevices::dev.size("cm"))/noco
+		, ggplot2::aes(x, y, color=as.factor(clr))
+		, size=0.2*min(grDevices::dev.size("cm"))/noco
 	))
 }
 
 #' Plot the fulcrum
 #'
+#' @param ell Scalar, exponent for scaling generalized mean.
+#' @param fill_col Color for filling each of the boxes representing a single
+#'   individual.
+#' @param y_extent Scalar, how tall to draw y-axis.
+#' @param x_max Scalar, approximately how far right should x-axis extend.
+#' @param x_min Scalar, approximately how far left should x-axis extend.
+#' @param noco Scalar, shrinks text and points if plotting muliple balance plots
+#'   in a single plotting window
+#' @param nbreaks Integer, approximate number of x-axis tick marks.
+#' @param verbose Logical, should the function return a pile of text
+#'
+#'
 #' @noRd
-fulcrum<-function(ab, ell, y_extent=max(max(combfun(ab)), 15), x_max=1
-                  , x_min=1, fill_col="light_grey"
-                  , base_size=24, noco=1, nbreaks=5, verbose=T){
+fulcrum<-function(ab, ell
+                  , y_extent=max(max(combfun(ab)), 15)
+                  , x_max=1
+                  , x_min=1
+                  , fill_col="light_grey"
+                  , base_size=24
+                  , noco=1
+                  , nbreaks=5
+                  , verbose=T){
 
     ab<-ab[ab!=0]
     div <- dfun(ab, ell)
@@ -286,16 +308,70 @@ fulcrum<-function(ab, ell, y_extent=max(max(combfun(ab)), 15), x_max=1
     )
 }
 
-#' Construct the full balance plot for scale ell, with reference means=means
+#' Construct the full balance plot
 #'
-#' @seealso This function depends on internal functions in the \code{MeanRarity}
+#' This function takes the abundance vector, scaling exponent, and target means
+#' (Default the pythagorean means), and returns a formatted 1-panel ggplot
+#' object]
+#'
+#' Hill diversity, or "mean rarity," is the balance point for the community
+#' along the rarity scale. The image produced by \code{rarity_plot} illustrates
+#' this balance. Each block represents an individual, and because Hill
+#' diversities are weighted by abundance the “mass” of each “block” is the same
+#' regardless of species identity. Each individual’s x-axis value is given its
+#' species’ "rarity," which is the reciprocal of its relative abundance. The
+#' parameter \code{ell} controls how rarity is scaled. A community’s balance
+#' point along the rarity scale, pictured as a triangular fulcrum, is the mean
+#' rarity, or diversity, of the community.
+#'
+#' To ease comparison across scales, by default the Pythagorean means are marked
+#' with reference points: the arithmetic mean with a rose dot, the geometric
+#' mean with a blue dot, and the harmonic mean with a green dot. The arithmetic
+#' scale provides high leverage to very rare species; although they carry little
+#' weight (few individuals), these species influence the mean a great deal
+#' because they sit far to the right of the rarity scale. The arithmetic mean
+#' rarity of the community is the Hill diversity when ℓ = 1, and is equal to
+#' species richness. The logarithmic scale provides less leverage to very rare
+#' species. Thus, the geometric mean rarity of the community is lower. The
+#' geometric mean rarity is also known as the Hill-Shannon diversity, or the
+#' Hill diversity when ℓ = 0. The reciprocal scale accords more leverage to low
+#' rarity values. Thus, the harmonic mean rarity, also known as the Hill-Simpson
+#' diversity, or Hill diversity when ℓ  = -1, is much lower still. An
+#' interactive online application that enables users to specify species
+#' abundances and the scaling parameter is available at
+#' \url{https://mean-rarity.shinyapps.io/rshiny_app1/}
+#'
+#' The scaling of various plot elements depends on the plotting device.
+#' Rstudio's seems especially touchy based on window size. The defaults here
+#' pertain to the standard 7"x7" plotting window given by \code{quartz()} or
+#' \code{pdf()}. They also seem to play nice on the shiny app
+#' \url{https://mean-rarity.shinyapps.io/rshiny_app1/}. Other window sizes or
+#' devices may require tweaking.
+#'
+#' @param ab Numeric vector of integer species abundances
+#' @param ell Exponent for type of mean rarity (scalar)
+#' @param noco Scalar, shrinks text and points if plotting muliple balance plots
+#'   in a single plotting window.
+#' @param lines Logical, should each individual be plotted as a "box" or should
+#'   individuals be summarized simply as the height of a line segment.
+#'
+#'
+#' @seealso This function depends on internal functions in the \code{\link{MeanRarity}}
 #'   package which can be accessed with \code{:::} e.g.
-#'   \code{MeanRarity:::scale_plot}
-#'
+#'   \code{MeanRarity:::scale_plot}.
 #'
 #' @export
-
-
+#' @examples
+#' ab<-c(20,8,5,4,2,1)
+#' # includes stacking
+#' # ab <- c(20, 15, 9, 3, 2, 1, 1)
+#' # ab <- c(100, 20, 15, 9, 3, 2, 1, 1)
+#' # ab <- c(50,30,20,0,0,0)
+#' # ab <- c(4,3,2)
+#' # ab <- c(20, 15, 9, 3, 2, 1, 1, 0, 0)
+#' # ab <- c(200,100, 20, 15, 9, 3, 2, 1, 1)
+#' # ab <- floor(exp(rnorm(50, 4, 1.5)))
+#' rarity_plot(ab, 1)
 rarity_plot <- function(ab
                         , ell
                         , means=-1:1
@@ -317,20 +393,40 @@ rarity_plot <- function(ab
 		          , ell
 		          , noco=noco
 		          , ...)
-		+ scale_color_brewer(type="qual", palette="Set1")
+		+ ggplot2::scale_color_brewer(type="qual", palette="Set1")
 		# + scale_color_viridis_d(option="plasma")
 		# +scale_color_manual(values=c("#AA8E39", "#294F6D", "#4B2D73"))
 	)
 }
 
-#conventiently plot for l=-1:1, with reference points in each fig
+#' Conventiently plot for l=-1:1, with reference points in each fig
+#'
+#' Convenience function for plotting the arithmetic, geometric, and harmonic mean rarities with
+#' only one line of code.
+#'
+#' @return Prints 3 ggplots into graphics device.
+#'
+#' @param ab Numeric vector of integer species abundances.
+#' @param lrange Numeric vector of scaling exponent values
+#'
+#' @noRd
+#'
 rarity_series <- function(ab, lrange=-1:1, means=lrange,...){
 	for(l in lrange){
 		print(rarity_plot(ab, l, means,...))
 	}
 }
 
-#convenience functions to omit y-axis elements for constructing multi-panel plots.
+#' Convenience function to blank y-axis elements for constructing multi-panel plots.
+#'
+#' This function whites out, but does not remove, y-axis elements for a consistent plot size that can
+#' be included (klugely) in a multi-panel plot
+#'
+#' @return A ggplot.
+#'
+#' @param p A ggplot.
+#'
+#' @export
 white_y<-function(p){
     return(p
            +theme(axis.text.y=element_text(color="white")
@@ -344,6 +440,19 @@ white_y<-function(p){
            )
 }
 
+
+#' Convenience function to omit y-axis elements for constructing multi-panel plots.
+#'
+#' This function removes, y-axis elements for plots that can
+#' be included (klugely) in a multi-panel plot. In this case the plotted area varies.
+#'
+#' @seealso \code{\link{white_y}}
+#'
+#' @return A ggplot.
+#'
+#' @param p A ggplot.
+#'
+#' @export
 omit_y<-function(p){
     return(p
            +theme(axis.text.y = element_blank()
@@ -357,59 +466,35 @@ omit_y<-function(p){
     )
 }
 
-#some SADs to play with
 
 
-# ab <- c(20, 15, 9, 3, 2, 1, 1) #includes stacking
-ab<-c(20,8,5,4,2,1) #candidate for user's guide
-# ab <- c(100, 20, 15, 9, 3, 2, 1, 1)
-# ab <- c(50,30,20,0,0,0)
-# ab <- c(4,3,2)
-# ab <- c(20, 15, 9, 3, 2, 1, 1, 0, 0)
-# ab <- c(200,100, 20, 15, 9, 3, 2, 1, 1)
-# ab <- floor(exp(rnorm(50, 4, 1.5)))
 
 
-#################
-# code for figs in users guide etc.
 
-
-# rarity_plot(ab,0, fill_col="red", base_size=24, verbose=T, noco=2)
-#
-# p<-rarity_plot(ab, 1, fill_col="blue", x_min=1, x_max=45, noco=3, base_size=12)
-#
-# grid.arrange(p, omit_y(p), omit_y(p), p, omit_y(p), omit_y(p), p, omit_y(p), omit_y(p))
-
-# rarity_series(ab=ab, 1:-1)
-#
-# plot some rarity "balance plots" for guide to measuring diversity (Roswell et al. 2020 Oikos....)
-# pdf(file="figures/rarity_plots_for_guide.pdf")
-# rarity_plot(ab, 1)+scale_color_brewer(type="qual", palette="Dark2") #also changed base_size to 30 or maybe 32 and doubled point size.
-# white_y(rarity_plot(ab,0))+scale_color_brewer(type="qual", palette="Dark2")
-# white_y(rarity_plot(ab,-1))+scale_color_brewer(type="qual", palette="Dark2")
-# dev.off()
-##############
 # RAD plot code
 radplot<-function(comm
                   , maxrich=length(comm)
                   , maxab=max(comm)
                   , fill
                   , shape=16){
-    comm<-comm[comm!=0]
-    rawrnk<-tibble(abund=comm, rnk=row_number(comm))
-    toplot<-rawrnk %>%
-        mutate(x=-rnk-maxrich+max(rnk))
+    comm <- comm[comm!=0]
+    rawrnk <- tibble::tibble(abund = comm, rnk = row_number(comm))
+    toplot <- rawrnk %>%
+        dplyr::mutate(x=-rnk-maxrich+max(rnk))
 
-    f<-(toplot %>% ggplot(aes(x, abund, size))
-        +geom_point(shape=shape, color=fill, size=2)
-        +geom_line(color=fill)
-        + scale_x_continuous(limits=c(-maxrich, 0))
-        + scale_y_continuous(limits=c(0,maxab))
-        +theme_classic()
-        +ggtitle("              rank-abundance plot")
-        +theme(axis.text.x = element_text(color="white"), axis.text.y=element_text(colour="black")
-               , legend.position="none", text=element_text(size=12))
-        +labs(x="abundance rank", y="individuals")
+    f<-(toplot %>% ggplot2::ggplot(ggplot2::aes(x, abund, size))
+        + ggplot2::geom_point(shape=shape, color=fill, size=2)
+        + ggplot2::geom_line(color=fill)
+        + ggplot2::scale_x_continuous(limits=c(-maxrich, 0))
+        + ggplot2::scale_y_continuous(limits=c(0,maxab))
+        + ggplot2::theme_classic()
+        + ggplot2::ggtitle("              rank-abundance plot")
+        + ggplot2::theme(axis.text.x = element_text(color="white")
+                         , axis.text.y=element_text(colour="black")
+                         , legend.position="none"
+                         , text=element_text(size=12)
+                         )
+        + ggplot2::labs(x="abundance rank", y="individuals")
     )
     return(f)
 

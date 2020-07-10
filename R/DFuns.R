@@ -57,11 +57,11 @@ ipfun=function(x, pow){
 #' @return Generalized mean community rarity with scaling exponent \code{"l"}.
 #'
 #' @export
-#' @examples dfun(c(20,8,5,4,2,1), 1)
+#' @examples dfun(c(20,8,5,4,2,1), -1)
 dfun<-function(ab, l){
   ab<-ab[ab!=0]
   rp <- ab/sum(ab)
   if(l==0) {return(exp(sum(rp*log(1/rp))))}
-  # return(ipfun(sum(rp*pfun(1/rp, l)),l)) #removed potentially problematic sign corrections
-  return(sign(l)*ipfun(sign(l)*sum(rp*pfun(1/rp, l)),l)) # is it possible there was a mistake here?
+  return(ipfun(sum(rp*pfun(1/rp, l)),l)) #removed potentially problematic sign corrections
+  # return(sign(l)*ipfun(sign(l)*sum(rp*pfun(1/rp, l)),l)) # is it possible there was a mistake here?
 }

@@ -354,6 +354,8 @@ fulcrum<-function(ab, ell
 #'   in a single plotting window.
 #' @param lines Logical, should each individual be plotted as a "box" or should
 #'   individuals be summarized simply as the height of a line segment.
+#' @param means Numeric vector of scaling exponent values corresponding to
+#'      reference [Pythagorean] means.
 #'
 #'
 #' @seealso This function depends on internal functions in the \code{\link{MeanRarity}}

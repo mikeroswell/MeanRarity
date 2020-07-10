@@ -78,7 +78,7 @@ ur_distr<-function(x,rich=rich, simpson=simpson, distr=distr, totAb=totAb, ...){
 #' @param rich Total number of species in the SAD, an integer.
 #'
 #' @return Numeric vector of species relative abundances
-#' @seealso \code{\link{[stats]qlnorm}}
+#' @seealso \code{\link[stats]{qlnorm}}
 #'
 #' @export
 #' @examples
@@ -109,7 +109,7 @@ divers_lnorm<-function(rich, x){
 #' @param int_lwr Lower bound of search space for uniroot; default is a small
 #'   number close to 0 to deal with potential boundary issues for
 #'   \code{stats::uniroot} (a scalar).
-#' @param int_upr Upper bound of search space for \code{uniroot} (scalar).
+#' @param int_uppr Upper bound of search space for \code{uniroot} (scalar).
 #' @param distr Name of the distribution (\code{"lnorm"} or \code{"gamma"}).
 #' @param totAb Not implemented; would be a necessary constraint for fitting
 #'   finite communities.
@@ -141,9 +141,12 @@ divers_lnorm<-function(rich, x){
 #' fit_SAD(distr = "lnorm", rich = 50, simpson = 90) #returns error
 #' }
 
-fit_SAD<-function(rich = 50, simpson = 40
-                  , distr = "lnorm", int_lwr = 1e-04, int_uppr = 1e2
-                 , totAb = 1e7){
+fit_SAD<-function(rich = 50
+                  , simpson = 40
+                  , distr = "lnorm"
+                  , int_lwr = 1e-04
+                  , int_uppr = 1e2
+                  , totAb = 1e7){
     #check feasibility; these should be actual errors in future versions
     if(simpson>rich| simpson<1){
         stop("Hill-Simpson diversity cannot be greater than richness nor less than 1")}

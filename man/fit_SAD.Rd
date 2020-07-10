@@ -24,10 +24,10 @@ fit_SAD(
 number close to 0 to deal with potential boundary issues for
 \code{stats::uniroot} (a scalar).}
 
+\item{int_uppr}{Upper bound of search space for \code{uniroot} (scalar).}
+
 \item{totAb}{Not implemented; would be a necessary constraint for fitting
 finite communities.}
-
-\item{int_upr}{Upper bound of search space for \code{uniroot} (scalar).}
 }
 \value{
 A list with three elements.

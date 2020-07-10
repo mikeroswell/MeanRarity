@@ -6,12 +6,14 @@
 \usage{
 sample_infinite(commSAD, size)
 }
-\description{
-@param commSAD Numeric vector of \link{relative} abundances
-@param size Scalar, number of individuals in finite samples
-}
-\details{
-@return A vector of integer species abundances
+\arguments{
+\item{commSAD}{Numeric vector of \link{relative} abundances.}
 
-@export
+\item{size}{Scalar, number of individuals in finite samples.}
+}
+\value{
+A vector of integer species abundances
+}
+\description{
+Subsample the whole community with number of individuals = \code{size}
 }

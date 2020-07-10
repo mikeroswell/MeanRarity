@@ -11,6 +11,9 @@ rarity_plot(ab, ell, means = -1:1, noco = 1, lines = F, ...)
 
 \item{ell}{Exponent for type of mean rarity (scalar)}
 
+\item{means}{Numeric vector of scaling exponent values corresponding to
+reference \link{Pythagorean} means.}
+
 \item{noco}{Scalar, shrinks text and points if plotting muliple balance plots
 in a single plotting window.}
 

@@ -144,18 +144,20 @@ truemu<-function(ab, size, reps, l,...){
 }
 
 
-#'  Sample a [relative] abundance vector with replacement
+#' Sample a [relative] abundance vector with replacement
 #'
-#'  @param commSAD Numeric vector of [relative] abundances
-#'  @param size Scalar, number of individuals in finite samples
+#' Subsample the whole community with number of individuals = \code{size}
 #'
-#'  @return A vector of integer species abundances
+#' @param commSAD Numeric vector of [relative] abundances.
+#' @param size Scalar, number of individuals in finite samples.
 #'
-#'  @export
+#' @return A vector of integer species abundances
+#'
+#' @export
 sample_infinite<-function(commSAD, size){
   namevec<-sample(1:length(commSAD), size=size, prob=commSAD, replace=T)
   mysam <- unlist(lapply(1:length(commSAD), function(y){
-    length(which(namevec==y))}))#substample the whole community with # individuals=size)
+    length(which(namevec==y))}))
   return(mysam)}
 
 #' Estimate empirical mean rarity (given l) for a finite-sized sample

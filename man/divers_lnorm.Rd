@@ -23,5 +23,5 @@ and gives relative abundance estimates for each species.
 divers_lnorm(rich = 10, x = 1)
 }
 \seealso{
-\code{\link{[stats]qlnorm}}
+\code{\link[stats]{qlnorm}}
 }

@@ -82,18 +82,18 @@ subcom<-function(com, size){
 raref<-function(from, to, by, comm, n = 1, l, cores = NULL){
   # ifelse(para==T, {
   nc<-parallel::detectCores()-1
-  future::plan(strategy=multiprocess
+  future::plan(strategy = future::multiprocess
                , workers = ifelse(is.null(cores), nc, cores))
   p<-furrr::future_map_dfr(1:n, function(z){
     purrr::map_dfr(lapply(seq(from, to, by), function(b){
-      o1<-apply(subcom(comm, b),1, function(x){
+      o1<-apply(subcom(comm, b), 1, function(x){
       # if(q==2){
       #     est<-Nielsen(x)
       # }
       # else{
-      mrest<-fsd(ab=x,l=l)
-      est<-SpadeR:::Chao_Hill_abu(x, q=1-l)#}
-      emp<-dfun(ab=x, l=l)
+      mrest<-fsd(ab = x, l = l)
+      est<-SpadeR:::Chao_Hill_abu(x, q = 1 - l)#}
+      emp<-dfun(ab = x, l = l)
 
       coverage<-iNEXT:::Chat.Ind(x)
       out<-rbind(divest=est, zhangest=mrest, divemp=emp, coverage=coverage, size=rep(b, length(est)), q=rep(1-q, length(est)))

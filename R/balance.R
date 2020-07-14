@@ -190,11 +190,12 @@ base_plot <- function(abundance, pointScale
 #' @param base_size Typeface size for ggplot text (scalar).
 #' @param noco Scalar, shrinks text and points if plotting multiple balance plots
 #'   in a single plotting window
+#' @param ... Additional arguments passed to other functions.
 #'
 #' @return A ggplot object, with some theme elements specified
 #'
 #' @noRd
-theme_plot <- function(p, base_size=24, noco=1,...){
+theme_plot <- function(p, base_size=24, noco=1, ...){
 	return(p
 		+ ggthemes::theme_tufte(base_family = "sans", base_size=base_size/noco)
 		+ ggplot2::theme(legend.position="none")
@@ -221,6 +222,7 @@ theme_plot <- function(p, base_size=24, noco=1,...){
 #' @param lines Logical, should each individual be plotted as a "box" or should
 #'   individuals be summarized simply as the height of a line segment
 #' @param nbreaks Integer, approximate number of x-axis tick marks
+#' @param ... Additional arguments passed to other functions.
 #'
 #' @return a gpplot object with some of the theme items set
 #'
@@ -234,7 +236,8 @@ scale_plot <- function(
         , x_min=sum(ab)/max(ab)
         , noco=1
         , lines=F
-        , nbreaks=5, ...
+        , nbreaks=5
+        , ...
 ){
     return (base_plot(ab, fill_col=fill_col, y_extent=y_extent
 	            , x_max=x_max, x_min=x_min, noco=noco, lines=lines, ...)
@@ -356,6 +359,7 @@ fulcrum<-function(ab, ell
 #'   individuals be summarized simply as the height of a line segment.
 #' @param means Numeric vector of scaling exponent values corresponding to
 #'      reference [Pythagorean] means.
+#' @param ... Additional arguments passed to other functions.
 #'
 #'
 #' @seealso This function depends on internal functions in the \code{\link{MeanRarity}}
@@ -410,12 +414,13 @@ rarity_plot <- function(ab
 #'
 #' @param ab Numeric vector of integer species abundances.
 #' @param lrange Numeric vector of scaling exponent values
+#' @param ... Additional arguments passed to other functions.
 #'
 #' @noRd
 #'
-rarity_series <- function(ab, lrange=-1:1, means=lrange,...){
+rarity_series <- function(ab, lrange = -1:1, means = lrange, ...){
 	for(l in lrange){
-		print(rarity_plot(ab, l, means,...))
+		print(rarity_plot(ab, l, means, ...))
 	}
 }
 

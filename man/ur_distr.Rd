@@ -18,6 +18,8 @@ SAD, a scalar.}
 \item{distr}{Distribution type (currently "\code{lnorm"} or \code{"gamma"}) to call for
 "divers_" function, a character string.}
 
+\item{...}{Additional arguments passed to other functions.}
+
 \item{totAB}{Not implemented, could have a finite-size version with a fixed #
 of individuals in pool.}
 }

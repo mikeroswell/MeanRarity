@@ -65,9 +65,10 @@ subcom<-function(com, size){
 #' @param by Scalar, increment in \code{seq(from, to, by)}.
 #' @param comm List of integer abundance vectors.
 #' @param n Integer number of replicate rarefaction samples.
-#' @param l exponent for scaling mean rarity. Scalar.
+#' @param l Exponent for scaling mean rarity. Scalar.
 #' @param cores optional argument to set number of cores for parallel computing,
 #'   defaults to \code{parallel::detectCores()-1}.
+#' @param ... Additional arguments passed to other functions.
 #'
 #' @return data.frame with various Hill-Diversity estimates and sample coverage
 #'   estimates for each sample size in rarefaction
@@ -129,6 +130,7 @@ raref<-function(from, to, by, comm, n = 1, l, cores = NULL){
 #' @param size Scalar, number of individuals in sample
 #' @param reps Scalar, number of replicate samples to take
 #' @param l Scalar, exponent determining type of mean rarity
+#' @param ... Additional arguments passed to other functions.
 #'
 #' @return scalar, emprical measure of the mean sample diversity from a larger pool
 #'

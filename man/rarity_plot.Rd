@@ -19,6 +19,8 @@ in a single plotting window.}
 
 \item{lines}{Logical, should each individual be plotted as a "box" or should
 individuals be summarized simply as the height of a line segment.}
+
+\item{...}{Additional arguments passed to other functions.}
 }
 \description{
 This function takes the abundance vector, scaling exponent, and target means

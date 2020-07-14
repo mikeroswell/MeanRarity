@@ -45,6 +45,7 @@ divers_gamma<-function(rich, x){
 #'   "divers_" function, a character string.
 #' @param totAB Not implemented, could have a finite-size version with a fixed #
 #'   of individuals in pool.
+#' @param ... Additional arguments passed to other functions.
 #'
 #' @return a scalar, the difference between empirical and target Hill-Simpson
 #'   diversity

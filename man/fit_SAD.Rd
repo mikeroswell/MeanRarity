@@ -50,7 +50,7 @@ assumption. Fits an optimal SAD given these constraints using
 The way the SAD is fit, we assume infinite abundance, but finite and
 fixed diversity. In particular, richness is fixed. The parametric
 fits use continuous distributions. Species abundances are given at
-evenly spaced intervals along those continuos distributions. The distributions
+evenly spaced intervals along those continuous distributions. The distributions
 are described by a shape parameter (the scale parameter of the lognormal
 is fixed), and the value of that parameter is chosen such that the relative
 abundances assigned to the species give the target Hill-Simpson diversity.

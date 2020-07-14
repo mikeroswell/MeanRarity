@@ -60,14 +60,14 @@ subcom<-function(com, size){
 #'      if necessary and then either allow to not always be parallelized or consider
 #'      omiting entirely
 #'
-#' @param from Scalar, smallest sample size in rarefaction
-#' @param to Scalar, largest sample size in rarefaction
-#' @param by Scalar, increment in \code{seq(from, to, by)}
-#' @param comm
-#' @param n
+#' @param from Scalar, smallest sample size in rarefaction.
+#' @param to Scalar, largest sample size in rarefaction.
+#' @param by Scalar, increment in \code{seq(from, to, by)}.
+#' @param comm List of integer abundance vectors.
+#' @param n Integer number of replicate rarefaction samples.
 #' @param l exponent for scaling mean rarity. Scalar.
 #' @param cores optional argument to set number of cores for parallel computing,
-#'   defaults to \code{parallel::detectCores()-1}
+#'   defaults to \code{parallel::detectCores()-1}.
 #'
 #' @return data.frame with various Hill-Diversity estimates and sample coverage
 #'   estimates for each sample size in rarefaction
@@ -81,7 +81,8 @@ subcom<-function(com, size){
 raref<-function(from, to, by, comm, n = 1, l, cores = NULL){
   # ifelse(para==T, {
   nc<-parallel::detectCores()-1
-  future::plan(strategy=multiprocess, workers=ifelse(is.null(cores), nc, cores))
+  future::plan(strategy=multiprocess
+               , workers = ifelse(is.null(cores), nc, cores))
   p<-furrr::future_map_dfr(1:n, function(z){
     purrr::map_dfr(lapply(seq(from, to, by), function(b){
       o1<-apply(subcom(comm, b),1, function(x){

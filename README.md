@@ -1,5 +1,14 @@
 # MeanRarity
 Repo for development of mean rarity(and maybe also checkplot) R packages
 
-Starting with code from existing projects copied into this repo. Slowly going to go through to check and clean functions, perhaps test and optimize a bit, and then document and provide vignettes This is new to me and going to work through online resources to get it together.
+TODO: 
+
+-what to do about internal functions from iNEXT and SpadeR?
+-consider adding elipsis handling https://github.com/r-lib/ellipsis
+-consider messing with the patchwork package https://patchwork.data-imaginist.com/
+- document elipses in functions
+-Create vignettes
+- Create tests
+
+
 

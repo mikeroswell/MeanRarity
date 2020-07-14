@@ -9,16 +9,16 @@
 
 #define my gamma distribution
 
-#' Relative abundances given gamma disribution
+#' Relative abundances given gamma distribution
 #'
 #' Wrapper for \code{\link[stats]{qgamma}} that
 #' takes the number of species and a shape parameter
 #' and gives relative abundance estimates for each species.
 #'
-#' @param x Shape paramter for a gamma distribution, a scalar
+#' @param x Shape parameter for a gamma distribution, a scalar
 #' @param rich Total number of species in the SAD, an integer
 #'
-#' @seealso \code{\link[stats]{qgamma}}
+#' @seealso \code{\link[stats]{qgamma}, \link{fit_SAD}}
 #'
 #' @export
 #' @examples
@@ -35,13 +35,13 @@ divers_gamma<-function(rich, x){
 #'
 #' Subtracts realized inverse simpson diversity of the simulated species
 #' abundance distribution from the target value. When this difference = 0 the
-#' shape paramter of the gamma distribution is considered optimal.
+#' shape parameter of the gamma distribution is considered optimal.
 #'
-#' @param x Shape paramter for a either lognormal or gamma distribution, a scalar.
+#' @param x Shape parameter for a either lognormal or gamma distribution, a scalar.
 #' @param rich Total number of species in the SAD, an integer.
-#' @param simpson Target value for inverse simpson diversity of the simulated
+#' @param simpson Target value for inverse Simpson's concentration of the simulated
 #'   SAD, a scalar.
-#' @param distr Distribution type (currently lnorm or gamma) to call for
+#' @param distr Distribution type (currently "\code{lnorm"} or \code{"gamma"}) to call for
 #'   "divers_" function, a character string.
 #' @param totAB Not implemented, could have a finite-size version with a fixed #
 #'   of individuals in pool.
@@ -61,13 +61,6 @@ divers_gamma<-function(rich, x){
 ur_distr<-function(x,rich=rich, simpson=simpson, distr=distr, totAb=totAb, ...){
     simpson-dfun(get(paste0("divers_", distr))(rich, x), -1)}
 
-
-# gamShape<-uniroot(ur_gamma, lower=1e-2, upper=1e2)
-# gamShape
-
-# ur_gamma(1e-5)
-
-#define my lognormal distribution
 
 #' Relative abundances given lognormal distribution
 #'
@@ -98,7 +91,7 @@ divers_lnorm<-function(rich, x){
 #' The way the SAD is fit, we assume infinite abundance, but finite and
 #'      fixed diversity. In particular, richness is fixed. The parametric
 #'      fits use continuous distributions. Species abundances are given at
-#'      evenly spaced intervals along those continuos distributions. The distributions
+#'      evenly spaced intervals along those continuous distributions. The distributions
 #'      are described by a shape parameter (the scale parameter of the lognormal
 #'      is fixed), and the value of that parameter is chosen such that the relative
 #'      abundances assigned to the species give the target Hill-Simpson diversity.

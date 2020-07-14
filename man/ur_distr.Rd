@@ -8,14 +8,14 @@ distribution).}
 ur_distr(x, rich = rich, simpson = simpson, distr = distr, totAb = totAb, ...)
 }
 \arguments{
-\item{x}{Shape paramter for a either lognormal or gamma distribution, a scalar.}
+\item{x}{Shape parameter for a either lognormal or gamma distribution, a scalar.}
 
 \item{rich}{Total number of species in the SAD, an integer.}
 
-\item{simpson}{Target value for inverse simpson diversity of the simulated
+\item{simpson}{Target value for inverse Simpson's concentration of the simulated
 SAD, a scalar.}
 
-\item{distr}{Distribution type (currently lnorm or gamma) to call for
+\item{distr}{Distribution type (currently "\code{lnorm"} or \code{"gamma"}) to call for
 "divers_" function, a character string.}
 
 \item{totAB}{Not implemented, could have a finite-size version with a fixed #
@@ -28,7 +28,7 @@ diversity
 \description{
 Subtracts realized inverse simpson diversity of the simulated species
 abundance distribution from the target value. When this difference = 0 the
-shape paramter of the gamma distribution is considered optimal.
+shape parameter of the gamma distribution is considered optimal.
 }
 \examples{
 

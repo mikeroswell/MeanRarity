@@ -137,18 +137,19 @@ base_plot <- function(abundance, pointScale
 	y_extent<-max(y_extent, max(combfun(abundance)))
 	#14 is empirically derived scaling factor; but isn't quite right.
 	# Seems like stuff below axis is about 2.5* height of 1 line of text
-	pointScale<-(14*(min(grDevices::dev.size("cm"))/noco-(2.5*0.0353*base_size)))
-	pointsize <- pointScale/(y_extent*1.1)
+	pointScale<-(14 * (min(grDevices::dev.size("cm")) / noco - (2.5 * 0.0353 * base_size)))
+	pointsize <- pointScale / (y_extent * 1.1)
 
 	#0.5; shape is centered on  x,y; offset so it rests upon x, y-1
 	goff <- 0.5
 
 	#ggplot command to generate basic plot object
-	base <- (ggplot2::ggplot(rfrepeated, ggplot2::aes(x=rarity, y=abundance))
-	         +(if(lines==T){
-	             rfdull<-rf %>% dplyr::group_by(rarity) %>% dplyr::summarize(inds=sum(abundance))
+	base <- (ggplot2::ggplot(rfrepeated, ggplot2::aes(x = rarity, y = abundance))
+	         +(if(lines == T){
+	             rfdull <- rf %>% dplyr::group_by(rarity) %>% dplyr::summarize(inds = sum(abundance))
 	   #line segments
-	             ggplot2::geom_segment(data=rfdull, ggplot2::aes(x=rarity, xend=rarity, y=inds, yend=0)
+	             ggplot2::geom_segment(data=rfdull, ggplot2::aes(x = rarity, xend = rarity
+	                                                             , y = inds, yend = 0)
 	                           , color=grDevices::rgb(0,0,0,0.4)
 	                           , size=1
 	                           )
@@ -303,7 +304,7 @@ fulcrum<-function(ab, ell
 
     return(ggplot2::geom_point(
         data=tibble::tibble(x=div, y=-0.03*y_extent) # gets fulcrum point close.
-        , size=(0.48*min(dev.size("cm"))-(2.5*0.0353*base_size))/noco #scales with plotting device and number of columns
+        , size=(0.48*min(dgrDevices::ev.size("cm"))-(2.5*0.0353*base_size))/noco #scales with plotting device and number of columns
         # , size=rel(0.3)
         , shape=17
         , ggplot2::aes(x, y)
@@ -487,21 +488,21 @@ radplot<-function(comm
     comm <- comm[comm!=0]
     rawrnk <- tibble::tibble(abund = comm, rnk = row_number(comm))
     toplot <- rawrnk %>%
-        dplyr::mutate(x=-rnk-maxrich+max(rnk))
+        dplyr::mutate(x = -rnk - maxrich + max(rnk))
 
     f<-(toplot %>% ggplot2::ggplot(ggplot2::aes(x, abund, size))
-        + ggplot2::geom_point(shape=shape, color=fill, size=2)
-        + ggplot2::geom_line(color=fill)
-        + ggplot2::scale_x_continuous(limits=c(-maxrich, 0))
-        + ggplot2::scale_y_continuous(limits=c(0,maxab))
+        + ggplot2::geom_point(shape = shape, color = fill, size = 2)
+        + ggplot2::geom_line(color = fill)
+        + ggplot2::scale_x_continuous(limits = c(-maxrich, 0))
+        + ggplot2::scale_y_continuous(limits = c(0,maxab))
         + ggplot2::theme_classic()
         + ggplot2::ggtitle("              rank-abundance plot")
-        + ggplot2::theme(axis.text.x = element_text(color="white")
-                         , axis.text.y=element_text(colour="black")
-                         , legend.position="none"
-                         , text=element_text(size=12)
+        + ggplot2::theme(axis.text.x = ggplot2::element_text(color = "white")
+                         , axis.text.y = ggplot2::element_text(colour = "black")
+                         , legend.position = "none"
+                         , text = ggplot2::element_text(size = 12)
                          )
-        + ggplot2::labs(x="abundance rank", y="individuals")
+        + ggplot2::labs(x = "abundance rank", y = "individuals")
     )
     return(f)
 

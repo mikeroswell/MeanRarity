@@ -139,7 +139,7 @@ Bootstrap.CI = function(x,q,B = 1000,datatype = c("abundance","incidence"),conf 
     n = ifelse(datatype=="abundance",sum(x),x[1])
     # set.seed(456)
     if(datatype=="abundance"){
-        data.bt = rmultinom(B,n,p.new)
+        data.bt = stats::rmultinom(B,n,p.new)
     }
     # }else{
     #     data.bt = rbinom(length(p.new)*B,n,p.new)
@@ -164,22 +164,22 @@ Bootstrap.CI = function(x,q,B = 1000,datatype = c("abundance","incidence"),conf 
     # LCI.pro =  -apply(pro,1,function(x)quantile(x,probs = (1-conf)/2)) + pro.mean
     # UCI.pro = apply(pro,1,function(x)quantile(x,probs = 1-(1-conf)/2)) - pro.mean
     #
-    LCI.mle = -quantile(mle,probs = (1-conf)/2) + mle.mean
-    UCI.mle = quantile(mle,probs = 1-(1-conf)/2) - mle.mean
+    LCI.mle = -stats::quantile(mle, probs = (1 - conf) / 2) + mle.mean
+    UCI.mle = stats::quantile(mle, probs = 1 - (1 - conf) / 2) - mle.mean
 
     #confidence intervals for Chao-estimated Hill diversity
-    LCI.pro =  -quantile(pro,probs = (1-conf)/2) + pro.mean
-    UCI.pro = quantile(pro,probs = 1-(1-conf)/2) - pro.mean
+    LCI.pro =  -stats::quantile(pro, probs = (1 - conf) / 2) + pro.mean
+    UCI.pro = stats::quantile(pro, probs = 1 - (1 - conf) / 2) - pro.mean
 
-    LCI = rbind(LCI.mle,LCI.pro)
-    UCI = rbind(UCI.mle,UCI.pro)
+    LCI = rbind(LCI.mle, LCI.pro)
+    UCI = rbind(UCI.mle, UCI.pro)
 
     # sd.mle = apply(mle,1,sd)
     # sd.pro = apply(pro,1,function(x)sd(x,na.rm = T))
     # se = rbind(sd.mle,sd.pro)
     #consider making this an easier data structure where things aren't lists of lists.
     #return(list(LCI=LCI,UCI=UCI,se=se))
-    return(c(LCI.mle=LCI.mle, LCI.pro=LCI.pro, UCI.mle=UCI.mle, UCI.pro=UCI.pro))
+    return(c(LCI.mle = LCI.mle, LCI.pro = LCI.pro, UCI.mle = UCI.mle, UCI.pro = UCI.pro))
 }
 
 
@@ -220,24 +220,26 @@ checkchao<-function(x
   #columns of this matrix are replicate boostraps
   data.bt = stats::rmultinom(B,n,Bt_prob_abu(x))
   #get estimator for each bootstrapped sample
-  pro = apply(data.bt,2,function(boot)SpadeR:::Chao_Hill_abu(boot,1-l))
+  pro = apply(data.bt
+              , 2
+              , function(boot)SpadeR:::Chao_Hill_abu(boot, 1 - l))
   #mean correction
-  pro<-pro-mean(pro)+Chao_Hill_abu(x, 1-l)
+  pro<-pro-mean(pro) + Chao_Hill_abu(x, 1 - l)
 
   #break ties
-  less<-sum(pro<truediv)/length(pro)
-  more<-(length(pro)-sum(pro>truediv))/length(pro)
-  p<-runif(1, min(less, more), max(less, more))
+  less <- sum(pro < truediv) / length(pro)
+  more <- (length(pro) - sum(pro > truediv)) / length(pro)
+  p <- stats::runif(1, min(less, more), max(less, more))
 
-  lower<-max(pro[which(min_rank(pro)<=max(floor(B*(1-conf)/2),1))])
-  upper<-min(pro[which(min_rank(-pro)<=max(floor(B*(1-conf)/2),1))])
+  lower <- max(pro[which(dplyr::min_rank(pro) <= max(floor(B * (1 - conf) / 2), 1))])
+  upper <- min(pro[which(dplyr::min_rank(-pro) <= max(floor(B * (1 - conf) / 2) , 1))])
 
-  return(data.frame(p=p
-                , lower=lower
-                , upper=upper
-                , truediv=truediv
-                , "chaoest"=SpadeR:::Chao_Hill_abu(x, 1-l)
-                , "obsD"=dfun(x,l)
+  return(data.frame(p = p
+                , lower = lower
+                , upper = upper
+                , truediv = truediv
+                , "chaoest" = SpadeR:::Chao_Hill_abu(x, 1-l)
+                , "obsD" = dfun(x, l)
             )
 
   )}

@@ -165,7 +165,7 @@ base_plot <- function(abundance, pointScale
 	         })
 		# plank
 		+ ggplot2::geom_segment(
-		  ggplot2::aes(x, y, xend=xend, yend=yend)
+		  ggplot2::aes(x, y, xend = xend, yend = yend)
 			, data = data.frame(
 				x = c(min(rf$rarity))
 				, y = c(0)
@@ -285,28 +285,28 @@ mean_points <- function(ab, ell, noco=1){
 #'
 #' @noRd
 fulcrum<-function(ab, ell
-                  , y_extent=max(max(combfun(ab)), 15)
-                  , x_max=1
-                  , x_min=1
-                  , fill_col="light_grey"
-                  , base_size=24
-                  , noco=1
-                  , nbreaks=5
-                  , verbose=T){
+                  , y_extent = max(max(combfun(ab)), 15)
+                  , x_max = 1
+                  , x_min = 1
+                  , fill_col = "light_grey"
+                  , base_size = 24
+                  , noco = 1
+                  , nbreaks = 5
+                  , verbose = T){
 
-    ab<-ab[ab!=0]
+    ab <- ab[ab != 0]
     div <- dfun(ab, ell)
 
-    if(verbose==T){
+    if(verbose == T){
         print(c(paste("diversity =", div), paste("community size =", sum(ab))
-                , paste("max observed rarity =", sum(ab)/min(ab))
-                , paste("min observed rarity =", sum(ab)/max(ab))))}
+                , paste("max observed rarity =", sum(ab) / min(ab))
+                , paste("min observed rarity =", sum(ab) / max(ab))))}
 
     return(ggplot2::geom_point(
-        data=tibble::tibble(x=div, y=-0.03*y_extent) # gets fulcrum point close.
-        , size=(0.48*min(dgrDevices::ev.size("cm"))-(2.5*0.0353*base_size))/noco #scales with plotting device and number of columns
+        data = tibble::tibble(x = div, y = -0.03 * y_extent) # gets fulcrum point close.
+        , size = (0.48 * min(grDevices::dev.size("cm")) - (2.5 * 0.0353 * base_size)) / noco #scales with plotting device and number of columns
         # , size=rel(0.3)
-        , shape=17
+        , shape = 17
         , ggplot2::aes(x, y)
     )
     )
@@ -486,7 +486,7 @@ radplot<-function(comm
                   , fill
                   , shape=16){
     comm <- comm[comm!=0]
-    rawrnk <- tibble::tibble(abund = comm, rnk = row_number(comm))
+    rawrnk <- tibble::tibble(abund = comm, rnk = dplyr::row_number(comm))
     toplot <- rawrnk %>%
         dplyr::mutate(x = -rnk - maxrich + max(rnk))
 

@@ -43,7 +43,7 @@ divers_gamma<-function(rich, x){
 #'   SAD, a scalar.
 #' @param distr Distribution type (currently \code{"lnorm"} or \code{"gamma"}) to call for
 #'   "divers_" function, a character string.
-#' @param totAB Not implemented, could have a finite-size version with a fixed #
+#' @param totAb Not implemented, could have a finite-size version with a fixed #
 #'   of individuals in pool.
 #' @param ... Additional arguments passed to other functions.
 #'

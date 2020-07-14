@@ -8,6 +8,8 @@ TODO:
 -consider messing with the patchwork package https://patchwork.data-imaginist.com/
 -Create vignettes
 - Create tests
+-add citation to oikos paper
+
 
 
 

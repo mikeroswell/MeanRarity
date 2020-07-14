@@ -151,7 +151,7 @@ truemu<-function(ab, size, reps, l,...){
 #'
 #' Subsample the whole community with number of individuals = \code{size}
 #'
-#' @param commSAD Numeric vector of [relative] abundances.
+#' @param commSAD Numeric vector of \[relative\] abundances.
 #' @param size Scalar, number of individuals in finite samples.
 #'
 #' @return A vector of integer species abundances

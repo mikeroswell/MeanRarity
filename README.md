@@ -9,6 +9,7 @@ TODO:
 -Create vignettes
 - Create tests
 -add citation to oikos paper
+-add cites to Shannon and Weaver 1963, Simpson 1949, Chao and Jost 2015 MEE, Jost 2006
 
 
 

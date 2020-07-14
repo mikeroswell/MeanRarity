@@ -27,7 +27,7 @@
 #'   length of the new vector could be much shorter than \code{length(x)}.
 #' @export
 #' @examples
-#' combfun(c(1,2,3,3,3,4,5, 9))
+#' combfun(c(1, 2, 3, 3, 3, 4, 5, 9))
 combfun<-function(x){x=x[order(x)]; y=unique(x)*as.numeric(table(x)); return (y)}
 
 

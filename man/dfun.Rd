@@ -2,7 +2,7 @@
 % Please edit documentation in R/DFuns.R
 \name{dfun}
 \alias{dfun}
-\title{Estimate Hill diversity}
+\title{Estimate Hill diversity: the mean species rarity}
 \usage{
 dfun(ab, l)
 }
@@ -13,21 +13,30 @@ dfun(ab, l)
 }
 \value{
 Generalized mean community rarity with scaling exponent \code{"l"}.
+
+When \code{l = 1}, arithmetic mean rarity (species richness).
+
+When \code{l = 0}, geometric mean rarity (Hill-Shannon diversity), Shannon's entropy
+(Shannon and Weaver 1963) exponentiated.
+
+When \code{l = -1}, harmonic mean rarity (Hill-Simpson diversity,
+the inverse of the Simpson concentration (Simpson 1949))
 }
 \description{
 We parameterize Hill diversity \eqn{D} as a the frequency-weighted mean species rarity, with scaling exponent l
-\deqn{D = \sum{p_i * r_i^{l}}^{-l}}
+\deqn{D = \sum{p_i * r_i^{\ell}}^{-\ell}}
 where rarity of species i \eqn{r_1 = 1/p_i}.
+When \eqn{\ell = 0} this is defined base on the limit from the left and the right, which is the
+geometric mean \deqn{\exp(\frac{\sum{p_i * \ln(r_i)}} \sum{p_i}})
 }
 \details{
 This is equivalent to the \eqn{q} notation of Jost 2006
-\deqn{D=\sum{p_i{q}}^{1-q}}
-where \eqn{q=1-l}.\preformatted{ When \code{l = 1}, arithmetic mean rarity (species richness).
- When \code{l = 0}, geometric mean rarity (Hill-Shannon diversity).
- When \code{l = -1}, harmonic mean rarity (Hill-Simpson diversity,
- the inverse of the Simpson concentration (Simpson 1949))
-}
+\deqn{D=\sum{p_i^q}^{1-q}}
+where \eqn{q=1-l}.
 }
 \examples{
 dfun(c(20,8,5,4,2,1), -1)
+}
+\seealso{
+\code{\link{pfun}}, \code{\link{ipfun}}
 }

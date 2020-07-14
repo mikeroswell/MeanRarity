@@ -20,5 +20,5 @@ for each, unique rarity value. This is to solve overplotting and convey the
 total "weight" of all species of a given rarity.
 }
 \examples{
-combfun(c(1,2,3,3,3,4,5, 9))
+combfun(c(1, 2, 3, 3, 3, 4, 5, 9))
 }

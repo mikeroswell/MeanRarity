@@ -7,7 +7,7 @@
 sample_infinite(commSAD, size)
 }
 \arguments{
-\item{commSAD}{Numeric vector of \link{relative} abundances.}
+\item{commSAD}{Numeric vector of [relative] abundances.}
 
 \item{size}{Scalar, number of individuals in finite samples.}
 }

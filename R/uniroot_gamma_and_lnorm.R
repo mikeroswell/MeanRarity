@@ -41,7 +41,7 @@ divers_gamma<-function(rich, x){
 #' @param rich Total number of species in the SAD, an integer.
 #' @param simpson Target value for inverse Simpson's concentration of the simulated
 #'   SAD, a scalar.
-#' @param distr Distribution type (currently "\code{lnorm"} or \code{"gamma"}) to call for
+#' @param distr Distribution type (currently \code{"lnorm"} or \code{"gamma"}) to call for
 #'   "divers_" function, a character string.
 #' @param totAB Not implemented, could have a finite-size version with a fixed #
 #'   of individuals in pool.
@@ -99,7 +99,7 @@ divers_lnorm<-function(rich, x){
 #'
 #'
 #' @param rich Total number of species in the SAD, an integer.
-#' @param simpson Hill-Simpson diversity of the SAD, a real number in [1,rich].
+#' @param simpson Hill-Simpson diversity of the SAD, a real number in \[1,rich\].
 #' @param int_lwr Lower bound of search space for uniroot; default is a small
 #'   number close to 0 to deal with potential boundary issues for
 #'   \code{stats::uniroot} (a scalar).

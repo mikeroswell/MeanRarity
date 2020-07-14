@@ -16,7 +16,7 @@ fit_SAD(
 \arguments{
 \item{rich}{Total number of species in the SAD, an integer.}
 
-\item{simpson}{Hill-Simpson diversity of the SAD, a real number in \link{1,rich}.}
+\item{simpson}{Hill-Simpson diversity of the SAD, a real number in [1,rich].}
 
 \item{distr}{Name of the distribution (\code{"lnorm"} or \code{"gamma"}).}
 

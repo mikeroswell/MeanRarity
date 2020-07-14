@@ -6,7 +6,6 @@ TODO:
 -what to do about internal functions from iNEXT and SpadeR?
 -consider adding elipsis handling https://github.com/r-lib/ellipsis
 -consider messing with the patchwork package https://patchwork.data-imaginist.com/
-- document elipses in functions
 -Create vignettes
 - Create tests
 

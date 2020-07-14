@@ -147,7 +147,7 @@ truemu<-function(ab, size, reps, l,...){
 }
 
 
-#' Sample a [relative] abundance vector with replacement
+#' Sample a \[relative\] abundance vector with replacement
 #'
 #' Subsample the whole community with number of individuals = \code{size}
 #'

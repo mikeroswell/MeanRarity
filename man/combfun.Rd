@@ -2,7 +2,7 @@
 % Please edit documentation in R/balance.R
 \name{combfun}
 \alias{combfun}
-\title{Sums duplicate values, for determining \link{species} weights}
+\title{Sums duplicate values, for determining [species] weights}
 \usage{
 combfun(x)
 }

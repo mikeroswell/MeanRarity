@@ -14,7 +14,7 @@
 
 #quick function to add together identical values
 
-#' Sums duplicate values, for determining [species] weights
+#' Sums duplicate values, for determining \[species\] weights
 #'
 #' Intended for use in constructing rarity plots, this function takes a numeric
 #' vector of integers representing species abundances, and returns the weights
@@ -358,7 +358,7 @@ fulcrum<-function(ab, ell
 #' @param lines Logical, should each individual be plotted as a "box" or should
 #'   individuals be summarized simply as the height of a line segment.
 #' @param means Numeric vector of scaling exponent values corresponding to
-#'      reference [Pythagorean] means.
+#'      reference (by default, Pythagorean) means.
 #' @param ... Additional arguments passed to other functions.
 #'
 #'

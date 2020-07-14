@@ -9,14 +9,14 @@
 
 #define my gamma distribution
 
-#' Relative abundances given gamma distribution
+#' Relative abundances, given gamma distribution
 #'
 #' Wrapper for \code{\link[stats]{qgamma}} that
 #' takes the number of species and a shape parameter
 #' and gives relative abundance estimates for each species.
 #'
-#' @param x Shape parameter for a gamma distribution, a scalar
-#' @param rich Total number of species in the SAD, an integer
+#' @param x Scalar, the shape parameter for a gamma distribution.
+#' @param rich Integer, the total number of species in the species abundance distribution.
 #'
 #' @seealso \code{\link[stats]{qgamma}, \link{fit_SAD}}
 #'
@@ -25,8 +25,9 @@
 #' divers_gamma(rich = 10, x = 0.2)
 #'
 #' divers_gamma(rich = 10, x = 2)
-divers_gamma<-function(rich, x){
-    stats::qgamma(seq((1/rich)/2, 1-(1/rich)/2, (1/rich)), shape=x, scale=10/x)
+divers_gamma <- function(rich, x) {
+    stats::qgamma(seq((1 / rich) / 2, 1 - (1 / rich) / 2, (1 / rich)), shape =
+                      x, scale = 10 / x)
 }
 
 

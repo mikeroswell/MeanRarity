@@ -442,7 +442,7 @@ white_y<-function(p){
                   , axis.ticks.y = ggplot2::element_line(color="white")
                   , axis.line.y = ggplot2::element_line(color="white")
                   , axis.line.x = ggplot2::element_line(
-                      colour = 'black', size=0.2, linetype='solid'
+                      colour = 'black', size=0.5, linetype='solid'
                     )
                   )
            )
@@ -479,15 +479,38 @@ omit_y<-function(p){
 
 
 
-# RAD plot code
-radplot<-function(comm
-                  , maxrich=length(comm)
-                  , maxab=max(comm)
-                  , fill
-                  , shape=16){
-    comm <- comm[comm!=0]
-    rawrnk <- tibble::tibble(abund = comm, rnk = dplyr::row_number(comm))
-    toplot <- rawrnk %>%
+#' Plot a rank-abundance distribution
+#'
+#' Take a vector of species \[relative\] abundances and plot a rank-abundance
+#' distribution or Whittaker plot
+#'
+#' @param ab Numeric vector of species abundances or relative abundances
+#' @param maxrich Scalar, how many species to include space for
+#' @param maxab Scalar, how big is the largest abundance value
+#' @param fill Character string specifying a color, could be extended to
+#' permit name for community ID variable
+#' @param shape Character string for point shape, could be extended to
+#' permit name for community ID variable
+#' @param Whittaker Logical, if \code{TRUE} log-transform abundances
+#'
+#' @return ggplot object with a rank-abundance plot
+#'
+#'
+#' @export
+#' @examples radplot(c(20,8,5,4,2,1))
+#' radplot(c(20,8,5,4,2,1), Whittaker = T)
+
+radplot<-function(ab
+                  , maxrich = length(comm)
+                  , maxab = max(comm)
+                  , fill = "red"
+                  , shape = 16
+                  , Whittaker = F
+                  ){
+    comm = ab[ab!=0]
+    if(Whittaker){comm = log(comm)}
+    rawrnk = tibble::tibble(abund = comm, rnk = dplyr::row_number(comm))
+    toplot = rawrnk %>%
         dplyr::mutate(x = -rnk - maxrich + max(rnk))
 
     f<-(toplot %>% ggplot2::ggplot(ggplot2::aes(x, abund, size))
@@ -496,13 +519,20 @@ radplot<-function(comm
         + ggplot2::scale_x_continuous(limits = c(-maxrich, 0))
         + ggplot2::scale_y_continuous(limits = c(0,maxab))
         + ggplot2::theme_classic()
-        + ggplot2::ggtitle("              rank-abundance plot")
+        + ggplot2::ggtitle(ifelse(Whittaker
+                                  , "              rank-log(abundance) [Whittaker] plot"
+                                  , "              rank-abundance plot"
+                                  )
+        )
         + ggplot2::theme(axis.text.x = ggplot2::element_text(color = "white")
                          , axis.text.y = ggplot2::element_text(colour = "black")
                          , legend.position = "none"
                          , text = ggplot2::element_text(size = 12)
                          )
-        + ggplot2::labs(x = "abundance rank", y = "individuals")
+        + ggplot2::labs(x = "abundance rank", y = ifelse(Whittaker
+                                                         , "ln(individuals)"
+                                                         , "individuals")
+        )
     )
     return(f)
 

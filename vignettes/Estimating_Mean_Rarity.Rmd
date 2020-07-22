@@ -29,3 +29,147 @@ knitr::opts_chunk$set(
 library(MeanRarity)
 ```
 
+library(patchwork) 
+
+library(vegan)
+library(iNEXT)
+library(tidyverse)
+
+source("/Rstudio_Git/Dushoff_diversity/scripts/helper_funs/radplot.R")
+
+
+
+
+##############################
+########## RAD PLOT ##########
+###############################
+# pdf(file="figures/fig5.pdf", width=3.15, height=3.15)
+
+#make an RAD plot function and then do this and the balance.R function to each community
+data(beeAbunds)
+
+# to make RAD plot for communities comparable, use one maxab and one maxrich for all plots
+maxab <- max(sapply(beeAbunds[2:5], max))
+
+maxrich <- max(sapply(beeAbunds[2:5], function(x){sum(x > 0)}))
+
+
+myplots<-purrr::map(2:5, function(makedatind){
+    radplot(beeAbunds[,makedatind], maxab = maxab, maxrich = maxrich
+            , shape = 13 + makedatind #solid filled shapes
+            , fill = c("#1b9e77", "#d95f02", "#7570b3", "#e7298a")[makedatind-1])
+})
+
+
+
+myplots[[1]] + ggplot2::labs(x = "", title = ggplot2::element_blank()) +
+white_y(myplots[[3]]) + ggplot2::labs(x = "", title = ggplot2::element_blank()) +
+(myplots[[2]]) + ggplot2::labs(title = ggplot2::element_blank()) +
+white_y(myplots[[4]]) + ggplot2::labs(title = ggplot2::element_blank())
+
+
+maxab<-makedat %>% group_by(bee, site) %>% dplyr::summarize(ab=n()) %>% ungroup() %>% filter(ab==max(ab)) %>% pull(ab)
+maxab
+y_extent<-maxab
+maxrich<-max(makedat %>% group_by(site) %>% dplyr::summarize(rich=n_distinct(bee)) %>% ungroup() %>% filter(rich==max(rich)) %>% pull(rich))
+maxrich
+
+# summary stats (abund and rich)
+makedat %>% group_by(site) %>% summarize(rich=n_distinct(bee), inds=n())
+
+x_max<-600
+bs<-40
+nc<-3
+
+
+# 
+# makedat %>% 
+#     dplyr::filter(sr%in%c("URWA_4", "Cold Soil_4", "IAS_4")) %>% 
+#     dplyr::group_by(sr, bee) %>% dplyr::summarize(abund=n()) %>% 
+#     group_by(sr) %>% 
+#     mutate(rnk=row_number(abund)) %>% 
+#     mutate(x=-rnk-42+max(rnk)) %>%  
+#     ggplot(aes(x, abund, color=sr, shape=sr))+geom_point()+
+#     geom_line()+
+#     facet_wrap(~sr)+
+#     theme_classic()+
+#     theme(axis.text.x = element_blank(), axis.text.y=element_text(colour="black"), strip.text = element_blank(), legend.position="none", text=element_text(size=14))+
+#     scale_x_continuous(breaks=c(-42,-22,-2))+
+#     labs(x="Bee species", y="# individuals observed")+scale_color_hue(l=c(10,65,45),c=c(500,200,150)) #r,g,b a.k.a. #840000, #00CB00, #0066FF
+# dev.off()
+
+#################################
+#################################
+######### MAKE FIG 4###############
+# Hill profile plot ################
+#####################################
+
+#use quartz to get unicode chars to render
+quartz(type='pdf',file="figures/fig4.pdf", width=3, height=3)
+plotdiv %>% ggplot(aes(1-order, ENS, color=site))+
+    geom_line()+
+    geom_point(data=plotdiv %>% filter(order%in%c(2,1,0)), aes(1-order, ENS, color=site, shape=site), size=3, alpha=0.5)+
+    theme_classic()+
+    theme(text=element_text(size=14), axis.text=element_text(colour="black"), legend.position="none")+
+    #this is the unicode for the curly l
+    labs(x="Exponent \U2113", y="Diversity")+
+    scale_shape_manual(values=c(15:18))+
+    scale_color_brewer(palette="Dark2")
+    # scale_color_hue(l=c(10,65,45),c=c(500,200,150))
+dev.off()
+
+# bettersr<-by_sr %>% select(-URWA_1)
+# str(bettersr)
+# toest<-(as.matrix(bettersr[,-1]))
+# colnames(toest)<-names(bettersr[,-1])
+# 
+# bssize<-estimateD(toest, base="size")
+# bscov<-estimateD(toest, base="coverage")
+# 
+# write.csv(bssize, "data/fromR/estimateD_size_wo_UR1.csv", row.names = F)
+# write.csv(bscov, "data/fromR/estimateD_coverage_wo_UR1.csv", row.names = F)
+
+# bpur<-xerkept %>%filter((site %in% c("Baldpate","URWA","Cold Soil") & sampling_round ==3)|(site=="IAS"&sampling_round==2)) %>%  dplyr::group_by(bee, site, sampling_round) %>% dplyr::summarize(abund=n()) %>%unite(sr, site, sampling_round) %>%  spread(key=sr, value=abund, fill=0)
+#shows lines crossing, I hope
+# linecross<-iNEXT(as.matrix(bpur[,-1]), q=c(0,1,2),endpoint=900, knots=100)
+# sz<-ggiNEXT(linecross, type=1, facet.var="order", color.var = "site")+theme_classic()+xlim(c(0,900))+ylim(c(0,50))
+# cv<-ggiNEXT(linecross, type=3, facet.var="order", color.var = "site")+theme_classic()+xlim(c(.75,1))+ylim(c(0,50))
+# 
+# multiplot(sz, cv)
+#compute diversity estimates
+# sitdiv<-iNEXT(as.matrix(bysite[,c(3,5,6,7)]), q=c(0,1,2), endpoint=2200, knots=600)
+# save(sitdiv, file="inext_by_site")
+# load("inext_by_site")
+# 
+# srdiv3<-iNEXT(as.matrix(fig3dat[,-1]), q=c(0,1,2), knots=200)
+# srd4q0<-iNEXT(as.matrix(by_sr[,c("URWA_4","Baldpate_4", "IAS_4",  "Fox Hill_4", "Lord Stirling_4", "Cold Soil_4")]), q=c(0), knots=200)
+# ggiNEXT(srd4q0)+xlim(c(0,800))
+# 
+# save(srdiv, file="iNEXT_site_round")
+# 
+# head(by_sr)
+# srdiv %>% ggiNEXT(type=1, facet.var="order", color.var = "site", se=T)+xlim(c(0,500))+ ylim(c(0,60))+theme_classic()
+# srdiv3 %>% ggiNEXT(type=1, facet.var="order", color.var = "site", se=T)+xlim(c(0,300))+ ylim(c(0,50))+theme_classic()+facet_wrap(~order,ncol=1)
+# srd4q0 %>% ggiNEXT(type=1, color.var = "site", se=T)+xlim(c(0,350))+ ylim(c(0,55))+theme_classic(base_size = 25)
+# ?ggiNEXT()
+# 
+# head(srdiv)
+# pdf(file="figures/fig6_complete_and_segmented.pdf")
+# ggiNEXT(sitdiv, type=1, facet.var="order", color.var = "site", se=T)+xlim(c(0,1600))+ ylim(c(0,75))+theme_classic()
+# 
+# p1<-ggiNEXT(sitdiv, type=1, facet.var="order", color.var = "site", se=T)+xlim(c(0,90))+ ylim(c(0,40))+theme_classic()
+# p2<-ggiNEXT(sitdiv, type=1, facet.var="order", color.var = "site", se=T)+xlim(c(200,290))+ ylim(c(7,50))+theme_classic()
+# p3<-ggiNEXT(sitdiv, type=1, facet.var="order", color.var = "site", se=T)+xlim(c(1000,1600))+ ylim(c(9,75))+theme_classic()
+# multiplot(p1,p2,p3)
+# dev.off()
+# 
+# 
+# names(srdiv)
+# ggiNEXT(srdiv, type=1, facet.var="order", color.var = "site", se=F)+theme_classic()+xlim(c(0,1500))+ylim(c(0,80))
+# ggiNEXT(srdiv2, type=3, facet.var="order", color.var = "site", se=F)+theme_classic()+xlim(c(0,1))+ylim(c(0,80))
+# ?ggiNEXT
+# srdivflat<-estimateD(as.matrix(by_sr[,-1]), base="coverage")
+# save(srdivflat, file="data/fromR/srdivflat")
+# 
+# head(by_sr)
+

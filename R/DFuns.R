@@ -72,3 +72,33 @@ dfun<-function(ab, l){
   return(ipfun(sum(rp*pfun(1/rp, l)),l)) #removed potentially problematic sign corrections
   # return(sign(l)*ipfun(sign(l)*sum(rp*pfun(1/rp, l)),l)) # is it possible there was a mistake here?
 }
+
+
+#' Generate Hill diversity profile
+#'
+#' Compute observed Hill diversity based on an abundance vector over a range of scaling exponent values
+#'
+#' Hill diversity can be viewed as a continuous function of the scaling exponent ell
+#' and the relative abundance distribution. As ell increases, so does the emphasis on
+#' rare species. It is traditional to view the profile across
+#' \eqn{\ell = \[-1, 1\]} or \eqn{\ell = \[-2, 1\]}, and other authors have
+#' visualized this with low values of ell at the right instead of left.
+#'
+#' @param ab A numeric vector of species abundances or relative abundances.
+#' @param ell_low Scalar, minimum scaling exponent for diversity profile
+#' @param ell_hi Scalar, maximum scaling exponent for diversity profile
+#' @param by Scalar, size of step along scaling exponent continuum
+#'
+#' @return Dataframe with the scaling exponent \{code{ell} and corresponding
+#' Hill diveristy \code{d}
+#'
+#' @export
+#' @examples divpro(c(20,8,5,4,2,1))
+
+divpro<-function(ab, ell_low = -1, ell_hi = 1, by = 0.001){
+  ell = seq(ell_low, ell_hi, by = by)
+  d = sapply(ell
+         , function(l){dfun(ab, l)}
+         )
+  return(data.frame(ell, d))
+}

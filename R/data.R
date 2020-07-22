@@ -1,0 +1,31 @@
+#' Bee specimens from 4 sites sampled with equal effort
+#'
+#' A dataset containing the bee species identities of all specimens
+#' collected at each site during 15 30-minute transects.
+#'
+#' @format A tibble with 2019 rows and 7 variables:
+#'  - *uniqueID*: unique specimen identifier
+#'  - *bee*: concatenated Latin binomial for bee species ID
+#'  - *start*: time of day that 30-minute sampling transect began, with arbitrary date value
+#'  - *sr* concatenated site name and sampling round
+#'  - *sday1* ordinal, day of sampling round (1, 2, or 3)
+#'  - *sampling_round* integer between 1 and 5, indicating which 3-day sampling round at given site
+"beeObs"
+
+#' Bee specimens from 4 sites sampled with equal effort, summarized
+#'
+#' A dataset containing the number of specimens of each bee species
+#' collected at each site during 15 30-minute transects.
+#'
+#' @format A tibble with 68 rows and 5 variables:
+#'  - *bee*: concatenated Latin binomial for bee species ID
+#'  - *`Cold Soil_5`*: number of records of given species from site "Cold Soil"
+#'  during sampling round 5
+#'  - *`Fox Hill_5`*: number of records of given species from site "Fox Hill"
+#'   during sampling round 5
+#'  - *`IAS_3`*: number of records of given species from site "IAS" during
+#'  sampling round 3
+#'  - *`Lord Stirling_4`*: number of records of given species from site
+#'  "Lord Stirling" during sampling round 5
+"beeAbunds"
+

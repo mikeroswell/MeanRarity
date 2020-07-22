@@ -9,15 +9,15 @@ divers_lnorm(rich, x)
 \arguments{
 \item{rich}{Total number of species in the SAD, an integer.}
 
-\item{x}{Shape parameter \code{sdlog}, a scalar.}
+\item{x}{Shape parameter (the \code{sdlog} argument to \code{qlnorm()}), a scalar.}
 }
 \value{
-Numeric vector of species relative abundances
+Numeric vector of species relative abundances.
 }
 \description{
 This is a wrapper for \code{qlnrom} that
-takes the number of species and a shape parameter (sd of the log(lognormal)))
-and gives relative abundance estimates for each species.
+takes the number of species and a shape parameter
+and returns relative abundance estimates for each species.
 }
 \examples{
 divers_lnorm(rich = 10, x = 1)

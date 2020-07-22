@@ -19,7 +19,6 @@ Imports:
     , dplyr
     , magrittr
     , SpadeR
-    , iNEXT
     , ggthemes
     , tibble
 RoxygenNote: 7.1.0
@@ -43,3 +42,5 @@ Suggests:
     rmarkdown
 Language: en-US
 VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)

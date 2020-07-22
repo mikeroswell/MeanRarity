@@ -2,14 +2,14 @@
 % Please edit documentation in R/uniroot_gamma_and_lnorm.R
 \name{divers_gamma}
 \alias{divers_gamma}
-\title{Relative abundances given gamma distribution}
+\title{Relative abundances, given gamma distribution}
 \usage{
 divers_gamma(rich, x)
 }
 \arguments{
-\item{rich}{Total number of species in the SAD, an integer}
+\item{rich}{Integer, the total number of species in the species abundance distribution.}
 
-\item{x}{Shape parameter for a gamma distribution, a scalar}
+\item{x}{Scalar, the shape parameter for a gamma distribution.}
 }
 \description{
 Wrapper for \code{\link[stats]{qgamma}} that

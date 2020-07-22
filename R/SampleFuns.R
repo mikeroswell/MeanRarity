@@ -95,7 +95,7 @@ raref<-function(from, to, by, comm, n = 1, l, cores = NULL){
       est<-SpadeR:::Chao_Hill_abu(x, q = 1 - l)#}
       emp<-dfun(ab = x, l = l)
 
-      coverage<-iNEXT:::Chat.Ind(x)
+      coverage<-SpadeR::Chat.Ind(x)
       out<-rbind(divest=est, zhangest=mrest, divemp=emp, coverage=coverage, size=rep(b, length(est)), q=rep(1-q, length(est)))
       return(out)
     })

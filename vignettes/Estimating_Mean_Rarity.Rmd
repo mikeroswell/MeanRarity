@@ -5,171 +5,184 @@ vignette: >
   %\VignetteIndexEntry{Estimating_Mean_Rarity}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-  
-###########
-# this seems like it could go in a vignette.
 
-# plot some rarity "balance plots" for guide to measuring diversity (Roswell et al. 2020 Oikos....)
-# pdf(file="figures/rarity_plots_for_guide.pdf")
-# rarity_plot(ab, 1)+scale_color_brewer(type="qual", palette="Dark2") #also changed base_size to 30 or maybe 32 and doubled point size.
-# white_y(rarity_plot(ab,0))+scale_color_brewer(type="qual", palette="Dark2")
-# white_y(rarity_plot(ab,-1))+scale_color_brewer(type="qual", palette="Dark2")
-# dev.off()
-##############
-)
-```
+The MeanRarity package contains functions to compute and estimate Hill numbers, using the framework that Hill numbers simply compute the abundance-weighted [generalized] mean species rarity of a community. Additionally, the package contains some convenience functions for sampling abundance vectors and generating plots. This vignette is not a comprehensive guide to the package. However, it includes all the data and code to replicate the figures presented in Roswell et al. 2020 "A conceptual guide to measuring species diversity" Oikos doi. 
 
-```{r setup}
+Thus, the examples in the vignette are ordered according to the figures in the article. 
+
+The goal of [Hill] diversity metrics is to summarize the distribution of species' [relative] abundances. The first figure in the "Conceptual guide" is a visualization of the observed bee abundances from the four communities in the example dataset  `"beeObs"` analyzed in the guide. The package includes a simple representation of those data, `beeAbunds`. The function `radplot()` takes those data and returns a rank-abundance distribution plot. We love the new R package `patchwork` for assembling plots, and call that package here.  
+
+```{r setup, include = F}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")#, dev = "pdf")
 library(MeanRarity)
+library(patchwork) 
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(purrr)
+library(SpadeR)
+library(tictoc)
+library(furrr)
 ```
 
-library(patchwork) 
-
-library(vegan)
-library(iNEXT)
-library(tidyverse)
-
-source("/Rstudio_Git/Dushoff_diversity/scripts/helper_funs/radplot.R")
-
-
-
-
-##############################
-########## RAD PLOT ##########
-###############################
-# pdf(file="figures/fig5.pdf", width=3.15, height=3.15)
-
-#make an RAD plot function and then do this and the balance.R function to each community
-data(beeAbunds)
+```{r RAD plot, fig.height = 5, fig.width = 5, fig.retina = 2}
 
 # to make RAD plot for communities comparable, use one maxab and one maxrich for all plots
-maxab <- max(sapply(beeAbunds[2:5], max))
+maxab <- max(sapply(beeAbunds[2:5], max)) # the maximum observed species abundance in any community
 
-maxrich <- max(sapply(beeAbunds[2:5], function(x){sum(x > 0)}))
+maxrich <- max(sapply(beeAbunds[2:5], function(x){sum(x > 0)})) # maximum observed richness
 
 
 myplots<-purrr::map(2:5, function(makedatind){
     radplot(beeAbunds[,makedatind], maxab = maxab, maxrich = maxrich
-            , shape = 13 + makedatind #solid filled shapes
+            , shape = 13 + makedatind # solid filled shapes
             , fill = c("#1b9e77", "#d95f02", "#7570b3", "#e7298a")[makedatind-1])
 })
 
 
+myplots[[1]] + # first community
+  ggplot2::labs(x = "", title = ggplot2::element_blank()) + # syling
+white_y(myplots[[3]]) + # second community 
+  ggplot2::labs(x = "", title = ggplot2::element_blank()) + # styling
+myplots[[2]] +  # third community
+  ggplot2::labs(title = ggplot2::element_blank()) + # styling
+white_y(myplots[[4]]) + # fourth community
+  ggplot2::labs(title = ggplot2::element_blank()) # styling
 
-myplots[[1]] + ggplot2::labs(x = "", title = ggplot2::element_blank()) +
-white_y(myplots[[3]]) + ggplot2::labs(x = "", title = ggplot2::element_blank()) +
-(myplots[[2]]) + ggplot2::labs(title = ggplot2::element_blank()) +
-white_y(myplots[[4]]) + ggplot2::labs(title = ggplot2::element_blank())
+```
+
+The next figure in the guide shows that the expected value for both observed and estimated asymptotic richness increase with sample size. The code to generate expected diversity estimates is computationally expensive and it is recommended not to run the code in this vignette. It is however included in the package in the file "data-raw/DATASET.R", and the result is an exported dataset "mean_ests." 
+
+```{r Compute mean diveristy estimates under rarefaction, eval = F}
+
+# this takes a long time to run so we're going to stash it but export the data it creates
+
+sz<-1:745 #sample sizes from 1 to maximum observed total abundance at a site
+nrep<-200 #Large enough because estimating means
+
+tictoc::tic() #time this
+nc <- parallel::detectCores() - 1 #nc is number of cores to use in parallel processing
+future::plan(strategy = future::multiprocess, workers = nc) #this sets up the cluster
 
 
-maxab<-makedat %>% group_by(bee, site) %>% dplyr::summarize(ab=n()) %>% ungroup() %>% filter(ab==max(ab)) %>% pull(ab)
-maxab
-y_extent<-maxab
-maxrich<-max(makedat %>% group_by(site) %>% dplyr::summarize(rich=n_distinct(bee)) %>% ungroup() %>% filter(rich==max(rich)) %>% pull(rich))
-maxrich
+div_ests <- purrr::map_dfr(1:nrep, function(k){
+ furrr::future_map_dfr(sz, function(x){
+    map(2:length(beeAbunds), function(sitio){
+      f<-beeAbunds %>% dplyr::select(all_of(sitio))
+      if(sum(f) > x){
+        comm <- dplyr::pull(f) %>% subsam(size = x)
 
-# summary stats (abund and rich)
-makedat %>% group_by(site) %>% summarize(rich=n_distinct(bee), inds=n())
+        obsrich = dfun(comm, 1)
+        obsshan = dfun(comm, 0)
+        obssimp = dfun(comm, -1)
+        chaorich = SpadeR:::Chao_Hill_abu(comm, q = 0)
+        chaoshan = SpadeR:::Chao_Hill_abu(comm, q = 1)
+        chaosimp = SpadeR:::Chao_Hill_abu(comm, q = 2)
 
-x_max<-600
-bs<-40
-nc<-3
+        return(data.frame(individuals = x
+                     , obsrich
+                     , chaorich
+                     , obsshan
+                     , chaoshan
+                     , obssimp
+                     , chaosimp
+                     , site = names(f)))
+      }
+    })
+  })
+})
+
+tictoc::toc() #507 seconds, not bad.
+mean_narm <- function(x){mean(x, na.rm = T)}
+mean_ests <- div_ests %>%
+  dplyr::group_by(site, individuals) %>%
+  dplyr::summarize_all(mean_narm)
+```
 
 
-# 
-# makedat %>% 
-#     dplyr::filter(sr%in%c("URWA_4", "Cold Soil_4", "IAS_4")) %>% 
-#     dplyr::group_by(sr, bee) %>% dplyr::summarize(abund=n()) %>% 
-#     group_by(sr) %>% 
-#     mutate(rnk=row_number(abund)) %>% 
-#     mutate(x=-rnk-42+max(rnk)) %>%  
-#     ggplot(aes(x, abund, color=sr, shape=sr))+geom_point()+
-#     geom_line()+
-#     facet_wrap(~sr)+
-#     theme_classic()+
-#     theme(axis.text.x = element_blank(), axis.text.y=element_text(colour="black"), strip.text = element_blank(), legend.position="none", text=element_text(size=14))+
-#     scale_x_continuous(breaks=c(-42,-22,-2))+
-#     labs(x="Bee species", y="# individuals observed")+scale_color_hue(l=c(10,65,45),c=c(500,200,150)) #r,g,b a.k.a. #840000, #00CB00, #0066FF
-# dev.off()
+``` {r Species Accumulation Curves, fig.width = 5, fig.height = 5}
 
-#################################
-#################################
-######### MAKE FIG 4###############
-# Hill profile plot ################
-#####################################
+site_ab <- purrr::map_dfr(names(beeAbunds[,2:5]), function(site){
+  data.frame(site, abun = sum(beeAbunds[,site]))
+})
 
-#use quartz to get unicode chars to render
-quartz(type='pdf',file="figures/fig4.pdf", width=3, height=3)
-plotdiv %>% ggplot(aes(1-order, ENS, color=site))+
-    geom_line()+
-    geom_point(data=plotdiv %>% filter(order%in%c(2,1,0)), aes(1-order, ENS, color=site, shape=site), size=3, alpha=0.5)+
-    theme_classic()+
-    theme(text=element_text(size=14), axis.text=element_text(colour="black"), legend.position="none")+
+mean_ests %>%
+  left_join(site_ab) %>% mutate(cutrows = individuals > 0.8 * abun) %>%#this is because when bootstrapping can get funny things where the Chao1 levels off near observed abundance, didn't want to discuss this in guide since it's obvious but not interesting and possibly very confusing.
+  filter(!cutrows) %>% 
+  ggplot(aes(individuals, obsrich, color = site))+
+  geom_point(alpha = 0.3, size = 0.5) +
+  geom_point(aes(y = chaorich, color = site, shape = site)
+             , size=0.8, alpha=0.5) +
+  theme_classic() +
+  labs(x = "\nIndividuals", y = "Species richness\n") +
+  xlim(c(0, 400)) +
+  ylim(c(0, 80)) +
+  theme(text = element_text(size=14)
+        , axis.text = element_text(colour = "black")) +
+  theme(legend.position = "none") +
+  scale_shape_manual(values = c(15:18)) +
+  scale_color_brewer(palette = "Dark2")
+
+
+```
+
+Figure 3 in the guide shows an empirical Hill diversity profile. The `MeanRarity` package has a canned function to produce such profiles, `divpro`. This lightweight function does not produce asymptotic estimates. Because the guide focused on the mean rarity formulation for Hill diversities, parameterizing the scaling exponent with $\ell$, the profile is plotted from $\ell = -1$ to $\ell =1$, whereas other software packages such as `iNEXT` and `SpadeR` plot the profile from $q = 1-\ell =0$ to $q = 1-\ell =2$. 
+
+```{r Diversity profile plot, fig.width = 5, fig.height = 5}
+site_pro <- map_dfr(names(beeAbunds[2:5]), function(x){
+  data.frame(site = x, divpro(beeAbunds[, x]))})
+
+site_pro %>%  ggplot(aes(ell, d, color = site)) +
+    geom_line() +
+    geom_point(data=site_pro %>% filter(ell %in% c(-1,1,0))
+               , aes(ell, d, color = site, shape = site)
+               , size = 3, alpha = 0.5) +
+    theme_classic() +
+    theme(text = element_text(size = 14)
+          , axis.text = element_text(colour = "black")
+          , legend.position = "none") +
     #this is the unicode for the curly l
-    labs(x="Exponent \U2113", y="Diversity")+
-    scale_shape_manual(values=c(15:18))+
-    scale_color_brewer(palette="Dark2")
-    # scale_color_hue(l=c(10,65,45),c=c(500,200,150))
-dev.off()
+    labs(x = "Exponent \U2113", y = "Diversity") +
+    scale_shape_manual(values = c(15:18)) +
+    scale_color_brewer(palette = "Dark2")
+```
 
-# bettersr<-by_sr %>% select(-URWA_1)
-# str(bettersr)
-# toest<-(as.matrix(bettersr[,-1]))
-# colnames(toest)<-names(bettersr[,-1])
-# 
-# bssize<-estimateD(toest, base="size")
-# bscov<-estimateD(toest, base="coverage")
-# 
-# write.csv(bssize, "data/fromR/estimateD_size_wo_UR1.csv", row.names = F)
-# write.csv(bscov, "data/fromR/estimateD_coverage_wo_UR1.csv", row.names = F)
 
-# bpur<-xerkept %>%filter((site %in% c("Baldpate","URWA","Cold Soil") & sampling_round ==3)|(site=="IAS"&sampling_round==2)) %>%  dplyr::group_by(bee, site, sampling_round) %>% dplyr::summarize(abund=n()) %>%unite(sr, site, sampling_round) %>%  spread(key=sr, value=abund, fill=0)
-#shows lines crossing, I hope
-# linecross<-iNEXT(as.matrix(bpur[,-1]), q=c(0,1,2),endpoint=900, knots=100)
-# sz<-ggiNEXT(linecross, type=1, facet.var="order", color.var = "site")+theme_classic()+xlim(c(0,900))+ylim(c(0,50))
-# cv<-ggiNEXT(linecross, type=3, facet.var="order", color.var = "site")+theme_classic()+xlim(c(.75,1))+ylim(c(0,50))
-# 
-# multiplot(sz, cv)
-#compute diversity estimates
-# sitdiv<-iNEXT(as.matrix(bysite[,c(3,5,6,7)]), q=c(0,1,2), endpoint=2200, knots=600)
-# save(sitdiv, file="inext_by_site")
-# load("inext_by_site")
-# 
-# srdiv3<-iNEXT(as.matrix(fig3dat[,-1]), q=c(0,1,2), knots=200)
-# srd4q0<-iNEXT(as.matrix(by_sr[,c("URWA_4","Baldpate_4", "IAS_4",  "Fox Hill_4", "Lord Stirling_4", "Cold Soil_4")]), q=c(0), knots=200)
-# ggiNEXT(srd4q0)+xlim(c(0,800))
-# 
-# save(srdiv, file="iNEXT_site_round")
-# 
-# head(by_sr)
-# srdiv %>% ggiNEXT(type=1, facet.var="order", color.var = "site", se=T)+xlim(c(0,500))+ ylim(c(0,60))+theme_classic()
-# srdiv3 %>% ggiNEXT(type=1, facet.var="order", color.var = "site", se=T)+xlim(c(0,300))+ ylim(c(0,50))+theme_classic()+facet_wrap(~order,ncol=1)
-# srd4q0 %>% ggiNEXT(type=1, color.var = "site", se=T)+xlim(c(0,350))+ ylim(c(0,55))+theme_classic(base_size = 25)
-# ?ggiNEXT()
-# 
-# head(srdiv)
-# pdf(file="figures/fig6_complete_and_segmented.pdf")
-# ggiNEXT(sitdiv, type=1, facet.var="order", color.var = "site", se=T)+xlim(c(0,1600))+ ylim(c(0,75))+theme_classic()
-# 
-# p1<-ggiNEXT(sitdiv, type=1, facet.var="order", color.var = "site", se=T)+xlim(c(0,90))+ ylim(c(0,40))+theme_classic()
-# p2<-ggiNEXT(sitdiv, type=1, facet.var="order", color.var = "site", se=T)+xlim(c(200,290))+ ylim(c(7,50))+theme_classic()
-# p3<-ggiNEXT(sitdiv, type=1, facet.var="order", color.var = "site", se=T)+xlim(c(1000,1600))+ ylim(c(9,75))+theme_classic()
-# multiplot(p1,p2,p3)
-# dev.off()
-# 
-# 
-# names(srdiv)
-# ggiNEXT(srdiv, type=1, facet.var="order", color.var = "site", se=F)+theme_classic()+xlim(c(0,1500))+ylim(c(0,80))
-# ggiNEXT(srdiv2, type=3, facet.var="order", color.var = "site", se=F)+theme_classic()+xlim(c(0,1))+ylim(c(0,80))
-# ?ggiNEXT
-# srdivflat<-estimateD(as.matrix(by_sr[,-1]), base="coverage")
-# save(srdivflat, file="data/fromR/srdivflat")
-# 
-# head(by_sr)
+
+
+```{r Balance plot, fig.width = 9, fig.height = 3}
+
+# plot some rarity "balance plots" for guide to measuring diversity (Roswell et al. 2020 Oikos....)
+ab <- c(20,8,5,4,2,1)
+
+rich_bal <- rarity_plot(ab, 1, base_size = 12)+
+  ggplot2::labs(x = "")+
+  scale_color_brewer(type = "qual", palette = "Dark2") 
+
+shan_bal <- white_y(rarity_plot(ab, 0, base_size = 12, verbose = F)) + #do not return all the text this time
+  scale_color_brewer(type = "qual", palette = "Dark2")
+
+simp_bal <- white_y(rarity_plot(ab, -1, base_size = 12, verbose = F)) + 
+  ggplot2::labs(x = "")+
+  scale_color_brewer(type = "qual", palette = "Dark2")
+
+#assemble triptych with patchwork
+rich_bal+shan_bal+simp_bal
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
 

@@ -10,7 +10,7 @@ radplot(
   maxab = max(comm),
   fill = "red",
   shape = 16,
-  Whittaker = F
+  Whittaker = FALSE
 )
 }
 \arguments{
@@ -37,5 +37,5 @@ distribution or Whittaker plot
 }
 \examples{
 radplot(c(20,8,5,4,2,1))
-radplot(c(20,8,5,4,2,1), Whittaker = T)
+radplot(c(20,8,5,4,2,1), Whittaker = TRUE)
 }

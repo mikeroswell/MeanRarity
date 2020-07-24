@@ -17,6 +17,7 @@ Imports:
     , scales
     , ggplot2
     , dplyr
+    , tidyr
     , magrittr
     , SpadeR
     , ggthemes
@@ -36,10 +37,12 @@ Authors@R:
            )
 Roxygen: list(markdown = TRUE)
 Suggests: 
-    testthat,
-    spelling,
-    knitr,
-    rmarkdown
+    testthat
+    , spelling
+    , knitr
+    , tictoc
+    , patchwork
+    , rmarkdown
 Language: en-US
 VignetteBuilder: knitr
 Depends: 

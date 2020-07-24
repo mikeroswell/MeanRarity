@@ -47,5 +47,51 @@ beeAbunds <- beeObs %>% #summary table used in MS
   dplyr::summarize(abund=n()) %>%
   tidyr::spread(sr, abund, fill=0)
 
+
+##############
+# this takes a long time to run so we're going to stash it but export the data it creates
+
+sz<-1:745 #sample sizes from 1 to maximum observed total abundance at a site
+nrep<-200 #Large enough because estimating means
+
+tictoc::tic() #time this
+nc <- parallel::detectCores() - 1 #nc is number of cores to use in parallel processing
+future::plan(strategy = future::multiprocess, workers = nc) #this sets up the cluster
+
+
+div_ests <- purrr::map_dfr(1:nrep, function(k){
+ furrr::future_map_dfr(sz, function(x){
+    map(2:length(beeAbunds), function(sitio){
+      f<-beeAbunds %>% dplyr::select(all_of(sitio))
+      if(sum(f) > x){
+        comm <- dplyr::pull(f) %>% subsam(size = x)
+
+        obsrich = dfun(comm, 1)
+        obsshan = dfun(comm, 0)
+        obssimp = dfun(comm, -1)
+        chaorich = SpadeR:::Chao_Hill_abu(comm, q = 0)
+        chaoshan = SpadeR:::Chao_Hill_abu(comm, q = 1)
+        chaosimp = SpadeR:::Chao_Hill_abu(comm, q = 2)
+
+        return(data.frame(individuals = x
+                     , obsrich
+                     , chaorich
+                     , obsshan
+                     , chaoshan
+                     , obssimp
+                     , chaosimp
+                     , site = names(f)))
+      }
+    })
+  })
+})
+
+tictoc::toc() #507 seconds, not bad.
+mean_narm <- function(x){mean(x, na.rm = T)}
+mean_ests <- div_ests %>%
+  dplyr::group_by(site, individuals) %>%
+  dplyr::summarize_all(mean_narm)
+
 usethis::use_data(beeObs, overwrite = TRUE)
 usethis::use_data(beeAbunds, overwrite = TRUE)
+usethis::use_data(mean_ests, overwrite = TRUE)

@@ -498,14 +498,14 @@ omit_y<-function(p){
 #'
 #' @export
 #' @examples radplot(c(20,8,5,4,2,1))
-#' radplot(c(20,8,5,4,2,1), Whittaker = T)
+#' radplot(c(20,8,5,4,2,1), Whittaker = TRUE)
 
 radplot<-function(ab
                   , maxrich = length(comm)
                   , maxab = max(comm)
                   , fill = "red"
                   , shape = 16
-                  , Whittaker = F
+                  , Whittaker = FALSE
                   ){
     comm = ab[ab!=0]
     if(Whittaker){comm = log(comm)}

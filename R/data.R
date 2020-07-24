@@ -29,3 +29,18 @@
 #'  "Lord Stirling" during sampling round 5
 "beeAbunds"
 
+#' Rarefied diversity estimates for each site
+#'
+#' A dataset containing expected observed Hill diversity and estimated asymptotic
+#' Hill diversity for each of the 4 sampled sites.
+#'
+#' @format A tibble with 2015 rows and 8 variables:
+#'  - *site*: Character, site ID
+#'  - *individuals*: Integer, individuals in rarefied sample
+#'  - *obsrich*: Numeric, mean observed species richness
+#'  - *chaorich*: Numeric, mean estimated asymptotic richness from Chao1 estimator
+#'  - *obsshan*: Numeric, mean observed Hill-Shannon diversity
+#'  - *chaoshan* Numeric, mean estimated asymptotic Hill-Shannon diversity
+#'  - *obssimp* Numeric, mean observed Hill-Simpson diversity
+#'  - *chaosimp* Numeric, mean estimated asymptotic Hill-Simpson diversity
+"beeAbunds"

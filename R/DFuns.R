@@ -90,7 +90,7 @@ dfun<-function(ab, l){
 #' @param by Scalar, size of step along scaling exponent continuum
 #'
 #' @return Dataframe with the scaling exponent \{code{ell} and corresponding
-#' Hill diveristy \code{d}
+#' Hill diversity \code{d}
 #'
 #' @export
 #' @examples divpro(c(20,8,5,4,2,1))

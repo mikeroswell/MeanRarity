@@ -17,12 +17,29 @@ sampling round 3
 \item \emph{\verb{Lord Stirling_4}}: number of records of given species from site
 "Lord Stirling" during sampling round 5
 }
+
+A tibble with 2015 rows and 8 variables:
+\itemize{
+\item \emph{site}: Character, site ID
+\item \emph{individuals}: Integer, individuals in rarefied sample
+\item \emph{obsrich}: Numeric, mean observed species richness
+\item \emph{chaorich}: Numeric, mean estimated asymptotic richness from Chao1 estimator
+\item \emph{obsshan}: Numeric, mean observed Hill-Shannon diversity
+\item \emph{chaoshan} Numeric, mean estimated asymptotic Hill-Shannon diversity
+\item \emph{obssimp} Numeric, mean observed Hill-Simpson diversity
+\item \emph{chaosimp} Numeric, mean estimated asymptotic Hill-Simpson diversity
+}
 }
 \usage{
+beeAbunds
+
 beeAbunds
 }
 \description{
 A dataset containing the number of specimens of each bee species
 collected at each site during 15 30-minute transects.
+
+A dataset containing expected observed Hill diversity and estimated asymptotic
+Hill diversity for each of the 4 sampled sites.
 }
 \keyword{datasets}

@@ -6,7 +6,7 @@
 #'
 #' @return An incorrect estimate of relative abundance
 #'
-#' @export
+#' @noRd
 fsr<-function(x){
   (x-0.8)/(sum(x)-0.8)
 }
@@ -24,7 +24,7 @@ fsr<-function(x){
 #'
 #' @seealso \code{\link{dfun}}
 #'
-#' @export
+#' @noRd
 fsd<-function(ab, l){
   ab<-ab[ab!=0]
   rp <- ab/sum(ab)
@@ -40,8 +40,8 @@ fsd<-function(ab, l){
 #' @param ab Numeric vector of species abundances
 #'
 #' @return the reciprocal of the Simpson's concentration, a low-bias estimator for Hill-Simpson diversity (scalar)
-#' @export
-sApp <- function(ab){
+#' @noRd
+hill_simpson_estimator <- function(ab){
   n <- sum(ab)
   return(1/(
     sum(ab/n)*((ab-1)/(n-1)))

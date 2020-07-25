@@ -13,8 +13,10 @@ omit_y(p)
 A ggplot.
 }
 \description{
-This function removes, y-axis elements for plots that can
-be included (klugely) in a multi-panel plot. In this case the plotted area varies.
+This function removes y-axis elements for plots intended to be
+included in a multi-panel plot. WHen the y-axis is ommitted (rather than
+whited-out as in \code{white_y}), the plotted area typically expands to fill
+unused space.
 }
 \seealso{
 \code{\link{white_y}}

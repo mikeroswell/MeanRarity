@@ -3,7 +3,7 @@
 \name{subcom}
 \alias{subcom}
 \title{Subsample of several community vectors
-A wrapper of \code{\link{subsam}} to take a subset of a bunch of communities,
+A wrapper of \code{\link{sample_finite}} to take a subset of a bunch of communities,
 each subset of equal abundance.}
 \usage{
 subcom(com, size)
@@ -15,6 +15,6 @@ subcom(com, size)
 }
 \description{
 Subsample of several community vectors
-A wrapper of \code{\link{subsam}} to take a subset of a bunch of communities,
+A wrapper of \code{\link{sample_finite}} to take a subset of a bunch of communities,
 each subset of equal abundance.
 }

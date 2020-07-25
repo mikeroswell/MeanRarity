@@ -9,11 +9,11 @@ vignette: >
 ---
 
 
-The MeanRarity package contains functions to compute and estimate Hill numbers, using the framework that Hill numbers simply compute the abundance-weighted [generalized] mean species rarity of a community. Additionally, the package contains some convenience functions for sampling abundance vectors and generating plots. This vignette is not a comprehensive guide to the package. However, it includes all the data and code to replicate the figures presented in Roswell et al. 2020 "A conceptual guide to measuring species diversity" Oikos doi. 
+The `MeanRarity` package contains functions to compute and estimate Hill numbers, using the framework that Hill numbers simply compute the abundance-weighted [generalized] mean species rarity of a community. Additionally, the package contains some convenience functions for sampling abundance vectors and generating plots. This vignette is not a comprehensive guide to the package. However, it includes all the data and code to replicate the figures presented in Roswell et al. 2020 "A conceptual guide to measuring species diversity" Oikos doi. 
 
 Thus, the examples in the vignette are ordered according to the figures in the article. 
 
-The goal of [Hill] diversity metrics is to summarize the distribution of species' [relative] abundances. The first figure in the "Conceptual guide" is a visualization of the observed bee abundances from the four communities in the example dataset  `"beeObs"` analyzed in the guide. The package includes a simple representation of those data, `beeAbunds`. The function `radplot()` takes those data and returns a rank-abundance distribution plot. We love the new R package `patchwork` for assembling plots, and call that package here.  
+The goal of [Hill] diversity metrics is to summarize the distribution of species' [relative] abundances. The first figure in the "Conceptual guide" is a visualization of the observed bee abundances from the four communities in the example dataset  `beeObs` analyzed in the guide. The package includes a simple representation of those data, `beeAbunds`. The function `radplot()` takes those data and returns a rank-abundance distribution plot. We love the new R package `patchwork` for assembling plots, and call that package here.  
 
 ```{r setup, include = F}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")#, dev = "pdf")
@@ -36,10 +36,10 @@ maxab <- max(sapply(beeAbunds[2:5], max)) # the maximum observed species abundan
 maxrich <- max(sapply(beeAbunds[2:5], function(x){sum(x > 0)})) # maximum observed richness
 
 
-myplots<-purrr::map(2:5, function(makedatind){
+myplots <- purrr::map(2:5, function(makedatind){
     radplot(beeAbunds[,makedatind], maxab = maxab, maxrich = maxrich
             , shape = 13 + makedatind # solid filled shapes
-            , fill = c("#1b9e77", "#d95f02", "#7570b3", "#e7298a")[makedatind-1])
+            , fill = c("#1b9e77", "#d95f02", "#7570b3", "#e7298a")[makedatind - 1])
 })
 
 
@@ -54,7 +54,7 @@ white_y(myplots[[4]]) + # fourth community
 
 ```
 
-The next figure in the guide shows that the expected value for both observed and estimated asymptotic richness increase with sample size. The code to generate expected diversity estimates is computationally expensive and it is recommended not to run the code in this vignette. It is however included in the package in the file "data-raw/DATASET.R", and the result is an exported dataset "mean_ests." 
+The next figure in the guide shows that the expected value for both observed and estimated asymptotic richness increase with sample size. The code to generate expected diversity estimates is computationally expensive and it is recommended not to run the code in this vignette. It is however included in the package in the file `"data-raw/DATASET.R"`, and the result is an exported dataset `mean_ests`. 
 
 ```{r Compute mean diveristy estimates under rarefaction, eval = F}
 
@@ -137,7 +137,7 @@ site_pro <- map_dfr(names(beeAbunds[2:5]), function(x){
 
 site_pro %>%  ggplot(aes(ell, d, color = site)) +
     geom_line() +
-    geom_point(data=site_pro %>% filter(ell %in% c(-1,1,0))
+    geom_point(data = site_pro %>% filter(ell %in% c(-1,1,0))
                , aes(ell, d, color = site, shape = site)
                , size = 3, alpha = 0.5) +
     theme_classic() +
@@ -158,19 +158,21 @@ site_pro %>%  ggplot(aes(ell, d, color = site)) +
 # plot some rarity "balance plots" for guide to measuring diversity (Roswell et al. 2020 Oikos....)
 ab <- c(20,8,5,4,2,1)
 
-rich_bal <- rarity_plot(ab, 1, base_size = 12)+
-  ggplot2::labs(x = "")+
+rich_bal <- rarity_plot(ab, 1, base_size = 12) +
+  ggplot2::labs(x = "") +
   scale_color_brewer(type = "qual", palette = "Dark2") 
 
 shan_bal <- white_y(rarity_plot(ab, 0, base_size = 12, verbose = F)) + #do not return all the text this time
   scale_color_brewer(type = "qual", palette = "Dark2")
 
 simp_bal <- white_y(rarity_plot(ab, -1, base_size = 12, verbose = F)) + 
-  ggplot2::labs(x = "")+
+  ggplot2::labs(x = "") +
   scale_color_brewer(type = "qual", palette = "Dark2")
 
 #assemble triptych with patchwork
-rich_bal+shan_bal+simp_bal
+rich_bal +
+  shan_bal +
+  simp_bal
 
 
 

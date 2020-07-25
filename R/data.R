@@ -31,8 +31,9 @@
 
 #' Rarefied diversity estimates for each site
 #'
-#' A dataset containing expected observed Hill diversity and estimated asymptotic
-#' Hill diversity for each of the 4 sampled sites.
+#' A dataset containing expected observed Hill diversity and estimated
+#' asymptotic Hill diversity for each of the 4 community samples analyzed in
+#' Roswell et al. 2020 *Oikos*.
 #'
 #' @format A tibble with 2015 rows and 8 variables:
 #'  - *site*: Character, site ID
@@ -43,4 +44,4 @@
 #'  - *chaoshan* Numeric, mean estimated asymptotic Hill-Shannon diversity
 #'  - *obssimp* Numeric, mean observed Hill-Simpson diversity
 #'  - *chaosimp* Numeric, mean estimated asymptotic Hill-Simpson diversity
-"beeAbunds"
+"mean_ests"

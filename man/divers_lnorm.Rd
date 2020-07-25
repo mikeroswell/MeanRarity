@@ -15,7 +15,7 @@ divers_lnorm(rich, x)
 Numeric vector of species relative abundances.
 }
 \description{
-This is a wrapper for \code{qlnrom} that
+This is a wrapper for \code{\link[stats]{qlnorm}} that
 takes the number of species and a shape parameter
 and returns relative abundance estimates for each species.
 }

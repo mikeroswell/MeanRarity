@@ -12,22 +12,22 @@
 #' @return A numeric vector of species abundances, including 0's
 #'
 #' @export
-#' @examples subsam(1:9, 15)
-subsam<-function(ab_vec, size=sum(ab_vec)){
-  inds<-unlist(lapply(1:length(ab_vec), function(x){
+#' @examples sample_finite(1:9, 15)
+sample_finite <- function(ab_vec, size = sum(ab_vec)){
+  inds <- unlist(lapply(1:length(ab_vec), function(x){
     rep(x, ab_vec[x])
   }))
-  sam<-sample(inds, size=size, replace=FALSE)
-  ss<-unlist(lapply(1:length(ab_vec), function(y){
-    length(which(sam==y))
+  sam <- sample(inds, size = size, replace = FALSE)
+  ss <- unlist(lapply(1:length(ab_vec), function(y){
+    length(which(sam == y))
   }))
   return(ss)
 }
 
-
+subsam <- sample_finite
 #' Subsample of several community vectors
 
-#' A wrapper of \code{\link{subsam}} to take a subset of a bunch of communities,
+#' A wrapper of \code{\link{sample_finite}} to take a subset of a bunch of communities,
 #' each subset of equal abundance.
 #'
 #' @param com A list of abundance vectors.
@@ -36,7 +36,7 @@ subsam<-function(ab_vec, size=sum(ab_vec)){
 #' @export
 subcom<-function(com, size){
   t(apply(com, 1, function(x){
-    subsam(x, size)}
+    sample_finite(x, size)}
   ))
 }
 

@@ -53,20 +53,25 @@ divers_gamma <- function(rich, x) {
 #'
 #' @seealso \code{\link{dfun}}
 #'
-#' @export
+#' @noRd
 #' @examples
 #'
 #' ur_distr(x = 2, rich = 10, simpson = 6, distr = "gamma")
 #' ur_distr(x = 0.2, rich = 10, simpson = 6, distr = "gamma")
 #' ur_distr(x = 1.235383382 , rich = 10
 #'      , simpson = 6, distr = "gamma") #very close, depends on sensitivity.
-ur_distr<-function(x,rich=rich, simpson=simpson, distr=distr, totAb=totAb, ...){
-    simpson-dfun(get(paste0("divers_", distr))(rich, x), -1)}
+ur_distr <- function(x
+                     , rich = rich
+                     , simpson = simpson
+                     , distr = distr
+                     , totAb = totAb
+                     , ...){
+    simpson - dfun(get(paste0("divers_", distr))(rich, x), -1)}
 
 
 #' Relative abundances given lognormal distribution
 #'
-#' This is a wrapper for \code{qlnrom} that
+#' This is a wrapper for \code{\link[stats]{qlnorm}} that
 #'      takes the number of species and a shape parameter
 #'      and returns relative abundance estimates for each species.
 #' @param x Shape parameter (the \code{sdlog} argument to \code{qlnorm()}), a scalar.
@@ -123,7 +128,7 @@ divers_lnorm <- function(rich, x) {
 #'
 #'
 #'
-#' @seealso \code{\link[stats]{uniroot}}, \code{\link{dfun}}
+#' @seealso \code{\link[stats]{uniroot}}, \code{\link{MeanRarity}}
 #' @export
 #' @examples
 #' #works
@@ -207,7 +212,7 @@ fit_SAD <- function(rich = 50
            })
 }
 
-
+# need to improve error handling, think a/t tolerance and warnings too.
 
 
 

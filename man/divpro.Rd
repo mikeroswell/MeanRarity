@@ -17,7 +17,7 @@ divpro(ab, ell_low = -1, ell_hi = 1, by = 0.001)
 }
 \value{
 Dataframe with the scaling exponent \{code{ell} and corresponding
-Hill diveristy \code{d}
+Hill diversity \code{d}
 }
 \description{
 Compute observed Hill diversity based on an abundance vector over a range of scaling exponent values

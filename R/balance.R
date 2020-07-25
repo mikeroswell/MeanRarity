@@ -38,7 +38,7 @@ combfun<-function(x){x=x[order(x)]; y=unique(x)*as.numeric(table(x)); return (y)
 #'
 #' @return numeric vector of same length as input, rounded nicely
 #'
-#' @export
+#' @noRd
 #' @examples prettify(sqrt(2:7))
 #' @examples prettify(sqrt(seq(2e3, 2e5, 4739)))
 prettify <- function(breaks){
@@ -64,15 +64,15 @@ prettify <- function(breaks){
 #'
 #' @return A scale transformation object for plotting in ggplot.
 #' @seealso \code{\link[scales]{trans_new}}, \code{\link[scales]{trans_breaks}},
-#'   \code{\link{pfun}}, \code{\link{ipfun}}, \code{\link{prettify}}
+#'   \code{\link{pfun}}, \code{\link{ipfun}}, \code{\link[MeanRarity]{prettify}}
 #' @export
-power_trans = function(pow, nb) scales::trans_new(name="power"
+power_trans = function(pow, nb) scales::trans_new(name = "power"
    , transform = function(x) pfun(x, pow)
    , inverse = function(x) ipfun(x, pow)
    , breaks = function(x) prettify(
 		scales::trans_breaks(
 			function(x) pfun(x, pow), function(x) ipfun(x, pow), n = nb
-		)(x*1.1)
+		)(x * 1.1)
 	)
    , domain = c(1, 10000) #this is to deal with -Inf
 )
@@ -85,9 +85,9 @@ power_trans = function(pow, nb) scales::trans_new(name="power"
 #'
 #' @noRd
 fancy_rep<-function(df){
-    return(data.frame(df[rep(1:nrow(df), df$abundance),])
+    return(data.frame(df[rep(1:nrow(df), df$abundance), ])
            %>% dplyr::group_by(abundance)
-           %>% dplyr::mutate(gr=1:length(abundance), inds=rep(length(abundance)
+           %>% dplyr::mutate(gr=1:length(abundance), inds = rep(length(abundance)
                , length(abundance)))
     )
 }
@@ -312,11 +312,11 @@ fulcrum<-function(ab, ell
     )
 }
 
-#' Construct the full balance plot
+#' Construct rarity balance plot
 #'
 #' This function takes the abundance vector, scaling exponent, and target means
 #' (Default the pythagorean means), and returns a formatted 1-panel ggplot
-#' object]
+#' object
 #'
 #' Hill diversity, or "mean rarity," is the balance point for the community
 #' along the rarity scale. The image produced by \code{rarity_plot} illustrates
@@ -370,7 +370,8 @@ fulcrum<-function(ab, ell
 #' @export
 #' @examples
 #' ab<-c(20,8,5,4,2,1)
-#' # includes stacking
+#'
+#' # experiment with other abundance vectors!
 #' # ab <- c(20, 15, 9, 3, 2, 1, 1)
 #' # ab <- c(100, 20, 15, 9, 3, 2, 1, 1)
 #' # ab <- c(50,30,20,0,0,0)
@@ -378,7 +379,16 @@ fulcrum<-function(ab, ell
 #' # ab <- c(20, 15, 9, 3, 2, 1, 1, 0, 0)
 #' # ab <- c(200,100, 20, 15, 9, 3, 2, 1, 1)
 #' # ab <- floor(exp(rnorm(50, 4, 1.5)))
-#' rarity_plot(ab, 1)
+#'
+#' richness <- rarity_plot(ab, 1)
+#' Hill_Shannon <- rarity_plot(ab, 0)
+#' Hill_Simpson <- rarity_plot(ab, -1)
+#'
+#' richness
+#' Hill_Shannon
+#' Hill_Simpson
+#'
+#' # richness + Hill_Shannon + Hill_Simpson # plot with patchwork
 rarity_plot <- function(ab
                         , ell
                         , means=-1:1
@@ -451,8 +461,10 @@ white_y<-function(p){
 
 #' Convenience function to omit y-axis elements for constructing multi-panel plots.
 #'
-#' This function removes, y-axis elements for plots that can
-#' be included (klugely) in a multi-panel plot. In this case the plotted area varies.
+#' This function removes y-axis elements for plots intended to be
+#' included in a multi-panel plot. WHen the y-axis is ommitted (rather than
+#' whited-out as in \code{white_y}), the plotted area typically expands to fill
+#' unused space.
 #'
 #' @seealso \code{\link{white_y}}
 #'
@@ -500,7 +512,7 @@ omit_y<-function(p){
 #' @examples radplot(c(20,8,5,4,2,1))
 #' radplot(c(20,8,5,4,2,1), Whittaker = TRUE)
 
-radplot<-function(ab
+radplot <- function(ab
                   , maxrich = length(comm)
                   , maxab = max(comm)
                   , fill = "red"
@@ -514,10 +526,10 @@ radplot<-function(ab
         dplyr::mutate(x = -rnk - maxrich + max(rnk))
 
     f<-(toplot %>% ggplot2::ggplot(ggplot2::aes(x, abund, size))
-        + ggplot2::geom_point(shape = shape, color = fill, size = 2)
+        + ggplot2::geom_point(shape = shape, color = fill, size = 2.5)
         + ggplot2::geom_line(color = fill)
         + ggplot2::scale_x_continuous(limits = c(-maxrich, 0))
-        + ggplot2::scale_y_continuous(limits = c(0,maxab))
+        + ggplot2::scale_y_continuous(limits = c(0, maxab))
         + ggplot2::theme_classic()
         + ggplot2::ggtitle(ifelse(Whittaker
                                   , "              rank-log(abundance) [Whittaker] plot"

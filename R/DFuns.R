@@ -35,7 +35,10 @@ ipfun=function(x, pow){
 }
 
 
-#' Estimate Hill diversity: the mean species rarity
+#' Compute Hill diversity: the mean species rarity
+#'
+#' Compute the Hill diversity from abundances or relative abundances. Hill diversity is
+#' also the mean species rarity.
 #'
 #' We parameterize Hill diversity \eqn{D} as a the frequency-weighted mean species rarity, with scaling exponent l
 #'      \deqn{D = \sum{p_i * r_i^{\ell}}^{-\ell}}
@@ -43,9 +46,11 @@ ipfun=function(x, pow){
 #'      When \eqn{\ell = 0} this is defined base on the limit from the left and the right, which is the
 #'      geometric mean \deqn{\exp(\frac{\sum{p_i * \ln(r_i)}} \sum{p_i}})
 #'
-#' @details This is equivalent to the \eqn{q} notation of Jost 2006
-#'      \deqn{D=\sum{p_i^q}^{1-q}}
+#' This is equivalent to the \eqn{q} notation of Jost 2006
+#'      \deqn{D=\sum{p_i^q}^{\frac{1}{1-q}}}
 #'      where \eqn{q=1-l}.
+#'
+#' This function can also be called with \code{dfun()}
 #'
 #'
 #' @param ab A numeric vector of species abundances or relative abundances.
@@ -64,15 +69,18 @@ ipfun=function(x, pow){
 #' @seealso \code{\link{pfun}}, \code{\link{ipfun}}
 #'
 #' @export
-#' @examples dfun(c(20,8,5,4,2,1), -1)
-dfun<-function(ab, l){
-  ab<-ab[ab!=0]
-  rp <- ab/sum(ab)
-  if(l==0) {return(exp(sum(rp*log(1/rp))))}
-  return(ipfun(sum(rp*pfun(1/rp, l)),l)) #removed potentially problematic sign corrections
+#' @examples MeanRarity(c(20,8,5,4,2,1), 1) #species richness
+#' MeanRarity(c(20,8,5,4,2,1), 0) # Hill-Shannon diversity
+#' MeanRarity(c(20,8,5,4,2,1), -1) # Hill-Simpson diversity
+MeanRarity <- function(ab, l){
+  ab <- ab[ab != 0]
+  rp <- ab / sum(ab)
+  if(l == 0) {return(exp(sum(rp * log(1 / rp))))}
+  return(ipfun(sum(rp * pfun(1 / rp, l)),l)) #removed potentially problematic sign corrections
   # return(sign(l)*ipfun(sign(l)*sum(rp*pfun(1/rp, l)),l)) # is it possible there was a mistake here?
 }
 
+dfun <- MeanRarity
 
 #' Generate Hill diversity profile
 #'

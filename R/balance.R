@@ -85,10 +85,10 @@ power_trans = function(pow, nb) scales::trans_new(name = "power"
 #'
 #' @noRd
 fancy_rep<-function(df){
-    return(data.frame(df[rep(1:nrow(df), df$abundance), ])
-           %>% dplyr::group_by(abundance)
-           %>% dplyr::mutate(gr=1:length(abundance), inds = rep(length(abundance)
-               , length(abundance)))
+    return(data.frame(df[rep(1:nrow(df), df$ab), ])
+           %>% dplyr::group_by(ab)
+           %>% dplyr::mutate(gr=1:length(ab), inds = rep(length(ab)
+               , length(ab)))
     )
 }
 
@@ -97,7 +97,7 @@ fancy_rep<-function(df){
 #' Takes abundance and various scale/dimension arguments to craft a ggplot
 #' object for rarity plots
 #'
-#' @param abundance Numeric vector of (integer) species abundances.
+#' @template ab_template
 #' @param fill_col Color for filling each of the boxes representing a single
 #'   individual.
 #' @param y_extent Scalar, how tall to draw y-axis.
@@ -113,11 +113,11 @@ fancy_rep<-function(df){
 #' @return ggplot object with some elements of a balance plot
 #'
 #' @noRd
-base_plot <- function(abundance, pointScale
+base_plot <- function(ab, pointScale
                       , fill_col="lightgrey" #can set to match communities
-                      , y_extent=max(max(abundance),15) #how tall to draw y
-                      , x_max=sum(abundance)/min(abundance) #plots a point to extend x
-                      , x_min=sum(abundance)/max(abundance) # point to exted x
+                      , y_extent=max(max(ab),15) #how tall to draw y
+                      , x_max=sum(ab)/min(ab) #plots a point to extend x
+                      , x_min=sum(ab)/max(ab) # point to extend x
                       , base_size=24 #controls text size, default for 7" sq plotting device
                       , noco=1 #number of columns, shrinks text and point size proportional to number of panels
                       , lines=F
@@ -129,12 +129,12 @@ base_plot <- function(abundance, pointScale
 
 
     #make plotting data
-    rf <- tibble::tibble(names = as.factor(1:length(abundance))
-		, abundance
-		, rarity = sum(abundance)/abundance
+    rf <- tibble::tibble(names = as.factor(1:length(ab))
+		, ab
+		, rarity = sum(ab)/ab
 	)
 	rfrepeated <-fancy_rep(rf)
-	y_extent<-max(y_extent, max(combfun(abundance)))
+	y_extent<-max(y_extent, max(combfun(ab)))
 	#14 is empirically derived scaling factor; but isn't quite right.
 	# Seems like stuff below axis is about 2.5* height of 1 line of text
 	pointScale<-(14 * (min(grDevices::dev.size("cm")) / noco - (2.5 * 0.0353 * base_size)))
@@ -144,9 +144,9 @@ base_plot <- function(abundance, pointScale
 	goff <- 0.5
 
 	#ggplot command to generate basic plot object
-	base <- (ggplot2::ggplot(rfrepeated, ggplot2::aes(x = rarity, y = abundance))
+	base <- (ggplot2::ggplot(rfrepeated, ggplot2::aes(x = rarity, y = ab))
 	         +(if(lines == T){
-	             rfdull <- rf %>% dplyr::group_by(rarity) %>% dplyr::summarize(inds = sum(abundance))
+	             rfdull <- rf %>% dplyr::group_by(rarity) %>% dplyr::summarize(inds = sum(ab))
 	   #line segments
 	             ggplot2::geom_segment(data=rfdull, ggplot2::aes(x = rarity, xend = rarity
 	                                                             , y = inds, yend = 0)
@@ -212,7 +212,7 @@ theme_plot <- function(p, base_size=24, noco=1, ...){
 
 #' Rescales baseplot x-axis, adds space to allow matching scales between comms
 #'
-#' @param ell exponent for scaling generalized mean
+#' @template l_template
 #' @param fill_col Color for filling each of the boxes representing a single
 #'   individual.
 #' @param y_extent Scalar, how tall to draw y-axis.
@@ -230,7 +230,7 @@ theme_plot <- function(p, base_size=24, noco=1, ...){
 #' @noRd
 scale_plot <- function(
         ab
-        , ell
+        , l
         , fill_col="lightgrey"
         , y_extent=max(max(ab), 15)
         , x_max=sum(ab)/min(ab)
@@ -242,26 +242,26 @@ scale_plot <- function(
 ){
     return (base_plot(ab, fill_col=fill_col, y_extent=y_extent
 	            , x_max=x_max, x_min=x_min, noco=noco, lines=lines, ...)
-		+ ggplot2::scale_x_continuous(trans=power_trans(pow=ell, nb=nbreaks), labels=signif)
+		+ ggplot2::scale_x_continuous(trans=power_trans(pow=l, nb=nbreaks), labels=signif)
 		+ ggplot2::geom_point(ggplot2::aes(x,y) #allows for x min and max points to determine axes
 		  , data=tibble::tibble(x=c(x_max, x_min), y=c(0,0))
 		  , color="white", alpha=0)
 	        )
 }
 
-#' Reference points at means with power \code{ell}
+#' Reference points at means with power \code{l}
 #'
-#' @param ab Numeric vector of integer species abundances
-#' @param ell Exponent for type of mean rarity (scalar)
+#' @template ab_template
+#' @template l_template
 #' @param noco Scalar, shrinks text and points if plotting multiple balance plots
 #'   in a single plotting window
 #'
 #' @return geom object to add to a ggplot object to construct balance plot
 #'
 #' @noRd
-mean_points <- function(ab, ell, noco=1){
+mean_points <- function(ab, l, noco=1){
     ab<-ab[ab!=0]
-	div <- Vectorize(dfun, vectorize.args=("l"))(ab, ell)
+	div <- Vectorize(dfun, vectorize.args=("l"))(ab, l)
 	return(ggplot2::geom_point(
 		data=tibble::tibble(x=div, y=0*div, clr=1:length(div))
 		, ggplot2::aes(x, y, color=as.factor(clr))
@@ -271,7 +271,7 @@ mean_points <- function(ab, ell, noco=1){
 
 #' Plot the fulcrum
 #'
-#' @param ell Scalar, exponent for scaling generalized mean.
+#' @template l_template
 #' @param fill_col Color for filling each of the boxes representing a single
 #'   individual.
 #' @param y_extent Scalar, how tall to draw y-axis.
@@ -284,7 +284,7 @@ mean_points <- function(ab, ell, noco=1){
 #'
 #'
 #' @noRd
-fulcrum<-function(ab, ell
+fulcrum<-function(ab, l
                   , y_extent = max(max(combfun(ab)), 15)
                   , x_max = 1
                   , x_min = 1
@@ -295,7 +295,7 @@ fulcrum<-function(ab, ell
                   , verbose = T){
 
     ab <- ab[ab != 0]
-    div <- dfun(ab, ell)
+    div <- dfun(ab, l)
 
     if(verbose == T){
         print(c(paste("diversity =", div), paste("community size =", sum(ab))
@@ -315,7 +315,7 @@ fulcrum<-function(ab, ell
 #' Construct rarity balance plot
 #'
 #' This function takes the abundance vector, scaling exponent, and target means
-#' (Default the pythagorean means), and returns a formatted 1-panel ggplot
+#' (Default the Pythagorean means), and returns a formatted 1-panel ggplot
 #' object
 #'
 #' Hill diversity, or "mean rarity," is the balance point for the community
@@ -324,11 +324,12 @@ fulcrum<-function(ab, ell
 #' diversities are weighted by abundance the “mass” of each “block” is the same
 #' regardless of species identity. Each individual’s x-axis value is given its
 #' species’ "rarity," which is the reciprocal of its relative abundance. The
-#' parameter \code{ell} controls how rarity is scaled. A community’s balance
+#' parameter \code{l} controls how rarity is scaled. A community’s balance
 #' point along the rarity scale, pictured as a triangular fulcrum, is the mean
 #' rarity, or diversity, of the community.
 #'
-#' To ease comparison across scales, by default the Pythagorean means are marked
+#' To ease comparison across scales, by default the Pythagorean means
+#' (\url{https://en.wikipedia.org/wiki/Pythagorean_means}) are marked
 #' with reference points: the arithmetic mean with a rose dot, the geometric
 #' mean with a blue dot, and the harmonic mean with a green dot. The arithmetic
 #' scale provides high leverage to very rare species; although they carry little
@@ -352,8 +353,8 @@ fulcrum<-function(ab, ell
 #' \url{https://mean-rarity.shinyapps.io/rshiny_app1/}. Other window sizes or
 #' devices may require tweaking.
 #'
-#' @param ab Numeric vector of integer species abundances
-#' @param ell Exponent for type of mean rarity (scalar)
+#' @template ab_template
+#' @template l_template
 #' @param noco Scalar, shrinks text and points if plotting multiple balance plots
 #'   in a single plotting window.
 #' @param lines Logical, should each individual be plotted as a "box" or should
@@ -390,7 +391,7 @@ fulcrum<-function(ab, ell
 #'
 #' # richness + Hill_Shannon + Hill_Simpson # plot with patchwork
 rarity_plot <- function(ab
-                        , ell
+                        , l
                         , means=-1:1
                         , noco=1
                         , lines=F
@@ -399,7 +400,7 @@ rarity_plot <- function(ab
     print(cat("     rarity plot expects a square viewport and resizes points based on\n     min(dev.size() and noco (for number of columns).\n     Selecting lines=T will plot stacks of individuals as a line element,\n     which tends to be more robust to window size.\n     lines=T may be the best way to deal with overplotting,\n     which results from several species with similar but not identical rarities.\n "))
 	return(
 		scale_plot(ab
-		           , ell
+		           , l
 		           , noco=noco
 		           , lines=lines
 		           ,...)
@@ -407,7 +408,7 @@ rarity_plot <- function(ab
 		              , means
 		              , noco=noco)
 		+ fulcrum(ab
-		          , ell
+		          , l
 		          , noco=noco
 		          , ...)
 		+ ggplot2::scale_color_brewer(type="qual", palette="Set1")
@@ -423,7 +424,7 @@ rarity_plot <- function(ab
 #'
 #' @return Prints 3 ggplots into graphics device.
 #'
-#' @param ab Numeric vector of integer species abundances.
+#' @template l_template
 #' @param lrange Numeric vector of scaling exponent values
 #' @param ... Additional arguments passed to other functions.
 #'
@@ -496,7 +497,7 @@ omit_y<-function(p){
 #' Take a vector of species \[relative\] abundances and plot a rank-abundance
 #' distribution or Whittaker plot
 #'
-#' @param ab Numeric vector of species abundances or relative abundances
+#' @template ab_template
 #' @param maxrich Scalar, how many species to include space for
 #' @param maxab Scalar, how big is the largest abundance value
 #' @param fill Character string specifying a color, could be extended to

@@ -10,7 +10,8 @@ fit_SAD(
   distr = "lnorm",
   int_lwr = 1e-04,
   int_uppr = 100,
-  totAb = 1e+07
+  totAb = 1e+07,
+  ...
 )
 }
 \arguments{
@@ -20,7 +21,7 @@ fit_SAD(
 
 \item{distr}{Name of the distribution (\code{"lnorm"} or \code{"gamma"}).}
 
-\item{int_lwr}{Lower bound of search space for uniroot; default is a small
+\item{int_lwr}{Lower bound of search space for \code{uniroot()}; default is a small
 number close to 0 to deal with potential boundary issues for
 \code{stats::uniroot} (a scalar).}
 
@@ -28,6 +29,8 @@ number close to 0 to deal with potential boundary issues for
 
 \item{totAb}{Not implemented; would be a necessary constraint for fitting
 finite communities.}
+
+\item{...}{pass arguments to other}
 }
 \value{
 A list with three elements.

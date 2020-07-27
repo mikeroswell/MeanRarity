@@ -45,3 +45,29 @@
 #'  - *obssimp* Numeric, mean observed Hill-Simpson diversity
 #'  - *chaosimp* Numeric, mean estimated asymptotic Hill-Simpson diversity
 "mean_ests"
+
+#' Rarefied diversity estimates for each site, multiple standards
+#'
+#' A dataset containing expected observed Hill diversity and estimated
+#' asymptotic Hill diversity for each of the 4 community samples analyzed in
+#' Roswell et al. 2020 *Oikos*. This rarefaction **actually** uses effort (we
+#' resampled 1:14 30-minute sampling transects), but each sample has an
+#' estimated sample coverage and number of sampled individuals associated with
+#' it.
+#'
+#' @seealso Chao & Jost 2012 *Ecology* \url{https://doi.org/10.1890/11-1952.1}.
+#'
+#' @format A tibble with 2015 rows and 8 variables:
+#'  - *n*: Integer, individuals in rarefied sample
+#'  - *coverage*: Estimated sample coverage sensu Chao and Jost 2012
+#'  - *obsrich*: Numeric, mean observed species richness
+#'  - *chaorich*: Numeric, mean estimated asymptotic richness from Chao1 estimator
+#'  - *obsshan*: Numeric, mean observed Hill-Shannon diversity
+#'  - *chaoshan* Numeric, mean estimated asymptotic Hill-Shannon diversity
+#'  - *obssimp* Numeric, mean observed Hill-Simpson diversity
+#'  - *chaosimp* Numeric, mean estimated asymptotic Hill-Simpson diversity
+#'  - *site*: Character, site ID
+#'  - *transects* Integer,
+
+"show_ests"
+

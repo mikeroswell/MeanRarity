@@ -37,14 +37,15 @@ ipfun=function(x, pow){
 
 #' Compute Hill diversity: the mean species rarity
 #'
-#' Compute the Hill diversity from abundances or relative abundances. Hill diversity is
-#' also the mean species rarity.
+#' Compute the empirical Hill diversity from abundances or relative abundances.
+#' Hill diversity is also the mean species rarity.
 #'
-#' We parameterize Hill diversity \eqn{D} as a the frequency-weighted mean species rarity, with scaling exponent l
-#'      \deqn{D = \sum{p_i * r_i^{\ell}}^{-\ell}}
-#'      where rarity of species i \eqn{r_1 = 1/p_i}.
-#'      When \eqn{\ell = 0} this is defined base on the limit from the left and the right, which is the
-#'      geometric mean \deqn{\exp(\frac{\sum{p_i * \ln(r_i)}} \sum{p_i}})
+#' We parameterize Hill diversity \eqn{D} as a the frequency-weighted mean
+#' species rarity, with scaling exponent l \deqn{D = \sum{p_i *
+#' r_i^{\ell}}^{-\ell}} where rarity of species i \eqn{r_1 = 1/p_i}. When
+#' \eqn{\ell = 0} this is defined base on the limit from the left and the right,
+#' which is the geometric mean \deqn{\exp(\frac{\sum{p_i * \ln(r_i)}}
+#' \sum{p_i}})
 #'
 #' This is equivalent to the \eqn{q} notation of Jost 2006
 #'      \deqn{D=\sum{p_i^q}^{\frac{1}{1-q}}}
@@ -53,26 +54,26 @@ ipfun=function(x, pow){
 #' This function can also be called with \code{dfun()}
 #'
 #'
-#' @param ab A numeric vector of species abundances or relative abundances.
-#' @param l Scaling exponent for the mean, can be any real number.
+#' @template ab_template
+#' @template l_template
 #'
 #' @return Generalized mean community rarity with scaling exponent \code{"l"}.
 #'
 #' When \code{l = 1}, arithmetic mean rarity (species richness).
 #'
-#' When \code{l = 0}, geometric mean rarity (Hill-Shannon diversity), Shannon's entropy
-#'    (Shannon and Weaver 1963) exponentiated.
+#' When \code{l = 0}, geometric mean rarity (Hill-Shannon diversity), Shannon's
+#'    entropy (Shannon and Weaver 1963) exponentiated.
 #'
-#' When \code{l = -1}, harmonic mean rarity (Hill-Simpson diversity,
-#'    the inverse of the Simpson concentration (Simpson 1949))
+#' When \code{l = -1}, harmonic mean rarity (Hill-Simpson diversity),
+#'    the inverse of the Simpson concentration (Simpson 1949).
 #'
 #' @seealso \code{\link{pfun}}, \code{\link{ipfun}}
 #'
 #' @export
-#' @examples MeanRarity(c(20,8,5,4,2,1), 1) #species richness
-#' MeanRarity(c(20,8,5,4,2,1), 0) # Hill-Shannon diversity
-#' MeanRarity(c(20,8,5,4,2,1), -1) # Hill-Simpson diversity
-MeanRarity <- function(ab, l){
+#' @examples rarity(c(20,8,5,4,2,1), 1) #species richness
+#' rarity(c(20,8,5,4,2,1), 0) # Hill-Shannon diversity
+#' rarity(c(20,8,5,4,2,1), -1) # Hill-Simpson diversity
+rarity <- function(ab, l){
   ab <- ab[ab != 0]
   rp <- ab / sum(ab)
   if(l == 0) {return(exp(sum(rp * log(1 / rp))))}
@@ -80,25 +81,27 @@ MeanRarity <- function(ab, l){
   # return(sign(l)*ipfun(sign(l)*sum(rp*pfun(1/rp, l)),l)) # is it possible there was a mistake here?
 }
 
-dfun <- MeanRarity
+dfun <- rarity
 
 #' Generate Hill diversity profile
 #'
-#' Compute observed Hill diversity based on an abundance vector over a range of scaling exponent values
+#' Compute observed Hill diversity profile based on an abundance vector over a
+#' range of scaling exponent values
 #'
-#' Hill diversity can be viewed as a continuous function of the scaling exponent ell
-#' and the relative abundance distribution. As ell increases, so does the emphasis on
-#' rare species. It is traditional to view the profile across
-#' \eqn{\ell = \[-1, 1\]} or \eqn{\ell = \[-2, 1\]}, and other authors have
-#' visualized this with low values of ell at the right instead of left.
+#' Hill diversity can be viewed as a continuous function of the scaling exponent
+#' \eqn{\ell} and the relative abundance distribution. As \eqn{\ell} increases,
+#' so does the emphasis on rare species. It is traditional to view the profile
+#' across \eqn{\ell = \[-1, 1\]} or \eqn{\ell = \[-2, 1\]}, and other authors
+#' have visualized this with low values of \eqn{\ell} at the right instead of
+#' left.
 #'
-#' @param ab A numeric vector of species abundances or relative abundances.
-#' @param ell_low Scalar, minimum scaling exponent for diversity profile
-#' @param ell_hi Scalar, maximum scaling exponent for diversity profile
-#' @param by Scalar, size of step along scaling exponent continuum
+#' @template ab_template
+#' @param ell_low Scalar, minimum scaling exponent for diversity profile.
+#' @param ell_hi Scalar, maximum scaling exponent for diversity profile.
+#' @param by Scalar, size of step along scaling exponent continuum.
 #'
 #' @return Dataframe with the scaling exponent \{code{ell} and corresponding
-#' Hill diversity \code{d}
+#'   Hill diversity \code{d}
 #'
 #' @export
 #' @examples divpro(c(20,8,5,4,2,1))
@@ -109,4 +112,44 @@ divpro<-function(ab, ell_low = -1, ell_hi = 1, by = 0.001){
          , function(l){dfun(ab, l)}
          )
   return(data.frame(ell, d))
+}
+
+#' Observed and asymptotic diversity
+#'
+#' Computes observed and asymptotic Hill diversity estimates from a vector of
+#' integer abundances
+#'
+#' Only integer abundances allowed in \code{ab}, as asymptotic estimator relies
+#' on sampling theory for individuals.
+#'
+#' @return Dataframe with total abundance and observed and asymptotic diversity
+#' estimates for the Pythagorean mean rarities: richness, exponentiated Shannon,
+#' and inverse Simpson.
+#'
+#' @template ab_template
+#'
+#'
+#' @seealso \code{\link{rarity}}, \code{\link[SpadeR]{Choa_Hill_Abu}}
+#'
+#' @export
+#' @examples obs_est(c(20,8,5,4,2,1))
+
+obs_est <- function(ab){
+  obsrich = rarity(ab, 1)
+  obsshan = rarity(ab, 0)
+  obssimp = rarity(ab, -1)
+  chaorich = SpadeR:::Chao_Hill_abu(ab, q = 0)
+  chaoshan = SpadeR:::Chao_Hill_abu(ab, q = 1)
+  chaosimp = SpadeR:::Chao_Hill_abu(ab, q = 2)
+  coverage = SpadeR:::Chat.Ind(ab, sum(ab))
+  return(data.frame(
+    n = sum(ab)
+    , coverage
+    , obsrich
+    , chaorich
+    , obsshan
+    , chaoshan
+    , obssimp
+    , chaosimp
+  ))
 }

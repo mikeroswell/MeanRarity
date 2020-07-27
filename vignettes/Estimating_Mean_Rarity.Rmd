@@ -54,7 +54,7 @@ white_y(myplots[[4]]) + # fourth community
 
 ```
 
-The next figure in the guide shows that the expected value for both observed and estimated asymptotic richness increase with sample size. The code to generate expected diversity estimates is computationally expensive and it is recommended not to run the code in this vignette. It is however included in the package in the file `"data-raw/DATASET.R"`, and the result is an exported dataset `mean_ests`. 
+The next figure in the guide shows that the expected value for both observed and estimated asymptotic richness increase with sample size. The code to generate expected diversity estimates is computationally expensive and we recommend not to run the code in this vignette. It is however included in the package in the file `"data-raw/DATASET.R"`, and the result is an exported dataset `mean_ests`. 
 
 ```{r Compute mean diveristy estimates under rarefaction, eval = F}
 
@@ -73,22 +73,8 @@ div_ests <- purrr::map_dfr(1:nrep, function(k){
     map(2:length(beeAbunds), function(sitio){
       f<-beeAbunds %>% dplyr::select(all_of(sitio))
       if(sum(f) > x){
-        comm <- dplyr::pull(f) %>% subsam(size = x)
-
-        obsrich = dfun(comm, 1)
-        obsshan = dfun(comm, 0)
-        obssimp = dfun(comm, -1)
-        chaorich = SpadeR:::Chao_Hill_abu(comm, q = 0)
-        chaoshan = SpadeR:::Chao_Hill_abu(comm, q = 1)
-        chaosimp = SpadeR:::Chao_Hill_abu(comm, q = 2)
-
-        return(data.frame(individuals = x
-                     , obsrich
-                     , chaorich
-                     , obsshan
-                     , chaoshan
-                     , obssimp
-                     , chaosimp
+        comm = dplyr::pull(f) %>% subsam(size = x)
+        return(data.frame(obs_est(comm)
                      , site = names(f)))
       }
     })
@@ -151,6 +137,38 @@ site_pro %>%  ggplot(aes(ell, d, color = site)) +
 ```
 
 
+
+
+```{r, warning = F, eval = F}
+# the idea here is to sample from 14 30-minute sampling bouts from each site and compare coverage, 
+maxeff <- 14
+reps <- 9999 #could do fewer to make this quick
+
+tictoc::tic() #time this
+nc <- parallel::detectCores() - 1 #nc is number of cores to use in parallel processing
+future::plan(strategy = future::multiprocess, workers = nc) #this sets up the cluster
+
+show_ests <- furrr::future_map_dfr(1:reps, function(x){
+    purrr::map_dfr(1:maxeff, function(i){
+        sam <- beeObs %>% 
+          dplyr::group_by(sr) %>% 
+          dplyr::do(filter(., start %in% 
+                      sample(unique(.$start)
+                             , size = maxeff - i + 1
+                             , replace = F)))
+        subcom <- sam %>% dplyr::group_by(bee, sr) %>% 
+          dplyr::summarize(abund = n()) %>% 
+          tidyr::spread(key = sr
+                      , value = abund
+                      , fill = 0) %>% 
+          as.data.frame()
+        basicdat <- purrr::map_dfr(apply(subcom[, -1], MARGIN = 2, obs_est), rbind)
+        return(data.frame(basicdat, site = names(subcom[, -1]), transects = maxeff - i + 1))
+        })
+})
+
+tictoc::toc()
+```
 
 
 ```{r Balance plot, fig.width = 9, fig.height = 3}

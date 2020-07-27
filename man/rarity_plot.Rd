@@ -4,12 +4,12 @@
 \alias{rarity_plot}
 \title{Construct rarity balance plot}
 \usage{
-rarity_plot(ab, ell, means = -1:1, noco = 1, lines = F, ...)
+rarity_plot(ab, l, means = -1:1, noco = 1, lines = F, ...)
 }
 \arguments{
-\item{ab}{Numeric vector of integer species abundances}
+\item{ab}{A numeric vector of species abundances or relative abundances.}
 
-\item{ell}{Exponent for type of mean rarity (scalar)}
+\item{l}{Scaling exponent for the mean, can be any real number.}
 
 \item{means}{Numeric vector of scaling exponent values corresponding to
 reference (by default, Pythagorean) means.}
@@ -24,7 +24,7 @@ individuals be summarized simply as the height of a line segment.}
 }
 \description{
 This function takes the abundance vector, scaling exponent, and target means
-(Default the pythagorean means), and returns a formatted 1-panel ggplot
+(Default the Pythagorean means), and returns a formatted 1-panel ggplot
 object
 }
 \details{
@@ -34,11 +34,12 @@ this balance. Each block represents an individual, and because Hill
 diversities are weighted by abundance the “mass” of each “block” is the same
 regardless of species identity. Each individual’s x-axis value is given its
 species’ "rarity," which is the reciprocal of its relative abundance. The
-parameter \code{ell} controls how rarity is scaled. A community’s balance
+parameter \code{l} controls how rarity is scaled. A community’s balance
 point along the rarity scale, pictured as a triangular fulcrum, is the mean
 rarity, or diversity, of the community.
 
-To ease comparison across scales, by default the Pythagorean means are marked
+To ease comparison across scales, by default the Pythagorean means
+(\url{https://en.wikipedia.org/wiki/Pythagorean_means}) are marked
 with reference points: the arithmetic mean with a rose dot, the geometric
 mean with a blue dot, and the harmonic mean with a green dot. The arithmetic
 scale provides high leverage to very rare species; although they carry little

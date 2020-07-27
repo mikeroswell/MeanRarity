@@ -20,3 +20,6 @@ Take a finite sample of individuals without replacement from a finite abundance 
 \examples{
 sample_finite(1:9, 15)
 }
+\seealso{
+\code{\link{sample_infinite}}
+}

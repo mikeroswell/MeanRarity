@@ -14,7 +14,7 @@ radplot(
 )
 }
 \arguments{
-\item{ab}{Numeric vector of species abundances or relative abundances}
+\item{ab}{A numeric vector of species abundances or relative abundances.}
 
 \item{maxrich}{Scalar, how many species to include space for}
 

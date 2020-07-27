@@ -60,27 +60,13 @@ future::plan(strategy = future::multiprocess, workers = nc) #this sets up the cl
 
 
 div_ests <- purrr::map_dfr(1:nrep, function(k){
- furrr::future_map_dfr(sz, function(x){
+  furrr::future_map_dfr(sz, function(x){
     map(2:length(beeAbunds), function(sitio){
       f<-beeAbunds %>% dplyr::select(all_of(sitio))
       if(sum(f) > x){
-        comm <- dplyr::pull(f) %>% subsam(size = x)
-
-        obsrich = dfun(comm, 1)
-        obsshan = dfun(comm, 0)
-        obssimp = dfun(comm, -1)
-        chaorich = SpadeR:::Chao_Hill_abu(comm, q = 0)
-        chaoshan = SpadeR:::Chao_Hill_abu(comm, q = 1)
-        chaosimp = SpadeR:::Chao_Hill_abu(comm, q = 2)
-
-        return(data.frame(individuals = x
-                     , obsrich
-                     , chaorich
-                     , obsshan
-                     , chaoshan
-                     , obssimp
-                     , chaosimp
-                     , site = names(f)))
+        comm = dplyr::pull(f) %>% subsam(size = x)
+        return(data.frame(obs_est(comm)
+                          , site = names(f)))
       }
     })
   })
@@ -92,6 +78,35 @@ mean_ests <- div_ests %>%
   dplyr::group_by(site, individuals) %>%
   dplyr::summarize_all(mean_narm)
 
+maxeff <- 14
+reps <- 9999 #could do fewer to make this quick
+
+tictoc::tic() #time this
+nc <- parallel::detectCores() - 1 #nc is number of cores to use in parallel processing
+future::plan(strategy = future::multiprocess, workers = nc) #this sets up the cluster
+
+show_ests <- furrr::future_map_dfr(1:reps, function(x){
+  purrr::map_dfr(1:maxeff, function(i){
+    sam <- beeObs %>%
+      dplyr::group_by(sr) %>%
+      dplyr::do(filter(., start %in%
+                         sample(unique(.$start)
+                                , size = maxeff - i + 1
+                                , replace = F)))
+    subcom <- sam %>% dplyr::group_by(bee, sr) %>%
+      dplyr::summarize(abund = n()) %>%
+      tidyr::spread(key = sr
+                    , value = abund
+                    , fill = 0) %>%
+      as.data.frame()
+    basicdat <- purrr::map_dfr(apply(subcom[, -1], MARGIN = 2, obs_est), rbind)
+    return(data.frame(basicdat, site = names(subcom[, -1]), transects = maxeff - i + 1))
+  })
+})
+
+tictoc::toc()
+
 usethis::use_data(beeObs, overwrite = TRUE)
 usethis::use_data(beeAbunds, overwrite = TRUE)
 usethis::use_data(mean_ests, overwrite = TRUE)
+usethis::use_data(show_ests, overwrite = TRUE)

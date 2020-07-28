@@ -137,39 +137,123 @@ site_pro %>%  ggplot(aes(ell, d, color = site)) +
 ```
 
 
+Figure 5
 
+```{r Effort-based Rarefaction, warning = F, eval = F}
+# this takes a long time to run so we're going to stash it but export the data
+# in the package
 
-```{r, warning = F, eval = F}
-# the idea here is to sample from 14 30-minute sampling bouts from each site and compare coverage, 
+# the idea here is to sample from 14 30-minute sampling bouts from each site and 
+# compare coverage. While we resample 30-minute transects, we compute the
+# estimated sample coverage and count individuals in each subsample. We use this
+# to compare standarization methods. 
+
 maxeff <- 14
-reps <- 9999 #could do fewer to make this quick
-
+reps <- 9999
 tictoc::tic() #time this
-nc <- parallel::detectCores() - 1 #nc is number of cores to use in parallel processing
+# nc <- parallel::detectCores() - 1 #nc is number of cores to use in parallel processing
 future::plan(strategy = future::multiprocess, workers = nc) #this sets up the cluster
 
 show_ests <- furrr::future_map_dfr(1:reps, function(x){
-    purrr::map_dfr(1:maxeff, function(i){
-        sam <- beeObs %>% 
-          dplyr::group_by(sr) %>% 
-          dplyr::do(filter(., start %in% 
-                      sample(unique(.$start)
-                             , size = maxeff - i + 1
-                             , replace = F)))
-        subcom <- sam %>% dplyr::group_by(bee, sr) %>% 
-          dplyr::summarize(abund = n()) %>% 
-          tidyr::spread(key = sr
-                      , value = abund
-                      , fill = 0) %>% 
-          as.data.frame()
-        basicdat <- purrr::map_dfr(apply(subcom[, -1], MARGIN = 2, obs_est), rbind)
-        return(data.frame(basicdat, site = names(subcom[, -1]), transects = maxeff - i + 1))
-        })
+  purrr::map_dfr(1:maxeff, function(i){
+    sam <- beeObs %>%
+      dplyr::group_by(sr) %>%
+      dplyr::do(filter(., start %in%
+                         sample(unique(.$start)
+                                , size = maxeff - i + 1
+                                , replace = F)))
+    subcom <- sam %>% dplyr::group_by(bee, sr) %>%
+      dplyr::summarize(abund = n()) %>%
+      tidyr::spread(key = sr
+                    , value = abund
+                    , fill = 0) %>%
+      as.data.frame()
+    basicdat <- purrr::map_dfr(apply(subcom[, -1], MARGIN = 2, obs_est), rbind)
+    return(data.frame(basicdat, site = names(subcom[, -1]), transects = maxeff - i + 1))
+  })
 })
 
-tictoc::toc()
+tictoc::toc() #Under 2 hours with only 4 cores
+
+effort_means <- show_ests %>%
+  dplyr::group_by(site, transects) %>%
+  dplyr::summarize_at(.vars = c("n"
+                              , "coverage"
+                              , "obsrich"
+                              , "chaorich"
+                              , "obsshan"
+                              , "chaoshan"
+                              , "obssimp"
+                              , "chaosimp"), .funs = mean)
+
+
+#gather to make a prettier plot, will need to get fancy now that there's asy also
+effort_rare <- effort_means %>% dplyr::rename(
+  "richness_observed" = obsrich
+  , "richness_asymptotic" = chaorich
+  , "Hill-Shannon_observed" = obsshan
+  , "Hill-Shannon_asymptotic" = chaoshan
+  , "Hill-Simpson_observed" = obssimp
+  , "Hill-Simpson_asymptotic" = chaosimp
+  , size = n
+  , effort = transects) %>%
+  tidyr::gather(key = "ell"
+                , value = "diversity"
+                , "richness_observed"
+                , "richness_asymptotic"
+                , "Hill-Shannon_observed"
+                , "Hill-Shannon_asymptotic"
+                , "Hill-Simpson_observed"
+                , "Hill-Simpson_asymptotic") %>%
+  tidyr::gather(key = method
+                , value =xax
+                , effort
+                , size
+                , coverage) %>%
+  tidyr::separate(ell, c("divind", "etype"), sep = "_")
+
+effort_rare$divind <- factor(effort_rare$divind
+                          , levels = c("richness"
+                                       , "Hill-Shannon"
+                                       , "Hill-Simpson")
+                          , labels = c("richness"
+                                     , "Hill-Shannon"
+                                     , "Hill-Simpson"))
+effort_rare$method <- factor(effort_rare$method
+                          , levels = c("effort"
+                                     , "size"
+                                     , "coverage"))
+effort_rare$etype <- factor(effort_rare$etype
+                         , levels = c("observed"
+                                      , "asymptotic"))
+
+
 ```
 
+``` {r Fig 5 rarefaction, fig.width =7, fig.height = 7}
+
+effort_rare %>% ggplot(aes(xax
+                           , diversity
+                           , color = site
+                           , shape = site)) +
+    geom_point() +
+    geom_line(aes(alpha = etype), size = 1) +
+    theme_classic() +
+    scale_alpha(range = c(0.4, 0.8)) +
+    theme( legend.position = "none"
+           , axis.text = element_text(colour = "black")
+           , axis.title.y = element_text(size = 14)
+           , panel.spacing = unit(.3, "lines")
+           , strip.placement.y = "outside") +
+    labs(x = "    transects                                                                        individuals                                                                         % coverage    "
+         , y = "diversity") +
+    facet_grid(divind ~ method + etype, scales = "free", switch = "y") +
+    expand_limits(y = 0) +
+    scale_shape_manual(values = c(15:18)) +
+    scale_color_brewer(palette = "Dark2") + 
+    scale_y_log10() +
+    scale_alpha_manual(values=c(1, 0.6))
+```
 
 ```{r Balance plot, fig.width = 9, fig.height = 3}
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/balance.R
 \name{radplot}
 \alias{radplot}
-\title{Plot a rank-abundance distribution}
+\title{Plot a rank-abundance distribution.}
 \usage{
 radplot(
   ab,
@@ -33,7 +33,7 @@ ggplot object with a rank-abundance plot
 }
 \description{
 Take a vector of species [relative] abundances and plot a rank-abundance
-distribution or Whittaker plot
+distribution or Whittaker plot.
 }
 \examples{
 radplot(c(20,8,5,4,2,1))

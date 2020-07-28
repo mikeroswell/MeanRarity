@@ -8,15 +8,20 @@
 #' estimating, and visualizing Hill diversity: For references on mean rarity,
 #' see Roswell et al. 2020 Oikos, and Patil and Taillie, and Jost 2006
 #'
-#' @section Computing Hill diversity: \code{\link{dfun}} computes Hill diversity
+#' @section Computing Hill diversity: \code{\link{rarity}} computes Hill diversity
 #'   as parameterized by Roswell et al. 2020, by computing the generalized
 #'   weighted mean of species rarities (i.e. the reciprocal of relative
 #'   abundance). The "link" functions for the generalized mean are
 #'   \code{\link{pfun}} and its inverse \code{\link{ipfun}}
 #'
+#' @section Simulating Species Abundace Distributions:
 #'
-#' @section Visualizing Mean Rarity: The code for balance plots, also in the the
-#'   web app meanrarity (URL) is also contained in this package
+#'
+#' @section Visualizing Mean Rarity: The code for rarity balance plots, also in
+#'   the web app \url{https://mean-rarity.shinyapps.io/rshiny_app1/} is
+#'   also contained in this package. \code{\link{rarity_plot}} makes rarity
+#'   balance plots. \code{\link{radplot}} makes plots of rank-abundance
+#'   distributions, with or without log-transforming abundances
 #'
 #' @docType package
 #' @name MeanRarity

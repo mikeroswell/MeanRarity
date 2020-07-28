@@ -2,7 +2,7 @@
 % Please edit documentation in R/DFuns.R
 \name{obs_est}
 \alias{obs_est}
-\title{Observed and asymptotic diversity}
+\title{Observed and asymptotic diversity.}
 \usage{
 obs_est(ab)
 }
@@ -16,7 +16,7 @@ and inverse Simpson.
 }
 \description{
 Computes observed and asymptotic Hill diversity estimates from a vector of
-integer abundances
+integer abundances.
 }
 \details{
 Only integer abundances allowed in \code{ab}, as asymptotic estimator relies
@@ -26,5 +26,5 @@ on sampling theory for individuals.
 obs_est(c(20,8,5,4,2,1))
 }
 \seealso{
-\code{\link{rarity}}, \code{\link[SpadeR]{Choa_Hill_Abu}}
+\code{\link{rarity}}, \code{\link{SpadeR:::Choa_Hill_abu}}
 }

@@ -1,4 +1,4 @@
-# fucntions to Generate a semi-parametric SAD based on richness, and Hill-Simpson.
+# functions to Generate a semi-parametric SAD based on richness, and Hill-Simpson.
 
 
 # define variables but also give them values for messing with
@@ -16,9 +16,11 @@
 #' and gives relative abundance estimates for each species.
 #'
 #' @param x Non-negative scalar, the shape parameter for a gamma distribution.
-#' @param rich Integer, the total number of species in the species abundance distribution.
+#' @param rich Integer, the total number of species in the species abundance
+#' distribution.
+#' @param distr Character string, one of \code{c("lnorm", "gamma")}
 #'
-#' @seealso \code{\link[stats]{qgamma}, \link[stats]{lnorm}, \link{fit_SAD}}
+#' @seealso \code{\link[stats]{qgamma}, \link[stats]{qlnorm}, \link{fit_SAD}}
 #'
 #' @export
 #' @examples

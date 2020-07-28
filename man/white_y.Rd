@@ -2,7 +2,8 @@
 % Please edit documentation in R/balance.R
 \name{white_y}
 \alias{white_y}
-\title{Convenience function to blank y-axis elements for constructing multi-panel plots.}
+\title{Convenience function to blank y-axis elements for constructing multi-panel
+plots.}
 \usage{
 white_y(p)
 }
@@ -13,6 +14,6 @@ white_y(p)
 A ggplot.
 }
 \description{
-This function whites out, but does not remove, y-axis elements for a consistent plot size that can
-be included (klugely) in a multi-panel plot
+This function whites out, but does not remove, y-axis elements for a
+consistent plot size that can be included in a multi-panel plot
 }

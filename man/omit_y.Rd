@@ -2,7 +2,8 @@
 % Please edit documentation in R/balance.R
 \name{omit_y}
 \alias{omit_y}
-\title{Convenience function to omit y-axis elements for constructing multi-panel plots.}
+\title{Convenience function to omit y-axis elements for constructing multi-panel
+plots.}
 \usage{
 omit_y(p)
 }

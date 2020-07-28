@@ -2,12 +2,12 @@
 % Please edit documentation in R/SampleFuns.R
 \name{sample_finite}
 \alias{sample_finite}
-\title{Take an abundance vector and subsample to size}
+\title{Take an abundance vector and subsample to size.}
 \usage{
-sample_finite(ab_vec, size = sum(ab_vec))
+sample_finite(ab, size = sum(ab))
 }
 \arguments{
-\item{ab_vec}{A numeric vector of species abundances}
+\item{ab}{A numeric vector of species abundances or relative abundances.}
 
 \item{size}{Number of individuals to sample, defaults to all of them, a scalar}
 }
@@ -15,7 +15,8 @@ sample_finite(ab_vec, size = sum(ab_vec))
 A numeric vector of species abundances, including 0's
 }
 \description{
-Take a finite sample of individuals without replacement from a finite abundance vector.
+Take a finite sample of individuals without replacement from an integer
+abundance vector.
 }
 \examples{
 sample_finite(1:9, 15)

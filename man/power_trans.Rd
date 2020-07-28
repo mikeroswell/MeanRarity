@@ -16,7 +16,7 @@ A scale transformation object for plotting in ggplot.
 }
 \description{
 This is a function for nice scale transformations for \code{ggplot2},
-including when \code{pow < 0}
+including when \code{pow < 0}.
 }
 \details{
 This function is for power transformations (i.e. raising to a power and
@@ -24,5 +24,5 @@ inverse) This is useful for visualizing generalized means.
 }
 \seealso{
 \code{\link[scales]{trans_new}}, \code{\link[scales]{trans_breaks}},
-\code{\link{pfun}}, \code{\link{ipfun}}, \code{\link[MeanRarity]{prettify}}
+\code{\link{pfun}}, \code{\link{ipfun}}
 }

@@ -2,19 +2,19 @@
 % Please edit documentation in R/SampleFuns.R
 \name{subcom}
 \alias{subcom}
-\title{Subsample of several community vectors
-A wrapper of \code{\link{sample_finite}} to take a subset of a bunch of communities,
-each subset of equal abundance.}
+\title{Subsample of several community vectors.
+A wrapper of \code{\link{sample_finite}} to take a subset of a bunch of
+communities, each subset of equal abundance.}
 \usage{
-subcom(com, size)
+subcom(ab, size)
 }
 \arguments{
-\item{com}{A list of abundance vectors.}
+\item{ab}{A numeric vector of species abundances or relative abundances.}
 
 \item{size}{Number of individuals to sample, a scalar.}
 }
 \description{
-Subsample of several community vectors
-A wrapper of \code{\link{sample_finite}} to take a subset of a bunch of communities,
-each subset of equal abundance.
+Subsample of several community vectors.
+A wrapper of \code{\link{sample_finite}} to take a subset of a bunch of
+communities, each subset of equal abundance.
 }

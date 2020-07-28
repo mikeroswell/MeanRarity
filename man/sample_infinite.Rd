@@ -2,12 +2,12 @@
 % Please edit documentation in R/SampleFuns.R
 \name{sample_infinite}
 \alias{sample_infinite}
-\title{Sample a [relative] abundance vector with replacement}
+\title{Sample a [relative] abundance vector with replacement.}
 \usage{
-sample_infinite(commSAD, size)
+sample_infinite(ab, size)
 }
 \arguments{
-\item{commSAD}{Numeric vector of [relative] abundances.}
+\item{ab}{A numeric vector of species abundances or relative abundances.}
 
 \item{size}{Scalar, number of individuals in finite samples.}
 }
@@ -15,7 +15,7 @@ sample_infinite(commSAD, size)
 A vector of integer species abundances
 }
 \description{
-Subsample the whole community with number of individuals = \code{size}
+Subsample the whole community with number of individuals = \code{size}.
 }
 \seealso{
 \code{\link{sample_finite}}

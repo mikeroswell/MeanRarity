@@ -16,7 +16,7 @@ pfun=function(x, pow){
   return(r)
 }
 
-#' Inverse function for power transformation
+#' Inverse function for power transformation.
 #'
 #' Transform a vector by raising to a power... specifically 1/pow.
 #'
@@ -27,15 +27,15 @@ pfun=function(x, pow){
 #' @return A numeric vector with same length as \code{x}.
 #'
 #' @export
-ipfun=function(x, pow){
-  if (pow==0) return(exp(x))
-  x<-ifelse(sign(pow)*x<0,0,x) #added so that ggplot padding doesnt introduce negative values to scale
-  r <- (sign(pow)*(x))^(1/pow)
+ipfun = function(x, pow){
+  if (pow == 0) return(exp(x))
+  x <- ifelse(sign(pow) * x < 0, 0, x) #added so that ggplot padding doesn't introduce negative values to scale
+  r <- (sign(pow) * (x))^(1 / pow)
   return(r)
 }
 
 
-#' Compute Hill diversity: the mean species rarity
+#' Compute Hill diversity: the mean species rarity.
 #'
 #' Compute the empirical Hill diversity from abundances or relative abundances.
 #' Hill diversity is also the mean species rarity.
@@ -83,10 +83,10 @@ rarity <- function(ab, l){
 
 dfun <- rarity
 
-#' Generate Hill diversity profile
+#' Generate Hill diversity profile.
 #'
 #' Compute observed Hill diversity profile based on an abundance vector over a
-#' range of scaling exponent values
+#' range of scaling exponent values.
 #'
 #' Hill diversity can be viewed as a continuous function of the scaling exponent
 #' \eqn{\ell} and the relative abundance distribution. As \eqn{\ell} increases,
@@ -114,10 +114,10 @@ divpro<-function(ab, ell_low = -1, ell_hi = 1, by = 0.001){
   return(data.frame(ell, d))
 }
 
-#' Observed and asymptotic diversity
+#' Observed and asymptotic diversity.
 #'
 #' Computes observed and asymptotic Hill diversity estimates from a vector of
-#' integer abundances
+#' integer abundances.
 #'
 #' Only integer abundances allowed in \code{ab}, as asymptotic estimator relies
 #' on sampling theory for individuals.
@@ -129,7 +129,7 @@ divpro<-function(ab, ell_low = -1, ell_hi = 1, by = 0.001){
 #' @template ab_template
 #'
 #'
-#' @seealso \code{\link{rarity}}, \code{\link[SpadeR]{Choa_Hill_Abu}}
+#' @seealso \code{\link{rarity}}, \code{\link{SpadeR:::Choa_Hill_abu}}
 #'
 #' @export
 #' @examples obs_est(c(20,8,5,4,2,1))

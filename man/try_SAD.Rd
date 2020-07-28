@@ -7,9 +7,12 @@
 try_SAD(rich, x, distr)
 }
 \arguments{
-\item{rich}{Integer, the total number of species in the species abundance distribution.}
+\item{rich}{Integer, the total number of species in the species abundance
+distribution.}
 
 \item{x}{Non-negative scalar, the shape parameter for a gamma distribution.}
+
+\item{distr}{Character string, one of \code{c("lnorm", "gamma")}}
 }
 \description{
 Wrapper for \code{\link[stats]{qgamma}} and \code{\link[stats]{qlnorm}} that
@@ -30,5 +33,5 @@ try_SAD(rich = 10, x = 0, distr = "gamma")
 
 }
 \seealso{
-\code{\link[stats]{qgamma}, \link[stats]{lnorm}, \link{fit_SAD}}
+\code{\link[stats]{qgamma}, \link[stats]{qlnorm}, \link{fit_SAD}}
 }

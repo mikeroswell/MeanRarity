@@ -53,21 +53,27 @@
 #' Roswell et al. 2020 *Oikos*. This rarefaction **actually** uses effort (we
 #' resampled 1:14 30-minute sampling transects), but each sample has an
 #' estimated sample coverage and number of sampled individuals associated with
-#' it.
+#' it. We summarized average diversity estimates, coverage estimate, and
+#' number of individuals across all samples with the same number of transects
+#' for each site.
 #'
 #' @seealso Chao & Jost 2012 *Ecology* \url{https://doi.org/10.1890/11-1952.1}.
 #'
-#' @format A tibble with 2015 rows and 8 variables:
-#'  - *n*: Integer, individuals in rarefied sample
-#'  - *coverage*: Estimated sample coverage sensu Chao and Jost 2012
-#'  - *obsrich*: Numeric, mean observed species richness
-#'  - *chaorich*: Numeric, mean estimated asymptotic richness from Chao1 estimator
+#' @format A tibble with 1008 rows and 6 variables:
+#'  - *site*: Factor, site ID
+#'  - *divind*: Factor, Hill diversity ("richness"
+#'  , "Hill-Shannon", or "Hill-Simpson)
+#'  - *etype* Factor, estimate type ("observed", or "asymptotic")
+#'  - *diversity*: Numeric, mean estimated Hill diversity value
+#'  - *method*: Factor, standardization method ("effort", "size", or "coverage")
+#'  - *xax*: Numeric, number of transects in subsamples, mean number of
+#'  individuals in subsamples, or mean sample coverage of subsamples
 #'  - *obsshan*: Numeric, mean observed Hill-Shannon diversity
 #'  - *chaoshan* Numeric, mean estimated asymptotic Hill-Shannon diversity
 #'  - *obssimp* Numeric, mean observed Hill-Simpson diversity
 #'  - *chaosimp* Numeric, mean estimated asymptotic Hill-Simpson diversity
-#'  - *site*: Character, site ID
-#'  - *transects* Integer,
 
-"show_ests"
+
+
+"effort_rare"
 

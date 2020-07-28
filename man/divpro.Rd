@@ -2,7 +2,7 @@
 % Please edit documentation in R/DFuns.R
 \name{divpro}
 \alias{divpro}
-\title{Generate Hill diversity profile}
+\title{Generate Hill diversity profile.}
 \usage{
 divpro(ab, ell_low = -1, ell_hi = 1, by = 0.001)
 }
@@ -21,7 +21,7 @@ Hill diversity \code{d}
 }
 \description{
 Compute observed Hill diversity profile based on an abundance vector over a
-range of scaling exponent values
+range of scaling exponent values.
 }
 \details{
 Hill diversity can be viewed as a continuous function of the scaling exponent

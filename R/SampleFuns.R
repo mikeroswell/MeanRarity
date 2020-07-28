@@ -2,12 +2,12 @@
 ### Convenience functions to sample community data, estimate empirical mean diversities
 
 
-#' Take an abundance vector and subsample to size
+#' Take an abundance vector and subsample to size.
 #'
 #' Take a finite sample of individuals without replacement from an integer
 #' abundance vector.
 #'
-#' @template ab_temmplate
+#' @template ab_template
 #' @param size Number of individuals to sample, defaults to all of them, a scalar
 #'
 #' @return A numeric vector of species abundances, including 0's
@@ -16,28 +16,28 @@
 #'
 #' @export
 #' @examples sample_finite(1:9, 15)
-sample_finite <- function(ab_vec, size = sum(ab)){
+sample_finite <- function(ab, size = sum(ab)){
   inds <- unlist(lapply(1:length(ab), function(x){
     rep(x, ab[x])
   }))
   sam <- sample(inds, size = size, replace = FALSE)
-  ss <- unlist(lapply(1:length(ab_vec), function(y){
+  ss <- unlist(lapply(1:length(ab), function(y){
     length(which(sam == y))
   }))
   return(ss)
 }
 
 subsam <- sample_finite
-#' Subsample of several community vectors
+#' Subsample of several community vectors.
 
-#' A wrapper of \code{\link{sample_finite}} to take a subset of a bunch of communities,
-#' each subset of equal abundance.
+#' A wrapper of \code{\link{sample_finite}} to take a subset of a bunch of
+#' communities, each subset of equal abundance.
 #'
 #' @template ab_template
 #' @param size Number of individuals to sample, a scalar.
 #'
 #' @export
-subcom<-function(ab, size){
+subcom <- function(ab, size){
   t(apply(ab, 1, function(x){
     sample_finite(x, size)}
   ))
@@ -51,7 +51,7 @@ subcom<-function(ab, size){
 # }
 
 
-#' Estimate Hill diversity with order l=1-q under rarefaction
+#' Estimate Hill diversity with order l=1-q under rarefaction.
 #'
 #' This is a function (currently run in parallel with
 #'      \code{\link[parallel]{detectCores}} and \code{\link[furrr]{future_map_dfr}} )
@@ -93,7 +93,7 @@ raref<-function(from, to, by, comm, n = 1, l, cores = NULL){
         mrest <- fsd(ab = x, l = l)
         est <- SpadeR:::Chao_Hill_abu(x, q = 1 - l)#}
         emp <- rarity(ab = x, l = l)
-        coverage <- SpadeR::Chat.Ind(x)
+        coverage <- SpadeR::Chat.Ind(x, sum(x))
         out <- rbind(divest = est
                      , zhangest = mrest
                      , divemp = emp
@@ -145,9 +145,9 @@ truemu <- function(ab, size, reps, l, ...){
 }
 
 
-#' Sample a \[relative\] abundance vector with replacement
+#' Sample a \[relative\] abundance vector with replacement.
 #'
-#' Subsample the whole community with number of individuals = \code{size}
+#' Subsample the whole community with number of individuals = \code{size}.
 #'
 #' @template ab_template
 #' @param size Scalar, number of individuals in finite samples.
@@ -166,7 +166,7 @@ sample_infinite <- function(ab, size){
     length(which(namevec == y))}))
   return(mysam)}
 
-#' Estimate empirical mean rarity (given l) for a finite-sized sample
+#' Estimate empirical mean rarity (given l) for a finite-sized sample.
 #'
 #' Samples taken from a species abundance distribution (sampling with
 #' replacement).

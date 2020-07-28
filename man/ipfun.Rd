@@ -2,7 +2,7 @@
 % Please edit documentation in R/DFuns.R
 \name{ipfun}
 \alias{ipfun}
-\title{Inverse function for power transformation}
+\title{Inverse function for power transformation.}
 \usage{
 ipfun(x, pow)
 }

@@ -41,6 +41,7 @@ combfun<-function(x){x=x[order(x)]; y=unique(x)*as.numeric(table(x)); return (y)
 #' @noRd
 #' @examples prettify(sqrt(2:7))
 #' @examples prettify(sqrt(seq(2e3, 2e5, 4739)))
+#'
 prettify <- function(breaks){
     digits <- -floor(log10(abs(breaks))) + 1
     digits[breaks == 0] <- 0
@@ -54,7 +55,7 @@ prettify <- function(breaks){
 #' Power scale transformation.
 #'
 #' This is a function for nice scale transformations for \code{ggplot2},
-#' including when \code{pow < 0}
+#' including when \code{pow < 0}.
 #'
 #' This function is for power transformations (i.e. raising to a power and
 #' inverse) This is useful for visualizing generalized means.
@@ -64,7 +65,7 @@ prettify <- function(breaks){
 #'
 #' @return A scale transformation object for plotting in ggplot.
 #' @seealso \code{\link[scales]{trans_new}}, \code{\link[scales]{trans_breaks}},
-#'   \code{\link{pfun}}, \code{\link{ipfun}}, \code{\link[MeanRarity]{prettify}}
+#'   \code{\link{pfun}}, \code{\link{ipfun}}
 #' @export
 power_trans = function(pow, nb) scales::trans_new(name = "power"
    , transform = function(x) pfun(x, pow)
@@ -92,10 +93,10 @@ fancy_rep<-function(df){
     )
 }
 
-#' Base plot onto which balance plot is printed
+#' Base plot onto which balance plot is printed.
 #'
 #' Takes abundance and various scale/dimension arguments to craft a ggplot
-#' object for rarity plots
+#' object for rarity plots.
 #'
 #' @template ab_template
 #' @param fill_col Color for filling each of the boxes representing a single
@@ -185,7 +186,7 @@ base_plot <- function(ab, pointScale
 	return(theme_plot(base, base_size=base_size, noco=noco))
 }
 
-#' Set preferences for axes etc. for balance plots
+#' Set preferences for axes etc. for balance plots.
 #'
 #' @param p ggplot object
 #' @param base_size Typeface size for ggplot text (scalar).
@@ -210,7 +211,7 @@ theme_plot <- function(p, base_size=24, noco=1, ...){
 	)
 }
 
-#' Rescales baseplot x-axis, adds space to allow matching scales between comms
+#' Rescales baseplot x-axis, adds space to allow matching scales between comms.
 #'
 #' @template l_template
 #' @param fill_col Color for filling each of the boxes representing a single
@@ -249,12 +250,12 @@ scale_plot <- function(
 	        )
 }
 
-#' Reference points at means with power \code{l}
+#' Reference points at means with power \code{l}.
 #'
 #' @template ab_template
 #' @template l_template
 #' @param noco Scalar, shrinks text and points if plotting multiple balance plots
-#'   in a single plotting window
+#'   in a single plotting window.
 #'
 #' @return geom object to add to a ggplot object to construct balance plot
 #'
@@ -269,7 +270,7 @@ mean_points <- function(ab, l, noco=1){
 	))
 }
 
-#' Plot the fulcrum
+#' Plot the fulcrum.
 #'
 #' @template l_template
 #' @param fill_col Color for filling each of the boxes representing a single
@@ -312,11 +313,11 @@ fulcrum<-function(ab, l
     )
 }
 
-#' Construct rarity balance plot
+#' Construct rarity balance plot.
 #'
 #' This function takes the abundance vector, scaling exponent, and target means
 #' (Default the Pythagorean means), and returns a formatted 1-panel ggplot
-#' object
+#' object.
 #'
 #' Hill diversity, or "mean rarity," is the balance point for the community
 #' along the rarity scale. The image produced by \code{rarity_plot} illustrates
@@ -417,10 +418,10 @@ rarity_plot <- function(ab
 	)
 }
 
-#' Conventiently plot for l=-1:1, with reference points in each fig
+#' Conventiently plot for l=-1:1, with reference points in each fig.
 #'
-#' Convenience function for plotting the arithmetic, geometric, and harmonic mean rarities with
-#' only one line of code.
+#' Convenience function for plotting balance plots for the arithmetic,
+#' geometric, and harmonic mean rarities with only one line of code.
 #'
 #' @return Prints 3 ggplots into graphics device.
 #'
@@ -436,10 +437,11 @@ rarity_series <- function(ab, lrange = -1:1, means = lrange, ...){
 	}
 }
 
-#' Convenience function to blank y-axis elements for constructing multi-panel plots.
+#' Convenience function to blank y-axis elements for constructing multi-panel
+#' plots.
 #'
-#' This function whites out, but does not remove, y-axis elements for a consistent plot size that can
-#' be included (klugely) in a multi-panel plot
+#' This function whites out, but does not remove, y-axis elements for a
+#' consistent plot size that can be included in a multi-panel plot
 #'
 #' @return A ggplot.
 #'
@@ -460,7 +462,8 @@ white_y<-function(p){
 }
 
 
-#' Convenience function to omit y-axis elements for constructing multi-panel plots.
+#' Convenience function to omit y-axis elements for constructing multi-panel
+#' plots.
 #'
 #' This function removes y-axis elements for plots intended to be
 #' included in a multi-panel plot. WHen the y-axis is ommitted (rather than
@@ -492,10 +495,10 @@ omit_y<-function(p){
 
 
 
-#' Plot a rank-abundance distribution
+#' Plot a rank-abundance distribution.
 #'
 #' Take a vector of species \[relative\] abundances and plot a rank-abundance
-#' distribution or Whittaker plot
+#' distribution or Whittaker plot.
 #'
 #' @template ab_template
 #' @param maxrich Scalar, how many species to include space for

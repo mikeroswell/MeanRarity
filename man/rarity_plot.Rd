@@ -2,7 +2,7 @@
 % Please edit documentation in R/balance.R
 \name{rarity_plot}
 \alias{rarity_plot}
-\title{Construct rarity balance plot}
+\title{Construct rarity balance plot.}
 \usage{
 rarity_plot(ab, l, means = -1:1, noco = 1, lines = F, ...)
 }
@@ -25,7 +25,7 @@ individuals be summarized simply as the height of a line segment.}
 \description{
 This function takes the abundance vector, scaling exponent, and target means
 (Default the Pythagorean means), and returns a formatted 1-panel ggplot
-object
+object.
 }
 \details{
 Hill diversity, or "mean rarity," is the balance point for the community

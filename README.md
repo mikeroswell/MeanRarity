@@ -1,5 +1,5 @@
 # MeanRarity
-Repo for development of mean rarity R packages
+Repo for development of MeanRarity R package
 
 TODO: 
 

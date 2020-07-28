@@ -232,27 +232,28 @@ effort_rare$etype <- factor(effort_rare$etype
 
 ``` {r Fig 5 rarefaction, fig.width =7, fig.height = 7}
 
-effort_rare %>% ggplot(aes(xax
-                           , diversity
-                           , color = site
-                           , shape = site)) +
-    geom_point() +
-    geom_line(aes(alpha = etype), size = 1) +
-    theme_classic() +
-    scale_alpha(range = c(0.4, 0.8)) +
-    theme( legend.position = "none"
-           , axis.text = element_text(colour = "black")
-           , axis.title.y = element_text(size = 14)
-           , panel.spacing = unit(.3, "lines")
-           , strip.placement.y = "outside") +
-    labs(x = "    transects                                                                        individuals                                                                         % coverage    "
-         , y = "diversity") +
-    facet_grid(divind ~ method + etype, scales = "free", switch = "y") +
-    expand_limits(y = 0) +
-    scale_shape_manual(values = c(15:18)) +
-    scale_color_brewer(palette = "Dark2") + 
-    scale_y_log10() +
-    scale_alpha_manual(values=c(1, 0.6))
+effort_rare %>% 
+  filter(etype == "observed") %>% 
+  ggplot(aes(xax
+             , diversity
+             , color = site
+             , shape = site)) +
+  geom_point(size = 2) +
+  geom_line() +
+  theme_classic() +
+  scale_alpha(range=c(0.4, 0.8)) +
+  theme( legend.position = "none"
+         , axis.text = element_text(colour = "black")
+         , axis.title.y = element_text(size = 14)
+         , panel.spacing = unit(1.3, "lines")
+         , strip.placement.y = "outside") +
+  labs(x = "    transects                        individuals                % coverage    "
+       , y = "diversity") +
+  facet_grid(divind ~ method, scales = "free", switch = "y") +
+  expand_limits(y = 0) +
+  scale_shape_manual(values = c(15:18)) +
+  scale_color_brewer(palette = "Dark2") + 
+  scale_y_log10()
 ```
 
 ```{r Balance plot, fig.width = 9, fig.height = 3}

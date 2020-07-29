@@ -112,27 +112,35 @@
 #   return(p.new)
 # }
 
-# Copied Fn from SpadeR but commented out a lot of incidence stuff need to keep this version for code in Roswell et al. 2020 Oikos.
 
-#' Bootstrap.CI(x,q,B,datatype,conf) is a function of calculating the bootstrapping standard error based on abundance data or incidence data.
-#' @param x a vector of species sample frequencies (for abundance data) or incidence-based sample frequencies (1st entry must be the number of sampling unit).
+#' Approximate CI for observed and asymptotic Hill diversity.
+#'
+#' Functionally, a wrapper for `SpadeR:::Bootstrap_CI`, slimmed down to deal with
+#' only abundance data and set to return a data.frame. Copied and pasted source
+#' code from `SpadeR`
+
+
+#' @param x a vector of species sample frequencies (for abundance data) or
+#'   incidence-based sample frequencies (1st entry must be the number of
+#'   sampling unit).
 #' @param q a numeric or a vector of diversity order.
-#' @param B an integer to specify the number of replications in the bootstrap procedure, B = 1000 is suggested for constructing confidence intervals;
+#' @param B an integer to specify the number of replications in the bootstrap
+#'   procedure, B = 1000 is suggested for constructing confidence intervals;
 #'  To save running time, use a smaller value (e.g. B = 200)..
 #' @param datatype a character of data type,"abundance" or "incidence".
 #' @param conf a confidence coefficient between 0 and 1.
-#' @return a list, consisting of 3 matrices including respectively the difference between the average and lower confidence bound of the B bootstrap estimates,
-#'  the difference between the upper confidence bound and the average of the B bootstrap estimates, and the bootstrap standard error of the diversity estimate.
-#'  In each matrix, the first row gives the results for the empirical diversity, and the second row gives the results for the proposed diversity estimates.
-#'  Columns give the results for different orders of q.
+#' @return a list, consisting of 3 matrices including respectively the
+#'   difference between the average and lower confidence bound of the B
+#'   bootstrap estimates, the difference between the upper confidence bound and
+#'   the average of the B bootstrap estimates, and the bootstrap standard error
+#'   of the diversity estimate. In each matrix, the first row gives the results
+#'   for the empirical diversity, and the second row gives the results for the
+#'   proposed diversity estimates. Columns give the results for different orders
+#'   of q.
 #'
 #'  @noRd
 
-# x<-subsam(usersguide, 10)
-# q<-0
-# datatype<-"abundance"
-# B<-1000
-Bootstrap.CI = function(x,q,B = 1000,datatype = c("abundance","incidence"),conf = 0.95){
+Bootstrap.CI_df = function(x,q,B = 1000,datatype = c("abundance","incidence"),conf = 0.95){
     datatype = match.arg(datatype,c("abundance","incidence"))
     p.new = SpadeR:::Bt_prob_abu(x)
     # p.new = Bt_prob(x,datatype)
@@ -243,3 +251,127 @@ checkchao<-function(x
             )
 
   )}
+
+
+#' Approximate CI for sample Hill diversity.
+#'
+#' Computes Chao and Jost 2015's suggested CI for empirical Hill diversity, sampling from an infinite pool (i.e. with replacement).
+#'
+#' @template l_template
+#' @param SAD List, output from function `fit_SAD`
+#' @param size Scalar, integer number of individuals to sample.
+#' @param B Scalar, integer number of bootstrap replicates.
+#' @param treumun = Scalar, true expected diversity for sample of size = `size`.
+#' @param conf Scalar, nominal confidence level.
+#' @param ... Arguments passed to other functions
+#'
+#' @return A data frame with upper and lower confidence limits and the p-value
+#'   for the true diversity, computed both with and without the mean correction
+#'   implemented in Chao and Jost 2015 MEE.
+#'
+#' @seealso \url{https://doi.org/10.1111/2041-210X.12349}
+#'
+#' @noRd
+obscp_inf <- function(l = l
+                      , size = size
+                      , SAD = SAD
+                      , B = 2000
+                      , truemun = truemun
+                      , conf = 0.95
+                      , ...){
+  sam <- sample_infinite(SAD$rel_abundances, size = size)
+  data.bt = rmultinom(B
+                      , size
+                      , Bt_prob_abu(sam)) #this genenerates "bootstrapped" samples
+  obs <- rarity(sam, l) # observed diversity
+  pro = apply(data.bt, 2, function(boot) rarity(boot, l)) #sample diversity for bootstraps
+  pro_mc <- pro - mean(pro) + obs
+
+  less <- sum(pro_mc < truemun) / length(pro_mc)
+  more <- (length(pro_mc) - sum(pro_mc > truemun))/length(pro_mc)
+  p <- runif(1, min(less, more), max(less, more)) #this is a way to simulate the theoretical distribution of p-values in spite of ties.
+
+  lower <- max(pro_mc[which(min_rank(pro_mc) <= max(floor(B * (1 - conf) / 2), 1))])
+  upper <- min(pro_mc[which(min_rank(-pro_mc) <= max(floor(B * (1 - conf)/2), 1))])
+
+  less_no_mc <- sum(pro < truemun) / length(pro)
+  more_no_mc <- (length(pro) - sum(pro > truemun)) / length(pro)
+  p_no_mc <- runif(1, min(less, more), max(less, more))
+
+  lower_no_mc <- max(pro[which(min_rank(pro) <= max(floor(B * (1 - conf) / 2) ,1))])
+  upper_no_mc <- min(pro[which(min_rank(-pro) <= max(floor(B * (1 - conf)/2) ,1))])
+
+  return(data.frame("p" = p
+                    , "p_no_mc" = p_no_mc
+                    , upper = upper
+                    , lower = lower
+                    , upper_no_mc = upper_no_mc
+                    , lower_no_mc = lower_no_mc
+                    , "truemu" = truemun
+                    , "obsD" = obs
+                    , "l" = l
+                    , "size" = size ))
+
+}
+
+
+#' Approximate CI for sample Hill diversity.
+#'
+#' Computes Chao and Jost 2015's suggested CI for empirical Hill diversity, sampling from a finite pool without replacement.
+#'
+#' @template l_template
+#' @template ab_template
+#' @param size Scalar, integer number of individuals to sample.
+#' @param B Scalar, integer number of bootstrap replicates.
+#' @param treumun = Scalar, true expected diversity for sample of size = `size`.
+#' @param conf Scalar, nominal confidence level.
+#' @param ... Arguments passed to other functions
+#'
+#' @return A data frame with upper and lower confidence limits and the p-value
+#'   for the true diversity, computed both with and without the mean correction
+#'   implemented in Chao and Jost 2015 MEE.
+#'
+#' @seealso \url{https://doi.org/10.1111/2041-210X.12349}
+#'
+#' @noRd
+obscp_obs <- function(l = l
+                      , size = size
+                      , ab = ab
+                      , B = 2000
+                      , truemun = truemun
+                      , conf = 0.95
+                      , ...){
+  sam <- sample_finite(ab, size = size)
+  data.bt = rmultinom(B
+                      , size
+                      , Bt_prob_abu(sam)) #this genenerates "bootstrapped" samples
+  obs <- rarity(sam, l) # observed diversity
+  pro = apply(data.bt, 2, function(boot) rarity(boot, l)) #sample diversity for bootstraps
+  pro_mc <- pro - mean(pro) + obs
+
+  less <- sum(pro_mc < truemun) / length(pro_mc)
+  more <- (length(pro_mc) - sum(pro_mc > truemun))/length(pro_mc)
+  p <- runif(1, min(less, more), max(less, more)) #this is a way to simulate the theoretical distribution of p-values in spite of ties.
+
+  lower <- max(pro_mc[which(min_rank(pro_mc) <= max(floor(B * (1 - conf) / 2), 1))])
+  upper <- min(pro_mc[which(min_rank(-pro_mc) <= max(floor(B * (1 - conf)/2), 1))])
+
+  less_no_mc <- sum(pro < truemun) / length(pro)
+  more_no_mc <- (length(pro) - sum(pro > truemun)) / length(pro)
+  p_no_mc <- runif(1, min(less, more), max(less, more))
+
+  lower_no_mc <- max(pro[which(min_rank(pro) <= max(floor(B * (1 - conf) / 2) ,1))])
+  upper_no_mc <- min(pro[which(min_rank(-pro) <= max(floor(B * (1 - conf)/2) ,1))])
+
+  return(data.frame("p" = p
+                    , "p_no_mc" = p_no_mc
+                    , upper = upper
+                    , lower = lower
+                    , upper_no_mc = upper_no_mc
+                    , lower_no_mc = lower_no_mc
+                    , "truemu" = truemun
+                    , "obsD" = obs
+                    , "l" = l
+                    , "size" = size ))
+
+}

@@ -136,29 +136,37 @@ site_pro %>%  ggplot(aes(ell, d, color = site)) +
     scale_shape_manual(values = c(15:18)) +
     scale_color_brewer(palette = "Dark2")
 ```
-Fig 4 uses the R package `iNEXT`, which is not imported by `MeanRarity`. This will take a long time to run
-
-```{r Figure 4: diversity estimates with CI}
-
-nc <- parallel::detectCores() - 1 #nc is number of cores to use in parallel processing
-future::plan(strategy = future::multiprocess, workers = nc) #this sets up the cluster
+Fig 4 uses the R package `iNEXT`, which is not imported by `MeanRarity`. 
+```{r Figure 4: diversity estimates with CI, fig.height = 4.6, fig.width = 7}
 
 tictoc::tic() #time this
-iseveral <- furrr::future_map_dfr(c(0, 1, 2), function(q){
-    purrr::map_dfr(iNEXT::iNEXT(as.matrix(beeAbunds[, -1])
-                                , q = q
-                                , knots = 100
-                                , nboot = 999
-                                , endpoint = 745)$iNextEst
-                   , bind_rows, .id = "site")
-    })
+
+iN_form <- as.list(beeAbunds[, -1])
+by_size <- iNEXT::estimateD( iN_form
+                                , base = "size")
+
+by_coverage <- iNEXT::estimateD(iN_form
+                                , base = "coverage")
+
+by_effort <- map_dfr(lapply(iN_form, sum), function(size){
+    iNEXT::estimateD(iN_form
+                    , base = "size"
+                    , level = size) %>% filter(method =="observed")
+
+})
+    
+iseveral <- dplyr::bind_rows(size = by_size
+                             , coverage = by_coverage
+                             , effort = by_effort
+                             , .id = "standard")
+                   
 tictoc::toc()  #.25 hrs, can't paralellize much
 
 tictoc::tic()
-asyseveral <- furrr::future_map_dfr(2:5, function(sitio){
+asyseveral <- purrr::map_dfr(2:5, function(sitio){
   purrr::map_dfr(0:2, function(q){
-    theboots <- Bootstrap.CI(pull(beeAbunds[, sitio]), q = q)
-    est <- Chao_Hill_abu(pull(beeAbunds[, sitio]), q = q)
+    theboots <- MeanRarity:::Bootstrap.CI_df(pull(beeAbunds[, sitio]), q = q)
+    est <- SpadeR:::Chao_Hill_abu(pull(beeAbunds[, sitio]), q = q)
     data.frame(site = names(beeAbunds[, sitio])
                , order = q
                , qD = est
@@ -166,114 +174,114 @@ asyseveral <- furrr::future_map_dfr(2:5, function(sitio){
                , qD.UCL = est + theboots[4])
   })
 })
-tictoc::toc() #.25 hrs, can't paralellize much
+tictoc::toc() # seconds.
 
 asyseveral$method <- "asymptotic"
-asyseveral
-allseveral<-bind_rows(iseveral, asyseveral)
+asyseveral$standard <- "asymptotic"
+allseveral <- bind_rows(iseveral, asyseveral)
 #diversities, standardized by effort
-obs<-allseveral %>% filter(method=="observed") 
 
 #get some parameters of data
-minm<-min(obs %>% filter(m==min(m)) %>% pull(m)) #individuals in sample with fewest
-minc<-min(obs %>% group_by(site) %>% dplyr::summarize(SC=max(SC)) %>% pull(SC)) # coverage of sample with lowest
-
-#diversities, standardized by sample size
-inds<-allseveral %>%group_by(site) %>% filter(m==m[which.min(abs(m-minm))]&method!="extrapolated") 
-# inds
-
-#diversities, standardized by coverage
-cov<-allseveral %>% group_by(site) %>% filter(SC==SC[which.min(abs(SC-minc))]&method!="extrapolated") %>% filter(m==max(m))
-# cov
-asy<-allseveral %>% group_by(site) %>% filter(method=="asymptotic")
+minm <- min(by_effort %>% filter(m == min(m)) %>% pull(m)) #individuals in sample with fewest
+minc <- min(by_effort %>% group_by(site) %>% dplyr::summarize(SC = max(SC)) %>% pull(SC)) # coverage of sample with lowest
 
 
+tog <- allseveral %>% mutate(sm=paste(standard, site, sep=""))
 
-tog<-map_dfr(list(cov, inds, obs, asy), bind_rows, .id="standard") %>% mutate(sm=paste(standard, site, sep=""))
-# str(tog)
-View(tog)
-inds<-data.frame("order"=c(0,1,2), divind=factor(c("richness", "Hill-Shannon", "Hill-Simpson")
-                                                 , levels=c("richness", "Hill-Shannon", "Hill-Simpson")))
-methds<-data.frame("standard"=c("3","2","1","4" )
-                   ,"meth"=factor(c("effort","size","coverage", "asymptotic"))
-                   )
-togn<-tog %>% left_join(inds) %>% left_join(methds) %>% ungroup()
-# togn<-read.csv("data/togn.csv")
-togn<-togn %>% mutate(divind=factor(divind, levels=c("richness", "Hill-Shannon", "Hill-Simpson"))
-                      , site=factor(site, levels=c("IAS_3", "Cold Soil_5", "Lord Stirling_4", "Fox Hill_5")))
+inds <- data.frame("order" = c(0, 1, 2), divind = factor(c("richness"
+                                                           , "Hill-Shannon"
+                                                           , "Hill-Simpson")
+                                                 , levels = c("richness"
+                                                              , "Hill-Shannon"
+                                                              , "Hill-Simpson")))
+
+togn <- tog %>% left_join(inds) %>%  ungroup()
+togn <- togn %>%     
+  mutate(divind = factor(divind
+                         , levels = c("richness"
+                                      , "Hill-Shannon"
+                                      , "Hill-Simpson"))
+          , site = factor(site
+                          , levels = c("IAS_3"
+                                     , "Cold Soil_5"
+                                     , "Lord Stirling_4"
+                                     , "Fox Hill_5")))
   
 unique(togn$site)
 
              
-togn<-togn %>% mutate(methlab=factor(meth,levels=c("effort","size","coverage", "asymptotic")
-                                     , labels=c("effort (14 transects)","size (255 individuals)","coverage (95.7%)", "asymptotic")))
+togn <- togn %>% 
+  mutate(methlab = factor(standard
+                          , levels = c("effort"
+                                       , "size"
+                                       , "coverage"
+                                       , "asymptotic")
+                           , labels = c("effort (14 transects)"
+                                        , "size (255 individuals)"
+                                        , "coverage (95.7%)"
+                                        , "asymptotic")))
 ebsize<-0.6
 ebw<-0.4
 psize<-2.5
 
-
-#########################################################
-######## MS FIG & and appedix C ########################
-##########################################################
-
-
-pdf(file="figures/final_standardization_question.pdf")
-togn %>% 
-    filter(methlab!="asymptotic") %>% 
-    ggplot(aes(site, qD, color=site, shape=site,))+
-    geom_errorbar(aes(ymin=qD.LCL, ymax=qD.UCL), size=ebsize, width=ebw)+
-    geom_point(size=psize)+
-    facet_grid(divind~methlab, switch="y", scales="free_y")+
-    theme_classic()+
-    theme(legend.position = "none", axis.text.x=element_blank(), axis.ticks.x=element_blank())+
-    labs(y=NULL)+
-    theme(panel.spacing = unit(0, "lines"),
-          panel.border = element_rect(fill = NA),
-          strip.background = element_blank(),
-          strip.text=element_text(face="bold", size=14),
-          axis.title.x = element_blank(),
-          legend.position = "none",
-          strip.placement = "outside")+
-    scale_y_continuous(limits=c(0,NA), expand=expand_scale(mult=c(0,.05)))+
-    scale_shape_manual(values=c(17,15,18,16))+
-    scale_color_manual(values=c("#7570b3"
+############################
+# make figures, which get stuck together.
+leftPlot <- togn %>% 
+    filter(methlab != "asymptotic") %>% 
+    ggplot(aes(site, qD, color = site, shape = site)) +
+    geom_errorbar(aes(ymin = qD.LCL, ymax = qD.UCL)
+                  , size = ebsize, width = ebw) +
+    geom_point(size = psize) +
+    facet_grid(divind ~ methlab, switch = "y", scales = "free_y") +
+    theme_classic() +
+    theme(legend.position = "none", axis.text.x = element_blank()
+          , axis.ticks.x = element_blank()) +
+    labs(y = NULL) +
+    theme(panel.spacing = unit(0, "lines")
+          , panel.border = element_rect(fill = NA)
+          , strip.background = element_blank()
+          , strip.text = element_text(face = "bold", size = 10)
+          , axis.title.x = element_blank()
+          , legend.position = "none"
+          , strip.placement = "outside") +
+    scale_y_continuous(limits = c(0,NA)
+                       , expand = expand_scale(mult = c(0, .05))) +
+    scale_shape_manual(values = c(17, 15, 18, 16)) +
+    scale_color_manual(values = c("#7570b3"
                                 , "#1b9e77"
                                 , "#e7298a"
-                                , "#d95f02"
-        
-        )) #scale_color_hue(l=c(10,65,45),c=c(500,200,150))
-
-# makedat<-makedat1 %>% select(uniqueID, bee, start=boutstart, sr, sday1, site, sampling_round) %>% filter(sr %in%c("IAS_5",  "Baldpate_3", "Cold Soil_1", "Lord Stirling_5", "Featherbed_2", "Fox Hill_2", "IAS_3", "URWA_4", "Baldpate_1", "Baldpate_5"))
-dev.off()
-pdf("figures/final_standardization_chao1_only.pdf", width=2.5)
-togn %>% 
-  filter(methlab=="asymptotic") %>% 
-  ggplot(aes(site, qD, color=site, shape=site,))+
-  geom_errorbar(aes(ymin=qD.LCL, ymax=qD.UCL), size=ebsize, width=ebw)+
-  geom_point(size=psize)+
-  facet_grid(divind~methlab, switch="y", scales="free_y")+
-  theme_classic()+
-  theme(legend.position = "none", axis.text.x=element_blank(), axis.ticks.x=element_blank())+
-  labs(y=NULL, x=NULL)+
+                                , "#d95f02")) 
+rightPlot<- togn %>% 
+  filter(methlab == "asymptotic") %>% 
+  ggplot(aes(site, qD, color = site, shape = site)) +
+  geom_errorbar(aes(ymin = qD.LCL, ymax = qD.UCL), size = ebsize, width = ebw) +
+  geom_point(size = psize) +
+  facet_grid(divind~methlab, switch="y", scales="free_y") +
+  theme_classic() +
+  theme(legend.position = "none", axis.text.x = element_blank()
+        , axis.ticks.x = element_blank()) +
+  labs(y = NULL, x = NULL) +
   theme(panel.spacing = unit(0, "lines"),
         panel.border = element_rect(fill = NA),
         strip.background = element_blank(),
-        strip.text.x=element_text(face="bold", size=14),
-        strip.text.y=element_blank(),
-        axis.title= element_blank(),
+        strip.text.x = element_text(face = "bold", size = 10),
+        strip.text.y = element_blank(),
+        axis.title = element_blank(),
         legend.position = "none",
-        strip.placement = "outside")+
-  scale_y_continuous(limits=c(0,NA), expand=expand_scale(mult=c(0,.05)))+
-  scale_shape_manual(values=c(17,15,18,16))+
+        strip.placement = "outside") +
+  scale_y_continuous(limits = c(0, NA)
+                     , expand = ggplot2::expand_scale(mult = c(0, 0.05))) +
+  scale_shape_manual(values = c(17, 15, 18, 16)) +
   scale_color_manual(values=c("#7570b3"
                               , "#1b9e77"
                               , "#e7298a"
-                              , "#d95f02"
-                              
-  )) #scale_color_hue(l=c(10,65,45),c=c(500,200,150))
+                              , "#d95f02" ))
 
-dev.off()
-````
+
+
+print(leftPlot + rightPlot + plot_layout(widths = c(3, 1)))
+
+```
 
 Figure 5
 

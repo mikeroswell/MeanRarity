@@ -22,6 +22,7 @@ Imports:
     , SpadeR
     , ggthemes
     , tibble
+    , rlang
 RoxygenNote: 7.1.0
 Authors@R: 
    c( person(given = "Michael",

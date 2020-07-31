@@ -18,8 +18,14 @@ abundance). The "link" functions for the generalized mean are
 \code{\link{pfun}} and its inverse \code{\link{ipfun}}
 }
 
-\section{Simulating Species Abundace Distributions}{
-
+\section{Simulating Species Abundance Distributions}{
+ Roswell et al. 2020
+developed a method to simulate a species abundance distribution (SAD) based
+on the [Hill] diversity of the assemblage. This method fits a
+discretization (based on quantile values) of a continuous parametric
+distribution (currently gamma or log-normal) based on the known, simulated
+richness and (currently) Hill-Simpson diversity. The function to do this is
+called \code{\link{fit_SAD}}
 }
 
 \section{Visualizing Mean Rarity}{

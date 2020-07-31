@@ -85,11 +85,12 @@ power_trans = function(pow, nb) scales::trans_new(name = "power"
 #' @return data.frame with 1 row per individual for each species for plotting.
 #'
 #' @noRd
-fancy_rep<-function(df){
-    return(data.frame(df[rep(1:nrow(df), df$ab), ])
-           %>% dplyr::group_by(.data$ab)
-           %>% dplyr::mutate(gr = 1:length(.data$ab), inds = rep(length(.data$ab)
-               , length(.data$ab)))
+fancy_rep <- function(df){
+  mydf = data.frame(df[rep(1:nrow(df), df$ab), ])
+    return(mydf %>%
+              dplyr::group_by(.data$ab) %>%
+              dplyr::mutate(gr = 1:length(.data$ab)
+                            , inds = rep(length(.data$ab), length(.data$ab)))
     )
 }
 
@@ -150,15 +151,15 @@ base_plot <- function(ab, pointScale
 	         (if(lines == T){
 	             rfdull <- rf %>%
 	               dplyr::group_by(rarity) %>%
-	               dplyr::summarize(inds = sum(ab))
+	               dplyr::summarize(inds = sum(.data$ab))
 	   #line segments
 	             ggplot2::geom_segment(data = rfdull,
-	                                   ggplot2::aes(x = {{ rarity }}
-                                                  , xend = {{ rarity }}
-                                                  , y = {{ inds }}
+	                                   ggplot2::aes(x = {{rarity}}
+                                                  , xend = {{rarity}}
+                                                  , y = {{inds}}
 	                                                , yend = 0)
-	                           , color=grDevices::rgb(0,0,0,0.4)
-	                           , size=1
+	                           , color = grDevices::rgb(0,0,0,0.4)
+	                           , size = 1
 	                           )
 	         } else{
 
@@ -481,7 +482,7 @@ white_y<-function(p){
 #' plots.
 #'
 #' This function removes y-axis elements for plots intended to be
-#' included in a multi-panel plot. WHen the y-axis is ommitted (rather than
+#' included in a multi-panel plot. When the y-axis is omitted (rather than
 #' whited-out as in \code{white_y}), the plotted area typically expands to fill
 #' unused space.
 #'

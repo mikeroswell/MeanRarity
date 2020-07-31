@@ -162,7 +162,7 @@ sample_infinite <- function(ab, size){
                     , size = size
                     , prob = ab
                     , replace = TRUE)
-  mysam <- unlist(lapply(1:length(commSAD), function(y){
+  mysam <- unlist(lapply(1:length(ab), function(y){
     length(which(namevec == y))}))
   return(mysam)}
 
@@ -181,8 +181,8 @@ sample_infinite <- function(ab, size){
 #' @return Scalar, empirical mean sample diversity given sampling with replacement
 #'
 #' @noRd
-truemu_inf<-function(ab, size, reps, l,...){ #ab is abundance vector; size, reps, l all constants
-  sam<-replicate(reps, sample_infinite(ab, size=size))
+truemu_inf <- function(ab, size, reps, l, ...){ #ab is abundance vector; size, reps, l all constants
+  sam <- replicate(reps, sample_infinite(ab, size = size))
   return(
     mean(
       apply(sam,2, function(x){dfun(x, l)})

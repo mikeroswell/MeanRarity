@@ -21,8 +21,6 @@ in a single plotting window.}
 individuals be summarized simply as the height of a line segment.}
 
 \item{...}{Additional arguments passed to other functions.}
-
-\item{verbose}{Logical, should the function return a pile of text.}
 }
 \description{
 This function takes the abundance vector, scaling exponent, and target means

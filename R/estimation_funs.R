@@ -289,17 +289,17 @@ obscp_inf <- function(l = l
 
   less <- sum(pro_mc < truemun) / length(pro_mc)
   more <- (length(pro_mc) - sum(pro_mc > truemun))/length(pro_mc)
-  p <- runif(1, min(less, more), max(less, more)) #this is a way to simulate the theoretical distribution of p-values in spite of ties.
+  p <- stats::runif(1, min(less, more), max(less, more)) #this is a way to simulate the theoretical distribution of p-values in spite of ties.
 
-  lower <- max(pro_mc[which(min_rank(pro_mc) <= max(floor(B * (1 - conf) / 2), 1))])
-  upper <- min(pro_mc[which(min_rank(-pro_mc) <= max(floor(B * (1 - conf)/2), 1))])
+  lower <- max(pro_mc[which(dplyr::min_rank(pro_mc) <= max(floor(B * (1 - conf) / 2), 1))])
+  upper <- min(pro_mc[which(dplyr::min_rank(-pro_mc) <= max(floor(B * (1 - conf)/2), 1))])
 
   less_no_mc <- sum(pro < truemun) / length(pro)
   more_no_mc <- (length(pro) - sum(pro > truemun)) / length(pro)
-  p_no_mc <- runif(1, min(less, more), max(less, more))
+  p_no_mc <- stats::runif(1, min(less, more), max(less, more))
 
-  lower_no_mc <- max(pro[which(min_rank(pro) <= max(floor(B * (1 - conf) / 2) ,1))])
-  upper_no_mc <- min(pro[which(min_rank(-pro) <= max(floor(B * (1 - conf)/2) ,1))])
+  lower_no_mc <- max(pro[which(dplyr::min_rank(pro) <= max(floor(B * (1 - conf) / 2) ,1))])
+  upper_no_mc <- min(pro[which(dplyr::min_rank(-pro) <= max(floor(B * (1 - conf)/2) ,1))])
 
   return(data.frame("p" = p
                     , "p_no_mc" = p_no_mc
@@ -342,7 +342,7 @@ obscp_obs <- function(l = l
                       , conf = 0.95
                       , ...){
   sam <- sample_finite(ab, size = size)
-  data.bt = rmultinom(B
+  data.bt = stats::rmultinom(B
                       , size
                       , Bt_prob_abu(sam)) #this genenerates "bootstrapped" samples
   obs <- rarity(sam, l) # observed diversity
@@ -351,17 +351,17 @@ obscp_obs <- function(l = l
 
   less <- sum(pro_mc < truemun) / length(pro_mc)
   more <- (length(pro_mc) - sum(pro_mc > truemun))/length(pro_mc)
-  p <- runif(1, min(less, more), max(less, more)) #this is a way to simulate the theoretical distribution of p-values in spite of ties.
+  p <- stats::runif(1, min(less, more), max(less, more)) #this is a way to simulate the theoretical distribution of p-values in spite of ties.
 
-  lower <- max(pro_mc[which(min_rank(pro_mc) <= max(floor(B * (1 - conf) / 2), 1))])
-  upper <- min(pro_mc[which(min_rank(-pro_mc) <= max(floor(B * (1 - conf)/2), 1))])
+  lower <- max(pro_mc[which(dplyr::min_rank(pro_mc) <= max(floor(B * (1 - conf) / 2), 1))])
+  upper <- min(pro_mc[which(dplyr::min_rank(-pro_mc) <= max(floor(B * (1 - conf)/2), 1))])
 
   less_no_mc <- sum(pro < truemun) / length(pro)
   more_no_mc <- (length(pro) - sum(pro > truemun)) / length(pro)
-  p_no_mc <- runif(1, min(less, more), max(less, more))
+  p_no_mc <- stats::runif(1, min(less, more), max(less, more))
 
-  lower_no_mc <- max(pro[which(min_rank(pro) <= max(floor(B * (1 - conf) / 2) ,1))])
-  upper_no_mc <- min(pro[which(min_rank(-pro) <= max(floor(B * (1 - conf)/2) ,1))])
+  lower_no_mc <- max(pro[which(dplyr::min_rank(pro) <= max(floor(B * (1 - conf) / 2) ,1))])
+  upper_no_mc <- min(pro[which(dplyr::min_rank(-pro) <= max(floor(B * (1 - conf)/2) ,1))])
 
   return(data.frame("p" = p
                     , "p_no_mc" = p_no_mc

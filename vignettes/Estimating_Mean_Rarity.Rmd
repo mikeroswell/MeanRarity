@@ -137,8 +137,8 @@ site_pro %>%  ggplot(aes(ell, d, color = site)) +
     scale_color_brewer(palette = "Dark2")
 ```
 Fig 4 uses the R package `iNEXT`, which is not imported by `MeanRarity`. 
-```{r Figure 4: diversity estimates with CI, fig.height = 4.6, fig.width = 7}
-
+```{r Figure 4: diversity estimates with CI, fig.height = 4.6, fig.width = 7, eval = FALSE}
+# make sure eval = T eventually and delete this comment
 tictoc::tic() #time this
 
 iN_form <- as.list(beeAbunds[, -1])

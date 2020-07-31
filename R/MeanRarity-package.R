@@ -14,7 +14,7 @@
 #'   abundance). The "link" functions for the generalized mean are
 #'   \code{\link{pfun}} and its inverse \code{\link{ipfun}}
 #'
-#' @section Simulating Species Abundace Distributions:
+#' @section Simulating Species Abundance Distributions:
 #'
 #'
 #' @section Visualizing Mean Rarity: The code for rarity balance plots, also in
@@ -27,3 +27,7 @@
 #' @name MeanRarity
 #'
 NULL
+
+
+## quiets concerns of R CMD check re: the .'s that appear in pipelines
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))

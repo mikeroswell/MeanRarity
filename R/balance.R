@@ -87,9 +87,9 @@ power_trans = function(pow, nb) scales::trans_new(name = "power"
 #' @noRd
 fancy_rep<-function(df){
     return(data.frame(df[rep(1:nrow(df), df$ab), ])
-           %>% dplyr::group_by(ab)
-           %>% dplyr::mutate(gr=1:length(ab), inds = rep(length(ab)
-               , length(ab)))
+           %>% dplyr::group_by(.data$ab)
+           %>% dplyr::mutate(gr = 1:length(.data$ab), inds = rep(length(.data$ab)
+               , length(.data$ab)))
     )
 }
 
@@ -115,14 +115,14 @@ fancy_rep<-function(df){
 #'
 #' @noRd
 base_plot <- function(ab, pointScale
-                      , fill_col="lightgrey" #can set to match communities
-                      , y_extent=max(max(ab),15) #how tall to draw y
-                      , x_max=sum(ab)/min(ab) #plots a point to extend x
-                      , x_min=sum(ab)/max(ab) # point to extend x
-                      , base_size=24 #controls text size, default for 7" sq plotting device
-                      , noco=1 #number of columns, shrinks text and point size proportional to number of panels
-                      , lines=F
-                      , verbose=T
+                      , fill_col = "lightgrey" #can set to match communities
+                      , y_extent = max(max(ab), 15) #how tall to draw y
+                      , x_max = sum(ab)/min(ab) #plots a point to extend x
+                      , x_min = sum(ab)/max(ab) # point to extend x
+                      , base_size = 24 #controls text size, default for 7" sq plotting device
+                      , noco = 1 #number of columns, shrinks text and point size proportional to number of panels
+                      , lines = F
+                      , verbose = T
                       ){
     #0.0353 is approximate points to cm conversion (a little less than 3 pts per mm)
 
@@ -134,8 +134,8 @@ base_plot <- function(ab, pointScale
 		, ab
 		, rarity = sum(ab)/ab
 	)
-	rfrepeated <-fancy_rep(rf)
-	y_extent<-max(y_extent, max(combfun(ab)))
+	rfrepeated <- fancy_rep(rf)
+	y_extent <- max(y_extent, max(combfun(ab)))
 	#14 is empirically derived scaling factor; but isn't quite right.
 	# Seems like stuff below axis is about 2.5* height of 1 line of text
 	pointScale<-(14 * (min(grDevices::dev.size("cm")) / noco - (2.5 * 0.0353 * base_size)))
@@ -145,19 +145,25 @@ base_plot <- function(ab, pointScale
 	goff <- 0.5
 
 	#ggplot command to generate basic plot object
-	base <- (ggplot2::ggplot(rfrepeated, ggplot2::aes(x = rarity, y = ab))
-	         +(if(lines == T){
-	             rfdull <- rf %>% dplyr::group_by(rarity) %>% dplyr::summarize(inds = sum(ab))
+	base <- (rfrepeated %>%
+	           ggplot2::ggplot(ggplot2::aes(x = rarity, y = ab)) +
+	         (if(lines == T){
+	             rfdull <- rf %>%
+	               dplyr::group_by(rarity) %>%
+	               dplyr::summarize(inds = sum(ab))
 	   #line segments
-	             ggplot2::geom_segment(data=rfdull, ggplot2::aes(x = rarity, xend = rarity
-	                                                             , y = inds, yend = 0)
+	             ggplot2::geom_segment(data = rfdull,
+	                                   ggplot2::aes(x = {{ rarity }}
+                                                  , xend = {{ rarity }}
+                                                  , y = {{ inds }}
+	                                                , yend = 0)
 	                           , color=grDevices::rgb(0,0,0,0.4)
 	                           , size=1
 	                           )
 	         } else{
 
 	   #bricks
-	           ggplot2::geom_point(ggplot2::aes(y = gr - goff, alpha = 0.2)
+	           ggplot2::geom_point(ggplot2::aes(y = .data$gr - goff, alpha = 0.2)
 	                               , size = pointsize
 	                               , fill = fill_col
 		                             , shape = 22
@@ -166,7 +172,8 @@ base_plot <- function(ab, pointScale
 	         })
 		# plank
 		+ ggplot2::geom_segment(
-		  ggplot2::aes(x, y, xend = xend, yend = yend)
+		  ggplot2::aes(x = .data$x, y = .data$y
+		               , xend = .data$xend, yend = .data$yend)
 			, data = data.frame(
 				x = c(min(rf$rarity))
 				, y = c(0)
@@ -200,13 +207,13 @@ base_plot <- function(ab, pointScale
 theme_plot <- function(p, base_size=24, noco=1, ...){
 	return(p
 		+ ggthemes::theme_tufte(base_family = "sans", base_size=base_size/noco)
-		+ ggplot2::theme(legend.position="none")
+		+ ggplot2::theme(legend.position = "none")
 		+ ggplot2::theme(
-		    axis.text=ggplot2::element_text(color="black") # better than Wickham's grey?
+		    axis.text = ggplot2::element_text(color = "black") # better than Wickham's grey?
 		    , axis.line.x = ggplot2::element_line(colour = 'black'
-		                                 , size=0.2, linetype='solid')
+		                                 , size = 0.2, linetype = 'solid')
 			, axis.line.y = ggplot2::element_line(colour = 'black'
-			                             , size=0.2, linetype='solid')
+			                             , size = 0.2, linetype = 'solid')
 		)
 	)
 }
@@ -232,21 +239,28 @@ theme_plot <- function(p, base_size=24, noco=1, ...){
 scale_plot <- function(
         ab
         , l
-        , fill_col="lightgrey"
-        , y_extent=max(max(ab), 15)
-        , x_max=sum(ab)/min(ab)
-        , x_min=sum(ab)/max(ab)
-        , noco=1
-        , lines=F
-        , nbreaks=5
+        , fill_col = "lightgrey"
+        , y_extent = max(max(ab), 15)
+        , x_max = sum(ab)/min(ab)
+        , x_min = sum(ab)/max(ab)
+        , noco = 1
+        , lines = F
+        , nbreaks = 5
         , ...
 ){
-    return (base_plot(ab, fill_col=fill_col, y_extent=y_extent
-	            , x_max=x_max, x_min=x_min, noco=noco, lines=lines, ...)
-		+ ggplot2::scale_x_continuous(trans=power_trans(pow=l, nb=nbreaks), labels=signif)
-		+ ggplot2::geom_point(ggplot2::aes(x,y) #allows for x min and max points to determine axes
-		  , data=tibble::tibble(x=c(x_max, x_min), y=c(0,0))
-		  , color="white", alpha=0)
+    return(base_plot(ab
+                      , fill_col = fill_col
+                      , y_extent = y_extent
+	                    , x_max = x_max
+                      , x_min = x_min
+                      , noco = noco
+                      , lines = lines
+                      , ...)
+		+ ggplot2::scale_x_continuous(trans = power_trans(
+		    pow = l, nb = nbreaks), labels = signif)
+		+ ggplot2::geom_point(ggplot2::aes(.data$x, .data$y) #allows for x min and max points to determine axes
+		  , data = tibble::tibble(x = c(x_max, x_min), y = c(0,0))
+		  , color = "white", alpha=0)
 	        )
 }
 
@@ -260,13 +274,13 @@ scale_plot <- function(
 #' @return geom object to add to a ggplot object to construct balance plot
 #'
 #' @noRd
-mean_points <- function(ab, l, noco=1){
-    ab<-ab[ab!=0]
-	div <- Vectorize(dfun, vectorize.args=("l"))(ab, l)
-	return(ggplot2::geom_point(
-		data=tibble::tibble(x=div, y=0*div, clr=1:length(div))
-		, ggplot2::aes(x, y, color=as.factor(clr))
-		, size=0.2*min(grDevices::dev.size("cm"))/noco
+mean_points <- function(ab, l, noco = 1){
+    ab <- ab[ab != 0]
+	div <- Vectorize(dfun, vectorize.args = ("l"))(ab, l)
+	pointDat = tibble::tibble(x = div, y = 0*div, clr = 1:length(div))
+	return(ggplot2::geom_point(data = pointDat
+	  , ggplot2::aes(x = pointDat$x, y = pointDat$y, color = as.factor(pointDat$clr))
+		, size = 0.2 * min(grDevices::dev.size("cm")) / noco
 	))
 }
 
@@ -285,7 +299,7 @@ mean_points <- function(ab, l, noco=1){
 #'
 #'
 #' @noRd
-fulcrum<-function(ab, l
+fulcrum <- function(ab, l
                   , y_extent = max(max(combfun(ab)), 15)
                   , x_max = 1
                   , x_min = 1
@@ -302,13 +316,13 @@ fulcrum<-function(ab, l
         print(c(paste("diversity =", div), paste("community size =", sum(ab))
                 , paste("max observed rarity =", sum(ab) / min(ab))
                 , paste("min observed rarity =", sum(ab) / max(ab))))}
-
-    return(ggplot2::geom_point(
-        data = tibble::tibble(x = div, y = -0.03 * y_extent) # gets fulcrum point close.
+    fulcDat = tibble::tibble(x = div, y = -0.03 * y_extent)
+    return( ggplot2::geom_point( data = fulcDat
+         # gets fulcrum point close.
         , size = (0.48 * min(grDevices::dev.size("cm")) - (2.5 * 0.0353 * base_size)) / noco #scales with plotting device and number of columns
         # , size=rel(0.3)
         , shape = 17
-        , ggplot2::aes(x, y)
+        , ggplot2::aes(fulcDat$x, fulcDat$y)
     )
     )
 }
@@ -393,32 +407,33 @@ fulcrum<-function(ab, l
 #' # richness + Hill_Shannon + Hill_Simpson # plot with patchwork
 rarity_plot <- function(ab
                         , l
-                        , means=-1:1
-                        , noco=1
-                        , lines=F
+                        , means = -1:1
+                        , noco = 1
+                        , lines = FALSE
                         , ...){
-    ab<-ab[ab!=0]
-    print(cat("     rarity plot expects a square viewport and resizes points based on\n     min(dev.size() and noco (for number of columns).\n     Selecting lines=T will plot stacks of individuals as a line element,\n     which tends to be more robust to window size.\n     lines=T may be the best way to deal with overplotting,\n     which results from several species with similar but not identical rarities.\n "))
+ message(cat("     rarity plot expects a square viewport and resizes points based on\n     min(dev.size() and noco (for number of columns).\n     Selecting lines=T will plot stacks of individuals as a line element,\n     which tends to be more robust to window size.\n     lines=T may be the best way to deal with overplotting,\n     which results from several species with similar but not identical rarities.\n "))
+
+    ab <- ab[ab != 0]
 	return(
 		scale_plot(ab
 		           , l
-		           , noco=noco
-		           , lines=lines
+		           , noco=  noco
+		           , lines = lines
 		           ,...)
 		+ mean_points(ab
 		              , means
-		              , noco=noco)
+		              , noco = noco)
 		+ fulcrum(ab
 		          , l
-		          , noco=noco
+		          , noco = noco
 		          , ...)
-		+ ggplot2::scale_color_brewer(type="qual", palette="Set1")
+		+ ggplot2::scale_color_brewer(type = "qual", palette = "Set1")
 		# + scale_color_viridis_d(option="plasma")
-		# +scale_color_manual(values=c("#AA8E39", "#294F6D", "#4B2D73"))
+		# + scale_color_manual(values=c("#AA8E39", "#294F6D", "#4B2D73"))
 	)
 }
 
-#' Conventiently plot for l=-1:1, with reference points in each fig.
+#' Conveniently plot for l=-1:1, with reference points in each fig.
 #'
 #' Convenience function for plotting balance plots for the arithmetic,
 #' geometric, and harmonic mean rarities with only one line of code.
@@ -527,9 +542,9 @@ radplot <- function(ab
     if(Whittaker){comm = log(comm)}
     rawrnk = tibble::tibble(abund = comm, rnk = dplyr::row_number(comm))
     toplot = rawrnk %>%
-        dplyr::mutate(x = -rnk - maxrich + max(rnk))
+        dplyr::mutate(x = -.data$rnk - maxrich + max(.data$rnk))
 
-    f<-(toplot %>% ggplot2::ggplot(ggplot2::aes(x, abund, size))
+    f <- (toplot %>% ggplot2::ggplot(ggplot2::aes(.data$x, .data$abund, .data$size))
         + ggplot2::geom_point(shape = shape, color = fill, size = 2.5)
         + ggplot2::geom_line(color = fill)
         + ggplot2::scale_x_continuous(limits = c(-maxrich, 0))

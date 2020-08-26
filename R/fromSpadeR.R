@@ -68,7 +68,7 @@ Chat.Ind <- function(ab, m = sum(ab) ){ #modification was to default m to observ
 #' estimated species frequencies are bootstrapped to generate CI for diversity
 #' estimates following the method of Chao and Jost 2015 MEE. We modified the
 #' source code from `SpadeR` so that parameter names matched analogous use
-#' elsewhere in the `MeanRarity` pacakge. This function is copied directly
+#' elsewhere in the `MeanRarity` package. This function is copied directly
 #' from`SpadeR:::Chat.Ind()` from the R package SpadeR 0.1.1 by Anne Chao, K. H.
 #' Ma, T. C. Hsieh and Chun-Huo Chiu.
 #'
@@ -90,7 +90,9 @@ Chat.Ind <- function(ab, m = sum(ab) ){ #modification was to default m to observ
 #'
 #' #estimated true frequencies
 #' etf <- Bt_prob_abu(ab)
-#' etf[order(etf, decreasing =TRUE)] # adjustment evident from 4th species on... 2 new rare species added
+#' etf[order(etf , decreasing = TRUE)]
+#' # adjustment evident from 4th species on, 2 new rare species added
+#'
 #' sum(etf) #rel. abundances still sum to 1
 #'
 Bt_prob_abu <- function(ab){
@@ -138,9 +140,9 @@ Bt_prob_abu <- function(ab){
 #' abs <- sample_infinite(fit_SAD(rich = 50, simpson = 20)[[3]], 150)
 #'
 #' #estimate true Hill diversity
-#' Chao_Hill_ab(abs, l = 1) #Chao1 estimate of richness lower bound
-#' Chao_Hill_ab(abs, l = 0) #Asymptotic estimate of Hill-Shannon diversity
-#' Chao_Hill_ab(abs, l = -1) #Asymptotic estimate of Hill-Simpson diversity
+#' Chao_Hill_abu(abs, l = 1) #Chao1 estimate of richness lower bound
+#' Chao_Hill_abu(abs, l = 0) #Asymptotic estimate of Hill-Shannon diversity
+#' Chao_Hill_abu(abs, l = -1) #Asymptotic estimate of Hill-Simpson diversity
 #'
 Chao_Hill_abu <- function(ab, l){ #modified param names according to package idiom
   q = 1 - l # modification from source
@@ -218,7 +220,7 @@ Chao_Hill_abu <- function(ab, l){ #modified param names according to package idi
 #'   proposed diversity estimates. Columns give the results for different orders
 #'   of q.
 #'
-#'  @noRd
+#' @noRd
 
 Bootstrap.CI_df = function(x
                            , l

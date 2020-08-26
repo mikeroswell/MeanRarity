@@ -45,6 +45,10 @@ rarity(c(20,8,5,4,2,1), 1) #species richness
 rarity(c(20,8,5,4,2,1), 0) # Hill-Shannon diversity
 rarity(c(20,8,5,4,2,1), -1) # Hill-Simpson diversity
 }
+\references{
+\insertRef{Simpson1949}{MeanRarity}
+\insertRef{Shannon1963}{MeanRarity}
+}
 \seealso{
 \code{\link{pfun}}, \code{\link{ipfun}}
 }

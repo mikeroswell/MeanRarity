@@ -1,9 +1,8 @@
 # MeanRarity
-Repo for development of MeanRarity R package
+Repository for development of MeanRarity R package
 
 TODO: 
 
-- Resolve internal functions from SpadeR-- email sent 2020-07-16
 - Consider adding ellipsis handling https://github.com/r-lib/ellipsis
 - Finish vignettes
 - Create tests

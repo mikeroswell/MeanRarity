@@ -9,11 +9,23 @@ vignette: >
 ---
 
 
-The `MeanRarity` package contains functions to compute and estimate Hill numbers, using the framework that Hill numbers simply compute the abundance-weighted [generalized] mean species rarity of a community. Additionally, the package contains some convenience functions for sampling abundance vectors and generating plots. This vignette is not a comprehensive guide to the package. However, it includes all the data and code to replicate the figures presented in Roswell et al. 2020 "A conceptual guide to measuring species diversity" Oikos doi. 
+The `MeanRarity` package contains functions to compute and estimate Hill
+numbers, using the framework that Hill numbers simply compute the
+abundance-weighted [generalized] mean species rarity of a community.
+Additionally, the package contains some convenience functions for sampling
+abundance vectors and generating plots. This vignette is not a comprehensive
+guide to the package. However, it includes all the data and code to replicate
+the figures presented in Roswell et al. 2020 "A conceptual guide to measuring
+species diversity" Oikos doi. Thus, the examples in the vignette are ordered according to the figures in the
+article.
 
-Thus, the examples in the vignette are ordered according to the figures in the article. 
-
-The goal of [Hill] diversity metrics is to summarize the distribution of species' [relative] abundances. The first figure in the "Conceptual guide" is a visualization of the observed bee abundances from the four communities in the example dataset  `beeObs` analyzed in the guide. The package includes a simple representation of those data, `beeAbunds`. The function `radplot()` takes those data and returns a rank-abundance distribution plot. We love the new R package `patchwork` for assembling plots, and call that package here.  
+The goal of [Hill] diversity metrics is to summarize the distribution of
+species' [relative] abundances. The first figure in the "Conceptual guide" is a
+visualization of the observed bee abundances from the four communities in the
+example dataset  `beeObs` analyzed in the guide. The package includes a simple
+representation of those data, `beeAbunds`. The function `radplot()` takes those
+data and returns a rank-abundance distribution plot. We love the new R package
+`patchwork` for assembling plots, and call that package here.
 
 ```{r setup, include = F}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")#, dev = "pdf")
@@ -23,7 +35,6 @@ library(dplyr) # part of the tidyverse
 library(ggplot2) # part of the tidyverse
 library(tidyr) # part of the tidyverse
 library(purrr) # part of the tidyverse
-library(SpadeR)
 library(tictoc) # lightweight package for convenient timing
 library(furrr) # `tidyverse` and `parallel` combined
 library(iNEXT) # implements diversity CI recommended by Chao et al. 2014, Chao and Jost 2015
@@ -164,11 +175,11 @@ tictoc::toc()  #.25 hrs, can't paralellize much
 
 tictoc::tic()
 asyseveral <- purrr::map_dfr(2:5, function(sitio){
-  purrr::map_dfr(0:2, function(q){
-    theboots <- MeanRarity:::Bootstrap.CI_df(pull(beeAbunds[, sitio]), q = q)
-    est <- SpadeR:::Chao_Hill_abu(pull(beeAbunds[, sitio]), q = q)
+  purrr::map_dfr(0:2, function(l){
+    theboots <- MeanRarity:::Bootstrap.CI_df(pull(beeAbunds[, sitio]), l)
+    est <- Chao_Hill_abu(pull(beeAbunds[, sitio]), l)
     data.frame(site = names(beeAbunds[, sitio])
-               , order = q
+               , order = 1-l # q notation
                , qD = est
                , qD.LCL = est - theboots[2]
                , qD.UCL = est + theboots[4])

@@ -28,9 +28,9 @@ Ma, T. C. Hsieh and Chun-Huo Chiu
 abs <- sample_infinite(fit_SAD(rich = 50, simpson = 20)[[3]], 150)
 
 #estimate true Hill diversity
-Chao_Hill_ab(abs, l = 1) #Chao1 estimate of richness lower bound
-Chao_Hill_ab(abs, l = 0) #Asymptotic estimate of Hill-Shannon diversity
-Chao_Hill_ab(abs, l = -1) #Asymptotic estimate of Hill-Simpson diversity
+Chao_Hill_abu(abs, l = 1) #Chao1 estimate of richness lower bound
+Chao_Hill_abu(abs, l = 0) #Asymptotic estimate of Hill-Shannon diversity
+Chao_Hill_abu(abs, l = -1) #Asymptotic estimate of Hill-Simpson diversity
 
 }
 \references{

@@ -68,6 +68,9 @@ ipfun = function(x, pow){
 #'    the inverse of the Simpson concentration (Simpson 1949).
 #'
 #' @seealso \code{\link{pfun}}, \code{\link{ipfun}}
+#' @references
+#' \insertRef{Simpson1949}{MeanRarity}
+#' \insertRef{Shannon1963}{MeanRarity}
 #'
 #' @export
 #' @examples rarity(c(20,8,5,4,2,1), 1) #species richness

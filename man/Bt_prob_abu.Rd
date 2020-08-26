@@ -17,7 +17,7 @@ Estimates true species frequencies (including unobserved species). The
 estimated species frequencies are bootstrapped to generate CI for diversity
 estimates following the method of Chao and Jost 2015 MEE. We modified the
 source code from \code{SpadeR} so that parameter names matched analogous use
-elsewhere in the \code{MeanRarity} pacakge. This function is copied directly
+elsewhere in the \code{MeanRarity} package. This function is copied directly
 from\code{SpadeR:::Chat.Ind()} from the R package SpadeR 0.1.1 by Anne Chao, K. H.
 Ma, T. C. Hsieh and Chun-Huo Chiu.
 }
@@ -32,7 +32,9 @@ freq[order(freq, decreasing = TRUE)]
 
 #estimated true frequencies
 etf <- Bt_prob_abu(ab)
-etf[order(etf, decreasing =TRUE)] # adjustment evident from 4th species on... 2 new rare species added
+etf[order(etf , decreasing = TRUE)]
+# adjustment evident from 4th species on, 2 new rare species added
+
 sum(etf) #rel. abundances still sum to 1
 
 }

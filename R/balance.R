@@ -156,7 +156,7 @@ base_plot <- function(ab, pointScale
 	             ggplot2::geom_segment(data = rfdull,
 	                                   ggplot2::aes(x = {{rarity}}
                                                   , xend = {{rarity}}
-                                                  , y = {{inds}}
+                                                  , y = .data$inds
 	                                                , yend = 0)
 	                           , color = grDevices::rgb(0,0,0,0.4)
 	                           , size = 1

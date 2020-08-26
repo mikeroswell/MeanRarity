@@ -31,6 +31,10 @@
 #'
 #' @importFrom rlang .data
 #'
+#' @references
+#' \insertRef{Patil2012}{MeanRarity}
+#' \insertRef{Jost2006}{MeanRarity}
+#'
 
 NULL
 

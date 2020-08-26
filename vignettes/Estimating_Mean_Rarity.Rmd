@@ -16,8 +16,8 @@ Additionally, the package contains some convenience functions for sampling
 abundance vectors and generating plots. This vignette is not a comprehensive
 guide to the package. However, it includes all the data and code to replicate
 the figures presented in Roswell et al. 2020 "A conceptual guide to measuring
-species diversity" Oikos doi. Thus, the examples in the vignette are ordered according to the figures in the
-article.
+species diversity" Oikos doi. Thus, the examples in the vignette are ordered
+according to the figures in the article.
 
 The goal of [Hill] diversity metrics is to summarize the distribution of
 species' [relative] abundances. The first figure in the "Conceptual guide" is a
@@ -66,7 +66,11 @@ white_y(myplots[[4]]) + # fourth community
 
 ```
 
-The next figure in the guide shows that the expected value for both observed and estimated asymptotic richness increase with sample size. The code to generate expected diversity estimates is computationally expensive and we recommend not to run the code in this vignette. It is however included in the package in the file `"data-raw/DATASET.R"`, and the result is an exported dataset `mean_ests`. 
+The next figure in the guide shows that the expected value for both observed and
+estimated asymptotic richness increase with sample size. The code to generate
+expected diversity estimates is computationally expensive and we recommend not
+to run the code in this vignette. It is however included in the package in the
+file `"data-raw/DATASET.R"`, and the result is an exported dataset `mean_ests`.
 
 ```{r Compute mean diveristy estimates under rarefaction, eval = F}
 
@@ -127,7 +131,13 @@ mean_ests %>%
 
 ```
 
-Figure 3 in the guide shows an empirical Hill diversity profile. The `MeanRarity` package has a canned function to produce such profiles, `divpro`. This lightweight function does not produce asymptotic estimates. Because the guide focused on the mean rarity formulation for Hill diversities, parameterizing the scaling exponent with $\ell$, the profile is plotted from $\ell = -1$ to $\ell =1$, whereas other software packages such as `iNEXT` and `SpadeR` plot the profile from $q = 1-\ell =0$ to $q = 1-\ell =2$. 
+Figure 3 in the guide shows an empirical Hill diversity profile. The
+`MeanRarity` package has a canned function to produce such profiles, `divpro`.
+This lightweight function does not produce asymptotic estimates. Because the
+guide focused on the mean rarity formulation for Hill diversities,
+parameterizing the scaling exponent with $\ell$, the profile is plotted from
+$\ell = -1$ to $\ell =1$, whereas other software packages such as `iNEXT` and
+`SpadeR` plot the profile from $q = 1-\ell =0$ to $q = 1-\ell =2$.
 
 ```{r Diversity profile plot, fig.width = 5, fig.height = 5}
 site_pro <- map_dfr(names(beeAbunds[2:5]), function(x){
@@ -147,13 +157,13 @@ site_pro %>%  ggplot(aes(ell, d, color = site)) +
     scale_shape_manual(values = c(15:18)) +
     scale_color_brewer(palette = "Dark2")
 ```
-Fig 4 uses the R package `iNEXT`, which is not imported by `MeanRarity`. 
-```{r Figure 4: diversity estimates with CI, fig.height = 4.6, fig.width = 7, eval = FALSE}
-# make sure eval = T eventually and delete this comment
+Fig 4 uses the R package `iNEXT`, which is not imported by `MeanRarity`. This code chunk will take almost a minute to run.
+```{r Figure 4: diversity estimates with CI, fig.height = 5, fig.width = 7, eval = TRUE}
+
 tictoc::tic() #time this
 
 iN_form <- as.list(beeAbunds[, -1])
-by_size <- iNEXT::estimateD( iN_form
+by_size <- iNEXT::estimateD(iN_form
                                 , base = "size")
 
 by_coverage <- iNEXT::estimateD(iN_form
@@ -162,30 +172,31 @@ by_coverage <- iNEXT::estimateD(iN_form
 by_effort <- map_dfr(lapply(iN_form, sum), function(size){
     iNEXT::estimateD(iN_form
                     , base = "size"
-                    , level = size) %>% filter(method =="observed")
+                    , level = size) %>% filter(method == "observed")
 
 })
     
 iseveral <- dplyr::bind_rows(size = by_size
                              , coverage = by_coverage
                              , effort = by_effort
-                             , .id = "standard")
+                             , .id = "standard") %>%
+  dplyr::mutate(order = 1 - order)
                    
-tictoc::toc()  #.25 hrs, can't paralellize much
+tictoc::toc()  #43 sec this time!?!?!
 
 tictoc::tic()
 asyseveral <- purrr::map_dfr(2:5, function(sitio){
-  purrr::map_dfr(0:2, function(l){
+  purrr::map_dfr(-1:1, function(l){
     theboots <- MeanRarity:::Bootstrap.CI_df(pull(beeAbunds[, sitio]), l)
     est <- Chao_Hill_abu(pull(beeAbunds[, sitio]), l)
     data.frame(site = names(beeAbunds[, sitio])
-               , order = 1-l # q notation
+               , order = l
                , qD = est
                , qD.LCL = est - theboots[2]
                , qD.UCL = est + theboots[4])
   })
 })
-tictoc::toc() # seconds.
+tictoc::toc() # <2 seconds.
 
 asyseveral$method <- "asymptotic"
 asyseveral$standard <- "asymptotic"
@@ -194,12 +205,15 @@ allseveral <- bind_rows(iseveral, asyseveral)
 
 #get some parameters of data
 minm <- min(by_effort %>% filter(m == min(m)) %>% pull(m)) #individuals in sample with fewest
-minc <- min(by_effort %>% group_by(site) %>% dplyr::summarize(SC = max(SC)) %>% pull(SC)) # coverage of sample with lowest
+minc <- min(by_effort %>% 
+              group_by(site) %>% 
+              dplyr::summarize(SC = max(SC)) %>% 
+              pull(SC)) # coverage of sample with lowest
 
 
-tog <- allseveral %>% mutate(sm=paste(standard, site, sep=""))
+tog <- allseveral %>% mutate(sm = paste(standard, site, sep=""))
 
-inds <- data.frame("order" = c(0, 1, 2), divind = factor(c("richness"
+inds <- data.frame("order" = c(1, 0, -1), divind = factor(c("richness"
                                                            , "Hill-Shannon"
                                                            , "Hill-Simpson")
                                                  , levels = c("richness"
@@ -217,10 +231,6 @@ togn <- togn %>%
                                      , "Cold Soil_5"
                                      , "Lord Stirling_4"
                                      , "Fox Hill_5")))
-  
-unique(togn$site)
-
-             
 togn <- togn %>% 
   mutate(methlab = factor(standard
                           , levels = c("effort"
@@ -262,12 +272,12 @@ leftPlot <- togn %>%
                                 , "#1b9e77"
                                 , "#e7298a"
                                 , "#d95f02")) 
-rightPlot<- togn %>% 
+rightPlot <- togn %>% 
   filter(methlab == "asymptotic") %>% 
   ggplot(aes(site, qD, color = site, shape = site)) +
   geom_errorbar(aes(ymin = qD.LCL, ymax = qD.UCL), size = ebsize, width = ebw) +
   geom_point(size = psize) +
-  facet_grid(divind~methlab, switch="y", scales="free_y") +
+  facet_grid(divind~methlab, switch = "y", scales = "free_y") +
   theme_classic() +
   theme(legend.position = "none", axis.text.x = element_blank()
         , axis.ticks.x = element_blank()) +
@@ -283,7 +293,7 @@ rightPlot<- togn %>%
   scale_y_continuous(limits = c(0, NA)
                      , expand = ggplot2::expand_scale(mult = c(0, 0.05))) +
   scale_shape_manual(values = c(17, 15, 18, 16)) +
-  scale_color_manual(values=c("#7570b3"
+  scale_color_manual(values = c("#7570b3"
                               , "#1b9e77"
                               , "#e7298a"
                               , "#d95f02" ))
@@ -303,7 +313,7 @@ Figure 5
 # the idea here is to sample from 14 30-minute sampling bouts from each site and 
 # compare coverage. While we resample 30-minute transects, we compute the
 # estimated sample coverage and count individuals in each subsample. We use this
-# to compare standarization methods. 
+# to compare standardization methods. 
 
 maxeff <- 14
 reps <- 9999

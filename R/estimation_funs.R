@@ -1,21 +1,4 @@
 # Hodegepodge of code from Anne Chao group and Dushoff/Roswell for estimating Hill diversity and its uncertainty.
-# Much of this is both pirated from Chao and not implemented in any of our work
-
-# R scripts for computing diversity (Hill numbers) profile using individual-based abundance data or sampling-unit-based incidence data.
-# In all functions, param x is a vector of species sample frequencies (for abundance data) or incidence-based sample frequencies (for incidence data).
-# For incidence data, the first entry of x must be the number of sampling units.
-# In all functions, param q is the diversity order; the suggested range for q is [0, 3].
-# If you use the scripts for publishing papers, please cite Chao and Jost 2015 MEE paper (Appendix S8).
-
-###########################################
-
-#-----------------------------------------
-# The bootstrap method for obtaining s.e.
-#-----------------------------------------
-#' Bt_prob_abu(x) is a function of estimating the species probabilities in the bootstrap assemblage based on abundance data.
-#' @param x a vector of species sample frequencies.
-#' @return a numeric vector.
-
 
 # Bt_prob_abu = function(x){
 #   x = x[x>0]
@@ -113,83 +96,6 @@
 # }
 
 
-#' Approximate CI for observed and asymptotic Hill diversity.
-#'
-#' Functionally, a wrapper for `SpadeR:::Bootstrap_CI`, slimmed down to deal with
-#' only abundance data and set to return a data.frame. Copied and pasted source
-#' code from `SpadeR`
-
-
-#' @param x a vector of species sample frequencies (for abundance data) or
-#'   incidence-based sample frequencies (1st entry must be the number of
-#'   sampling unit).
-#' @param q a numeric or a vector of diversity order.
-#' @param B an integer to specify the number of replications in the bootstrap
-#'   procedure, B = 1000 is suggested for constructing confidence intervals;
-#'  To save running time, use a smaller value (e.g. B = 200)..
-#' @param datatype a character of data type,"abundance" or "incidence".
-#' @param conf a confidence coefficient between 0 and 1.
-#' @return a list, consisting of 3 matrices including respectively the
-#'   difference between the average and lower confidence bound of the B
-#'   bootstrap estimates, the difference between the upper confidence bound and
-#'   the average of the B bootstrap estimates, and the bootstrap standard error
-#'   of the diversity estimate. In each matrix, the first row gives the results
-#'   for the empirical diversity, and the second row gives the results for the
-#'   proposed diversity estimates. Columns give the results for different orders
-#'   of q.
-#'
-#'  @noRd
-
-Bootstrap.CI_df = function(x,q,B = 1000,datatype = c("abundance","incidence"),conf = 0.95){
-    datatype = match.arg(datatype,c("abundance","incidence"))
-    p.new = SpadeR:::Bt_prob_abu(x)
-    # p.new = Bt_prob(x,datatype)
-    n = ifelse(datatype=="abundance",sum(x),x[1])
-    # set.seed(456)
-    if(datatype=="abundance"){
-        data.bt = stats::rmultinom(B,n,p.new)
-    }
-    # }else{
-    #     data.bt = rbinom(length(p.new)*B,n,p.new)
-    #     data.bt = matrix(data.bt,ncol=B)
-    #     data.bt = rbind(rep(n,B),data.bt)
-    # }
-    #
-    mle = apply(data.bt,2,function(x)SpadeR:::Hill(x,q,datatype))
-    #making this all for just abundance
-    pro = apply(data.bt,2,function(x)SpadeR:::Chao_Hill_abu(x,q))
-
-    mle.mean = mean(mle) #rowMeans(mle)
-    pro.mean = mean(pro) #rowMeans(pro)
-
-    #confidence intervals just based on quantiles of bootstraped distribution
-
-    #confidence intervals for Hill diversity of sample
-    # LCI.mle =  -apply(mle,1,function(x)quantile(x,probs = (1-conf)/2)) + mle.mean
-    # UCI.mle = apply(mle,1,function(x)quantile(x,probs = 1-(1-conf)/2)) - mle.mean
-    #
-    # #confidence intervals for Chao-estimated Hill diversity
-    # LCI.pro =  -apply(pro,1,function(x)quantile(x,probs = (1-conf)/2)) + pro.mean
-    # UCI.pro = apply(pro,1,function(x)quantile(x,probs = 1-(1-conf)/2)) - pro.mean
-    #
-    LCI.mle = -stats::quantile(mle, probs = (1 - conf) / 2) + mle.mean
-    UCI.mle = stats::quantile(mle, probs = 1 - (1 - conf) / 2) - mle.mean
-
-    #confidence intervals for Chao-estimated Hill diversity
-    LCI.pro =  -stats::quantile(pro, probs = (1 - conf) / 2) + pro.mean
-    UCI.pro = stats::quantile(pro, probs = 1 - (1 - conf) / 2) - pro.mean
-
-    LCI = rbind(LCI.mle, LCI.pro)
-    UCI = rbind(UCI.mle, UCI.pro)
-
-    # sd.mle = apply(mle,1,sd)
-    # sd.pro = apply(pro,1,function(x)sd(x,na.rm = T))
-    # se = rbind(sd.mle,sd.pro)
-    #consider making this an easier data structure where things aren't lists of lists.
-    #return(list(LCI=LCI,UCI=UCI,se=se))
-    return(c(LCI.mle = LCI.mle, LCI.pro = LCI.pro, UCI.mle = UCI.mle, UCI.pro = UCI.pro))
-}
-
 
 ################################################################
 
@@ -215,24 +121,24 @@ Bootstrap.CI_df = function(x,q,B = 1000,datatype = c("abundance","incidence"),co
 #' @param conf Scalar, target coverage probability of estimated CI
 #'
 #' @return data.frame with estimated p-value for true diversity, the diversity
-#'    values of the upper and lower estimated cofidence limits, the asymptotic
+#'    values of the upper and lower estimated confidence limits, the asymptotic
 #'    Hill diversity estimate, and the empirical diversity
 #'
 #' @noRd
-checkchao<-function(x
+checkchao <- function(x
                     , B
                     , l
                     , truediv
-                    , conf=0.95){ #, truemu_n
-  n<-sum(x)
+                    , conf = 0.95){ #, truemu_n
+  n <- sum(x)
   #columns of this matrix are replicate boostraps
-  data.bt = stats::rmultinom(B,n,Bt_prob_abu(x))
+  data.bt = stats::rmultinom(B, n, Bt_prob_abu(x))
   #get estimator for each bootstrapped sample
   pro = apply(data.bt
               , 2
-              , function(boot)SpadeR:::Chao_Hill_abu(boot, 1 - l))
+              , function(boot) Chao_Hill_abu(boot, l))
   #mean correction
-  pro<-pro-mean(pro) + Chao_Hill_abu(x, 1 - l)
+  pro <- pro - mean(pro) + Chao_Hill_abu(x, l)
 
   #break ties
   less <- sum(pro < truediv) / length(pro)
@@ -246,7 +152,7 @@ checkchao<-function(x
                 , lower = lower
                 , upper = upper
                 , truediv = truediv
-                , "chaoest" = SpadeR:::Chao_Hill_abu(x, 1-l)
+                , "chaoest" = Chao_Hill_abu(x, l)
                 , "obsD" = dfun(x, l)
             )
 
@@ -269,7 +175,9 @@ checkchao<-function(x
 #'   for the true diversity, computed both with and without the mean correction
 #'   implemented in Chao and Jost 2015 MEE.
 #'
-#' @seealso \url{https://doi.org/10.1111/2041-210X.12349}
+#' @references
+#' \insertRef{Chao2015}{MeanRarity}
+#'
 #'
 #' @noRd
 obscp_inf <- function(l = l
@@ -280,7 +188,7 @@ obscp_inf <- function(l = l
                       , conf = 0.95
                       , ...){
   sam <- sample_infinite(SAD$rel_abundances, size = size)
-  data.bt = rmultinom(B
+  data.bt = stats::rmultinom(B
                       , size
                       , Bt_prob_abu(sam)) #this genenerates "bootstrapped" samples
   obs <- rarity(sam, l) # observed diversity

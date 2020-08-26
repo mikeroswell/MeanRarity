@@ -15,7 +15,7 @@ A ggplot.
 }
 \description{
 This function removes y-axis elements for plots intended to be
-included in a multi-panel plot. WHen the y-axis is ommitted (rather than
+included in a multi-panel plot. When the y-axis is omitted (rather than
 whited-out as in \code{white_y}), the plotted area typically expands to fill
 unused space.
 }

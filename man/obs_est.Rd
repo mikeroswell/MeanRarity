@@ -26,5 +26,5 @@ on sampling theory for individuals.
 obs_est(c(20,8,5,4,2,1))
 }
 \seealso{
-\code{\link{rarity}}, \code{\link{SpadeR:::Choa_Hill_abu}}
+\code{\link{rarity}}, \code{\link{Chao_Hill_abu}}
 }

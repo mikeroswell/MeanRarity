@@ -23,6 +23,7 @@ Imports:
     , ggthemes
     , tibble
     , rlang
+    , Rdpack
 RoxygenNote: 7.1.0
 Authors@R: 
    c( person(given = "Michael",
@@ -37,6 +38,7 @@ Authors@R:
            comment = c(ORCID = "0000-0003-0506-4794"))
            )
 Roxygen: list(markdown = TRUE)
+RdMacros: Rdpack
 Suggests: 
     testthat
     , spelling
@@ -44,7 +46,7 @@ Suggests:
     , tictoc
     , patchwork
     , rmarkdown
+    , vdiffr
 Language: en-US
 VignetteBuilder: knitr
-Depends: 
-    R (>= 2.10)
+Depends: R (>= 2.10)

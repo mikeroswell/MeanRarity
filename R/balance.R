@@ -191,7 +191,7 @@ base_plot <- function(ab, pointScale
     	+ ggplot2::labs(y="individuals")
 	)
 	#calls the function theme plot to generate basic figure
-	return(theme_plot(base, base_size=base_size, noco=noco))
+	return(theme_plot(base, base_size = base_size, noco = noco))
 }
 
 #' Set preferences for axes etc. for balance plots.
@@ -339,7 +339,7 @@ fulcrum <- function(ab, l
 #' this balance. Each block represents an individual, and because Hill
 #' diversities are weighted by abundance the “mass” of each “block” is the same
 #' regardless of species identity. Each individual’s x-axis value is given its
-#' species’ "rarity," which is the reciprocal of its relative abundance. The
+#' species’s "rarity," which is the reciprocal of its relative abundance. The
 #' parameter \code{l} controls how rarity is scaled. A community’s balance
 #' point along the rarity scale, pictured as a triangular fulcrum, is the mean
 #' rarity, or diversity, of the community.

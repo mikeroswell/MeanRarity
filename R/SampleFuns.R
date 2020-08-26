@@ -91,9 +91,9 @@ raref<-function(from, to, by, comm, n = 1, l, cores = NULL){
     purrr::map_dfr(lapply(seq(from, to, by), function(b){
       o1 <- apply(subcom(comm, b), 1, function(x){
         mrest <- fsd(ab = x, l = l)
-        est <- SpadeR:::Chao_Hill_abu(x, q = 1 - l)#}
+        est <- Chao_Hill_abu(x, l = l)#}
         emp <- rarity(ab = x, l = l)
-        coverage <- SpadeR::Chat.Ind(x, sum(x))
+        coverage <- Chat.Ind(x)
         out <- rbind(divest = est
                      , zhangest = mrest
                      , divemp = emp

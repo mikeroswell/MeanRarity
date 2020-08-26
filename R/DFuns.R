@@ -11,8 +11,8 @@
 #'
 #' @export
 pfun=function(x, pow){
-  if (pow==0) return(log(x))
-  r <- sign(pow)*(x)^pow
+  if (pow == 0) return(log(x))
+  r <- sign(pow) * (x)^pow
   return(r)
 }
 
@@ -106,7 +106,7 @@ dfun <- rarity
 #' @export
 #' @examples divpro(c(20,8,5,4,2,1))
 
-divpro<-function(ab, ell_low = -1, ell_hi = 1, by = 0.001){
+divpro <- function(ab, ell_low = -1, ell_hi = 1, by = 0.001){
   ell = seq(ell_low, ell_hi, by = by)
   d = sapply(ell
          , function(l){dfun(ab, l)}
@@ -129,7 +129,7 @@ divpro<-function(ab, ell_low = -1, ell_hi = 1, by = 0.001){
 #' @template ab_template
 #'
 #'
-#' @seealso \code{\link{rarity}}, \code{\link{SpadeR:::Choa_Hill_abu}}
+#' @seealso \code{\link{rarity}}, \code{\link{Chao_Hill_abu}}
 #'
 #' @export
 #' @examples obs_est(c(20,8,5,4,2,1))
@@ -138,10 +138,10 @@ obs_est <- function(ab){
   obsrich = rarity(ab, 1)
   obsshan = rarity(ab, 0)
   obssimp = rarity(ab, -1)
-  chaorich = SpadeR:::Chao_Hill_abu(ab, q = 0)
-  chaoshan = SpadeR:::Chao_Hill_abu(ab, q = 1)
-  chaosimp = SpadeR:::Chao_Hill_abu(ab, q = 2)
-  coverage = SpadeR:::Chat.Ind(ab, sum(ab))
+  chaorich = Chao_Hill_abu(ab, l = 1)
+  chaoshan = Chao_Hill_abu(ab, l = 0)
+  chaosimp = Chao_Hill_abu(ab, l = -1)
+  coverage = Chat.Ind(ab)
   return(data.frame(
     n = sum(ab)
     , coverage

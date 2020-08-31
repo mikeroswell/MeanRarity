@@ -2,7 +2,7 @@
 % Please edit documentation in R/SampleFuns.R
 \name{sample_infinite}
 \alias{sample_infinite}
-\title{Sample a [relative] abundance vector with replacement.}
+\title{Sample a [relative] abundance vector with replacement}
 \usage{
 sample_infinite(ab, size)
 }

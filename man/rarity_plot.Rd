@@ -2,7 +2,7 @@
 % Please edit documentation in R/balance.R
 \name{rarity_plot}
 \alias{rarity_plot}
-\title{Construct rarity balance plot.}
+\title{Construct rarity balance plot}
 \usage{
 rarity_plot(ab, l, means = -1:1, noco = 1, lines = FALSE, ...)
 }

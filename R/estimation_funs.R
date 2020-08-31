@@ -159,7 +159,7 @@ checkchao <- function(x
   )}
 
 
-#' Approximate CI for sample Hill diversity.
+#' Approximate CI for sample Hill diversity
 #'
 #' Computes Chao and Jost 2015's suggested CI for empirical Hill diversity, sampling from an infinite pool (i.e. with replacement).
 #'
@@ -223,7 +223,7 @@ obscp_inf <- function(l = l
 }
 
 
-#' Approximate CI for sample Hill diversity.
+#' Approximate CI for sample Hill diversity
 #'
 #' Computes Chao and Jost 2015's suggested CI for empirical Hill diversity, sampling from a finite pool without replacement.
 #'

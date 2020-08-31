@@ -2,7 +2,7 @@
 % Please edit documentation in R/DFuns.R
 \name{obs_est}
 \alias{obs_est}
-\title{Observed and asymptotic diversity.}
+\title{Observed and asymptotic diversity}
 \usage{
 obs_est(ab)
 }

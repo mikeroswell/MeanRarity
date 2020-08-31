@@ -2,7 +2,7 @@
 % Please edit documentation in R/balance.R
 \name{radplot}
 \alias{radplot}
-\title{Plot a rank-abundance distribution.}
+\title{Plot a rank-abundance distribution}
 \usage{
 radplot(
   ab,

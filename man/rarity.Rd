@@ -2,7 +2,7 @@
 % Please edit documentation in R/DFuns.R
 \name{rarity}
 \alias{rarity}
-\title{Compute Hill diversity: the mean species rarity.}
+\title{Compute Hill diversity: the mean species rarity}
 \usage{
 rarity(ab, l)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/SampleFuns.R
 \name{sample_finite}
 \alias{sample_finite}
-\title{Take an abundance vector and subsample to size.}
+\title{Take an abundance vector and subsample to size}
 \usage{
 sample_finite(ab, size = sum(ab))
 }

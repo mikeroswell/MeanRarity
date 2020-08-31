@@ -2,7 +2,7 @@
 % Please edit documentation in R/fromSpadeR.R
 \name{Chao_Hill_abu}
 \alias{Chao_Hill_abu}
-\title{Estimate Asymptotic Hill Diversity}
+\title{Estimate asymptotic Hill diversity}
 \usage{
 Chao_Hill_abu(ab, l)
 }
@@ -27,10 +27,10 @@ Ma, T. C. Hsieh and Chun-Huo Chiu
 # generate sample
 abs <- sample_infinite(fit_SAD(rich = 50, simpson = 20)[[3]], 150)
 
-#estimate true Hill diversity
-Chao_Hill_abu(abs, l = 1) #Chao1 estimate of richness lower bound
-Chao_Hill_abu(abs, l = 0) #Asymptotic estimate of Hill-Shannon diversity
-Chao_Hill_abu(abs, l = -1) #Asymptotic estimate of Hill-Simpson diversity
+# estimate true Hill diversity
+Chao_Hill_abu(abs, l = 1) # Chao1 estimate of richness lower bound
+Chao_Hill_abu(abs, l = 0) # Asymptotic estimate of Hill-Shannon diversity
+Chao_Hill_abu(abs, l = -1) # Asymptotic estimate of Hill-Simpson diversity
 
 }
 \references{

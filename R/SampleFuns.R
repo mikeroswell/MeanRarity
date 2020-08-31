@@ -1,8 +1,4 @@
-
-### Convenience functions to sample community data, estimate empirical mean diversities
-
-
-#' Take an abundance vector and subsample to size.
+#' Take an abundance vector and subsample to size
 #'
 #' Take a finite sample of individuals without replacement from an integer
 #' abundance vector.
@@ -28,7 +24,9 @@ sample_finite <- function(ab, size = sum(ab)){
 }
 
 subsam <- sample_finite
-#' Subsample of several community vectors.
+
+
+#' Subsample of several community vectors
 
 #' A wrapper of \code{\link{sample_finite}} to take a subset of a bunch of
 #' communities, each subset of equal abundance.
@@ -51,7 +49,7 @@ subcom <- function(ab, size){
 # }
 
 
-#' Estimate Hill diversity with order l=1-q under rarefaction.
+#' Estimate Hill diversity with order \code{l = 1-q} under rarefaction
 #'
 #' This is a function (currently run in parallel with
 #'      \code{\link[parallel]{detectCores}} and \code{\link[furrr]{future_map_dfr}} )
@@ -82,7 +80,7 @@ subcom <- function(ab, size){
 #' @noRd
 #'
 
-raref<-function(from, to, by, comm, n = 1, l, cores = NULL){
+raref <- function(from, to, by, comm, n = 1, l, cores = NULL){
   # ifelse(para==T, {
   nc <- parallel::detectCores() - 1
   future::plan(strategy = future::multiprocess
@@ -145,7 +143,7 @@ truemu <- function(ab, size, reps, l, ...){
 }
 
 
-#' Sample a \[relative\] abundance vector with replacement.
+#' Sample a \[relative\] abundance vector with replacement
 #'
 #' Subsample the whole community with number of individuals = \code{size}.
 #'

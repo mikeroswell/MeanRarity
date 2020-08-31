@@ -2,7 +2,7 @@
 % Please edit documentation in R/DFuns.R
 \name{divpro}
 \alias{divpro}
-\title{Generate Hill diversity profile.}
+\title{Generate Hill diversity profile}
 \usage{
 divpro(ab, ell_low = -1, ell_hi = 1, by = 0.001)
 }

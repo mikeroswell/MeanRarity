@@ -2,7 +2,7 @@
 % Please edit documentation in R/balance.R
 \name{power_trans}
 \alias{power_trans}
-\title{Power scale transformation.}
+\title{Power scale transformation}
 \usage{
 power_trans(pow, nb)
 }

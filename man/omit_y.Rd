@@ -3,7 +3,7 @@
 \name{omit_y}
 \alias{omit_y}
 \title{Convenience function to omit y-axis elements for constructing multi-panel
-plots.}
+plots}
 \usage{
 omit_y(p)
 }

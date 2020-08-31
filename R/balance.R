@@ -12,7 +12,6 @@
 
 ## think about squeezing when rarities aren't equal but are close s.t. boxes overlap... smart option that can calculate whether overlap occurs? Currently, have the lines=T option to plot species as lines if overlap is a problem (set by user)
 
-#quick function to add together identical values
 
 #' Sums duplicate values, for determining \[species\] weights
 #'
@@ -28,7 +27,10 @@
 #' @export
 #' @examples
 #' combfun(c(1, 2, 3, 3, 3, 4, 5, 9))
-combfun<-function(x){x=x[order(x)]; y=unique(x)*as.numeric(table(x)); return (y)}
+combfun <- function(x){
+  x = x[order(x)]
+  y = unique(x) * as.numeric(table(x))
+  return(y)}
 
 
 #' Round numbers, more aggressively the larger they are
@@ -46,13 +48,13 @@ prettify <- function(breaks){
     digits <- -floor(log10(abs(breaks))) + 1
     digits[breaks == 0] <- 0
     raw<-round(breaks, digits = digits)
-    raw[raw==-Inf]<-1e9
+    raw[raw==-Inf] <- 1e9
     # raw[is.na(raw)]<-1e11
     # raw[raw==0]<-1e-11
     return(raw) #klugey fix to -Inf
 }
 
-#' Power scale transformation.
+#' Power scale transformation
 #'
 #' This is a function for nice scale transformations for \code{ggplot2},
 #' including when \code{pow < 0}.
@@ -94,7 +96,7 @@ fancy_rep <- function(df){
     )
 }
 
-#' Base plot onto which balance plot is printed.
+#' Base plot onto which balance plot is printed
 #'
 #' Takes abundance and various scale/dimension arguments to craft a ggplot
 #' object for rarity plots.
@@ -194,7 +196,7 @@ base_plot <- function(ab, pointScale
 	return(theme_plot(base, base_size = base_size, noco = noco))
 }
 
-#' Set preferences for axes etc. for balance plots.
+#' Set preferences for axes etc. for balance plots
 #'
 #' @param p ggplot object
 #' @param base_size Typeface size for ggplot text (scalar).
@@ -219,7 +221,7 @@ theme_plot <- function(p, base_size=24, noco=1, ...){
 	)
 }
 
-#' Rescales baseplot x-axis, adds space to allow matching scales between comms.
+#' Rescales baseplot x-axis, adds space to allow matching scales between comms
 #'
 #' @template l_template
 #' @param fill_col Color for filling each of the boxes representing a single
@@ -265,7 +267,7 @@ scale_plot <- function(
 	        )
 }
 
-#' Reference points at means with power \code{l}.
+#' Reference points at means with power \code{l}
 #'
 #' @template ab_template
 #' @template l_template
@@ -285,7 +287,7 @@ mean_points <- function(ab, l, noco = 1){
 	))
 }
 
-#' Plot the fulcrum.
+#' Plot the fulcrum
 #'
 #' @template l_template
 #' @param fill_col Color for filling each of the boxes representing a single
@@ -328,7 +330,7 @@ fulcrum <- function(ab, l
     )
 }
 
-#' Construct rarity balance plot.
+#' Construct rarity balance plot
 #'
 #' This function takes the abundance vector, scaling exponent, and target means
 #' (Default the Pythagorean means), and returns a formatted 1-panel ggplot
@@ -434,7 +436,7 @@ rarity_plot <- function(ab
 	)
 }
 
-#' Conveniently plot for l=-1:1, with reference points in each fig.
+#' Conveniently plot for l = -1:1, with reference points in each fig
 #'
 #' Convenience function for plotting balance plots for the arithmetic,
 #' geometric, and harmonic mean rarities with only one line of code.
@@ -454,7 +456,7 @@ rarity_series <- function(ab, lrange = -1:1, means = lrange, ...){
 }
 
 #' Convenience function to blank y-axis elements for constructing multi-panel
-#' plots.
+#' plots
 #'
 #' This function whites out, but does not remove, y-axis elements for a
 #' consistent plot size that can be included in a multi-panel plot
@@ -479,7 +481,7 @@ white_y<-function(p){
 
 
 #' Convenience function to omit y-axis elements for constructing multi-panel
-#' plots.
+#' plots
 #'
 #' This function removes y-axis elements for plots intended to be
 #' included in a multi-panel plot. When the y-axis is omitted (rather than
@@ -511,7 +513,7 @@ omit_y<-function(p){
 
 
 
-#' Plot a rank-abundance distribution.
+#' Plot a rank-abundance distribution
 #'
 #' Take a vector of species \[relative\] abundances and plot a rank-abundance
 #' distribution or Whittaker plot.

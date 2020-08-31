@@ -1,4 +1,4 @@
-# Here are the key mean rarity functions
+## Here are the key mean rarity functions
 
 #' Power transformation
 #'
@@ -10,13 +10,13 @@
 #' @return A numeric vector with same length as \code{x}.
 #'
 #' @export
-pfun=function(x, pow){
+pfun = function(x, pow){
   if (pow == 0) return(log(x))
   r <- sign(pow) * (x)^pow
   return(r)
 }
 
-#' Inverse function for power transformation.
+#' Inverse function for power transformation
 #'
 #' Transform a vector by raising to a power... specifically 1/pow.
 #'
@@ -35,7 +35,7 @@ ipfun = function(x, pow){
 }
 
 
-#' Compute Hill diversity: the mean species rarity.
+#' Compute Hill diversity: the mean species rarity
 #'
 #' Compute the empirical Hill diversity from abundances or relative abundances.
 #' Hill diversity is also the mean species rarity.
@@ -76,17 +76,18 @@ ipfun = function(x, pow){
 #' @examples rarity(c(20,8,5,4,2,1), 1) #species richness
 #' rarity(c(20,8,5,4,2,1), 0) # Hill-Shannon diversity
 #' rarity(c(20,8,5,4,2,1), -1) # Hill-Simpson diversity
-rarity <- function(ab, l){
-  ab <- ab[ab != 0]
-  rp <- ab / sum(ab)
-  if(l == 0) {return(exp(sum(rp * log(1 / rp))))}
-  return(ipfun(sum(rp * pfun(1 / rp, l)),l)) #removed potentially problematic sign corrections
-  # return(sign(l)*ipfun(sign(l)*sum(rp*pfun(1/rp, l)),l)) # is it possible there was a mistake here?
+rarity = function(ab, l){
+  ab = ab[ab != 0]
+  rp = ab/sum(ab)
+  if(l == 0){return(exp(sum(rp * log(1/rp))))}
+  return(ipfun(sum(rp * pfun(1/rp, l)), l)) #removed potentially problematic sign corrections
+  # return(sign(l)*ipfun(sign(l)*sum(rp*pfun(1/rp, l)),l))
+  # is it possible there was a mistake here?
 }
 
 dfun <- rarity
 
-#' Generate Hill diversity profile.
+#' Generate Hill diversity profile
 #'
 #' Compute observed Hill diversity profile based on an abundance vector over a
 #' range of scaling exponent values.
@@ -117,7 +118,7 @@ divpro <- function(ab, ell_low = -1, ell_hi = 1, by = 0.001){
   return(data.frame(ell, d))
 }
 
-#' Observed and asymptotic diversity.
+#' Observed and asymptotic diversity
 #'
 #' Computes observed and asymptotic Hill diversity estimates from a vector of
 #' integer abundances.
@@ -137,7 +138,7 @@ divpro <- function(ab, ell_low = -1, ell_hi = 1, by = 0.001){
 #' @export
 #' @examples obs_est(c(20,8,5,4,2,1))
 
-obs_est <- function(ab){
+obs_est = function(ab){
   obsrich = rarity(ab, 1)
   obsshan = rarity(ab, 0)
   obssimp = rarity(ab, -1)

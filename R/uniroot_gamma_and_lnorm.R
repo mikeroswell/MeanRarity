@@ -62,7 +62,7 @@ try_SAD <- function(rich, x, distr){
 
 
 #' Difference between target and realized diversity of simulated SAD (gamma
-#' distribution).
+#' distribution)
 #'
 #' Subtracts realized inverse Simpson diversity of the simulated species
 #' abundance distribution from the target value. When this difference = 0 the

@@ -2,7 +2,7 @@
 % Please edit documentation in R/SampleFuns.R
 \name{subcom}
 \alias{subcom}
-\title{Subsample of several community vectors.
+\title{Subsample of several community vectors
 A wrapper of \code{\link{sample_finite}} to take a subset of a bunch of
 communities, each subset of equal abundance.}
 \usage{
@@ -14,7 +14,7 @@ subcom(ab, size)
 \item{size}{Number of individuals to sample, a scalar.}
 }
 \description{
-Subsample of several community vectors.
+Subsample of several community vectors
 A wrapper of \code{\link{sample_finite}} to take a subset of a bunch of
 communities, each subset of equal abundance.
 }

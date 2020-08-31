@@ -1,4 +1,3 @@
-
 #' Estimate sample coverage
 #'
 #' Computes Chao and Jost 2012's estimate of sample coverage, assuming that
@@ -31,7 +30,7 @@
 #' # estimate coverage under rarefaction
 #' Chat.Ind(abs, m = 100)
 
-Chat.Ind <- function(ab, m = sum(ab) ){ #modification was to default m to observed sample size, params match package idioms
+Chat.Ind = function(ab, m = sum(ab)){ #modification was to default m to observed sample size, params match package idioms
 
   x <- ab[ab > 0] #edited to use ab instead of x
   n <- sum(x)
@@ -81,10 +80,10 @@ Chat.Ind <- function(ab, m = sum(ab) ){ #modification was to default m to observ
 #' @export
 #' @examples
 #'
-#' #a sample
+#' # a sample
 #' ab <- c(1, 1, 1, 2, 2, 2, 3, 4, 5, 7, 9, 12, 13, 21, 25, 50)
 #'
-#' #sample frequencies
+#' # sample frequencies
 #' freq <- (ab/sum(ab))
 #' freq[order(freq, decreasing = TRUE)]
 #'
@@ -95,7 +94,7 @@ Chat.Ind <- function(ab, m = sum(ab) ){ #modification was to default m to observ
 #'
 #' sum(etf) #rel. abundances still sum to 1
 #'
-Bt_prob_abu <- function(ab){
+Bt_prob_abu = function(ab){
   x = ab[ab > 0]
   n = sum(x)
   f1 = sum(x == 1)
@@ -115,7 +114,7 @@ Bt_prob_abu <- function(ab){
   return(p.new)
 }
 
-#' Estimate Asymptotic Hill Diversity
+#' Estimate asymptotic Hill diversity
 #'
 #' Computes an estimate of the true community diversity based on a finite sample
 #' assuming that individuals are randomly and independently sampled, after Chao
@@ -139,12 +138,12 @@ Bt_prob_abu <- function(ab){
 #' # generate sample
 #' abs <- sample_infinite(fit_SAD(rich = 50, simpson = 20)[[3]], 150)
 #'
-#' #estimate true Hill diversity
-#' Chao_Hill_abu(abs, l = 1) #Chao1 estimate of richness lower bound
-#' Chao_Hill_abu(abs, l = 0) #Asymptotic estimate of Hill-Shannon diversity
-#' Chao_Hill_abu(abs, l = -1) #Asymptotic estimate of Hill-Simpson diversity
+#' # estimate true Hill diversity
+#' Chao_Hill_abu(abs, l = 1) # Chao1 estimate of richness lower bound
+#' Chao_Hill_abu(abs, l = 0) # Asymptotic estimate of Hill-Shannon diversity
+#' Chao_Hill_abu(abs, l = -1) # Asymptotic estimate of Hill-Simpson diversity
 #'
-Chao_Hill_abu <- function(ab, l){ #modified param names according to package idiom
+Chao_Hill_abu = function(ab, l){ #modified param names according to package idiom
   q = 1 - l # modification from source
   x = ab[ab > 0] # modification from source
   n = sum(x)
@@ -192,7 +191,7 @@ Chao_Hill_abu <- function(ab, l){ #modified param names according to package idi
 
 
 
-#' Approximate CI for observed and asymptotic Hill diversity.
+#' Approximate CI for observed and asymptotic Hill diversity
 #'
 #' Functionally, a wrapper for `SpadeR:::Bootstrap_CI`, slimmed down to deal with
 #' only abundance data and set to return a data.frame. This is the approximate CI suggested by Chao and Jost 2015 MEE. Source code copied and pasted from

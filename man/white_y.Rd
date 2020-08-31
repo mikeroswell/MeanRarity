@@ -3,7 +3,7 @@
 \name{white_y}
 \alias{white_y}
 \title{Convenience function to blank y-axis elements for constructing multi-panel
-plots.}
+plots}
 \usage{
 white_y(p)
 }

@@ -23,10 +23,10 @@ Ma, T. C. Hsieh and Chun-Huo Chiu.
 }
 \examples{
 
-#a sample
+# a sample
 ab <- c(1, 1, 1, 2, 2, 2, 3, 4, 5, 7, 9, 12, 13, 21, 25, 50)
 
-#sample frequencies
+# sample frequencies
 freq <- (ab/sum(ab))
 freq[order(freq, decreasing = TRUE)]
 

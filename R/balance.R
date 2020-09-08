@@ -80,6 +80,29 @@ power_trans = function(pow, nb) scales::trans_new(name = "power"
    , domain = c(1, 10000) #this is to deal with -Inf
 )
 
+
+#' Logit scale transformation
+#'
+#' This is a function for a logit scale transformation for \code{ggplot2}.
+#'
+#' @param nb Number of desired breaks (approximate), scalar.
+#'
+#' @return A scale transformation object for plotting in ggplot.
+#' @seealso \code{\link[scales]{trans_new}}, \code{\link[scales]{trans_breaks}},
+#'   \code{\link{pfun}}, \code{\link{ipfun}}
+#' @export
+logit_trans = function(nb) scales::trans_new(name = "logit"
+                                                  , transform = function(x){log(x/(1-x))}
+                                                  , inverse = function(x){(exp(x)/(1+exp(x)))}
+                                                  , breaks = function(x) {prettify(
+                                                    scales::trans_breaks(
+                                                      function(x){log(x/(1-x))}, function(x){(exp(x)/(1+exp(x)))}, n = nb
+                                                    )(x * 1.1)
+                                                  )}
+                                                  # , domain = c(1, 10000) #this is to deal with -Inf
+)
+
+
 #' Replicate abundance vector to make stacks with geom_point
 #'
 #' @param df data.frame of abundances and rarities.

@@ -9,11 +9,12 @@ vignette: >
 ---
 
 
-The `MeanRarity` package contains functions to compute and estimate Hill
-numbers, using the framework that Hill numbers simply compute the
-abundance-weighted [generalized] mean species rarity of a community.
-Additionally, the package contains some convenience functions for sampling
-abundance vectors and generating plots. This vignette is not a comprehensive
+The `MeanRarity` package contains functions to compute, estimate, and visualize
+Hill numbers, using the framework that Hill numbers simply compute the
+abundance-weighted [generalized] mean species rarity of a community (rarity is 
+the reciprocal of relative abundance). Additionally, the package contains 
+functions for generating and sampling abundance vectors and 
+generating plots. This vignette is not a comprehensive
 guide to the package. However, it includes all the data and code to replicate
 the figures presented in Roswell et al. 2020 "A conceptual guide to measuring
 species diversity" Oikos doi. Thus, the examples in the vignette are ordered
@@ -22,8 +23,8 @@ according to the figures in the article.
 The goal of [Hill] diversity metrics is to summarize the distribution of
 species' [relative] abundances. The first figure in the "Conceptual guide" is a
 visualization of the observed bee abundances from the four communities in the
-example dataset  `beeObs` analyzed in the guide. The package includes a simple
-representation of those data, `beeAbunds`. The function `radplot()` takes those
+example dataset  `beeObs`, analyzed in the guide. The package also includes a 
+summary of those data, `beeAbunds`. The function `radplot()` takes those
 data and returns a rank-abundance distribution plot. We love the new R package
 `patchwork` for assembling plots, and call that package here.
 
@@ -71,6 +72,10 @@ estimated asymptotic richness increase with sample size. The code to generate
 expected diversity estimates is computationally expensive and we recommend not
 to run the code in this vignette. It is however included in the package in the
 file `"data-raw/DATASET.R"`, and the result is an exported dataset `mean_ests`.
+This script uses the function `subsam`, which samples without replacement,
+and the function `obs_est`, which computes Hill diversity estimates, including 
+asymptotic estimates (after Chao and Jost 2015 MEE) using functions 
+modified from the R package `SpadeR`
 
 ```{r Compute mean diveristy estimates under rarefaction, eval = F}
 
@@ -157,7 +162,13 @@ site_pro %>%  ggplot(aes(ell, d, color = site)) +
     scale_shape_manual(values = c(15:18)) +
     scale_color_brewer(palette = "Dark2")
 ```
-Fig 4 uses the R package `iNEXT`, which is not imported by `MeanRarity`. This code chunk will take almost a minute to run.
+Fig 4 uses the R package `iNEXT`, which is not imported by `MeanRarity`. This 
+code chunk will take almost a minute to run. It also uses our simplified 
+version of the code for computing approximate CI from `iNEXT`, an internal 
+function `MeanRarity:::Bootstrap.CI_Df`. This computes the same intervals as 
+`iNEXT`. Although elsewhere in the Oikos forum piece, we critique these 
+intervals, we included them in this figure to demonstrate how the choice of 
+tools would or would not drive results.
 ```{r Figure 4: diversity estimates with CI, fig.height = 5, fig.width = 7, eval = TRUE}
 
 tictoc::tic() #time this
@@ -304,7 +315,7 @@ print(leftPlot + rightPlot + plot_layout(widths = c(3, 1)))
 
 ```
 
-Figure 5
+Figure 5 uses the functions introduced above to generate rarefaction curves. 
 
 ```{r Effort-based Rarefaction, warning = F, eval = F}
 # this takes a long time to run so we're going to stash it but export the data
@@ -422,6 +433,16 @@ effort_rare %>%
   scale_color_brewer(palette = "Dark2") + 
   scale_y_log10()
 ```
+
+Visualizing the mean rarity by finding a physical balance point helps clarify 
+how rarity is scaled by different means, but always weighted by the abundance of 
+individuals. The function `rarity_plot` generates the figures that can also be 
+generated interactively in the shiny app 
+\url{https://mean-rarity.shinyapps.io/rshiny_app}. The key thing to notice is 
+that while the scaling of rarity changes with the exponent $\ell$, the weighting 
+of each species stays the same. This is the simplest way to see how Hill
+diversities compute mean rarity, and is simpler than 
+
 
 ```{r Balance plot, fig.width = 9, fig.height = 3}
 

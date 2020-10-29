@@ -482,6 +482,11 @@ substantial computational resources and we conducted much of it on a University
 high performance computing cluster. Thus while code is included here we do not
 recommend running on a home/office computer with the sample sizes we used.
 
+To do this, we simulated species abundance distributions (SADs). From these, we 
+took random samples (with replacement), and for the random samples we computed
+the estimated confidence intervals (CI) given by (CITE Chao and Jost 2015). We
+assessed what proportion of empirical CI contained the target value: the
+expected sample diversity or the true (simulated) diversity of the SAD. 
 
 
 First we generate species abundance distributions (SADs) with the function `fit_SAD`. 
@@ -511,7 +516,7 @@ Generating many SADs with different diversities and distributional assumptions p
 SADs_list<-map(c("lnorm", "gamma"), function(distr){
   map(c(100, 200), function(rich){
     map(c(0.05, .15,.25,.5,.75,.85), function(simp_Prop){ #simp_Prop is evenness
-      fit_SAD(rich = rich, simpson = simp_Prop*(rich-1)+1, dstr = distr)
+      fit_SAD(rich = rich, simpson = simp_Prop*(rich-1)+1, distr = distr)
     })
   })
 })
@@ -535,6 +540,40 @@ Samples from the simulated SADs are taken directly, without first simulating a
 finite pool or "community," in contrast to other commonly used methods to 
 simulate SADs (CITE mobsim).
 
+Here's a quick visualization of the SADs we just generated
+
+``` {r visualize SADs, fig.width = 6, fig.height = 3}
+# function to remove subscripts
+remsub <- function(variable, value){
+  return(gsub("_"," ",value))}
+
+#function to summarize frequencies
+asab<-function(namevec){as.numeric(table(namevec))}
+
+# make rank abundance distributions
+myabs<-map_dfr(flatten(flatten(SADs_list)) #, function(x) data.frame(names(x)))
+               , function(x){data.frame(ab=x$rel_abundances)}
+               , .id="SAD")
+
+#plot SADs
+myabs %>% left_join(data.frame(
+  SAD=as.character(1:24)
+  , skew=factor(c("uneven", "int","int", "int","int", "even"), levels=c("uneven", "int", "even"))
+  , dist=factor(c(rep("lognormal", 12), rep("gamma", 12)), levels=c("lognormal", "gamma"))
+)) %>%
+  mutate(abD=paste(dist, skew)) %>%
+  group_by(SAD, abD, dist, skew) %>%
+  mutate(abrank=min_rank(desc(ab)), log_relative_abundance=log(ab), relative_abundance=ab) %>%
+  gather(scl, rel_abund, relative_abundance, log_relative_abundance )%>%
+  filter(SAD %in% c("7","10","12","19","22","24")) %>%
+  ggplot(aes(abrank, rel_abund, color=dist))+
+    geom_point(alpha=0.3, size=1)+
+    geom_line(size=.4, alpha=0.3)+
+    theme_classic()+
+    # theme(text=element_text(size=16))+
+    labs(x="abundance rank", y="", color="", shape="")+
+    facet_grid(forcats::fct_rev(scl)~skew, scales="free", switch="y", labeller=remsub)
+````
 
 
 

@@ -585,8 +585,8 @@ myabs %>% left_join(data.frame(
 
 We wrote wrapper functions to compute the approximate CI based on the R package
 `SpadeR`, which implements the appraoch articulated in (CITE Chao and Jost
-2012). These are not exported by this package. Running this at large scales
-requires substantial compute resources. Here is a mockup of what we ran.
+2012). These functions are not exported by this package, and the scripts
+and data we used for the supplementary materials are available at [github link]
 
 ``` {r asymptotic Hill diversity CI}
 

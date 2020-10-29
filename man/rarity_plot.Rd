@@ -30,8 +30,8 @@ object.
 \details{
 Hill diversity, or "mean rarity," is the balance point for the community
 along the rarity scale. The image produced by \code{rarity_plot} illustrates
-this balance. Each block represents an individual, and because Hill
-diversities are weighted by abundance the “mass” of each “block” is the same
+this balance. Each block represents an individual: because Hill
+diversities are weighted by abundance, the “mass” of each “block” is the same
 regardless of species identity. Each individual’s x-axis value is given its
 species’s "rarity," which is the reciprocal of its relative abundance. The
 parameter \code{l} controls how rarity is scaled. A community’s balance
@@ -39,7 +39,7 @@ point along the rarity scale, pictured as a triangular fulcrum, is the mean
 rarity, or diversity, of the community.
 
 To ease comparison across scales, by default the Pythagorean means
-(\url{https://en.wikipedia.org/wiki/Pythagorean_means}) are marked
+(\url{https://en.wikipedia.org/wiki/Mean}) are marked
 with reference points: the arithmetic mean with a rose dot, the geometric
 mean with a blue dot, and the harmonic mean with a green dot. The arithmetic
 scale provides high leverage to very rare species; although they carry little

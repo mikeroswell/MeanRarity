@@ -19,13 +19,13 @@
 #'
 #' @format A tibble with 68 rows and 5 variables:
 #'  - *bee*: concatenated Latin binomial for bee species ID
-#'  - *`Cold Soil_5`*: number of records of given species from site "Cold Soil"
+#'  - *\`Cold Soil_5\`*: number of records of given species from site "Cold Soil"
 #'  during sampling round 5
-#'  - *`Fox Hill_5`*: number of records of given species from site "Fox Hill"
+#'  - *\`Fox Hill_5\`*: number of records of given species from site "Fox Hill"
 #'   during sampling round 5
-#'  - *`IAS_3`*: number of records of given species from site "IAS" during
+#'  - *\`IAS_3\`*: number of records of given species from site "IAS" during
 #'  sampling round 3
-#'  - *`Lord Stirling_4`*: number of records of given species from site
+#'  - *\`Lord Stirling_4\`*: number of records of given species from site
 #'  "Lord Stirling" during sampling round 5
 "beeAbunds"
 

@@ -8,13 +8,13 @@
 A tibble with 68 rows and 5 variables:
 \itemize{
 \item \emph{bee}: concatenated Latin binomial for bee species ID
-\item \emph{\verb{Cold Soil_5}}: number of records of given species from site "Cold Soil"
+\item \emph{\\verb{Cold Soil_5\\}}: number of records of given species from site "Cold Soil"
 during sampling round 5
-\item \emph{\verb{Fox Hill_5}}: number of records of given species from site "Fox Hill"
+\item \emph{\\verb{Fox Hill_5\\}}: number of records of given species from site "Fox Hill"
 during sampling round 5
-\item \emph{\code{IAS_3}}: number of records of given species from site "IAS" during
+\item \emph{\\verb{IAS_3\\}}: number of records of given species from site "IAS" during
 sampling round 3
-\item \emph{\verb{Lord Stirling_4}}: number of records of given species from site
+\item \emph{\\verb{Lord Stirling_4\\}}: number of records of given species from site
 "Lord Stirling" during sampling round 5
 }
 }

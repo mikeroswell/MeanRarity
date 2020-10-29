@@ -1,31 +1,32 @@
 ---
 title: "Estimating_Mean_Rarity"
 output: rmarkdown::html_vignette
+latex_engine: xelatex
 vignette: >
   %\VignetteIndexEntry{Estimating_Mean_Rarity}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\SweaveUTF8
   
 ---
 
 
 The `MeanRarity` package contains functions to compute, estimate, and visualize
 Hill numbers, using the framework that Hill numbers simply compute the
-abundance-weighted [generalized] mean species rarity of a community (rarity is 
-the reciprocal of relative abundance). Additionally, the package contains 
-functions for generating and sampling abundance vectors and 
-generating plots. This vignette is not a comprehensive
-guide to the package. However, it includes all the data and code to replicate
-the figures presented in Roswell et al. 2020 "A conceptual guide to measuring
-species diversity" Oikos doi. Thus, the examples in the vignette are ordered
-according to the figures in the article.
+abundance-weighted [generalized] mean species rarity of a community (rarity is
+the reciprocal of relative abundance). Additionally, the package contains
+functions for generating and sampling abundance vectors and generating plots.
+This vignette is not a comprehensive guide to the package. However, it includes
+all the data and code to replicate the figures presented in Roswell et al. 2020
+"A conceptual guide to measuring species diversity" Oikos doi. Thus, the
+examples in the vignette are ordered according to the figures in the article.
 
-The goal of [Hill] diversity metrics is to summarize the distribution of
-species' [relative] abundances. The first figure in the "Conceptual guide" is a
+The goal of \[Hill\] diversity metrics is to summarize the distribution of
+species' \[relative\] abundances. The first figure in the "Conceptual guide" is a
 visualization of the observed bee abundances from the four communities in the
-example dataset  `beeObs`, analyzed in the guide. The package also includes a 
-summary of those data, `beeAbunds`. The function `radplot()` takes those
-data and returns a rank-abundance distribution plot. We love the new R package
+example dataset `beeObs`, analyzed in the guide. The package also includes a
+summary of those data, `beeAbunds`. The function `radplot()` takes those data
+and returns a rank-abundance distribution plot. We love the new R package
 `patchwork` for assembling plots, and call that package here.
 
 ```{r setup, include = F}
@@ -117,7 +118,10 @@ site_ab <- purrr::map_dfr(names(beeAbunds[,2:5]), function(site){
 })
 
 mean_ests %>%
-  left_join(site_ab) %>% mutate(cutrows = individuals > 0.8 * abun) %>%#this is because when bootstrapping can get funny things where the Chao1 levels off near observed abundance, didn't want to discuss this in guide since it's obvious but not interesting and possibly very confusing.
+  left_join(site_ab) %>% mutate(cutrows = individuals > 0.8 * abun) %>%
+  #this is because when bootstrapping can get funny things where the Chao1
+  #levels off near observed abundance, didn't want to discuss this in guide
+  #since it's obvious but not interesting and possibly very confusing.
   filter(!cutrows) %>% 
   ggplot(aes(individuals, obsrich, color = site))+
   geom_point(alpha = 0.3, size = 0.5) +
@@ -215,7 +219,9 @@ allseveral <- bind_rows(iseveral, asyseveral)
 #diversities, standardized by effort
 
 #get some parameters of data
-minm <- min(by_effort %>% filter(m == min(m)) %>% pull(m)) #individuals in sample with fewest
+#individuals in sample with fewest
+minm <- min(by_effort %>% filter(m == min(m)) %>% pull(m)) 
+
 minc <- min(by_effort %>% 
               group_by(site) %>% 
               dplyr::summarize(SC = max(SC)) %>% 
@@ -434,14 +440,15 @@ effort_rare %>%
   scale_y_log10()
 ```
 
-Visualizing the mean rarity by finding a physical balance point helps clarify 
-how rarity is scaled by different means, but always weighted by the abundance of 
-individuals. The function `rarity_plot` generates the figures that can also be 
-generated interactively in the shiny app 
-\url{https://mean-rarity.shinyapps.io/rshiny_app}. The key thing to notice is 
-that while the scaling of rarity changes with the exponent $\ell$, the weighting 
+In Box 5, we visualize the mean rarity by finding a physical balance point. We
+hope this helps clarify how rarity is scaled by different means, but always
+weighted by the abundance of individuals. The function `rarity_plot` generates
+the figures that can also be generated interactively in the shiny app
+\url{https://mean-rarity.shinyapps.io/rshiny_app}. The key thing to notice is
+that while the scaling of rarity changes with the exponent $\ell$, the weighting
 of each species stays the same. This is the simplest way to see how Hill
-diversities compute mean rarity, and is simpler than 
+diversities compute mean rarity, and is simpler than imagining that the scaling
+parameter instead somehow adjusts weighting. 
 
 
 ```{r Balance plot, fig.width = 9, fig.height = 3}
@@ -469,9 +476,64 @@ rich_bal +
 
 ```
 
+In the appendices of the guide we explored confidence interval performance for 
+diversity estimates via simulation. The code we used to do this requires 
+substantial computational resources and we conducted much of it on a University
+high performance computing cluster. Thus while code is included here we do not
+recommend running on a home/office computer with the sample sizes we used.
 
 
 
+First we generate species abundance distributions (SADs) with the function `fit_SAD`. 
+
+`fit_SAD` uses a target Simpson diversity and distributional family to set the
+relative abundance for a fixed number of species, where species relative
+abundances are given by evenly-spaced quantiles of the continuous [gamma or
+log-normal] distribution. The function uses three parameters: richness,
+evenness, and the parametric distribution family. Richness can be any integer
+\>0. To parameterize evenness, we used \eq{(Hill-Simpson diversity -1)/(richness-1)},
+which is equal to 1 with a perfectly even species-abundance distribution, and 0
+when Hill-Simpson diversity reaches its minimum, 1, for any richness value (Chao
+and Ricotta 2019). Hill-Simpson diversity is a positive number between 1 and
+richness. We used the log-normal distribution because it fits observed sample
+species abundance distributions well (Enquist et al., n.d.; Baldridge, Harris,
+Xiao, & White, 2016; Matthews, Sadler, Kubota, Woodall, & Pugh, 2019). We used
+the gamma distribution because it fits observed species abundance distributions
+as well (Matthews & Whittaker, 2014; Matthews et al., 2019), but makes different
+assumptions about rare species.  
+
+Generating many SADs with different diversities and distributional assumptions provides scope to test proposed confidence intervals (Béguinot, 2018).
+
+
+```{r simulate species abundance distributions}
+
+# simulate SADs for analysis
+SADs_list<-map(c("lnorm", "gamma"), function(distr){
+  map(c(100, 200), function(rich){
+    map(c(0.05, .15,.25,.5,.75,.85), function(simp_Prop){ #simp_Prop is evenness
+      fit_SAD(rich = rich, simpson = simp_Prop*(rich-1)+1, dstr = distr)
+    })
+  })
+})
+````
+
+The function `fit_SAD` provides useful way to simulate species abundance
+distributions. Unlike many methods to simulate SADs that rely on finite
+communities, fit_SAD provides only relative abundances. This is particularly
+desirable for testing the statistical behavior of Hill diversities, as these
+also consider only relative abundances. Another feature of `fit_SAD` is that the
+true diversity (richness and Hill-Simpson diversity), along with a parametric
+distributional assumption, are the inputs to the simulation, and not downstream
+effects of other, ancillary parameters.
+
+`fit_SAD`, like other methods, does require a sort of discrete approximation to
+continuous distributions. However, rather than rounding, this is simply achieved
+by taking the probability density of the selected distribution at evenly-spaced
+intervals as proportional to the relative abundances of each species.
+
+Samples from the simulated SADs are taken directly, without first simulating a
+finite pool or "community," in contrast to other commonly used methods to 
+simulate SADs (CITE mobsim).
 
 
 

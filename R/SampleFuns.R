@@ -52,14 +52,14 @@ subcom <- function(ab, size){
 #' Estimate Hill diversity with order \code{l = 1-q} under rarefaction
 #'
 #' This is a function (currently run in parallel with
-#'      \code{\link[parallel]{detectCores}} and \code{\link[furrr]{future_map_dfr}} )
-#'      that returns rarefied Hill diversity estimates for a list of sample (or true)
-#'      abundance vectors.
+#' \code{\link[parallel]{detectCores}} and \code{\link[furrr]{future_map_dfr}})
+#' that returns rarefied Hill diversity estimates for a list of sample (or true)
+#' abundance vectors.
 #'
 #'
 #' Note to developer:  this might be the only place parallel is used, figure out
-#'      if necessary and then either allow to not always be parallelized or consider
-#'      omitting entirely
+#' if necessary and then either allow to not always be parallelized or consider
+#' omitting entirely
 #'
 #' @param from Scalar, smallest sample size in rarefaction.
 #' @param to Scalar, largest sample size in rarefaction.
@@ -128,7 +128,8 @@ raref <- function(from, to, by, comm, n = 1, l, cores = NULL){
 #' @template l_template
 #' @param ... Additional arguments passed to other functions.
 #'
-#' @return scalar, empirical measure of the mean sample diversity from a larger pool
+#' @return scalar, empirical measure of the mean sample diversity from a larger
+#'   pool
 #'
 #' @seealso \code{\link{MeanRarity}}; \code{\link{subsam}}
 #'
@@ -176,7 +177,8 @@ sample_infinite <- function(ab, size){
 #' @param reps Scalar, number of replicate samples
 #' @template l_template
 #'
-#' @return Scalar, empirical mean sample diversity given sampling with replacement
+#' @return Scalar, empirical mean sample diversity given sampling with
+#'   replacement
 #'
 #' @noRd
 truemu_inf <- function(ab, size, reps, l, ...){ #ab is abundance vector; size, reps, l all constants

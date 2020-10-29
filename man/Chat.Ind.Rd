@@ -18,9 +18,9 @@ Scalar between 0 and 1, estimated sample coverage.
 Computes Chao and Jost 2012's estimate of sample coverage, assuming that
 individuals are independently and randomly sampled. This function computes
 rarefaction and extrapolation estimates of coverage given an integer sample
-size \code{m}. We modified the source code to default to observed sample
-size for convenience, and so that parameter names matched analogous use
-elsewhere in the \code{MeanRarity} package. This function is copied directly from
+size \code{m}. We modified the source code to default to observed sample size
+for convenience, and so that parameter names matched analogous use elsewhere
+in the \code{MeanRarity} package. This function is copied directly from
 \code{SpadeR:::Chat.Ind()} from the R package SpadeR 0.1.1 by Anne Chao, K. H. Ma,
 T. C. Hsieh and Chun-Huo Chiu.
 }

@@ -44,8 +44,7 @@ ipfun = function(x, pow){
 #' species rarity, with scaling exponent l \deqn{D = \sum{p_i *
 #' r_i^{\ell}}^{-\ell}} where rarity of species i \eqn{r_1 = 1/p_i}. When
 #' \eqn{\ell = 0} this is defined base on the limit from the left and the right,
-#' which is the geometric mean \deqn{\exp(\frac{\sum{p_i * \ln(r_i)}}
-#' \sum{p_i}})
+#' which is the geometric mean \deqn{\exp(\frac{\sum{p_i * \ln(r_i)}}{\sum{p_i}})}
 #'
 #' This is equivalent to the \eqn{q} notation of Jost 2006
 #'      \deqn{D=\sum{p_i^q}^{\frac{1}{1-q}}}
@@ -93,10 +92,10 @@ dfun <- rarity
 #' range of scaling exponent values.
 #'
 #' Hill diversity can be viewed as a continuous function of the scaling exponent
-#' \eqn{\ell} and the relative abundance distribution. As \eqn{\ell} increases,
+#' \eqn{\ell}{"ell"} and the relative abundance distribution. As \eqn{\ell}{"ell} increases,
 #' so does the emphasis on rare species. It is traditional to view the profile
-#' across \eqn{\ell = \[-1, 1\]} or \eqn{\ell = \[-2, 1\]}, and other authors
-#' have visualized this with low values of \eqn{\ell} at the right instead of
+#' across \eqn{\ell = [-1, 1]}{"ell" = [-1, 1]} or \eqn{\ell = [-2, 1]}{"ell" = [-2, 1]}, and other authors
+#' have visualized this with low values of \eqn{\ell}{"ell"} at the right instead of
 #' left.
 #'
 #' @template ab_template

@@ -25,10 +25,10 @@ range of scaling exponent values.
 }
 \details{
 Hill diversity can be viewed as a continuous function of the scaling exponent
-\eqn{\ell} and the relative abundance distribution. As \eqn{\ell} increases,
+\eqn{\ell}{"ell"} and the relative abundance distribution. As \eqn{\ell}{"ell} increases,
 so does the emphasis on rare species. It is traditional to view the profile
-across \eqn{\ell = \[-1, 1\]} or \eqn{\ell = \[-2, 1\]}, and other authors
-have visualized this with low values of \eqn{\ell} at the right instead of
+across \eqn{\ell = [-1, 1]}{"ell" = [-1, 1]} or \eqn{\ell = [-2, 1]}{"ell" = [-2, 1]}, and other authors
+have visualized this with low values of \eqn{\ell}{"ell"} at the right instead of
 left.
 }
 \examples{

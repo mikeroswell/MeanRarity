@@ -3,7 +3,7 @@ Repository for development of MeanRarity R package
 
 TODO: 
 
-- Consider adding ellipsis handling https://github.com/r-lib/ellipsis
+- look at \ell use in vignette, causes errors now. Probably solution is to use the LATEX formatting above.
 - Finish vignettes
 - Create tests
 - Add citation to Oikos paper

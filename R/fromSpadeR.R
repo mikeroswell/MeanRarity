@@ -3,9 +3,9 @@
 #' Computes Chao and Jost 2012's estimate of sample coverage, assuming that
 #' individuals are independently and randomly sampled. This function computes
 #' rarefaction and extrapolation estimates of coverage given an integer sample
-#' size \code{m}. We modified the source code to default to observed sample
-#' size for convenience, and so that parameter names matched analogous use
-#' elsewhere in the `MeanRarity` package. This function is copied directly from
+#' size \code{m}. We modified the source code to default to observed sample size
+#' for convenience, and so that parameter names matched analogous use elsewhere
+#' in the `MeanRarity` package. This function is copied directly from
 #' `SpadeR:::Chat.Ind()` from the R package SpadeR 0.1.1 by Anne Chao, K. H. Ma,
 #' T. C. Hsieh and Chun-Huo Chiu.
 #'
@@ -193,10 +193,11 @@ Chao_Hill_abu = function(ab, l){ #modified param names according to package idio
 
 #' Approximate CI for observed and asymptotic Hill diversity
 #'
-#' Functionally, a wrapper for `SpadeR:::Bootstrap_CI`, slimmed down to deal with
-#' only abundance data and set to return a data.frame. This is the approximate CI suggested by Chao and Jost 2015 MEE. Source code copied and pasted from
-#' `SpadeR:::Bootstrap_CI` from the R package SpadeR 0.1.1 by Anne Chao, K. H.
-#' Ma, T. C. Hsieh and Chun-Huo Chiu
+#' Functionally, a wrapper for `SpadeR:::Bootstrap_CI`, slimmed down to deal
+#' with only abundance data and set to return a data.frame. This is the
+#' approximate CI suggested by Chao and Jost 2015 MEE. Source code copied and
+#' pasted from `SpadeR:::Bootstrap_CI` from the R package SpadeR 0.1.1 by Anne
+#' Chao, K. H. Ma, T. C. Hsieh and Chun-Huo Chiu
 #'
 #' @references
 #' \insertRef{Chao2015}{MeanRarity}

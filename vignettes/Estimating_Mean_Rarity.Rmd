@@ -520,7 +520,7 @@ SADs_list<-map(c("lnorm", "gamma"), function(distr){
     })
   })
 })
-````
+```
 
 The function `fit_SAD` provides useful way to simulate species abundance
 distributions. Unlike many methods to simulate SADs that rely on finite
@@ -540,9 +540,9 @@ Samples from the simulated SADs are taken directly, without first simulating a
 finite pool or "community," in contrast to other commonly used methods to 
 simulate SADs (CITE mobsim).
 
-Here's a quick visualization of the SADs we just generated. Rather than showing
-all 24, we'll look at 6: The most and least even ones, and one of the
-intermediate ones as well.
+Here's a quick visualization of the SADs we just generated (this is not a figure
+in the MS. Rather than showing all 24, we'll look at 6: The most and least even
+ones, and one of the intermediate ones as well.
 
 ``` {r visualize SADs, fig.width = 6, fig.height = 3}
 # function to remove subscripts; apparently this way of making a labeller is now

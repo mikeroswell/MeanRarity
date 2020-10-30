@@ -17,9 +17,10 @@ abundance-weighted [generalized] mean species rarity of a community (rarity is
 the reciprocal of relative abundance). Additionally, the package contains
 functions for generating and sampling abundance vectors and generating plots.
 This vignette is not a comprehensive guide to the package. However, it includes
-all the data and code to replicate the figures presented in Roswell et al. 2020
-"A conceptual guide to measuring species diversity" Oikos doi. Thus, the
-examples in the vignette are ordered according to the figures in the article.
+data and code to replicate the quantitative main-text figures presented in
+Roswell et al. 2020 "A conceptual guide to measuring species diversity" Oikos
+doi. Thus, the examples in the vignette are ordered according to the figures in
+the article.
 
 The goal of \[Hill\] diversity metrics is to summarize the distribution of
 species' \[relative\] abundances. The first figure in the "Conceptual guide" is a
@@ -71,10 +72,10 @@ white_y(myplots[[4]]) + # fourth community
 The next figure in the guide shows that the expected value for both observed and
 estimated asymptotic richness increase with sample size. The code to generate
 expected diversity estimates is computationally expensive and we recommend not
-to run the code in this vignette. It is however included in the package in the
+to run the code in this vignette. It is documented in the package in the
 file `"data-raw/DATASET.R"`, and the result is an exported dataset `mean_ests`.
-This script uses the function `subsam`, which samples without replacement,
-and the function `obs_est`, which computes Hill diversity estimates, including 
+This script uses the function `subsam()`, which samples without replacement,
+and the function `obs_est()`, which computes Hill diversity estimates, including 
 asymptotic estimates (after Chao and Jost 2015 MEE) using functions 
 modified from the R package `SpadeR`
 
@@ -103,7 +104,7 @@ div_ests <- purrr::map_dfr(1:nrep, function(k){
   })
 })
 
-tictoc::toc() #507 seconds, not bad.
+tictoc::toc() #507 seconds with quad-core i7 processor, not bad.
 mean_narm <- function(x){mean(x, na.rm = T)}
 mean_ests <- div_ests %>%
   dplyr::group_by(site, individuals) %>%
@@ -118,30 +119,31 @@ site_ab <- purrr::map_dfr(names(beeAbunds[,2:5]), function(site){
 })
 
 mean_ests %>%
-  left_join(site_ab) %>% mutate(cutrows = individuals > 0.8 * abun) %>%
-  #this is because when bootstrapping can get funny things where the Chao1
+  dplyr::left_join(site_ab) %>% 
+  dplyr::mutate(cutrows = individuals > 0.8 * abun) %>%
+  #truncate the dataset because literal bootstrapping gets funny and  the Chao1
   #levels off near observed abundance, didn't want to discuss this in guide
   #since it's obvious but not interesting and possibly very confusing.
-  filter(!cutrows) %>% 
-  ggplot(aes(individuals, obsrich, color = site))+
-  geom_point(alpha = 0.3, size = 0.5) +
-  geom_point(aes(y = chaorich, color = site, shape = site)
+  dplyr::filter(!cutrows) %>% 
+  ggplot2::ggplot(aes(individuals, obsrich, color = site))+
+  ggplot2::geom_point(alpha = 0.3, size = 0.5) +
+  ggplot2::geom_point(aes(y = chaorich, color = site, shape = site)
              , size=0.8, alpha=0.5) +
-  theme_classic() +
-  labs(x = "\nIndividuals", y = "Species richness\n") +
-  xlim(c(0, 400)) +
-  ylim(c(0, 80)) +
-  theme(text = element_text(size=14)
-        , axis.text = element_text(colour = "black")) +
-  theme(legend.position = "none") +
-  scale_shape_manual(values = c(15:18)) +
-  scale_color_brewer(palette = "Dark2")
+  ggplot2::theme_classic() +
+  ggplot2::labs(x = "\nIndividuals", y = "Species richness\n") +
+  ggplot2::xlim(c(0, 400)) +
+  ggplot2::ylim(c(0, 80)) +
+  ggplot2::theme(text = ggplot2::element_text(size=14)
+        , axis.text = ggplot2::element_text(colour = "black")) +
+  ggplot2::theme(legend.position = "none") +
+  ggplot2::scale_shape_manual(values = c(15:18)) +
+  ggplot2::scale_color_brewer(palette = "Dark2")
 
 
 ```
 
 Figure 3 in the guide shows an empirical Hill diversity profile. The
-`MeanRarity` package has a canned function to produce such profiles, `divpro`.
+`MeanRarity` package has a function to produce such profiles, `divpro()`.
 This lightweight function does not produce asymptotic estimates. Because the
 guide focused on the mean rarity formulation for Hill diversities,
 parameterizing the scaling exponent with $\ell$, the profile is plotted from
@@ -149,30 +151,43 @@ $\ell = -1$ to $\ell =1$, whereas other software packages such as `iNEXT` and
 `SpadeR` plot the profile from $q = 1-\ell =0$ to $q = 1-\ell =2$.
 
 ```{r Diversity profile plot, fig.width = 5, fig.height = 5}
-site_pro <- map_dfr(names(beeAbunds[2:5]), function(x){
-  data.frame(site = x, divpro(beeAbunds[, x]))})
 
-site_pro %>%  ggplot(aes(ell, d, color = site)) +
-    geom_line() +
-    geom_point(data = site_pro %>% filter(ell %in% c(-1,1,0))
+site_pro <- purrr::map_dfr(names(beeAbunds[2:5]), function(x){
+  data.frame(site = x, divpro(beeAbunds[, x]))}) #make profile for each community
+
+site_pro %>%  ggplot2::ggplot(aes(ell, d, color = site)) +
+    ggplot2::geom_line() +
+    ggplot2::geom_point(data = site_pro %>% 
+                          dplyr::filter(ell %in% c(-1,1,0))
                , aes(ell, d, color = site, shape = site)
                , size = 3, alpha = 0.5) +
-    theme_classic() +
-    theme(text = element_text(size = 14)
-          , axis.text = element_text(colour = "black")
+    ggplot2::theme_classic() +
+    ggplot2::theme(text = ggplot2::element_text(size = 14)
+          , axis.text = ggplot2::element_text(colour = "black")
           , legend.position = "none") +
     #this is the unicode for the curly l
-    labs(x = "Exponent \U2113", y = "Diversity") +
-    scale_shape_manual(values = c(15:18)) +
-    scale_color_brewer(palette = "Dark2")
+    ggplot2::labs(x = "Exponent \U2113", y = "Diversity") +
+    ggplot2::scale_shape_manual(values = c(15:18)) +
+    ggplot2::scale_color_brewer(palette = "Dark2")
 ```
-Fig 4 uses the R package `iNEXT`, which is not imported by `MeanRarity`. This 
-code chunk will take almost a minute to run. It also uses our simplified 
-version of the code for computing approximate CI from `iNEXT`, an internal 
-function `MeanRarity:::Bootstrap.CI_Df`. This computes the same intervals as 
-`iNEXT`. Although elsewhere in the Oikos forum piece, we critique these 
-intervals, we included them in this figure to demonstrate how the choice of 
+A central idea in the Guide to Measuring Biodiveristy is that researcher
+decisions can drive the results of biodiversity comparisons: how much to sample, 
+how to standardize data, which diversity metric to use, and how to express 
+uncertainty. Figure 4 illustrates how some of these choices could alter 
+interpretation of the example dataset. 
+
+The code below does not highlight any of the novel tools in the `MeanRarity`
+package. However, it does use `Chao_Hill_abu()`, a copy of an internal fucntion
+from the R package `SpadeR`. To produce fig 4 in the MS, we used the R package
+`iNEXT`, which is not imported by `MeanRarity`.  It also uses our simplified
+version of the code for computing approximate CI from `iNEXT`, an internal
+function `MeanRarity:::Bootstrap.CI_Df()`. This computes the same intervals as
+`iNEXT`. Although elsewhere in the Oikos forum piece, we critique these
+intervals, we included them in this figure to demonstrate how the choice of
 tools would or would not drive results.
+
+This code chunk will likely take almost a minute to run.
+
 ```{r Figure 4: diversity estimates with CI, fig.height = 5, fig.width = 7, eval = TRUE}
 
 tictoc::tic() #time this
@@ -184,10 +199,10 @@ by_size <- iNEXT::estimateD(iN_form
 by_coverage <- iNEXT::estimateD(iN_form
                                 , base = "coverage")
 
-by_effort <- map_dfr(lapply(iN_form, sum), function(size){
+by_effort <- purrr::map_dfr(lapply(iN_form, sum), function(size){
     iNEXT::estimateD(iN_form
                     , base = "size"
-                    , level = size) %>% filter(method == "observed")
+                    , level = size) %>% dplyr::filter(method == "observed")
 
 })
     
@@ -203,7 +218,7 @@ tictoc::tic()
 asyseveral <- purrr::map_dfr(2:5, function(sitio){
   purrr::map_dfr(-1:1, function(l){
     theboots <- MeanRarity:::Bootstrap.CI_df(pull(beeAbunds[, sitio]), l)
-    est <- Chao_Hill_abu(pull(beeAbunds[, sitio]), l)
+    est <- Chao_Hill_abu(dplyr::pull(beeAbunds[, sitio]), l)
     data.frame(site = names(beeAbunds[, sitio])
                , order = l
                , qD = est
@@ -215,20 +230,23 @@ tictoc::toc() # <2 seconds.
 
 asyseveral$method <- "asymptotic"
 asyseveral$standard <- "asymptotic"
-allseveral <- bind_rows(iseveral, asyseveral)
+allseveral <- dplyr::bind_rows(iseveral, asyseveral)
 #diversities, standardized by effort
 
 #get some parameters of data
 #individuals in sample with fewest
-minm <- min(by_effort %>% filter(m == min(m)) %>% pull(m)) 
+minm <- min(by_effort %>% 
+              dplyr::filter(m == min(m)) %>% 
+              dplyr::pull(m)) 
 
 minc <- min(by_effort %>% 
-              group_by(site) %>% 
+              dplyr::group_by(site) %>% 
               dplyr::summarize(SC = max(SC)) %>% 
-              pull(SC)) # coverage of sample with lowest
+              dplyr::pull(SC)) # coverage of sample with lowest
 
 
-tog <- allseveral %>% mutate(sm = paste(standard, site, sep=""))
+tog <- allseveral %>% 
+  dplyr::mutate(sm = paste(standard, site, sep=""))
 
 inds <- data.frame("order" = c(1, 0, -1), divind = factor(c("richness"
                                                            , "Hill-Shannon"
@@ -237,9 +255,12 @@ inds <- data.frame("order" = c(1, 0, -1), divind = factor(c("richness"
                                                               , "Hill-Shannon"
                                                               , "Hill-Simpson")))
 
-togn <- tog %>% left_join(inds) %>%  ungroup()
+togn <- tog %>% 
+  dplyr::left_join(inds) %>%  
+  dplyr::ungroup()
+
 togn <- togn %>%     
-  mutate(divind = factor(divind
+  dplyr::mutate(divind = factor(divind
                          , levels = c("richness"
                                       , "Hill-Shannon"
                                       , "Hill-Simpson"))
@@ -249,7 +270,7 @@ togn <- togn %>%
                                      , "Lord Stirling_4"
                                      , "Fox Hill_5")))
 togn <- togn %>% 
-  mutate(methlab = factor(standard
+  dplyr::mutate(methlab = factor(standard
                           , levels = c("effort"
                                        , "size"
                                        , "coverage"
@@ -265,52 +286,54 @@ psize<-2.5
 ############################
 # make figures, which get stuck together.
 leftPlot <- togn %>% 
-    filter(methlab != "asymptotic") %>% 
-    ggplot(aes(site, qD, color = site, shape = site)) +
-    geom_errorbar(aes(ymin = qD.LCL, ymax = qD.UCL)
+    dplyr::filter(methlab != "asymptotic") %>% 
+    ggplot2::ggplot(aes(site, qD, color = site, shape = site)) +
+    ggplot2::geom_errorbar(aes(ymin = qD.LCL, ymax = qD.UCL)
                   , size = ebsize, width = ebw) +
-    geom_point(size = psize) +
-    facet_grid(divind ~ methlab, switch = "y", scales = "free_y") +
-    theme_classic() +
-    theme(legend.position = "none", axis.text.x = element_blank()
-          , axis.ticks.x = element_blank()) +
-    labs(y = NULL) +
-    theme(panel.spacing = unit(0, "lines")
-          , panel.border = element_rect(fill = NA)
-          , strip.background = element_blank()
-          , strip.text = element_text(face = "bold", size = 10)
-          , axis.title.x = element_blank()
+    ggplot2::geom_point(size = psize) +
+    ggplot2::facet_grid(divind ~ methlab, switch = "y", scales = "free_y") +
+    ggplot2::theme_classic() +
+    ggplot2::theme(legend.position = "none", axis.text.x = ggplot2::element_blank()
+          , axis.ticks.x = ggplot2::element_blank()) +
+    ggplot2::labs(y = NULL) +
+    ggplot2::theme(panel.spacing = unit(0, "lines")
+          , panel.border = ggplot2::element_rect(fill = NA)
+          , strip.background = ggplot2::element_blank()
+          , strip.text = ggplot2::element_text(face = "bold", size = 10)
+          , axis.title.x = ggplot2::element_blank()
           , legend.position = "none"
           , strip.placement = "outside") +
-    scale_y_continuous(limits = c(0,NA)
-                       , expand = expand_scale(mult = c(0, .05))) +
-    scale_shape_manual(values = c(17, 15, 18, 16)) +
-    scale_color_manual(values = c("#7570b3"
+    ggplot2::scale_y_continuous(limits = c(0,NA)
+                       , expand = ggplot2::expand_scale(mult = c(0, .05))) +
+    ggplot2::scale_shape_manual(values = c(17, 15, 18, 16)) +
+    ggplot2::scale_color_manual(values = c("#7570b3"
                                 , "#1b9e77"
                                 , "#e7298a"
                                 , "#d95f02")) 
 rightPlot <- togn %>% 
-  filter(methlab == "asymptotic") %>% 
-  ggplot(aes(site, qD, color = site, shape = site)) +
-  geom_errorbar(aes(ymin = qD.LCL, ymax = qD.UCL), size = ebsize, width = ebw) +
-  geom_point(size = psize) +
-  facet_grid(divind~methlab, switch = "y", scales = "free_y") +
-  theme_classic() +
-  theme(legend.position = "none", axis.text.x = element_blank()
-        , axis.ticks.x = element_blank()) +
-  labs(y = NULL, x = NULL) +
-  theme(panel.spacing = unit(0, "lines"),
-        panel.border = element_rect(fill = NA),
-        strip.background = element_blank(),
-        strip.text.x = element_text(face = "bold", size = 10),
-        strip.text.y = element_blank(),
-        axis.title = element_blank(),
+  dplkyr::filter(methlab == "asymptotic") %>% 
+  ggplot2::ggplot(ggplot2::aes(site, qD, color = site, shape = site)) +
+  ggplot2::geom_errorbar(ggplot2::aes(ymin = qD.LCL, ymax = qD.UCL)
+                         , size = ebsize, width = ebw) +
+  ggplot2::geom_point(size = psize) +
+  ggplot2::facet_grid(divind~methlab, switch = "y", scales = "free_y") +
+  ggplot2::theme_classic() +
+  ggplot2::theme(legend.position = "none"
+                 , axis.text.x = ggplot2::element_blank()
+                 , axis.ticks.x = ggplot2::element_blank()) +
+  ggplot2::labs(y = NULL, x = NULL) +
+  ggplot2::theme(panel.spacing = unit(0, "lines"),
+        panel.border = ggplot2::element_rect(fill = NA),
+        strip.background = ggplot2::element_blank(),
+        strip.text.x = ggplot2::element_text(face = "bold", size = 10),
+        strip.text.y = ggplot2::element_blank(),
+        axis.title = ggplot2::element_blank(),
         legend.position = "none",
         strip.placement = "outside") +
-  scale_y_continuous(limits = c(0, NA)
+  ggplot2::scale_y_continuous(limits = c(0, NA)
                      , expand = ggplot2::expand_scale(mult = c(0, 0.05))) +
-  scale_shape_manual(values = c(17, 15, 18, 16)) +
-  scale_color_manual(values = c("#7570b3"
+  ggplot2::scale_shape_manual(values = c(17, 15, 18, 16)) +
+  ggplot2::scale_color_manual(values = c("#7570b3"
                               , "#1b9e77"
                               , "#e7298a"
                               , "#d95f02" ))
@@ -321,9 +344,13 @@ print(leftPlot + rightPlot + plot_layout(widths = c(3, 1)))
 
 ```
 
-Figure 5 uses the functions introduced above to generate rarefaction curves. 
+A key idea is that the amount of sampling itself (and not simply standardization)
+itself affects relative biodiversity estimates. We demonstrated this in the MS 
+with Figure 5. Although the `MeanRarity` package exports `sample_finite()`, 
+`sample_finite()`, and `subcom()`, all convenience functions for sampling 
+community data, to produce Fig. 5 no tools from `MeanRarity` were used.
 
-```{r Effort-based Rarefaction, warning = F, eval = F}
+```{r Fig 5: Effort-based Rarefaction, warning = F, eval = F}
 # this takes a long time to run so we're going to stash it but export the data
 # in the package
 
@@ -417,38 +444,46 @@ effort_rare$etype <- factor(effort_rare$etype
 ``` {r Fig 5 rarefaction, fig.width =7, fig.height = 7}
 
 effort_rare %>% 
-  filter(etype == "observed") %>% 
-  ggplot(aes(xax
+  dplyr::filter(etype == "observed") %>% 
+  ggplot2::ggplot(aes(xax
              , diversity
              , color = site
              , shape = site)) +
-  geom_point(size = 2) +
-  geom_line() +
-  theme_classic() +
-  scale_alpha(range=c(0.4, 0.8)) +
-  theme( legend.position = "none"
-         , axis.text = element_text(colour = "black")
-         , axis.title.y = element_text(size = 14)
+  ggplot2::geom_point(size = 2) +
+  ggplot2::geom_line() +
+  ggplot2::theme_classic() +
+  ggplot2::scale_alpha(range=c(0.4, 0.8)) +
+  ggplot2::theme( legend.position = "none"
+         , axis.text = ggplot2::element_text(colour = "black")
+         , axis.title.y = ggplot2::element_text(size = 14)
          , panel.spacing = unit(1.3, "lines")
          , strip.placement.y = "outside") +
-  labs(x = "    transects                        individuals                % coverage    "
+  ggplot2::labs(x = "    transects                        individuals                % coverage    "
        , y = "diversity") +
-  facet_grid(divind ~ method, scales = "free", switch = "y") +
-  expand_limits(y = 0) +
-  scale_shape_manual(values = c(15:18)) +
-  scale_color_brewer(palette = "Dark2") + 
-  scale_y_log10()
+  ggplot2::facet_grid(divind ~ method, scales = "free", switch = "y") +
+  ggplot2::expand_limits(y = 0) +
+  ggplot2::scale_shape_manual(values = c(15:18)) +
+  ggplot2::scale_color_brewer(palette = "Dark2") + 
+  ggplot2::scale_y_log10()
 ```
 
 In Box 5, we visualize the mean rarity by finding a physical balance point. We
 hope this helps clarify how rarity is scaled by different means, but always
-weighted by the abundance of individuals. The function `rarity_plot` generates
-the figures that can also be generated interactively in the shiny app
+weighted by the abundance of individuals. The function `rarity_plot()` generates
+these figures. They can also be generated interactively in the shiny app
 \url{https://mean-rarity.shinyapps.io/rshiny_app}. The key thing to notice is
 that while the scaling of rarity changes with the exponent $\ell$, the weighting
 of each species stays the same. This is the simplest way to see how Hill
-diversities compute mean rarity, and is simpler than imagining that the scaling
-parameter instead somehow adjusts weighting. 
+diversities compute mean rarity from relative abundances, and we find the mean 
+rarity framework simpler than imagining that the *scaling* parameter somehow 
+adjusts species *weighting*. 
+
+The balance plots are fairly complex, and use several exported functions from
+the `MeanRarity` package. They rely, of course, on Hill diversity computations, 
+with the function `rarity()`, which in turn calls `pfun()` and `ipfun()` to 
+compute power transformations and their inverse. Additionally, the plots are 
+built with ggplot, and the curious reader may wish to explore the code (and even
+suggest improvements!).
 
 
 ```{r Balance plot, fig.width = 9, fig.height = 3}
@@ -478,20 +513,25 @@ rich_bal +
 
 In the appendices of the guide we explored confidence interval performance for 
 diversity estimates via simulation. The code we used to do this requires 
-substantial computational resources and we conducted much of it on a University
-high performance computing cluster. Thus while code is included here we do not
+substantial computational resources and we conducted much of it on a university
+high performance computing cluster. Thus, we did not include the code and data
+in this R package (it can be found at (GITHUB LINK), and do not
 recommend running on a home/office computer with the sample sizes we used.
 
-To do this, we simulated species abundance distributions (SADs). From these, we 
-took random samples (with replacement), and for the random samples we computed
-the estimated confidence intervals (CI) given by (CITE Chao and Jost 2015). We
-assessed what proportion of empirical CI contained the target value: the
-expected sample diversity or the true (simulated) diversity of the SAD. 
+However, to explore CI performance, we designed a way to simulate species
+abundance distributions (SADs) directly based on their Hill diversity,
+demonstrated below with the function `fit_SAD()`.
 
+In the github repository, you may see how we took the simulated abundance
+distributions, took random samples (with replacement), and for the random
+samples we computed the estimated confidence intervals (CI) given by (CITE Chao
+and Jost 2015). We assessed what proportion of empirical CI contained the target
+value: the expected sample diversity or the true (simulated) diversity of the
+SAD.
 
-First we generate species abundance distributions (SADs) with the function `fit_SAD`. 
+First we generate SADs with the function `fit_SAD()`. 
 
-`fit_SAD` uses a target Simpson diversity and distributional family to set the
+`fit_SAD()` uses a target Simpson diversity and distributional family to set the
 relative abundance for a fixed number of species, where species relative
 abundances are given by evenly-spaced quantiles of the continuous [gamma or
 log-normal] distribution. The function uses three parameters: richness,
@@ -523,27 +563,28 @@ SADs_list<-map(c("lnorm", "gamma"), function(distr){
 })
 ```
 
-The function `fit_SAD` provides useful way to simulate species abundance
+The function `fit_SAD()` provides useful way to simulate species abundance
 distributions. Unlike many methods to simulate SADs that rely on finite
 communities, fit_SAD provides only *relative* abundances. This is particularly
 desirable for testing the statistical behavior of Hill diversities, as these
-also consider only relative abundances. Another feature of `fit_SAD` is that the
-true diversity (richness and Hill-Simpson diversity), along with a parametric
-distributional assumption, are the inputs to the simulation, and not downstream
-effects of other, ancillary parameters.
+also consider only relative abundances. Another feature of `fit_SAD()` is that 
+the true diversity (richness and Hill-Simpson diversity), along with a 
+parametric distributional assumption, are the inputs to the simulation, and not 
+downstream effects of other, ancillary parameters.
 
-`fit_SAD`, like other methods, does require a sort of discrete approximation to
+`fit_SAD()`, like other methods, does require a sort of discrete approximation to
 continuous distributions. However, rather than rounding, this is simply achieved
 by taking the probability density of the selected distribution at evenly-spaced
 intervals as proportional to the relative abundances of each species.
 
-Samples from the simulated SADs are taken directly, without first simulating a
-finite pool or "community," in contrast to other commonly used methods to 
-simulate SADs (CITE mobsim).
+To generate finite data for our research, samples from the simulated SADs are
+taken directly, without first simulating a finite pool or "community," in
+contrast to other commonly used methods to simulate SADs (CITE mobsim).
 
 Here's a quick visualization of the SADs we just generated (this is not a figure
-in the MS. Rather than showing all 24, we'll look at 6: The most and least even
-ones, and one of the intermediate ones as well.
+in the MS). Rather than showing all 24, we'll look at a sample of 6: The most
+and least even ones, and one of the intermediate ones as well, for each of the
+two distributional families.
 
 ``` {r visualize SADs, fig.width = 6, fig.height = 3}
 # function to remove subscripts; apparently this way of making a labeller is now
@@ -560,28 +601,30 @@ myabs<-map_dfr(flatten(flatten(SADs_list)) #, function(x) data.frame(names(x)))
                , .id="SAD")
 
 
-myabs %>% left_join(data.frame(
+myabs %>% dplyr::left_join(data.frame(
   SAD=as.character(1:24)
   , skew=factor(c("uneven", "int","int", "int","int", "even"), levels=c("uneven", "int", "even"))
   , dist=factor(c(rep("lognormal", 12), rep("gamma", 12)), levels=c("lognormal", "gamma"))
 )) %>%
-  mutate(abD=paste(dist, skew)) %>%
-  group_by(SAD, abD, dist, skew) %>%
-  mutate(abrank=min_rank(desc(ab)), log_relative_abundance=log(ab), relative_abundance=ab) %>%
+  dplyr::mutate(abD=paste(dist, skew)) %>%
+  dplyr::group_by(SAD, abD, dist, skew) %>%
+  dplyr::mutate(abrank = dplyr::min_rank(desc(ab))
+                , log_relative_abundance = log(ab)
+                , relative_abundance = ab) %>%
   #for plotting, gather the two scales to use `facet_grid`
-  gather(scl, rel_abund, relative_abundance, log_relative_abundance )%>%
+  dplyr::gather(scl, rel_abund, relative_abundance, log_relative_abundance )%>%
   # grab the extreme SADs and one intermediate for each distributional
   # assumption, just the 200 spp versions (they look the same though)
-  filter(SAD %in% c("7","10","12","19","22","24")) %>%
+  dplyr::filter(SAD %in% c("7","10","12","19","22","24")) %>%
   # plot the RADs to show difference between gamma and lognormal, more extreme
   # with skew
-  ggplot(aes(abrank, rel_abund, color=dist))+
-    geom_point(alpha=0.3, size=1)+
-    geom_line(size=.4, alpha=0.3)+
-    theme_classic()+
+  ggplot2::ggplot(aes(abrank, rel_abund, color=dist))+
+    ggplot2::geom_point(alpha=0.3, size=1)+
+    ggplot2::geom_line(size=.4, alpha=0.3)+
+    ggplot2::theme_classic()+
     # theme(text=element_text(size=16))+
-    labs(x="abundance rank", y="", color="", shape="")+
-    facet_grid(forcats::fct_rev(scl)~skew, scales="free", switch="y", labeller=remsub)
+    ggplot2::labs(x="abundance rank", y="", color="", shape="")+
+    ggplot2::facet_grid(forcats::fct_rev(scl)~skew, scales="free", switch="y", labeller=remsub)
 ````
 
 In the supplementary materials for Roswell et al. 2020, we demonstrate that the

@@ -1,9 +1,12 @@
 # MeanRarity
 Repository for development of MeanRarity R package
 
-The goals of the package are to document and share the code and, perhaps more importantly, quantitative "methods" for Roswell et al. 2020 _Oikos_ and to provide a discrete, shareable codebase for working with mean rarity and associated CI.
+The goals of the package are to document and share the code and, perhaps more
+importantly, the quantitative aspects of the concepts discussed in Roswell et
+al. 2020 _Oikos_ and to provide a discrete, shareable codebase for working with
+mean rarity and associated CI.
 
-In the Author's estimation, the cool functions are `rarity()`, which simply
+In the Author's estimation, the core functions are `rarity()`, which simply
 computes the Hill diversity, but parameterizes this in terms of the mean rarity,
 `rarity_plot()`, which makes balance plots to visualize mean rarity, and
 `fit_SAD()`, which is a potentially novel way to simulate species abundance
@@ -15,7 +18,7 @@ TODO:
 
  * look at the character that should be \eqn{\ell} use in vignette, causes errors
 now.
- * Finish vignette(s)
+ * Finish content for vignette(s)
    * will there be one for the MS and another more introducing the package, or
 just one?
    * add/fix citations... see below, not comprehensive

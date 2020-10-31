@@ -1,0 +1,140 @@
+---
+title: "Gods_estimator"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Gods_estimator}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = F}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")#, dev = "pdf")
+library(MeanRarity)
+library(patchwork) # amazing ggplot2 add-on for multi-panel plots
+library(dplyr) # part of the tidyverse
+library(ggplot2) # part of the tidyverse
+library(tidyr) # part of the tidyverse
+library(purrr) # part of the tidyverse
+library(tictoc) # lightweight package for convenient timing
+library(furrr) # `tidyverse` and `parallel` combined
+```
+Hill diversities (also called "Hill numbers") have become standard for measuring
+diversity in ecology (cite the Ellison 2010 special issue). While many
+interpretations of Hill numbers have been discussed, including their
+relationship to species richness, Shannon’s entropy, and Simpson’s
+concentration, The package `MeanRarity` is designed to illustrate an alternative
+interpretation of Hill numbers as means of species rarity (the reciprocal of
+relative abundance) in a community. In this interpretation, the control
+parameter $\ell$ moves the index from arithmetic to geometric to harmonic means.
+Thus, Hill diversites differ in the scale on which species rarity is considered,
+but always weights species the same way (by their abundance) regardless of the
+scale being used. This interpretation is distinct from the common idea that the
+Hill parameter controls how rare vs. common species are “weighted.”
+
+In this vignette, we show that the mean rarity perspective suggests a novel
+approach to estimating true diversity from a sample, using the fact that the
+sample mean is an unbiased estimate of the population mean. Although how to
+estimate a species’ rarity from sample data remains unsolved, we test the
+promise of this idea using what we call God’s estimator: All-knowing, God can
+plug in the true population parameters for each species. Nevertheless, maybe for
+fun, God chooses to compute the sample mean, weighting species’ true rarities by
+their sampled frequency.
+
+Let's see how God's estimator works!
+
+First, we simulate some SADs with known diversity using the function `fit_SAD()`
+
+```{r simulate species abundance distributions}
+
+# simulate SADs for analysis
+SADs_list<-map(c("lnorm", "gamma"), function(distr){
+  map(c(100, 200), function(rich){
+    map(c(0.05, .15,.25,.5,.75,.85), function(simp_Prop){ #simp_Prop is evenness
+      fit_SAD(rich = rich, simpson = simp_Prop*(rich-1)+1, distr = distr)
+    })
+  })
+})
+```
+
+Now, let's test estimator performance.We'll compare what we've called "God's 
+estimator" to the naïve estimator (the mean of the observed rarities) and to a
+non-parametric, asymptotic diversity estimator (CITE Chao and Jost 2015). To 
+assess performance, let's look at the root mean squared error, and also bias.
+
+```{r test estimators}
+
+nreps <- 999
+
+ss_to_test <- 10^seq(1,3, 0.25)
+
+flatsads <- flatten(flatten(SADs_list))
+nc <- parallel::detectCores() - 1
+future::plan(strategy = "multiprocess", workers = nc)
+
+tic()
+compare_ests <- map_dfr(1:24, function(SAD){
+  map_dfr(-1:1, function(ell){
+   truth = as.numeric(flatsads[[SAD]][[2]][2-ell])
+   truep = flatsads[[SAD]][[3]]
+   dinfo = data.frame(t(flatsads[[SAD]][[1]]))
+  future_map_dfr(1:nreps, function(nrep){
+      map_dfr(ss_to_test, function(ss){
+        subsam = sample_infinite(truep, ss)
+        chaoest = Chao_Hill_abu(subsam, ell)
+        naive = rarity(subsam, ell)
+        gods = GUE(subsam, truep, ell)
+        return(bind_cols(data.frame(truth, chaoest, naive, gods, n=ss, ell, SAD), dinfo))
+      })
+    })
+  })
+})
+toc() # 6 mins on 2.9 GHz i7 quad core processor
+
+# define a function for computing the root mean square
+nasum <- function(x){sum(x, na.rm =T)}
+rootms <- function(x){sqrt(nasum(((x)^2)/length(x)))}
+namean <-function(x){mean(x, na.rm =T)}
+
+errs <- compare_ests %>% 
+  group_by(ell, distribution, fitted.parameter, n, SAD) %>% 
+  mutate(godsError=gods-truth, naiveError=naive-truth, chaoError=chaoest-truth) %>% 
+  summarize_at(.vars = c("godsError", "naiveError", "chaoError"), .funs = c(rootms, namean)) %>% 
+  pivot_longer(godsError_fn1:chaoError_fn2,
+    names_to = c("estimator", ".value"),
+    names_sep = "_"
+      ) %>% 
+  rename(rmse = fn1, bias = fn2)
+ 
+               
+errs %>% 
+  filter(SAD %in% c("7","10","12","19","22","24")) %>%
+  ggplot(aes(n, rmse, color = estimator))+
+  geom_line(alpha = 0.7) +
+  facet_grid(ell~SAD, scales = "free") +
+  theme_classic()
+
+errs %>% 
+  filter(SAD %in% c("7","10","12","19","22","24")) %>%
+  ggplot(aes(n, bias, color = estimator))+
+  geom_line(alpha = 0.7) +
+  facet_grid(ell~SAD, scales = "free") +
+  theme_classic() +
+  geom_hline(yintercept =0)
+    
+
+
+```
+
+
+
+In our simulation, God’s estimator was both less biased and more accurate for all simulated communities, sample sizes, and values of the Hill control parameter. God’s estimator always had lower root-mean-squared error (RMSE), and in the case of species richness with highly diverse communities, the RMSE for God’s estimator remained low (within a few species) while the RMSE for the naïve and non-parametric estimators were huge (dozens of species in our simulations). This is expected: God’s estimator uses information not available to other methods (nor to mortal ecologists). However, these results suggest that improved heuristic estimates of species rarities might enable enable better diversity estimates, and pave a route to more principled confidence intervals for Hill numbers.
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(MeanRarity)
+```

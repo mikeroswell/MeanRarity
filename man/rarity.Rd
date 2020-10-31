@@ -31,8 +31,7 @@ We parameterize Hill diversity \eqn{D} as a the frequency-weighted mean
 species rarity, with scaling exponent l \deqn{D = \sum{p_i *
 r_i^{\ell}}^{-\ell}} where rarity of species i \eqn{r_1 = 1/p_i}. When
 \eqn{\ell = 0} this is defined base on the limit from the left and the right,
-which is the geometric mean \deqn{\exp(\frac{\sum{p_i * \ln(r_i)}}
-\sum{p_i}})
+which is the geometric mean \deqn{\exp(\frac{\sum{p_i * \ln(r_i)}}{\sum{p_i}})}
 
 This is equivalent to the \eqn{q} notation of Jost 2006
 \deqn{D=\sum{p_i^q}^{\frac{1}{1-q}}}

@@ -22,8 +22,8 @@ Roswell et al. 2020 "A conceptual guide to measuring species diversity" Oikos
 doi. Thus, the examples in the vignette are ordered according to the figures in
 the article.
 
-The goal of \[Hill\] diversity metrics is to summarize the distribution of
-species' \[relative\] abundances. The first figure in the "Conceptual guide" is a
+The goal of [Hill] diversity metrics is to summarize the distribution of
+species' [relative] abundances. The first figure in the "Conceptual guide" is a
 visualization of the observed bee abundances from the four communities in the
 example dataset `beeObs`, analyzed in the guide. The package also includes a
 summary of those data, `beeAbunds`. The function `radplot()` takes those data
@@ -170,7 +170,7 @@ site_pro %>%  ggplot2::ggplot(aes(ell, d, color = site)) +
     ggplot2::scale_shape_manual(values = c(15:18)) +
     ggplot2::scale_color_brewer(palette = "Dark2")
 ```
-A central idea in the Guide to Measuring Biodiveristy is that researcher
+A central idea in the guide is that researcher
 decisions can drive the results of biodiversity comparisons: how much to sample, 
 how to standardize data, which diversity metric to use, and how to express 
 uncertainty. Figure 4 illustrates how some of these choices could alter 
@@ -586,7 +586,7 @@ in the MS). Rather than showing all 24, we'll look at a sample of 6: The most
 and least even ones, and one of the intermediate ones as well, for each of the
 two distributional families.
 
-``` {r visualize SADs, fig.width = 6, fig.height = 3}
+``` {r visualize SADs, fig.width = 7, fig.height = 5}
 # function to remove subscripts; apparently this way of making a labeller is now
 # deprecated
 remsub <- function(variable, value){
@@ -612,7 +612,7 @@ myabs %>% dplyr::left_join(data.frame(
                 , log_relative_abundance = log(ab)
                 , relative_abundance = ab) %>%
   #for plotting, gather the two scales to use `facet_grid`
-  dplyr::gather(scl, rel_abund, relative_abundance, log_relative_abundance )%>%
+  tidyr::gather(scl, rel_abund, relative_abundance, log_relative_abundance )%>%
   # grab the extreme SADs and one intermediate for each distributional
   # assumption, just the 200 spp versions (they look the same though)
   dplyr::filter(SAD %in% c("7","10","12","19","22","24")) %>%
@@ -629,6 +629,6 @@ myabs %>% dplyr::left_join(data.frame(
 
 In the supplementary materials for Roswell et al. 2020, we demonstrate that the
 CI for diversity estimates based on the approach articulated in (CITE Chao and
-Jost 2012) tend to be anticonservative. The code and data for this are not
+Jost 2015) tend to be anticonservative. The code and data for this are not
 exported by this package; the scripts to generate all relevatn data and figures
 are available at [github link].

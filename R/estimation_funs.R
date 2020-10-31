@@ -283,3 +283,34 @@ obscp_obs <- function(l = l
                     , "size" = size ))
 
 }
+
+#' God's unbiased estimator
+#'
+#' The mean rarity perspective suggests a novel approach to estimating true
+#' diversity from a sample, using the fact that the sample mean is an unbiased
+#' estimate of the population mean. Although how to estimate a species’ rarity
+#' from sample data remains unsolved, we test the promise of this idea using
+#' what we call God’s estimator: All-knowing, God can plug in the true
+#' population parameters for each species. Nevertheless, maybe for fun, God
+#' chooses to compute the sample mean, weighting species’ true rarities by their
+#' sampled frequency.
+#'
+#'
+#' @param freqs Non-negative numeric vector of observed species frequencies
+#' @param true_p Non-negative numeric vector of true, population-level species frequencies
+#' @template l_template
+#' @examples
+#' GUE(freqs =  1:10/sum(1:10), true_p =  1:10/sum(1:10), l = 1) # true richness 10
+#' GUE(freqs =  rep(1:5,2)/sum(1:10), true_p =  1:10/sum(1:10), l = 1) # true richness 10
+#' @export
+
+GUE <- function(freqs, true_p, l) {
+  refreq= freqs/sum(freqs)
+  retrue = true_p/sum(true_p)
+  wts = refreq[freqs*true_p > 0]
+  rabs = retrue[freqs*true_p > 0]
+  ifelse((l == 0)
+         , exp(sum(wts * log(1/rabs)))
+         , (sum(wts * (1/rabs)^l))^(1/l))
+}
+

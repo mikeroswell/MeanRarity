@@ -106,13 +106,17 @@ errs <- compare_ests %>%
   rename(rmse = fn1, bias = fn2)
  
                
+```
+
+```{r plot rmse}
 errs %>% 
   filter(SAD %in% c("7","10","12","19","22","24")) %>%
   ggplot(aes(n, rmse, color = estimator))+
   geom_line(alpha = 0.7) +
   facet_grid(ell~SAD, scales = "free") +
   theme_classic()
-
+```
+```{r plot bias}
 errs %>% 
   filter(SAD %in% c("7","10","12","19","22","24")) %>%
   ggplot(aes(n, bias, color = estimator))+
@@ -120,11 +124,7 @@ errs %>%
   facet_grid(ell~SAD, scales = "free") +
   theme_classic() +
   geom_hline(yintercept =0)
-    
-
-
 ```
-
 
 
 In our simulation, God’s estimator was both less biased and more accurate for all simulated communities, sample sizes, and values of the Hill control parameter. God’s estimator always had lower root-mean-squared error (RMSE), and in the case of species richness with highly diverse communities, the RMSE for God’s estimator remained low (within a few species) while the RMSE for the naïve and non-parametric estimators were huge (dozens of species in our simulations). This is expected: God’s estimator uses information not available to other methods (nor to mortal ecologists). However, these results suggest that improved heuristic estimates of species rarities might enable enable better diversity estimates, and pave a route to more principled confidence intervals for Hill numbers.

@@ -305,7 +305,7 @@ obscp_obs <- function(l = l
 #' @export
 
 GUE <- function(freqs, true_p, l) {
-  refreq= freqs/sum(freqs)
+  refreq = freqs/sum(freqs)
   retrue = true_p/sum(true_p)
   wts = refreq[freqs*true_p > 0]
   rabs = retrue[freqs*true_p > 0]

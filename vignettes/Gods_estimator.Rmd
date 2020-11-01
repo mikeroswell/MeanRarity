@@ -6,6 +6,16 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(MeanRarity)
+```
 
 ```{r setup, include = F}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")#, dev = "pdf")
@@ -49,11 +59,16 @@ First, we simulate some SADs with known diversity using the function `fit_SAD()`
 # simulate SADs for analysis
 SADs_list<-map(c("lnorm", "gamma"), function(distr){
   map(c(100, 200), function(rich){
-    map(c(0.05, .15,.25,.5,.75,.85), function(simp_Prop){ #simp_Prop is evenness
+    map(c(.15,.25,.5,.6,0.75,.85), function(simp_Prop){ #simp_Prop is evenness
       fit_SAD(rich = rich, simpson = simp_Prop*(rich-1)+1, distr = distr)
     })
   })
 })
+# fiddled with this because of bizarre behavior. I think there is R precision
+# issues if the species are too rare this occurred with some of the gamma
+# distributions. I first of all set the lease even SAD to be more even, and also
+# decided to drop SADs 19-20 after taking a quick look at those, which had
+# rarities below 1e-9
 ```
 
 Now, let's test estimator performance.We'll compare what we've called "God's 
@@ -65,7 +80,7 @@ assess performance, let's look at the root mean squared error, and also bias.
 
 nreps <- 999
 
-ss_to_test <- 10^seq(1,3, 0.25)
+ss_to_test <- floor(10^seq(1.4,3, 0.2))
 
 flatsads <- flatten(flatten(SADs_list))
 nc <- parallel::detectCores() - 1
@@ -97,7 +112,9 @@ namean <-function(x){mean(x, na.rm =T)}
 
 errs <- compare_ests %>% 
   group_by(ell, distribution, fitted.parameter, n, SAD) %>% 
-  mutate(godsError=gods-truth, naiveError=naive-truth, chaoError=chaoest-truth) %>% 
+  mutate(godsError = gods - truth
+         , naiveError = naive - truth
+         , chaoError = chaoest - truth) %>% 
   summarize_at(.vars = c("godsError", "naiveError", "chaoError"), .funs = c(rootms, namean)) %>% 
   pivot_longer(godsError_fn1:chaoError_fn2,
     names_to = c("estimator", ".value"),
@@ -110,7 +127,7 @@ errs <- compare_ests %>%
 
 ```{r plot rmse}
 errs %>% 
-  filter(SAD %in% c("7","10","12","19","22","24")) %>%
+  filter(SAD %in% c("8","10","12","21","22", "24")) %>%
   ggplot(aes(n, rmse, color = estimator))+
   geom_line(alpha = 0.7) +
   facet_grid(ell~SAD, scales = "free") +
@@ -118,23 +135,24 @@ errs %>%
 ```
 ```{r plot bias}
 errs %>% 
-  filter(SAD %in% c("7","10","12","19","22","24")) %>%
-  ggplot(aes(n, bias, color = estimator))+
-  geom_line(alpha = 0.7) +
+  filter(SAD %in% c("7","10","12","21","23","24")) %>%
+  ggplot(aes(n, bias, color = estimator)) +
+  geom_line(alpha = 0.7, size =1.5) +
   facet_grid(ell~SAD, scales = "free") +
-  theme_classic() +
-  geom_hline(yintercept =0)
+  geom_hline(yintercept = 0) +
+  theme_classic()
+  
 ```
 
 
-In our simulation, God’s estimator was both less biased and more accurate for all simulated communities, sample sizes, and values of the Hill control parameter. God’s estimator always had lower root-mean-squared error (RMSE), and in the case of species richness with highly diverse communities, the RMSE for God’s estimator remained low (within a few species) while the RMSE for the naïve and non-parametric estimators were huge (dozens of species in our simulations). This is expected: God’s estimator uses information not available to other methods (nor to mortal ecologists). However, these results suggest that improved heuristic estimates of species rarities might enable enable better diversity estimates, and pave a route to more principled confidence intervals for Hill numbers.
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-```{r setup}
-library(MeanRarity)
-```
+In our simulation, God’s estimator was both less biased (in fact, it is
+unbiased) and essentially always more accurate, across variety in SAD shape
+sample sizes, and values of the Hill control parameter. God’s estimator always
+had lower root-mean-squared error (RMSE), and in the case of species richness
+with highly diverse communities, the RMSE for God’s estimator remained low
+(within a few species) while the RMSE for the naïve and non-parametric
+estimators were huge (dozens of species in our simulations). This is expected:
+God’s estimator uses information not available to other methods (nor to mortal
+ecologists). However, these results suggest that improved heuristic estimates of
+species rarities might enable enable better diversity estimates, and pave a
+route to more principled confidence intervals for Hill numbers.

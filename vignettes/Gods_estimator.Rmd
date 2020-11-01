@@ -6,16 +6,6 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-```{r setup}
-library(MeanRarity)
-```
 
 ```{r setup, include = F}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")#, dev = "pdf")
@@ -145,13 +135,9 @@ errs %>%
 ```
 
 
-In our simulation, God’s estimator was both less biased (in fact, it is
-unbiased) and essentially always more accurate, across variety in SAD shape
-sample sizes, and values of the Hill control parameter. God’s estimator always
-had lower root-mean-squared error (RMSE), and in the case of species richness
-with highly diverse communities, the RMSE for God’s estimator remained low
-(within a few species) while the RMSE for the naïve and non-parametric
-estimators were huge (dozens of species in our simulations). This is expected:
+In our simulations, God’s estimator was both less biased (in fact, it is
+unbiased) and more accurate, across variation in SAD shape,
+sample sizes, and values of the Hill control parameter. This is expected:
 God’s estimator uses information not available to other methods (nor to mortal
 ecologists). However, these results suggest that improved heuristic estimates of
 species rarities might enable enable better diversity estimates, and pave a

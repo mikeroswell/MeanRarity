@@ -49,7 +49,7 @@ First, we simulate some SADs with known diversity using the function `fit_SAD()`
 # simulate SADs for analysis
 SADs_list<-map(c("lnorm", "gamma"), function(distr){
   map(c(100, 200), function(rich){
-    map(c(.15,.25,.5,.6,0.75,.85), function(simp_Prop){ #simp_Prop is evenness
+    map(c(.1,.15,.25,.5,0.75,.85), function(simp_Prop){ #simp_Prop is evenness
       fit_SAD(rich = rich, simpson = simp_Prop*(rich-1)+1, distr = distr)
     })
   })
@@ -70,19 +70,20 @@ assess performance, let's look at the root mean squared error, and also bias.
 
 nreps <- 999
 
-ss_to_test <- floor(10^seq(1.4,3, 0.2))
+ss_to_test <- floor(10^seq(1,3, 0.2))
 
 flatsads <- flatten(flatten(SADs_list))
 nc <- parallel::detectCores() - 1
-future::plan(strategy = "multiprocess", workers = nc)
 
+future::plan(strategy = "multiprocess", workers = nc)
+options <- furrr::furrr_options(seed = TRUE)
 tic()
 compare_ests <- map_dfr(1:24, function(SAD){
   map_dfr(-1:1, function(ell){
    truth = as.numeric(flatsads[[SAD]][[2]][2-ell])
    truep = flatsads[[SAD]][[3]]
    dinfo = data.frame(t(flatsads[[SAD]][[1]]))
-  future_map_dfr(1:nreps, function(nrep){
+  future_map_dfr(.x=1:nreps, .f=function(nrep){
       map_dfr(ss_to_test, function(ss){
         subsam = sample_infinite(truep, ss)
         chaoest = Chao_Hill_abu(subsam, ell)
@@ -90,7 +91,8 @@ compare_ests <- map_dfr(1:24, function(SAD){
         gods = GUE(subsam, truep, ell)
         return(bind_cols(data.frame(truth, chaoest, naive, gods, n=ss, ell, SAD), dinfo))
       })
-    })
+    }
+    , .options= options)
   })
 })
 toc() # 6 mins on 2.9 GHz i7 quad core processor
@@ -117,7 +119,7 @@ errs <- compare_ests %>%
 
 ```{r plot rmse}
 errs %>% 
-  filter(SAD %in% c("8","10","12","21","22", "24")) %>%
+  filter(SAD %in% c("8","10","12","19","22", "24")) %>%
   ggplot(aes(n, rmse, color = estimator))+
   geom_line(alpha = 0.7) +
   facet_grid(ell~SAD, scales = "free") +

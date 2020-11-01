@@ -1,13 +1,16 @@
 ## obscp_inf.R - compiled by RoxygenReady, a package by @vertesy
 
 
-#' obscp_inf
+#' Observed diversity confidence interval
+#'
+#' Compute confidence interval for the expected diversity of a fixed sample,
+#' taken with replacement
 #'
 #'
 #'
 #'
 #'
-
+#'
 #' @inherit ell_template
 #' @param size Integer number of individuals to sample from the SAD (with
 #' replacement)
@@ -17,6 +20,10 @@
 #' @param truemun Scalar, known expected sample diversity
 #' @param conf Scalar between 0 and 1, nominal confidence level.
 #' @param ...
+#'
+#' @return Dataframe containing various estimated p-values, confidence limits,
+#' sample and community characteristics
+#'
 #' @noRd
 
 obscp_inf <- function(l = l, size = size, SAD = SAD, B = 2000, truemun = truemun, conf = 0.95, ...){
@@ -28,8 +35,8 @@ obscp_inf <- function(l = l, size = size, SAD = SAD, B = 2000, truemun = truemun
 	less <- sum(pro_mc < truemun)/length(pro_mc)
 	more = (length(pro_mc) - sum(pro_mc > truemun))/length(pro_mc)
 	p = stats::runif(1, min(less, more), max(less, more))
-	lower = max(pro_mc[which(min_rank(pro_mc) <= max(floor(B * (1 - conf)/2), 1))])
-	upper = min(pro_mc[which(min_rank(-pro_mc) <= max(floor(B * (1 - conf)/2), 1))])
+	lower = max(pro_mc[which(dplyr::min_rank(pro_mc) <= max(floor(B * (1 - conf)/2), 1))])
+	upper = min(pro_mc[which(dplyr::min_rank(-pro_mc) <= max(floor(B * (1 - conf)/2), 1))])
 	less_no_mc = sum(pro < truemun)/length(pro)
 	more_no_mc = (length(pro) - sum(pro > truemun))/length(pro)
 	p_no_mc = stats::runif(1, min(less, more), max(less, more))

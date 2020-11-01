@@ -183,6 +183,55 @@ effort_rare$etype <- factor(effort_rare$etype
                          , levels = c("observed"
                                       , "asymptotic"))
 
+####################################################
+### make data testing estimators ##################
+#####################################################
+
+# simulate SADs for analysis
+SADs_list <- purrr::map(c("lnorm", "gamma"), function(distr){
+  purrr::map(c(100, 200), function(rich){
+    purrr::map(c(.1,.15,.25,.5,0.75,.85), function(simp_Prop){ #simp_Prop is evenness
+      fit_SAD(rich = rich, simpson = simp_Prop*(rich-1)+1, distr = distr)
+    })
+  })
+})
+
+nreps <- 9999
+
+ss_to_test <- floor(10^seq(1,3, 0.2))
+
+flatsads <- purrr::flatten(flatten(SADs_list))
+
+nc <- parallel::detectCores() - 1
+future::plan(strategy = "multiprocess", workers = nc)
+# options <- furrr::furrr_options(seed = TRUE)
+
+tictoc::tic()
+compare_ests <- purrr::map_dfr(1:24, function(SAD){
+  purrr::map_dfr(-1:1, function(ell){
+    truth = as.numeric(flatsads[[SAD]][[2]][2-ell])
+    truep = flatsads[[SAD]][[3]]
+    dinfo = data.frame(t(flatsads[[SAD]][[1]]))
+    furrr::future_map_dfr(.x=1:nreps, .f=function(nrep){
+      purrr::map_dfr(ss_to_test, function(ss){
+        subsam = sample_infinite(truep, ss)
+        chaoest = Chao_Hill_abu(subsam, ell)
+        naive = rarity(subsam, ell)
+        gods = GUE(subsam, truep, ell)
+        return(dplyr::bind_cols(data.frame(truth, chaoest, naive, gods, n=ss, ell, SAD), dinfo))
+      })
+    }
+    # , .options= options
+    )
+  })
+})
+tictoc::toc() # 6 mins on 2.9 GHz i7 quad core processor
+
+
+#############################################
+#### turn into package data ##############
+#######################################
+usethis::use_data(compare_ests, overwrite = TRUE)
 usethis::use_data(beeObs, overwrite = TRUE)
 usethis::use_data(beeAbunds, overwrite = TRUE)
 usethis::use_data(mean_ests, overwrite = TRUE)

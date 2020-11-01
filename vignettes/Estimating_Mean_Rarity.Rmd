@@ -177,7 +177,7 @@ uncertainty. Figure 4 illustrates how some of these choices could alter
 interpretation of the example dataset. 
 
 The code below does not highlight any of the novel tools in the `MeanRarity`
-package. However, it does use `Chao_Hill_abu()`, a copy of an internal fucntion
+package. However, it does use `Chao_Hill_abu()`, a copy of an internal function
 from the R package `SpadeR`. To produce fig 4 in the MS, we used the R package
 `iNEXT`, which is not imported by `MeanRarity`.  It also uses our simplified
 version of the code for computing approximate CI from `iNEXT`, an internal
@@ -629,6 +629,6 @@ myabs %>% dplyr::left_join(data.frame(
 
 In the supplementary materials for Roswell et al. 2020, we demonstrate that the
 CI for diversity estimates based on the approach articulated in (CITE Chao and
-Jost 2015) tend to be anticonservative. The code and data for this are not
-exported by this package; the scripts to generate all relevatn data and figures
+Jost 2015) tend to be anti-conservative. The code and data for this are not
+exported by this package; the scripts to generate all relevant data and figures
 are available at [github link].

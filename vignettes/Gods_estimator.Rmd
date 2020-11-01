@@ -26,7 +26,7 @@ concentration, The package `MeanRarity` is designed to illustrate an alternative
 interpretation of Hill numbers as means of species rarity (the reciprocal of
 relative abundance) in a community. In this interpretation, the control
 parameter $\ell$ moves the index from arithmetic to geometric to harmonic means.
-Thus, Hill diversites differ in the scale on which species rarity is considered,
+Thus, Hill diversities differ in the scale on which species rarity is considered,
 but always weights species the same way (by their abundance) regardless of the
 scale being used. This interpretation is distinct from the common idea that the
 Hill parameter controls how rare vs. common species are “weighted.”
@@ -54,11 +54,7 @@ SADs_list<-map(c("lnorm", "gamma"), function(distr){
     })
   })
 })
-# fiddled with this because of bizarre behavior. I think there is R precision
-# issues if the species are too rare this occurred with some of the gamma
-# distributions. I first of all set the lease even SAD to be more even, and also
-# decided to drop SADs 19-20 after taking a quick look at those, which had
-# rarities below 1e-9
+
 ```
 
 Now, let's test estimator performance.We'll compare what we've called "God's 
@@ -66,17 +62,18 @@ estimator" to the naïve estimator (the mean of the observed rarities) and to a
 non-parametric, asymptotic diversity estimator (CITE Chao and Jost 2015). To 
 assess performance, let's look at the root mean squared error, and also bias.
 
-```{r test estimators}
+We won't run the first part as it could take a while.
+```{r test estimators, eval = F}
 
-nreps <- 999
+nreps <- 9999
 
 ss_to_test <- floor(10^seq(1,3, 0.2))
 
 flatsads <- flatten(flatten(SADs_list))
-nc <- parallel::detectCores() - 1
 
+nc <- parallel::detectCores() - 1
 future::plan(strategy = "multiprocess", workers = nc)
-options <- furrr::furrr_options(seed = TRUE)
+# options <- furrr::furrr_options(seed = TRUE)
 tic()
 compare_ests <- map_dfr(1:24, function(SAD){
   map_dfr(-1:1, function(ell){
@@ -92,15 +89,18 @@ compare_ests <- map_dfr(1:24, function(SAD){
         return(bind_cols(data.frame(truth, chaoest, naive, gods, n=ss, ell, SAD), dinfo))
       })
     }
-    , .options= options)
+    # , .options= options
+    )
   })
 })
 toc() # 6 mins on 2.9 GHz i7 quad core processor
-
+```
+But we'll take the estimates and use them to compute error and bias.
+```{r compute errors}
 # define a function for computing the root mean square
 nasum <- function(x){sum(x, na.rm =T)}
 rootms <- function(x){sqrt(nasum(((x)^2)/length(x)))}
-namean <-function(x){mean(x, na.rm =T)}
+namean <- function(x){mean(x, na.rm =T)}
 
 errs <- compare_ests %>% 
   group_by(ell, distribution, fitted.parameter, n, SAD) %>% 
@@ -117,7 +117,7 @@ errs <- compare_ests %>%
                
 ```
 
-```{r plot rmse}
+```{r plot rmse, fig.height =5, fig.width =7}
 # data to make plot prettier
 inds <- data.frame("ell" = c(1, 0, -1), divind = factor(c("richness"
                                                            , "Hill-Shannon"
@@ -138,7 +138,7 @@ errs %>%
   labs(x = "individuals", y = "root mean squared error")
   
 ```
-```{r plot bias}
+```{r plot bias, fig.height =5, fig.width =7}
 
 
 errs %>% 

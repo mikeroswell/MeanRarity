@@ -118,21 +118,40 @@ errs <- compare_ests %>%
 ```
 
 ```{r plot rmse}
+# data to make plot prettier
+inds <- data.frame("ell" = c(1, 0, -1), divind = factor(c("richness"
+                                                           , "Hill-Shannon"
+                                                           , "Hill-Simpson")
+                                                 , levels = c("richness"
+                                                              , "Hill-Shannon"
+                                                            , "Hill-Simpson")))
+#plot
 errs %>% 
+  mutate(estimator = gsub("*Error", "", estimator)) %>%  
+  left_join(inds) %>% 
   filter(SAD %in% c("8","10","12","19","22", "24")) %>%
   ggplot(aes(n, rmse, color = estimator))+
-  geom_line(alpha = 0.7) +
+  geom_line(alpha = 0.7, size =1.5) +
   facet_grid(ell~SAD, scales = "free") +
-  theme_classic()
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 90)) +
+  labs(x = "individuals", y = "root mean squared error")
+  
 ```
 ```{r plot bias}
+
+
 errs %>% 
+  mutate(estimator = gsub("*Error", "", estimator)) %>%  
+  left_join(inds) %>% 
   filter(SAD %in% c("7","10","12","21","23","24")) %>%
   ggplot(aes(n, bias, color = estimator)) +
   geom_line(alpha = 0.7, size =1.5) +
-  facet_grid(ell~SAD, scales = "free") +
+  facet_grid(divind~SAD, scales = "free") +
   geom_hline(yintercept = 0) +
-  theme_classic()
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90)) +
+  labs(x = "individuals")
   
 ```
 

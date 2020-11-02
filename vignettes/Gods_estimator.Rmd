@@ -1,5 +1,5 @@
 ---
-title: "Gods_estimator"
+title: "Gods estimator of mean rarity"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Gods_estimator}
@@ -94,9 +94,6 @@ compare_ests <- map_dfr(1:24, function(SAD){
   })
 })
 toc() # 6 mins on 2.9 GHz i7 quad core processor
-```
-But we'll take the estimates and use them to compute error and bias.
-```{r compute errors}
 # define a function for computing the root mean square
 nasum <- function(x){sum(x, na.rm =T)}
 rootms <- function(x){sqrt(nasum(((x)^2)/length(x)))}
@@ -113,8 +110,6 @@ errs <- compare_ests %>%
     names_sep = "_"
       ) %>% 
   rename(rmse = fn1, bias = fn2)
- 
-               
 ```
 
 ```{r plot rmse, fig.height =5, fig.width =7}

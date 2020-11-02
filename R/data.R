@@ -77,26 +77,29 @@
 
 "effort_rare"
 
-#' Estimotor accuracy and bias
+#' Estimator accuracy and bias
 #'
-#' A simulated dataset containing estimated Hill diversity based on finite
-#' samples from simulated species abundance distributions. Hill diversity is
-#' estimated with the naïve estimator, `rarity(ab, l)`, the Chao and Jost
-#' 2015 non-parametric asymptotic estimator `Chao_Hill_abu(ab, l)`, and God's
-#' estimator `GUE(sample_freq, true_freq, l)`.
+#' A simulated dataset with rmse and mean absolute error for different
+#' approaches to estimating the true (asymptotic) Hill diversity based on finite
+#' samples from simulated species abundance distributions. Hill diversity was
+#' estimated with the naïve estimator, `rarity(sample_freq, l)`, the Chao and
+#' Jost 2015 non-parametric asymptotic estimator `Chao_Hill_abu(sample_freq,
+#' l)`, and God's estimator `GUE(sample_freq, true_freq, l)`.
 #'
 #'
 #'
-#' @format A data.frame with 7919208 rows and 9 variables:
-#'  - *truth*: Numeric, diversity of simulated SAD
-#'  - *chaoest* Numeric, Chao and Jost 2015 asymptotic diversity estimate
-#'  - *naive*: Numeric, Hill diversity of sample frequencies
-#'  - *gods*: Numeric, God's estimator of true Hill diversity
-#'  - *n*: Numeric, individuals sampled
+#' @format A data.frame with 2376 rows and 8 variables:
+
+
 #'  - *ell*: Scalar, scaling parameter for Hill diversity
-#'  - *SAD*: index of SAD sampled
 #'  - *distribution* Factor, family, one of "lnorm" or "gamma"
 #'  - *fitted.parameter* Factor, shape parameter for fitting SAD
+#'  - *n*: Numeric, individuals sampled
+#'  - *SAD*: index of SAD sampled
+#'  - *estimator* Character, estimator whose error is described
+#'  - *rmse* Numeric, root mean squared error of estimator
+#'  - *bias* Numeric, mean difference between estimator and true diversity
+#'
 
-"compare_ests"
+"errs"
 

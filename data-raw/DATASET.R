@@ -225,13 +225,29 @@ compare_ests <- purrr::map_dfr(1:24, function(SAD){
     )
   })
 })
-tictoc::toc() # 6 mins on 2.9 GHz i7 quad core processor
+tictoc::toc() # ~1hr on 2.9 GHz i7 quad core processor
+# define a function for computing the root mean square
+nasum <- function(x){sum(x, na.rm =T)}
+rootms <- function(x){sqrt(nasum(((x)^2)/length(x)))}
+namean <- function(x){mean(x, na.rm =T)}
+
+errs <- compare_ests %>%
+  group_by(ell, distribution, fitted.parameter, n, SAD) %>%
+  mutate(godsError = gods - truth
+         , naiveError = naive - truth
+         , chaoError = chaoest - truth) %>%
+  summarize_at(.vars = c("godsError", "naiveError", "chaoError"), .funs = c(rootms, namean)) %>%
+  pivot_longer(godsError_fn1:chaoError_fn2,
+               names_to = c("estimator", ".value"),
+               names_sep = "_"
+  ) %>%
+  rename(rmse = fn1, bias = fn2)
 
 
 #############################################
 #### turn into package data ##############
 #######################################
-usethis::use_data(compare_ests, overwrite = TRUE)
+usethis::use_data(errs, overwrite = TRUE)
 usethis::use_data(beeObs, overwrite = TRUE)
 usethis::use_data(beeAbunds, overwrite = TRUE)
 usethis::use_data(mean_ests, overwrite = TRUE)

@@ -139,7 +139,7 @@ errs %>%
 errs %>% 
   mutate(estimator = gsub("*Error", "", estimator)) %>%  
   left_join(inds) %>% 
-  filter(SAD %in% c("7","10","12","21","23","24")) %>%
+  filter(SAD %in% c("7","10","12","19","22","24")) %>%
   ggplot(aes(n, bias, color = estimator)) +
   geom_line(alpha = 0.7, size =1.5) +
   facet_grid(divind~SAD, scales = "free") +
@@ -151,10 +151,81 @@ errs %>%
 ```
 
 
-In our simulations, God’s estimator was both less biased (in fact, it is
+In our simulations, God’s estimator was usually both less biased (in fact, it is
 unbiased) and more accurate, across variation in SAD shape,
 sample sizes, and values of the Hill control parameter. This is expected:
 God’s estimator uses information not available to other methods (nor to mortal
-ecologists). However, these results suggest that improved heuristic estimates of
-species rarities might enable enable better diversity estimates, and pave a
-route to more principled confidence intervals for Hill numbers.
+ecologists). For SAD 19 we see very large RMSE for species richness. This is because God, but not the other estimators, can distinguish the merely rare from the exceedingly rare, and SAD 19 has wildly rare species (a quarter of species have relative abundance of < 1/ 10 million). When these species are included randomly in a sample, the mean rarity of that sample is very high. Our simulation may be untroubling then, even for proponents of God's estimator. When ecologists sample SADs with hundreds of millions of individuals (e.g. Rhizospheres), they likely do not attempt to quantify richness, given that it cannot be estimated reliably (CITE Haegemen et al. 2013),  and also obtain reads from many more than a few hundred individuals. In this second case, God's estimator is expected to perform adequately:
+
+```{r Gods estimator in the face of extreme rarity}
+nreps <- 999
+
+ss_to_test <- floor(10^seq(5,7, 0.25))
+SAD<-19
+
+
+nc <- parallel::detectCores() - 1
+future::plan(strategy = "multiprocess", workers = nc)
+# options <- furrr::furrr_options(seed = TRUE)
+tic()
+God_with_microbes <- map_dfr(-1:1, function(ell){
+   truth = as.numeric(flatsads[[SAD]][[2]][2-ell])
+   truep = flatsads[[SAD]][[3]]
+   dinfo = data.frame(t(flatsads[[SAD]][[1]]))
+  future_map_dfr(.x=1:nreps, .f=function(nrep){
+      map_dfr(ss_to_test, function(ss){
+        subsam = sample_infinite(truep, ss)
+        chaoest = Chao_Hill_abu(subsam, ell)
+        naive = rarity(subsam, ell)
+        gods = GUE(subsam, truep, ell)
+        return(bind_cols(data.frame(truth, chaoest, naive, gods, n=ss, ell, SAD), dinfo))
+      })
+    }
+    # , .options= options
+    )
+ })
+toc()
+
+microbe_errs <- God_with_microbes %>% 
+  group_by(ell, distribution, fitted.parameter, n, SAD) %>% 
+  mutate(godsError = gods - truth
+         , naiveError = naive - truth
+         , chaoError = chaoest - truth) %>% 
+  summarize_at(.vars = c("godsError", "naiveError", "chaoError"), .funs = c(rootms, namean)) %>% 
+  pivot_longer(godsError_fn1:chaoError_fn2,
+    names_to = c("estimator", ".value"),
+    names_sep = "_"
+      ) %>% 
+  rename(rmse = fn1, bias = fn2)
+
+
+microbe_errs %>% 
+  mutate(estimator = gsub("*Error", "", estimator)) %>%  
+  left_join(inds) %>% 
+  ggplot(aes(n, rmse, color = estimator)) +
+  geom_line(alpha = 0.7, size =1.5) +
+  facet_grid(~divind, scales = "free") +
+  geom_hline(yintercept = 0) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90)) +
+  labs(x = "individuals")
+
+microbe_errs %>% 
+  mutate(estimator = gsub("*Error", "", estimator)) %>%  
+  left_join(inds) %>% 
+  ggplot(aes(n, bias, color = estimator)) +
+  geom_line(alpha = 0.7, size =1.5) +
+  facet_grid(~divind, scales = "free") +
+  geom_hline(yintercept = 0) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90)) +
+  labs(x = "individuals")
+````
+
+
+
+What are the implications of this for mortals? These simulations suggest that
+developing heuristics to estimate true species rarities might enable enable
+better diversity estimates, and pave a route to more principled confidence
+intervals for Hill numbers than is likely possible with the non-parametric
+estimators more commonly used today.

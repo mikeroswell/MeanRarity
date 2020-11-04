@@ -458,7 +458,7 @@ effort_rare %>%
          , axis.title.y = ggplot2::element_text(size = 14)
          , panel.spacing = unit(1.3, "lines")
          , strip.placement.y = "outside") +
-  ggplot2::labs(x = "    transects                        individuals                % coverage    "
+  ggplot2::labs(x = "    transects   individuals  % coverage    "
        , y = "diversity") +
   ggplot2::facet_grid(divind ~ method, scales = "free", switch = "y") +
   ggplot2::expand_limits(y = 0) +
@@ -477,17 +477,18 @@ diversity between communities.
 ```{r Appendix C rarefaction with estimators , fig.width = 7, fig.height = 5}
 effort_rare %>% 
   ggplot2::ggplot(ggplot2::aes(xax, diversity, color = site, shape = site)) +
-  ggplot2::geom_line(ggplot2::aes(alpha=etype), size=1) +
+  ggplot2::geom_line(ggplot2::aes(alpha = etype), size = 1) +
   ggplot2::theme_classic() +
-  ggplot2::scale_alpha(range = c(0.4, 0.8))+
-  ggplot2::theme( legend.position="none"
+  ggplot2::scale_alpha(range = c(0.4, 0.8)) +
+  ggplot2::theme( legend.position = "none"
          , axis.text = ggplot2::element_text(colour = "black")
          , axis.title.y = ggplot2::element_text(size = 14)
          , panel.spacing = unit(0.3, "lines")
-         , strip.placement.y = "outside")+
-  ggplot2::labs(x="    transects                                                                        individuals                                                                         % coverage    "
-       , y="diversity")+
-  ggplot2::facet_grid(divind ~ method + etype, scales = "free", switch = "y")+
+         , strip.placement.y = "outside") +
+  # shoudl fix the spacing between x-axis labels
+  ggplot2::labs(x = "    transects                                                  individuals                                                  % coverage    "
+       , y = "diversity") +
+  ggplot2::facet_grid(divind ~ method + etype, scales = "free", switch = "y") +
   ggplot2::expand_limits(y = 0) +
   ggplot2::scale_color_brewer(palette = "Dark2") + 
   ggplot2::scale_y_log10() +

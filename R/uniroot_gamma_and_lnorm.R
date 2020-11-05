@@ -170,7 +170,6 @@ fit_SAD <- function(rich = 50
         stop("Hill-Simpson diversity cannot be greater than richness nor less than 1")
     }
 
-
     #check dstr makes sense
     if(!(distr %in% c("lnorm", "gamma"))){
            stop("distr must be either `lnorm` or `gamma`")}
@@ -208,9 +207,17 @@ fit_SAD <- function(rich = 50
 
            # relative abundances
            abus <- abus / sum(abus)
+
+           # warn user if some species are crazy rare
+           if( min(abus) < (1/totAb)){
+               warning(paste("Rarest species has relative abundance "
+                             , min(abus)
+                             , ". \nConsider implied community size.")) }
+
            #return Hill-Shannon also
            shannon = dfun(abus, 0)
           # if(sum(abus==0)>0) print("WARNING: you simulated species with near 0 abundance")
+
 
            return(list(
                "distribution_info" = c(

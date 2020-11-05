@@ -7,7 +7,7 @@ test_that("God isn't dumb", {
 
 
 
-
+# might get this to work with all.equal, which allows a tolerance
 # test_that("God handles undersampling", {
 #   ab <-stats::runif(25)
 #   ell <- -1:1

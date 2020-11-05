@@ -127,9 +127,15 @@ ur_distr <- function(x
 #'   \code{stats::uniroot} (a scalar).
 #' @param int_uppr Upper bound of search space for \code{uniroot} (scalar).
 #' @param distr Name of the distribution (\code{"lnorm"} or \code{"gamma"}).
-#' @param totAb Not implemented; would be a necessary constraint for fitting
-#'   finite communities.
+#' @param totAb Integer, assumed total # of individuals in hypothetical community. See details.
 #' @param ... pass arguments to other
+#'
+#' @details The parameter `totAb` is not implemented in the current version of
+#'   `fit_SAD()`, as the function simulates SADs with infinite abundance.
+#'   However, it defaults to 1e7, enabling a warning if the rarest species has
+#'   relative abundance `< (1/totAb)`. This can serve as a reality check as
+#'   uneven SADs may be fit with species well rarer than 1 in 10 Million. Such
+#'   SADs may be inappropriate test cases for non-microbial ecologists.
 #'
 #' @return A list with three elements.
 #'

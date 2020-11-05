@@ -27,8 +27,7 @@ number close to 0 to deal with potential boundary issues for
 
 \item{int_uppr}{Upper bound of search space for \code{uniroot} (scalar).}
 
-\item{totAb}{Not implemented; would be a necessary constraint for fitting
-finite communities.}
+\item{totAb}{Integer, assumed total # of individuals in hypothetical community. See details.}
 
 \item{...}{pass arguments to other}
 }
@@ -57,6 +56,13 @@ evenly spaced intervals along those continuous distributions. The distributions
 are described by a shape parameter (the scale parameter of the lognormal
 is fixed), and the value of that parameter is chosen such that the relative
 abundances assigned to the species give the target Hill-Simpson diversity.
+
+The parameter \code{totAb} is not implemented in the current version of
+\code{fit_SAD()}, as the function simulates SADs with infinite abundance.
+However, it defaults to 1e7, enabling a warning if the rarest species has
+relative abundance \verb{< (1/totAb)}. This can serve as a reality check as
+uneven SADs may be fit with species well rarer than 1 in 10 Million. Such
+SADs may be inappropriate test cases for non-microbial ecologists.
 }
 \examples{
 #works

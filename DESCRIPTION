@@ -41,7 +41,6 @@ Suggests:
     testthat
     , spelling
     , knitr
-    , tictoc
     , patchwork
     , rmarkdown
     , vdiffr

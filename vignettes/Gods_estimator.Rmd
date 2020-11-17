@@ -15,7 +15,7 @@ library(dplyr) # part of the tidyverse
 library(ggplot2) # part of the tidyverse
 library(tidyr) # part of the tidyverse
 library(purrr) # part of the tidyverse
-library(tictoc) # lightweight package for convenient timing
+#library(tictoc) # lightweight package for convenient timing
 library(furrr) # `tidyverse` and `parallel` combined
 ```
 Hill diversities (also called "Hill numbers") have become standard for measuring

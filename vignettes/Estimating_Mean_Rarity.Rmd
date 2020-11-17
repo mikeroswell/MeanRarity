@@ -38,7 +38,7 @@ library(dplyr) # part of the tidyverse
 library(ggplot2) # part of the tidyverse
 library(tidyr) # part of the tidyverse
 library(purrr) # part of the tidyverse
-library(tictoc) # lightweight package for convenient timing
+#library(tictoc) # lightweight package for convenient timing
 library(furrr) # `tidyverse` and `parallel` combined
 library(iNEXT) # implements diversity CI recommended by Chao et al. 2014, Chao and Jost 2015
 ```
@@ -86,7 +86,7 @@ modified from the R package `SpadeR`
 sz<-1:745 #sample sizes from 1 to maximum observed total abundance at a site
 nrep<-200 #Large enough because estimating means
 
-tictoc::tic() #time this
+#tictoc::tic() #time this
 nc <- parallel::detectCores() - 1 #nc is number of cores to use in parallel processing
 future::plan(strategy = future::multiprocess, workers = nc) #this sets up the cluster
 
@@ -104,7 +104,7 @@ div_ests <- purrr::map_dfr(1:nrep, function(k){
   })
 })
 
-tictoc::toc() #507 seconds with quad-core i7 processor, not bad.
+#tictoc::toc() #507 seconds with quad-core i7 processor, not bad.
 mean_narm <- function(x){mean(x, na.rm = T)}
 mean_ests <- div_ests %>%
   dplyr::group_by(site, individuals) %>%
@@ -190,7 +190,7 @@ This code chunk will likely take almost a minute to run.
 
 ```{r Figure 4: diversity estimates with CI, fig.height = 5, fig.width = 7, eval = TRUE}
 
-tictoc::tic() #time this
+#tictoc::tic() #time this
 
 iN_form <- as.list(beeAbunds[, -1])
 by_size <- iNEXT::estimateD(iN_form
@@ -212,9 +212,9 @@ iseveral <- dplyr::bind_rows(size = by_size
                              , .id = "standard") %>%
   dplyr::mutate(order = 1 - order)
                    
-tictoc::toc()  #43 sec this time!?!?!
+#tictoc::toc()  #43 sec this time!?!?!
 
-tictoc::tic()
+#tictoc::tic()
 asyseveral <- purrr::map_dfr(2:5, function(sitio){
   purrr::map_dfr(-1:1, function(l){
     theboots <- MeanRarity:::Bootstrap.CI_df(pull(beeAbunds[, sitio]), l)
@@ -226,7 +226,7 @@ asyseveral <- purrr::map_dfr(2:5, function(sitio){
                , qD.UCL = est + theboots[4])
   })
 })
-tictoc::toc() # <2 seconds.
+#tictoc::toc() # <2 seconds.
 
 asyseveral$method <- "asymptotic"
 asyseveral$standard <- "asymptotic"
@@ -361,7 +361,7 @@ community data, to produce Fig. 5 no tools from `MeanRarity` were used.
 
 maxeff <- 14
 reps <- 9999
-tictoc::tic() #time this
+#tictoc::tic() #time this
 nc <- parallel::detectCores() - 1 #nc is number of cores to use in parallel processing
 future::plan(strategy = future::multiprocess, workers = nc) #this sets up the cluster
 
@@ -384,7 +384,7 @@ show_ests <- furrr::future_map_dfr(1:reps, function(x){
   })
 })
 
-tictoc::toc() #Under 2 hours with only 4 cores
+#tictoc::toc() #Under 2 hours with only 4 cores
 
 effort_means <- show_ests %>%
   dplyr::group_by(site, transects) %>%

@@ -12,7 +12,8 @@ XerDate<-read.csv("https://datadryad.org/stash/downloads/file_stream/93833") %>%
            bee_genus != "sand wasp" &
            bee_genus != "Anacrabro") %>% #note non-bee accidentally uploaded
   tidyr::unite(col="sr", site, sampling_round, remove=F) %>%
-  tidyr::unite(col="siteday",site, sday, remove=F) %>% droplevels()
+  tidyr::unite(col="siteday",site, sday, remove=F) %>% droplevels() %>%
+  mutate(onecol=1)
 
 XerDay<-XerDate %>%
   dplyr::group_by(sr, sampling_round, site) %>%

@@ -1,6 +1,8 @@
 # MeanRarity
 Repository for development of MeanRarity R package
 
+`devtools::install_github("https://github.com/mikeroswell/MeanRarity.git")`
+
 The goals of the package are to document and share the code and, perhaps more
 importantly, the quantitative aspects of the concepts discussed in Roswell et
 al. 2020 _Oikos_ and to provide a discrete, shareable codebase for working with

@@ -1,34 +1,16 @@
 # MeanRarity
-Repository for development of MeanRarity R package
+You can install the R package MeanRarity with the following command:
 
 `devtools::install_github("https://github.com/mikeroswell/MeanRarity.git")`
 
-The goals of the package are to document and share the code and, perhaps more
-importantly, the quantitative aspects of the concepts discussed in Roswell et
-al. 2020 _Oikos_ and to provide a discrete, shareable codebase for working with
-mean rarity and associated CI.
+This R package allows estimating and visualizing Hill diversity (aka hill numbers) in terms of the average species "rarity."
 
-In the Author's estimation, the core functions are `rarity()`, which simply
-computes the Hill diversity, but parameterizes this in terms of the mean rarity,
-`rarity_plot()`, which makes balance plots to visualize mean rarity, and
-`fit_SAD()`, which is a potentially novel way to simulate species abundance
-distributions with known diversity, useful for testing diversity estimator
-performance. Other documented functions support the use of these core tools or
-are specific tools for analyses in the _Oikos_ MS.
+`rarity()` computes Hill diversity of a sample,  parameterized in terms of the mean rarity
+`rarity_plot()` makes balance plots to visualize mean rarity
+`fit_SAD()` simulates a species abundance distribution with known richness, Hill-Simpson diversity, and a distributional assumption (lognormal or gamma).
 
-TODO: 
+`rarity(x, l)` is equivalent to `vegan::renyi(x, scale = 1-l, hill = T)`. It is included to demonstrate how reparameterizing Hill diversity in terms of species rarity can provide conceptual clarity.
 
- * look at the character that should be \eqn{\ell} use in vignette, causes errors
-now.
- * Finish content for vignette(s)
-   * will there be one for the MS and another more introducing the package, or
-just one?
-   * add/fix citations... see below, not comprehensive
- * Create tests
- * Add citation to Oikos paper
- * Add cites to Shannon and Weaver 1963, Simpson 1949, Chao and Jost 2015 MEE, 
-Jost 2006, Patil and Taillie, Roswell et al 2019. 
+"Balance plots" called with `rarity_plot` illustrate the computation in `rarity()`. 
 
-
-
-
+`fit_SAD()` is a potentially novel way to simulate abundance distributions that always gives precisely the same relative abundances for a given set of parameters, and may be a helpful tool for exploring the behavior of diversity metrics under different sampling scenarios.

@@ -1,16 +1,15 @@
 citHeader("To cite MeanRarity in publications use:")
 
-citEntry(
-  entry    = "Article",
-  title    = ,
-  author   = ,
-  journal  = ,
-  year     = ,
-  volume   = ,
-  number   = ,
-  pages    = ,
-  url      = ,
-  textVersion = paste(
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
 
-  )
+citEntry(
+  entry    = "Manual",
+  title    = "{MeanRarity}: Hill Diveristy Visualization and Estimation",
+  author   = c(person("Michael", "Roswell"),
+              person("Jonathan", "Dushoff")),
+  year     = year,
+  note   =  note,
+  url      = "https://github.com/mikeroswell/MeanRarity""
+
 )

@@ -1,4 +1,6 @@
-# draft code to make plots that show mean rarity on a balanced "rarity scale." Goal is to make a flexible function that will take a vector of abundances and return a ggplot object that can be easily incorporated into figures.
+# draft code to make plots that show mean rarity on a balanced "rarity scale."
+# Goal is to make a flexible function that will take a vector of abundances and
+# return a ggplot object that can be easily incorporated into figures.
 
 # library(tidyverse)
 # library(ggthemes)
@@ -8,7 +10,8 @@
 
 ## OPTIONAL: color the species (so that stacking becomes clear)
 
-## get text and axis widths to scale with device/viewport. currently base_size argument can control manually
+## get text and axis widths to scale with device/viewport. currently base_size
+## argument can control manually
 
 ## think about squeezing when rarities aren't equal but are close s.t. boxes
 ## overlap... smart option that can calculate whether overlap occurs? Currently,

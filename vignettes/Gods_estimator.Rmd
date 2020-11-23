@@ -246,7 +246,7 @@ rarity in a sample.
 
 
 What are the implications of this for mortals? These simulations suggest that
-developing heuristics to estimate true species rarities might enable enable
+developing heuristics to estimate true species rarities might enable 
 better diversity estimates, and pave a route to more principled confidence
 intervals for Hill numbers than is likely possible with the non-parametric
 estimators more commonly used today. While it is hard to imagine how an

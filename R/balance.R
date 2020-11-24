@@ -359,13 +359,13 @@ fulcrum <- function(ab, l
 #' scale provides high leverage to very rare species; although they carry little
 #' weight (few individuals), these species influence the mean a great deal
 #' because they sit far to the right of the rarity scale. The arithmetic mean
-#' rarity of the community is the Hill diversity when ℓ = 1, and is equal to
+#' rarity of the community is the Hill diversity when \eq{\ell} = 1, and is equal to
 #' species richness. The logarithmic scale provides less leverage to very rare
 #' species. Thus, the geometric mean rarity of the community is lower. The
 #' geometric mean rarity is also known as the Hill-Shannon diversity, or the
-#' Hill diversity when ℓ = 0. The reciprocal scale accords more leverage to low
+#' Hill diversity when \eq{\ell} = 0. The reciprocal scale accords more leverage to low
 #' rarity values. Thus, the harmonic mean rarity, also known as the Hill-Simpson
-#' diversity, or Hill diversity when ℓ  = -1, is much lower still. An
+#' diversity, or Hill diversity when \eq{\ell} = -1, is much lower still. An
 #' interactive online application that enables users to specify species
 #' abundances and the scaling parameter is available at
 #' \url{https://mean-rarity.shinyapps.io/rshiny_app1/}

@@ -6,7 +6,7 @@
 \alias{MeanRarity-package}
 \title{MeanRarity: Hill Diversity Estimation and Visualisation}
 \description{
-This package contains functions to estimate and visualize [Hill] diversity as a function of a scaling parameter \eqn{\ell}{"ell"}, as well as various convenience functions for sampling communities, estimating diversity from subsamples, and computing uncertainty estimates.
+Functions to estimate and visualize [Hill] diversity as a function of a scaling parameter \eqn{\ell}{"ell"}, as well as various convenience functions for sampling communities, estimating diversity from subsamples, and computing uncertainty estimates.
 }
 \author{
 \strong{Maintainer}: Michael Roswell \email{mike.roswell@gmail.com} (\href{https://orcid.org/0000-0002-8479-9184}{ORCID})

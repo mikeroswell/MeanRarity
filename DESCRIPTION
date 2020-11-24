@@ -4,7 +4,7 @@ Title: Hill Diversity Estimation and Visualisation
 Version: 0.0.0.9000
 Date: 2020-07-01
 Maintainer: Michael Roswell <mike.roswell@gmail.com>
-Description: This package contains functions to estimate and visualize [Hill] diversity as a function of a scaling parameter \eqn{\ell}{"ell"}, as well as various convenience functions for sampling communities, estimating diversity from subsamples, and computing uncertainty estimates. 
+Description: Functions to estimate and visualize [Hill] diversity as a function of a scaling parameter \eqn{\ell}{"ell"}, as well as various convenience functions for sampling communities, estimating diversity from subsamples, and computing uncertainty estimates. 
 License: LGPL-3
 Encoding: UTF-8
 LazyData: true

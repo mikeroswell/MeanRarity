@@ -17,25 +17,27 @@ fit_SAD(
 \arguments{
 \item{rich}{Total number of species in the SAD, an integer.}
 
-\item{simpson}{Hill-Simpson diversity of the SAD, a real number in [1,rich].}
+\item{simpson}{Hill-Simpson diversity of the SAD, a real number in
+[1,rich].}
 
 \item{distr}{Name of the distribution (\code{"lnorm"} or \code{"gamma"}).}
 
-\item{int_lwr}{Lower bound of search space for \code{uniroot()}; default is a small
-number close to 0 to deal with potential boundary issues for
+\item{int_lwr}{Lower bound of search space for \code{uniroot()}; default is a
+small number close to 0 to deal with potential boundary issues for
 \code{stats::uniroot} (a scalar).}
 
 \item{int_uppr}{Upper bound of search space for \code{uniroot} (scalar).}
 
-\item{totAb}{Integer, assumed total # of individuals in hypothetical community. See details.}
+\item{totAb}{Integer, assumed total # of individuals in hypothetical
+community. See details.}
 
 \item{...}{pass arguments to other}
 }
 \value{
 A list with three elements.
 
-\code{distribution_info} Contains the name of the distribution and the fitted
-shape parameter value.
+\code{distribution_info} Contains the name of the distribution and the
+fitted shape parameter value.
 
 \code{community_info} gives richness, Hill-Shannon, and Hill=Simpson
 diversity of the SAD.
@@ -49,12 +51,12 @@ assumption. Fits an optimal SAD given these constraints using
 \code{stats::uniroot}.
 }
 \details{
-The way the SAD is fit, we assume infinite abundance, but finite and
-fixed diversity. In particular, richness is fixed. The parametric
-fits use continuous distributions. Species abundances are given at
-evenly spaced intervals along those continuous distributions. The distributions
-are described by a shape parameter (the scale parameter of the lognormal
-is fixed), and the value of that parameter is chosen such that the relative
+The way the SAD is fit, we assume infinite abundance, but finite and fixed
+diversity. In particular, richness is fixed. The parametric fits use
+continuous distributions. Species abundances are given at evenly spaced
+intervals along those continuous distributions. The distributions are
+described by a shape parameter (the scale parameter of the lognormal is
+fixed), and the value of that parameter is chosen such that the relative
 abundances assigned to the species give the target Hill-Simpson diversity.
 
 The parameter \code{totAb} is not implemented in the current version of

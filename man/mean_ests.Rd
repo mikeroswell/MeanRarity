@@ -10,7 +10,8 @@ A tibble with 2015 rows and 8 variables:
 \item \emph{site}: Character, site ID
 \item \emph{individuals}: Integer, individuals in rarefied sample
 \item \emph{obsrich}: Numeric, mean observed species richness
-\item \emph{chaorich}: Numeric, mean estimated asymptotic richness from Chao1 estimator
+\item \emph{chaorich}: Numeric, mean estimated asymptotic richness from Chao1
+estimator
 \item \emph{obsshan}: Numeric, mean observed Hill-Shannon diversity
 \item \emph{chaoshan} Numeric, mean estimated asymptotic Hill-Shannon diversity
 \item \emph{obssimp} Numeric, mean observed Hill-Simpson diversity

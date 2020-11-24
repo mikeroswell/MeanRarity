@@ -9,10 +9,12 @@ A tibble with 2019 rows and 7 variables:
 \itemize{
 \item \emph{uniqueID}: unique specimen identifier
 \item \emph{bee}: concatenated Latin binomial for bee species ID
-\item \emph{start}: time of day that 30-minute sampling transect began, with arbitrary date value
+\item \emph{start}: time of day that 30-minute sampling transect began, with
+arbitrary date value
 \item \emph{sr} concatenated site name and sampling round
 \item \emph{sday1} ordinal, day of sampling round (1, 2, or 3)
-\item \emph{sampling_round} integer between 1 and 5, indicating which 3-day sampling round at given site
+\item \emph{sampling_round} integer between 1 and 5, indicating which 3-day sampling
+round at given site
 }
 }
 \usage{

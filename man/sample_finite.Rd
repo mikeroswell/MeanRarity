@@ -9,7 +9,8 @@ sample_finite(ab, size = sum(ab))
 \arguments{
 \item{ab}{A numeric vector of species abundances or relative abundances.}
 
-\item{size}{Number of individuals to sample, defaults to all of them, a scalar}
+\item{size}{Number of individuals to sample, defaults to all of them, a
+scalar}
 }
 \value{
 A numeric vector of species abundances, including 0's

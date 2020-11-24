@@ -14,8 +14,8 @@ rarity_plot(ab, l, means = -1:1, noco = 1, lines = FALSE, ...)
 \item{means}{Numeric vector of scaling exponent values corresponding to
 reference (by default, Pythagorean) means.}
 
-\item{noco}{Scalar, shrinks text and points if plotting multiple balance plots
-in a single plotting window.}
+\item{noco}{Scalar, shrinks text and points if plotting multiple balance
+plots in a single plotting window.}
 
 \item{lines}{Logical, should each individual be plotted as a "box" or should
 individuals be summarized simply as the height of a line segment.}
@@ -86,7 +86,7 @@ Hill_Simpson
 # richness + Hill_Shannon + Hill_Simpson # plot with patchwork
 }
 \seealso{
-This function depends on internal functions in the \code{\link{MeanRarity}}
-package which can be accessed with \code{:::} e.g.
+This function depends on internal functions in the
+\code{\link{MeanRarity}} package which can be accessed with \code{:::} e.g.
 \code{MeanRarity:::scale_plot}.
 }

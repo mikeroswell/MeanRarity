@@ -4,7 +4,7 @@
 \name{MeanRarity-package}
 \alias{MeanRarity}
 \alias{MeanRarity-package}
-\title{MeanRarity: Hill Diversity Estimation and Visualisation}
+\title{MeanRarity: Hill Diversity Estimation and Visualization}
 \description{
 Functions to estimate and visualize [Hill] diversity as a function of a scaling parameter \eqn{\ell}{"ell"}, as well as various convenience functions for sampling communities, estimating diversity from subsamples, and computing uncertainty estimates.
 }

@@ -6,10 +6,12 @@
 #' @format A tibble with 2019 rows and 7 variables:
 #'  - *uniqueID*: unique specimen identifier
 #'  - *bee*: concatenated Latin binomial for bee species ID
-#'  - *start*: time of day that 30-minute sampling transect began, with arbitrary date value
+#'  - *start*: time of day that 30-minute sampling transect began, with
+#'  arbitrary date value
 #'  - *sr* concatenated site name and sampling round
 #'  - *sday1* ordinal, day of sampling round (1, 2, or 3)
-#'  - *sampling_round* integer between 1 and 5, indicating which 3-day sampling round at given site
+#'  - *sampling_round* integer between 1 and 5, indicating which 3-day sampling
+#'  round at given site
 "beeObs"
 
 #' Bee specimens from 4 sites sampled with equal effort, summarized
@@ -19,8 +21,8 @@
 #'
 #' @format A tibble with 68 rows and 5 variables:
 #'  - *bee*: concatenated Latin binomial for bee species ID
-#'  - *\`Cold Soil_5\`*: number of records of given species from site "Cold Soil"
-#'  during sampling round 5
+#'  - *\`Cold Soil_5\`*: number of records of given species from site "Cold
+#'  Soil"  during sampling round 5
 #'  - *\`Fox Hill_5\`*: number of records of given species from site "Fox Hill"
 #'   during sampling round 5
 #'  - *\`IAS_3\`*: number of records of given species from site "IAS" during
@@ -39,7 +41,8 @@
 #'  - *site*: Character, site ID
 #'  - *individuals*: Integer, individuals in rarefied sample
 #'  - *obsrich*: Numeric, mean observed species richness
-#'  - *chaorich*: Numeric, mean estimated asymptotic richness from Chao1 estimator
+#'  - *chaorich*: Numeric, mean estimated asymptotic richness from Chao1
+#'  estimator
 #'  - *obsshan*: Numeric, mean observed Hill-Shannon diversity
 #'  - *chaoshan* Numeric, mean estimated asymptotic Hill-Shannon diversity
 #'  - *obssimp* Numeric, mean observed Hill-Simpson diversity

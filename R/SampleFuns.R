@@ -4,7 +4,8 @@
 #' abundance vector.
 #'
 #' @template ab_template
-#' @param size Number of individuals to sample, defaults to all of them, a scalar
+#' @param size Number of individuals to sample, defaults to all of them, a
+#'   scalar
 #'
 #' @return A numeric vector of species abundances, including 0's
 #'

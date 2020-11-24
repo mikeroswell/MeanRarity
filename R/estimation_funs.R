@@ -106,10 +106,10 @@
 
 #' Assess Chao and Jost 2015 Hill diversity CI
 #'
-#' Given empirical abundances \code{x}, use the Chao and Jost 2015 MEE method
-#'      to estimate the sampling distribution of the Hill diversity (given exponent
-#'      \code{l}), and see where known, true diversity \code{truediv} falls in that
-#'      distribution
+#' Given empirical abundances \code{x}, use the Chao and Jost 2015 MEE method to
+#' estimate the sampling distribution of the Hill diversity (given exponent
+#' \code{l}), and see where known, true diversity \code{truediv} falls in that
+#' distribution
 #'
 #' This function could be extended to look at e.g. incidence-based estimations.
 #'
@@ -161,7 +161,8 @@ checkchao <- function(x
 
 #' Approximate CI for sample Hill diversity
 #'
-#' Computes Chao and Jost 2015's suggested CI for empirical Hill diversity, sampling from an infinite pool (i.e. with replacement).
+#' Computes Chao and Jost 2015's suggested CI for empirical Hill diversity,
+#' sampling from an infinite pool (i.e. with replacement).
 #'
 #' @template l_template
 #' @param SAD List, output from function `fit_SAD`
@@ -225,7 +226,8 @@ obscp_inf <- function(l = l
 
 #' Approximate CI for sample Hill diversity
 #'
-#' Computes Chao and Jost 2015's suggested CI for empirical Hill diversity, sampling from a finite pool without replacement.
+#' Computes Chao and Jost 2015's suggested CI for empirical Hill diversity,
+#' sampling from a finite pool without replacement.
 #'
 #' @template l_template
 #' @template ab_template
@@ -297,7 +299,8 @@ obscp_obs <- function(l = l
 #'
 #'
 #' @param freqs Non-negative numeric vector of observed species frequencies
-#' @param true_p Non-negative numeric vector of true, population-level species frequencies
+#' @param true_p Non-negative numeric vector of true, population-level species
+#'   frequencies
 #' @template l_template
 #' @examples
 #' GUE(freqs =  1:10/sum(1:10), true_p =  1:10/sum(1:10), l = 1) # true richness 10

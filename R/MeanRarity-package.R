@@ -8,10 +8,10 @@
 #' estimating, and visualizing Hill diversity: For references on mean rarity,
 #' see Roswell et al. 2020 Oikos, and Patil and Taillie, and Jost 2006
 #'
-#' @section Computing Hill diversity: \code{\link{rarity}} computes Hill diversity
-#'   as parameterized by Roswell et al. 2020, by computing the generalized
-#'   weighted mean of species rarities (i.e. the reciprocal of relative
-#'   abundance). The "link" functions for the generalized mean are
+#' @section Computing Hill diversity: \code{\link{rarity}} computes Hill
+#'   diversity as parameterized by Roswell et al. 2020, by computing the
+#'   generalized weighted mean of species rarities (i.e. the reciprocal of
+#'   relative abundance). The "link" functions for the generalized mean are
 #'   \code{\link{pfun}} and its inverse \code{\link{ipfun}}
 #'
 #' @section Simulating Species Abundance Distributions: Roswell et al. 2020
@@ -34,7 +34,4 @@
 #' @references
 #' \insertRef{Patil2012}{MeanRarity}
 #' \insertRef{Jost2006}{MeanRarity}
-
 NULL
-
-

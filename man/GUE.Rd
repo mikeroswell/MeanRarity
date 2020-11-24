@@ -9,7 +9,8 @@ GUE(freqs, true_p, l)
 \arguments{
 \item{freqs}{Non-negative numeric vector of observed species frequencies}
 
-\item{true_p}{Non-negative numeric vector of true, population-level species frequencies}
+\item{true_p}{Non-negative numeric vector of true, population-level species
+frequencies}
 
 \item{l}{Scaling exponent for the mean, can be any real number.}
 }

@@ -114,8 +114,8 @@ fancy_rep <- function(df){
 #' @param x_max Scalar, approximately how far right should x-axis extend.
 #' @param x_min Scalar, approximately how far left should x-axis extend.
 #' @param base_size Typeface size for ggplot text (scalar).
-#' @param noco Scalar, shrinks text and points if plotting multiple balance plots
-#'   in a single plotting window
+#' @param noco Scalar, shrinks text and points if plotting multiple balance
+#'   plots in a single plotting window
 #' @param lines Logical, should each individual be plotted as a "box" or should
 #'   individuals be summarized simply as the height of a line segment
 #' @param verbose Logical, should the function return a pile of text
@@ -235,8 +235,8 @@ theme_plot <- function(p, base_size=24, noco=1, ...){
 #' @param y_extent Scalar, how tall to draw y-axis.
 #' @param x_max Scalar, approximately how far right should x-axis extend.
 #' @param x_min Scalar, approximately how far left should x-axis extend.
-#' @param noco Scalar, shrinks text and points if plotting multiple balance plots
-#'   in a single plotting window
+#' @param noco Scalar, shrinks text and points if plotting multiple balance
+#'   plots in a single plotting window
 #' @param lines Logical, should each individual be plotted as a "box" or should
 #'   individuals be summarized simply as the height of a line segment
 #' @param nbreaks Integer, approximate number of x-axis tick marks
@@ -277,8 +277,8 @@ scale_plot <- function(
 #'
 #' @template ab_template
 #' @template l_template
-#' @param noco Scalar, shrinks text and points if plotting multiple balance plots
-#'   in a single plotting window.
+#' @param noco Scalar, shrinks text and points if plotting multiple balance
+#'   plots in a single plotting window.
 #'
 #' @return geom object to add to a ggplot object to construct balance plot
 #'
@@ -301,8 +301,8 @@ mean_points <- function(ab, l, noco = 1){
 #' @param y_extent Scalar, how tall to draw y-axis.
 #' @param x_max Scalar, approximately how far right should x-axis extend.
 #' @param x_min Scalar, approximately how far left should x-axis extend.
-#' @param noco Scalar, shrinks text and points if plotting multiple balance plots
-#'   in a single plotting window.
+#' @param noco Scalar, shrinks text and points if plotting multiple balance
+#'   plots in a single plotting window.
 #' @param nbreaks Integer, approximate number of x-axis tick marks.
 #' @param verbose Logical, should the function return a pile of text.
 #'
@@ -379,17 +379,17 @@ fulcrum <- function(ab, l
 #'
 #' @template ab_template
 #' @template l_template
-#' @param noco Scalar, shrinks text and points if plotting multiple balance plots
-#'   in a single plotting window.
+#' @param noco Scalar, shrinks text and points if plotting multiple balance
+#'   plots in a single plotting window.
 #' @param lines Logical, should each individual be plotted as a "box" or should
 #'   individuals be summarized simply as the height of a line segment.
 #' @param means Numeric vector of scaling exponent values corresponding to
-#'      reference (by default, Pythagorean) means.
+#'   reference (by default, Pythagorean) means.
 #' @param ... Additional arguments passed to other functions.
 #'
 #'
-#' @seealso This function depends on internal functions in the \code{\link{MeanRarity}}
-#'   package which can be accessed with \code{:::} e.g.
+#' @seealso This function depends on internal functions in the
+#'   \code{\link{MeanRarity}} package which can be accessed with \code{:::} e.g.
 #'   \code{MeanRarity:::scale_plot}.
 #'
 #' @export

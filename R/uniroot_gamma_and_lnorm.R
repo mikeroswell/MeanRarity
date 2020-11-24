@@ -72,12 +72,13 @@ try_SAD <- function(rich, x, distr){
 #' \code{qlnorm()}); when \code{distr = "gamma"}, \code{x} is the \code{shape}
 #' argument to \code{qgamma()}.
 #'
-#' @param x Shape parameter for either log-normal or gamma distribution, a scalar.
+#' @param x Shape parameter for either log-normal or gamma distribution, a
+#'   scalar.
 #' @param rich Total number of species in the SAD, an integer.
-#' @param simpson Target value for inverse Simpson's concentration of the simulated
-#'   SAD, a scalar.
-#' @param distr Distribution type (currently \code{"lnorm"} or \code{"gamma"}) to call for
-#'   \code{try_SAD()}, a character string.
+#' @param simpson Target value for inverse Simpson's concentration of the
+#'   simulated SAD, a scalar.
+#' @param distr Distribution type (currently \code{"lnorm"} or \code{"gamma"})
+#'   to call for \code{try_SAD()}, a character string.
 #' @param totAb Not implemented, could have a finite-size version with a fixed #
 #'   of individuals in pool.
 #' @param ... Additional arguments passed to other functions.
@@ -111,23 +112,25 @@ ur_distr <- function(x
 #' assumption. Fits an optimal SAD given these constraints using
 #' \code{stats::uniroot}.
 #'
-#' The way the SAD is fit, we assume infinite abundance, but finite and
-#'      fixed diversity. In particular, richness is fixed. The parametric
-#'      fits use continuous distributions. Species abundances are given at
-#'      evenly spaced intervals along those continuous distributions. The distributions
-#'      are described by a shape parameter (the scale parameter of the lognormal
-#'      is fixed), and the value of that parameter is chosen such that the relative
-#'      abundances assigned to the species give the target Hill-Simpson diversity.
+#' The way the SAD is fit, we assume infinite abundance, but finite and fixed
+#' diversity. In particular, richness is fixed. The parametric fits use
+#' continuous distributions. Species abundances are given at evenly spaced
+#' intervals along those continuous distributions. The distributions are
+#' described by a shape parameter (the scale parameter of the lognormal is
+#' fixed), and the value of that parameter is chosen such that the relative
+#' abundances assigned to the species give the target Hill-Simpson diversity.
 #'
 #'
 #' @param rich Total number of species in the SAD, an integer.
-#' @param simpson Hill-Simpson diversity of the SAD, a real number in \[1,rich\].
-#' @param int_lwr Lower bound of search space for \code{uniroot()}; default is a small
-#'   number close to 0 to deal with potential boundary issues for
+#' @param simpson Hill-Simpson diversity of the SAD, a real number in
+#'   \[1,rich\].
+#' @param int_lwr Lower bound of search space for \code{uniroot()}; default is a
+#'   small number close to 0 to deal with potential boundary issues for
 #'   \code{stats::uniroot} (a scalar).
 #' @param int_uppr Upper bound of search space for \code{uniroot} (scalar).
 #' @param distr Name of the distribution (\code{"lnorm"} or \code{"gamma"}).
-#' @param totAb Integer, assumed total # of individuals in hypothetical community. See details.
+#' @param totAb Integer, assumed total # of individuals in hypothetical
+#'   community. See details.
 #' @param ... pass arguments to other
 #'
 #' @details The parameter `totAb` is not implemented in the current version of
@@ -139,8 +142,8 @@ ur_distr <- function(x
 #'
 #' @return A list with three elements.
 #'
-#'   \code{distribution_info} Contains the name of the distribution and the fitted
-#'   shape parameter value.
+#'   \code{distribution_info} Contains the name of the distribution and the
+#'   fitted shape parameter value.
 #'
 #'   \code{community_info} gives richness, Hill-Shannon, and Hill=Simpson
 #'   diversity of the SAD.

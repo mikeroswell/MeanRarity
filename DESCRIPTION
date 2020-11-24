@@ -1,6 +1,6 @@
 Package: MeanRarity
 Type: Package
-Title: Hill Diversity Estimation and Visualisation
+Title: Hill Diversity Estimation and Visualization
 Version: 0.0.0.9000
 Date: 2020-07-01
 Maintainer: Michael Roswell <mike.roswell@gmail.com>

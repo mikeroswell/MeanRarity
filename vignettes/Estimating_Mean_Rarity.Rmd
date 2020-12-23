@@ -18,8 +18,7 @@ the reciprocal of relative abundance). Additionally, the package contains
 functions for generating and sampling abundance vectors and generating plots.
 This vignette is not a comprehensive guide to the package. However, it includes
 data and code to replicate the quantitative main-text figures presented in
-Roswell et al. 2020 "A conceptual guide to measuring species diversity" Oikos
-doi. Thus, the examples in the vignette are ordered according to the figures in
+@Roswell2020. Thus, the examples in the vignette are ordered according to the figures in
 the article.
 
 The goal of [Hill] diversity metrics is to summarize the distribution of
@@ -552,8 +551,7 @@ abundance distributions (SADs) directly based on their Hill diversity,
 demonstrated below with the function `fit_SAD()`.
 In the github repository, you may see how we took the simulated abundance
 distributions, took random samples (with replacement), and for the random
-samples we computed the estimated confidence intervals (CI) given by (CITE Chao
-and Jost 2015). We assessed what proportion of empirical CI contained the target
+samples we computed the estimated confidence intervals (CI) given by @Chao2015. We assessed what proportion of empirical CI contained the target
 value: the expected sample diversity or the true (simulated) diversity of the
 SAD.
 First we generate SADs with the function `fit_SAD()`.
@@ -565,15 +563,13 @@ evenness, and the parametric distribution family. Richness can be any integer
 \>0. To parameterize evenness, we used \eq{(Hill-Simpson diversity
 -1)/(richness-1)}, which is equal to 1 with a perfectly even species-abundance
 distribution, and 0 when Hill-Simpson diversity reaches its minimum, 1, for any
-richness value (Chao and Ricotta 2019). Hill-Simpson diversity is a positive
+richness value @Chao2019. Hill-Simpson diversity is a positive
 number between 1 and richness. We used the log-normal distribution because it
-fits observed sample species abundance distributions well (Enquist et al., n.d.;
-Baldridge, Harris, Xiao, & White, 2016; Matthews, Sadler, Kubota, Woodall, &
-Pugh, 2019). We used the gamma distribution because it fits observed species
-abundance distributions as well (Matthews & Whittaker, 2014; Matthews et al.,
-2019), but makes different assumptions about rare species.
+fits observed sample species abundance distributions well @Enquist2019
+@Baldridge2016 @Matthews2019. We used the gamma distribution because it fits observed species
+abundance distributions as well @Matthews2014 @Matthews2019, but makes different assumptions about rare species.
 Generating many SADs with different diversities and distributional assumptions
-provides scope to test proposed confidence intervals (Béguinot, 2018).
+provides scope to test proposed confidence intervals @Beguinot2018a.
 
 
 ```{r simulate species abundance distributions}

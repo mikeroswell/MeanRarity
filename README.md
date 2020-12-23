@@ -14,7 +14,7 @@ for developing and testing diversity estimators and their related interval
 estimates (e.g. confidence intervals); this package contains novel tools to
 simulate species abundance distributions that should streamline that process.
 
-##Three key functions
+## Three key functions
 `rarity()` computes Hill diversity of a sample, parameterized in terms of the
 mean rarity. 
 

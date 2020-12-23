@@ -294,8 +294,8 @@ obscp_obs <- function(l = l
 #' from sample data remains unsolved, we test the promise of this idea using
 #' what we call God’s estimator: All-knowing, God can plug in the true
 #' population parameters for each species. Nevertheless, maybe for fun, God
-#' chooses to compute the sample mean, weighting species’ true rarities by their
-#' sampled frequency.
+#' chooses to compute the sample mean, weighting species’ true rarities by
+#' their sampled frequency.
 #'
 #'
 #' @param freqs Non-negative numeric vector of observed species frequencies

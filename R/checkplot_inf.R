@@ -4,7 +4,7 @@
 #' Generate the data for checkplots for Hill diversity
 #'
 #'  Estimating sampling uncertainty for Hill diversity estimates is an unsolved
-#'  problem, but Chao and Jost 2015 provide a heuristic solution. This function
+#'  problem, but \insertCite{Chao2015}{MeanRarity} provide a heuristic solution. This function
 #'  can be applied to a set species abundance distribution (\code{SAD}) to
 #'  produce true and estimated Hill diversity sampling uncertainty (assuming
 #'  individuals are randomly and independently sampled).
@@ -18,6 +18,9 @@
 #' replacement)
 #' @param reps Integer number of replicate samples to take to generate sampling
 #' uncertainty and checkplots/slugplots
+#'
+#' @references
+#' \insertAllCited{}
 #'
 #' @noRd
 checkplot_inf <-function (SAD, B = 2000, l, inds, reps) {

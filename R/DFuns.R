@@ -61,10 +61,10 @@ ipfun = function(x, pow){
 #' When \code{l = 1}, arithmetic mean rarity (species richness).
 #'
 #' When \code{l = 0}, geometric mean rarity (Hill-Shannon diversity), Shannon's
-#'    entropy (Shannon and Weaver 1963) exponentiated.
+#'    entropy \insertCite{Shannon1963} exponentiated.
 #'
 #' When \code{l = -1}, harmonic mean rarity (Hill-Simpson diversity),
-#'    the inverse of the Simpson concentration (Simpson 1949).
+#'    the inverse of the Simpson concentration \insertCite{Simpson1949}.
 #'
 #' @seealso \code{\link{pfun}}, \code{\link{ipfun}}
 #' @references

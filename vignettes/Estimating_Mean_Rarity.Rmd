@@ -76,7 +76,7 @@ to run the code in this vignette. It is documented in the package in the
 file `"data-raw/DATASET.R"`, and the result is an exported dataset `mean_ests`.
 This script uses the function `subsam()`, which samples without replacement,
 and the function `obs_est()`, which computes Hill diversity estimates, including 
-asymptotic estimates (after Chao and Jost 2015 MEE) using functions 
+asymptotic estimates (after @Chao2015) using functions 
 modified from the R package `SpadeR`
 
 ```{r Compute mean diveristy estimates under rarefaction, eval = F}

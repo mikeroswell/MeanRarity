@@ -35,7 +35,10 @@
 #'
 #' A dataset containing expected observed Hill diversity and estimated
 #' asymptotic Hill diversity for each of the 4 community samples analyzed in
-#' Roswell et al. 2020 *Oikos*.
+#' \insertCite{Roswell2020}{MeanRarity}.
+#'
+#' @references
+#' \insertRef{Roswell2020}{MeanRarity}
 #'
 #' @format A tibble with 2015 rows and 8 variables:
 #'  - *site*: Character, site ID
@@ -51,16 +54,9 @@
 
 #' Rarefied diversity estimates for each site, multiple standards
 #'
-#' A dataset containing expected observed Hill diversity and estimated
-#' asymptotic Hill diversity for each of the 4 community samples analyzed in
-#' Roswell et al. 2020 *Oikos*. This rarefaction **actually** uses effort (we
-#' resampled 1:14 30-minute sampling transects), but each sample has an
-#' estimated sample coverage and number of sampled individuals associated with
-#' it. We summarized average diversity estimates, coverage estimate, and
-#' number of individuals across all samples with the same number of transects
-#' for each site.
+#'?
 #'
-#' @seealso Chao & Jost 2012 *Ecology* \url{https://doi.org/10.1890/11-1952.1}.
+#' @seealso \insertRef{Chao2012}{MeanRarity}.
 #'
 #' @format A tibble with 1008 rows and 6 variables:
 #'  - *site*: Factor, site ID
@@ -89,7 +85,8 @@
 #' Jost 2015 non-parametric asymptotic estimator `Chao_Hill_abu(sample_freq,
 #' l)`, and God's estimator `GUE(sample_freq, true_freq, l)`.
 #'
-#'
+#' @references
+#' \insertRef{Chao2015}{MeanRarity}
 #'
 #' @format A data.frame with 2376 rows and 8 variables:
 

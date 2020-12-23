@@ -56,7 +56,7 @@
 #'
 #'?
 #'
-#' @seealso \insertRef{Chao2012}{MeanRarity}.
+#' @seealso \insertRef{Chao2012a}{MeanRarity}.
 #'
 #' @format A tibble with 1008 rows and 6 variables:
 #'  - *site*: Factor, site ID

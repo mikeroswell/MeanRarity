@@ -28,6 +28,6 @@ effort_rare
 ?
 }
 \seealso{
-\insertRef{Chao2012}{MeanRarity}.
+\insertRef{Chao2012a}{MeanRarity}.
 }
 \keyword{datasets}

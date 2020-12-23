@@ -25,16 +25,9 @@ individuals in subsamples, or mean sample coverage of subsamples
 effort_rare
 }
 \description{
-A dataset containing expected observed Hill diversity and estimated
-asymptotic Hill diversity for each of the 4 community samples analyzed in
-Roswell et al. 2020 \emph{Oikos}. This rarefaction \strong{actually} uses effort (we
-resampled 1:14 30-minute sampling transects), but each sample has an
-estimated sample coverage and number of sampled individuals associated with
-it. We summarized average diversity estimates, coverage estimate, and
-number of individuals across all samples with the same number of transects
-for each site.
+?
 }
 \seealso{
-Chao & Jost 2012 \emph{Ecology} \url{https://doi.org/10.1890/11-1952.1}.
+\insertRef{Chao2012}{MeanRarity}.
 }
 \keyword{datasets}

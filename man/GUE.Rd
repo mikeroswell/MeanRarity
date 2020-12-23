@@ -21,8 +21,8 @@ estimate of the population mean. Although how to estimate a species’ rarity
 from sample data remains unsolved, we test the promise of this idea using
 what we call God’s estimator: All-knowing, God can plug in the true
 population parameters for each species. Nevertheless, maybe for fun, God
-chooses to compute the sample mean, weighting species’ true rarities by their
-sampled frequency.
+chooses to compute the sample mean, weighting species’ true rarities by
+their sampled frequency.
 }
 \examples{
 GUE(freqs =  1:10/sum(1:10), true_p =  1:10/sum(1:10), l = 1) # true richness 10

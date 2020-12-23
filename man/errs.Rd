@@ -27,4 +27,7 @@ samples from simulated species abundance distributions. Hill diversity was
 estimated with the naïve estimator, \code{rarity(sample_freq, l)}, the Chao and
 Jost 2015 non-parametric asymptotic estimator \code{Chao_Hill_abu(sample_freq, l)}, and God's estimator \code{GUE(sample_freq, true_freq, l)}.
 }
+\references{
+\insertRef{Chao2015}{MeanRarity}
+}
 \keyword{datasets}

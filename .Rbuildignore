@@ -3,4 +3,4 @@
 ^MeanRarity\.Rproj$
 ^data-raw$
 man-roxygen
-.travis.yml
+^\.github$

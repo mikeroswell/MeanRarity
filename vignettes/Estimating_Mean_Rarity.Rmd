@@ -54,18 +54,21 @@ maxrich <- max(sapply(beeAbunds[2:5], function(x){sum(x > 0)})) # maximum observ
 myplots <- purrr::map(2:5, function(makedatind){
     radplot(beeAbunds[,makedatind], maxab = maxab, maxrich = maxrich
             , shape = 13 + makedatind # solid filled shapes
-            , fill = c("#1b9e77", "#d95f02", "#7570b3", "#e7298a")[makedatind - 1])
+            , size = 1.5
+            , fill = c("#1b9e77", "#d95f02", "#7570b3", "#e7298a")[makedatind - 1]) +
+    ggplot2::labs(title = ggplot2::element_blank()) +
+    ggplot2::theme(text = ggplot2::element_text(size = 14)
+                   , axis.text = ggplot2::element_text(colour = "black"))
 })
 
 
 myplots[[1]] + # first community
-  ggplot2::labs(x = "", title = ggplot2::element_blank()) + # syling
+  ggplot2::labs(x = "") +# syling
 white_y(myplots[[3]]) + # second community 
-  ggplot2::labs(x = "", title = ggplot2::element_blank()) + # styling
+  ggplot2::labs(x = "") + # styling
 myplots[[2]] +  # third community
-  ggplot2::labs(title = ggplot2::element_blank()) + # styling
-white_y(myplots[[4]]) + # fourth community
-  ggplot2::labs(title = ggplot2::element_blank()) # styling
+white_y(myplots[[4]]) # fourth community
+  
 
 ```
 

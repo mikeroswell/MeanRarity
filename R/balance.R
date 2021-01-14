@@ -545,6 +545,7 @@ radplot <- function(ab
                   , maxab = max(comm)
                   , fill = "red"
                   , shape = 16
+                  , size = 2.5
                   , Whittaker = FALSE
                   ){
     comm = ab[ab!=0]
@@ -554,7 +555,7 @@ radplot <- function(ab
         dplyr::mutate(x = -.data$rnk - maxrich + max(.data$rnk))
 
     f <- (toplot %>% ggplot2::ggplot(ggplot2::aes(.data$x, .data$abund, .data$size))
-        + ggplot2::geom_point(shape = shape, color = fill, size = 2.5)
+        + ggplot2::geom_point(shape = shape, color = fill, size = size)
         + ggplot2::geom_line(color = fill)
         + ggplot2::scale_x_continuous(limits = c(-maxrich, 0))
         + ggplot2::scale_y_continuous(limits = c(0, maxab))

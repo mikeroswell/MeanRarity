@@ -6,7 +6,7 @@ You can install the R package MeanRarity with the following command:
 This R package allows estimating and visualizing Hill diversity (aka "Hill
 numbers") in terms of the average species "rarity."
 
-The average species rarity maybe simpler to interpret than a transformed,
+The average species rarity may be simpler to interpret than a transformed,
 generalized entropy. The rarity parameterization clarifies the role of the
 scaling exponent, and this R package provides illustration tools to visualize
 that scaling concretely. Furthermore, this framework may provide an entry point

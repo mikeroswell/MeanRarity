@@ -531,6 +531,7 @@ omit_y<-function(p){
 #' permit name for community ID variable
 #' @param shape Character string for point shape, could be extended to
 #' permit name for community ID variable
+#' @param size Scalar, adjusts point size in ggplot object
 #' @param Whittaker Logical, if \code{TRUE} log-transform abundances
 #'
 #' @return ggplot object with a rank-abundance plot

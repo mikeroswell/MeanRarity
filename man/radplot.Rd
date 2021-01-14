@@ -10,6 +10,7 @@ radplot(
   maxab = max(comm),
   fill = "red",
   shape = 16,
+  size = 2.5,
   Whittaker = FALSE
 )
 }
@@ -25,6 +26,8 @@ permit name for community ID variable}
 
 \item{shape}{Character string for point shape, could be extended to
 permit name for community ID variable}
+
+\item{size}{Scalar, adjusts point size in ggplot object}
 
 \item{Whittaker}{Logical, if \code{TRUE} log-transform abundances}
 }

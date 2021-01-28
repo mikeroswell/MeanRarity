@@ -10,6 +10,8 @@ vim_session:
 
 ######################################################################
 
+Ignore += Meta/ doc/
+
 ######################################################################
 
 ### Makestuff
@@ -19,6 +21,8 @@ Sources += Makefile
 Ignore += makestuff
 msrepo = https://github.com/dushoff
 
+## Want to chain and make makestuff if it doesn't exist
+## Compress this ¶ to choose default makestuff route
 Makefile: makestuff/Makefile
 makestuff/Makefile:
 	git clone $(msrepo)/makestuff

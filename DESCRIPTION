@@ -50,4 +50,4 @@ Suggests:
     , forcats
 Language: en-US
 VignetteBuilder: knitr
-Depends: R (>= 2.10)
+Depends: R (>= 3.3)

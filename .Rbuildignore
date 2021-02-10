@@ -1,7 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^MeanRarity\.Rproj$
+^MeanRarity.*
 ^data-raw$
 man-roxygen
 ^\.github$
 Makefile
+makestuff

@@ -35,3 +35,13 @@ conceptual clarity.
 always gives precisely the same relative abundances for a given set of
 parameters, and may be a helpful tool for exploring the behavior of diversity
 metrics under different sampling scenarios.
+
+## Vignettes
+We are working on vignettes now. Currently Estimating_Mean_Rarity provides code
+to make the figures in Roswell et al. 2021 Oikos
+https://doi.org/10.1111/oik.07202, Gods_estimator explores a playful extension
+of the tools in this package, and Using_MeanRarity is the beginning of a more
+traditional "user's guide" type vignette. We have some work to do on this; feel
+free to share suggestions and questions!
+
+Thank you!

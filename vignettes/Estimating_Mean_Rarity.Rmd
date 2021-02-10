@@ -521,7 +521,7 @@ suggest improvements!).
 
 ```{r Balance plot, fig.width = 9, fig.height = 3}
 
-# plot some rarity "balance plots" for guide to measuring diversity (Roswell et al. 2020 Oikos....)
+# plot some rarity "balance plots" for guide to measuring diversity (Roswell et al. 2021 http://onlinelibrary.wiley.com/doi/10.1111/oik.07202/abstract)
 ab <- c(20,8,5,4,2,1)
 
 rich_bal <- rarity_plot(ab, 1, base_size = 12) +

@@ -1,7 +1,7 @@
 # MeanRarity
 You can install the R package MeanRarity with the following command:
 
-`devtools::install_github("https://github.com/mikeroswell/MeanRarity.git")`
+`devtools::install_github("mikeroswell/MeanRarity")`
 
 This R package allows estimating and visualizing Hill diversity (aka "Hill
 numbers") in terms of the average species "rarity."

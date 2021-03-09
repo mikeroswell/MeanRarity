@@ -53,8 +53,8 @@ combfun <- function(x){
 prettify <- function(breaks){
     digits <- -floor(log10(abs(breaks))) + 1
     digits[breaks == 0] <- 0
-    raw<-round(breaks, digits = digits)
-    raw[raw==-Inf] <- 1e9
+    raw <- round(breaks, digits = digits)
+    raw[raw == -Inf] <- 1e9
     # raw[is.na(raw)]<-1e11
     # raw[raw==0]<-1e-11
     return(raw) #klugey fix to -Inf
@@ -141,13 +141,13 @@ base_plot <- function(ab, pointScale
     #make plotting data
     rf <- tibble::tibble(names = as.factor(1:length(ab))
 		, ab
-		, rarity = sum(ab)/ab
+		, rarities = sum(ab)/ab
 	)
 	rfrepeated <- fancy_rep(rf)
 	y_extent <- max(y_extent, max(combfun(ab)))
 	#14 is empirically derived scaling factor; but isn't quite right.
 	# Seems like stuff below axis is about 2.5* height of 1 line of text
-	pointScale<-(14 * (min(grDevices::dev.size("cm")) / noco - (2.5 * 0.0353 * base_size)))
+	pointScale <- (14 * (min(grDevices::dev.size("cm")) / noco - (2.5 * 0.0353 * base_size)))
 	pointsize <- pointScale / (y_extent * 1.1)
 
 	#0.5; shape is centered on  x,y; offset so it rests upon x, y-1
@@ -155,15 +155,15 @@ base_plot <- function(ab, pointScale
 
 	#ggplot command to generate basic plot object
 	base <- (rfrepeated %>%
-	           ggplot2::ggplot(ggplot2::aes(x = rarity, y = ab)) +
+	           ggplot2::ggplot(ggplot2::aes(x = rarities, y = ab)) +
 	         (if(lines == T){
 	             rfdull <- rf %>%
-	               dplyr::group_by(rarity) %>%
+	               dplyr::group_by(rarities) %>%
 	               dplyr::summarize(inds = sum(.data$ab))
 	   #line segments
 	             ggplot2::geom_segment(data = rfdull,
-	                                   ggplot2::aes(x = {{rarity}}
-                                                  , xend = {{rarity}}
+	                                   ggplot2::aes(x = rarities
+                                                  , xend = rarities
                                                   , y = .data$inds
 	                                                , yend = 0)
 	                           , color = grDevices::rgb(0,0,0,0.4)
@@ -184,17 +184,17 @@ base_plot <- function(ab, pointScale
 		  ggplot2::aes(x = .data$x, y = .data$y
 		               , xend = .data$xend, yend = .data$yend)
 			, data = data.frame(
-				x = c(min(rf$rarity))
+				x = c(min(rf$rarities))
 				, y = c(0)
-				, xend = c(max(rf$rarity))
+				, xend = c(max(rf$rarities))
 				, yend = c(0)
 			)
 		)
 
 #fix plank location and add space above and below data range
 		+ggplot2::scale_y_continuous(
-		    expand=c(0,0)
-		    , limits=c(y_extent-1.05*y_extent, 1.05*y_extent)
+		    expand = c(0,0)
+		    , limits = c(y_extent-1.05*y_extent, 1.05*y_extent)
 		)
     	+ ggplot2::labs(y="individuals")
 	)
@@ -288,7 +288,7 @@ mean_points <- function(ab, l, noco = 1){
 	div <- Vectorize(dfun, vectorize.args = ("l"))(ab, l)
 	pointDat = tibble::tibble(x = div, y = 0*div, clr = 1:length(div))
 	return(ggplot2::geom_point(data = pointDat
-	  , ggplot2::aes(x = pointDat$x, y = pointDat$y, color = as.factor(pointDat$clr))
+	  , ggplot2::aes(x = x, y = y, color = as.factor(clr))
 		, size = 0.2 * min(grDevices::dev.size("cm")) / noco
 	))
 }
@@ -331,7 +331,7 @@ fulcrum <- function(ab, l
         , size = (0.48 * min(grDevices::dev.size("cm")) - (2.5 * 0.0353 * base_size)) / noco #scales with plotting device and number of columns
         # , size=rel(0.3)
         , shape = 17
-        , ggplot2::aes(fulcDat$x, fulcDat$y)
+        , ggplot2::aes(x, y)
     )
     )
 }

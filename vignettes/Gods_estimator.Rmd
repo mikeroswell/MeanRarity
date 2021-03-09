@@ -1,5 +1,5 @@
 ---
-title: "Gods estimator of mean rarity"
+title: "God\'s estimator of mean rarity"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Gods_estimator}

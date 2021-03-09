@@ -420,7 +420,7 @@ rarity_plot <- function(ab
                         , noco = 1
                         , lines = FALSE
                         , ...){
- message(cat("     rarity plot expects a square viewport and resizes points based on\n     min(dev.size() and noco (for number of columns).\n     Selecting lines=T will plot stacks of individuals as a line element,\n     which tends to be more robust to window size.\n     lines=T may be the best way to deal with overplotting,\n     which results from several species with similar but not identical rarities.\n "))
+ message(cat("     rarity plot expects a square viewport (likely issues in the RStudio plotting device) and resizes points based on\n     min(dev.size() and noco (for number of columns).\n     Selecting lines = T will plot stacks of individuals as a line element,\n     which tends to be more robust to window size.\n     Setting lines = T may be the best way to deal with overplotting,\n     which results from several species with similar but not identical rarities. \n "))
 
     ab <- ab[ab != 0]
 	return(

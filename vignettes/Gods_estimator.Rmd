@@ -1,5 +1,5 @@
 ---
-title: "God\'s estimator of mean rarity"
+title: "Gods estimator of mean rarity"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Gods_estimator}
@@ -165,7 +165,7 @@ sample, the mean rarity of that sample is very high. Our simulation may be
 untroubling then, even for proponents of God's estimator. When ecologists sample
 SADs with hundreds of millions or billions of individuals (e.g. Rhizospheres),
 they likely do not attempt to quantify richness, given that it cannot be
-estimated reliably (CITE Haegemen et al. 2013),  and also obtain reads from many
+estimated reliably (CITE Haegeman et al. 2013),  and also obtain reads from many
 more than a few hundred individuals. For God's estimator not to be unduly
 swayed by the extraordinarily rare species, however, sample sizes will have to
 be extremely large. In the presence of such extreme rarity, God's estimator

@@ -155,15 +155,15 @@ base_plot <- function(ab, pointScale
 
 	#ggplot command to generate basic plot object
 	base <- (rfrepeated %>%
-	           ggplot2::ggplot(ggplot2::aes(x = rarities, y = ab)) +
+	           ggplot2::ggplot(ggplot2::aes(x = .data$rarities, y = ab)) +
 	         (if(lines == T){
 	             rfdull <- rf %>%
-	               dplyr::group_by(rarities) %>%
+	               dplyr::group_by(.data$rarities) %>%
 	               dplyr::summarize(inds = sum(.data$ab))
 	   #line segments
 	             ggplot2::geom_segment(data = rfdull,
-	                                   ggplot2::aes(x = rarities
-                                                  , xend = rarities
+	                                   ggplot2::aes(x = .data$rarities
+                                                  , xend = .data$rarities
                                                   , y = .data$inds
 	                                                , yend = 0)
 	                           , color = grDevices::rgb(0,0,0,0.4)
@@ -213,7 +213,7 @@ base_plot <- function(ab, pointScale
 #' @return A ggplot object, with some theme elements specified
 #'
 #' @noRd
-theme_plot <- function(p, base_size=24, noco=1, ...){
+theme_plot <- function(p, base_size = 24, noco = 1, ...){
 	return(p
 		+ ggthemes::theme_tufte(base_family = "sans", base_size=base_size/noco)
 		+ ggplot2::theme(legend.position = "none")
@@ -288,7 +288,7 @@ mean_points <- function(ab, l, noco = 1){
 	div <- Vectorize(dfun, vectorize.args = ("l"))(ab, l)
 	pointDat = tibble::tibble(x = div, y = 0*div, clr = 1:length(div))
 	return(ggplot2::geom_point(data = pointDat
-	  , ggplot2::aes(x = x, y = y, color = as.factor(clr))
+	  , ggplot2::aes(x = .data$x, y = .data$y, color = as.factor(.data$clr))
 		, size = 0.2 * min(grDevices::dev.size("cm")) / noco
 	))
 }
@@ -331,7 +331,7 @@ fulcrum <- function(ab, l
         , size = (0.48 * min(grDevices::dev.size("cm")) - (2.5 * 0.0353 * base_size)) / noco #scales with plotting device and number of columns
         # , size=rel(0.3)
         , shape = 17
-        , ggplot2::aes(x, y)
+        , ggplot2::aes(.data$x, .data$y)
     )
     )
 }

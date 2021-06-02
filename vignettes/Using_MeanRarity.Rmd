@@ -59,13 +59,48 @@ equivalent to `vegan::renyi(x, scale = 1-l, hill = T)`.
 
 
 ```{r compute rarity}
+# for a totally even distribution, Hill diversity is the same regardless of `l`
+
+even_comm <- rep(2, 6)
+rarity(even_comm, 1) # richness
+rarity(even_comm, -1) # Hill-Simpson
+
+all.equal(rarity(even_comm, 0), rarity(even_comm, 0.34), rarity(even_comm, 1))
+
+# for uneven communities, Hill diversity depends on `l`
+
+uneven_comm <- c(20, 8, 5, 4, 2, 1)
+
+l_vals <- c(1, 0, -1, 0.34)
+
+
+data.frame(l = l_vals
+           , Hill = sapply(l_vals, function(l){
+                    rarity(uneven_comm, l)})
+)
+
 ```
 
 
 
 # Interpreting Mean Rarity
 
-`rarity_plot()` makes balance plots to visualize mean rarity. The idea behind a balance plot is that means measure the weighted center, or a balance point, 
+One way of interpreting Hill diversities is that they express the diversity of a community in terms of an imaginary community with that same diversity, but in which all species are equally abundant (Jost 2006). In this perspective, the community from `uneven_comm` is as diverse as a community of six equally abundant species (richness, l = 1), or four equally abundant species (Hill-Shannon diversity, l = 0), or three (Hill-Simpson diversity, l = -1). Obviously, the equivalency depends on the distribution of relative abundances, and the parameter `l`. So when `l = 1`, this community is as diverse (or as species-rich) as any community with six species. When `l = -1`, it is as diverse as a community with twice the number of species and tremendous unevenness, or half the number of species and perfect evenness:
+
+``` {r effective numbers}
+uneven_12 <- c(531, 186, 101,  63, 41, 28, 19, 13, 9, 5, 3, 1)
+even_3 <- c(20, 20, 20)
+
+rarity(uneven_comm, -1)
+rarity(uneven_12, -1)
+rarity(even_3, -1)
+
+```
+
+
+One might wonder what the meaning of `l` is, in the effective numbers framework. Many authors have described `l` as a factor that weights species relative abundances. Another interpretation is that `l` rescales species rarities. This interpretation lends itself to concrete visualizations of Hill diversities as mean rarities, provided by `rarity_plot()`.  
+
+`rarity_plot()` makes balance plots to visualize mean rarity. The idea behind a balance plot is that means measure the weighted center, or a balance point, of a set of values. Of course, if you have a plank with many weights on it, where the balance point lies depends not only on the weights, but also on their relative locations... the farther towards the ends of the plank a weight lies, the more leverage it has. When describing diversity, there are simple rules for the weights (species abundances) and where they lie (their _scaled_ rarities). The rarity scaling is given by the exponent, `l`.  
 
 "Balance plots" called with `rarity_plot()` illustrate the computation in 
 `rarity()`. 

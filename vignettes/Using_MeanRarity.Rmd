@@ -102,18 +102,62 @@ One might wonder what the meaning of `l` is, in the effective numbers framework.
 
 `rarity_plot()` makes balance plots to visualize mean rarity. The idea behind a balance plot is that means measure the weighted center, or a balance point, of a set of values. Of course, if you have a plank with many weights on it, where the balance point lies depends not only on the weights, but also on their relative locations... the farther towards the ends of the plank a weight lies, the more leverage it has. When describing diversity, there are simple rules for the weights (species abundances) and where they lie (their _scaled_ rarities). The rarity scaling is given by the exponent, `l`.  
 
-"Balance plots" called with `rarity_plot()` illustrate the computation in 
-`rarity()`. 
+In a balance plot, the species abundances are plotted on the y-axis, species rarities on the x-axis (values are back-transformed, but scaling is dictated by `l`), the mean is shown with a triangular "fulcrum," and reference points are illustrated for the three pythagorean means (`l= c(1, 0, -1)`, i.e. richness, Hill-Shannon diversity, and Hill-Simpson diversity). By default, each individual is plotted as a "block", and species with the same rarity are stacked. 
+
+```{r Balance plot, fig.width = 3, fig.height = 3}
+
+rich_bal <- rarity_plot(ab = uneven_comm, l = 1, base_size = 12) +
+  ggplot2::labs(x = "") +
+  ggplot2::scale_color_brewer(type = "qual", palette = "Dark2") 
+
+shan_bal <- white_y(rarity_plot(ab = uneven_comm, l = 0, base_size = 12, verbose = F)) + #do not return all the text this time
+  ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
+
+simp_bal <- white_y(rarity_plot(ab = uneven_comm, l = -1, base_size = 12, verbose = F)) + 
+  ggplot2::labs(x = "") +
+  ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
+
+rich_bal 
+shan_bal
+simp_bal
+
+```
 
 # Simulating communities with known diversity
 
-`fit_SAD()` simulates a species abundance distribution with known richness,
-Hill-Simpson diversity, and a distributional assumption (lognormal or gamma).
+`MeanRarity::fit_SAD()` simulates a species abundance distribution with known
+richness, Hill-Simpson diversity, and a distributional assumption (lognormal or
+gamma). It returns parameters of the chosen probability distribution, the
+richness, Hill-Shannon, and Hill-Simpson diversity of the simulated species
+abundance distribution, and relative abundances for each simulated species. It
+provides a warning when relative abundances are very low, implying large total
+community abundance.
 
+Unfortunately, it is difficult to assess the performance of diversity estimators
+with real-world data, because ecological communities are not typically fully
+censused, and therefore the true diversity of those communities is not known.
+There are, of course, a few exception datasets... mostly observations of
+vascular plants, often trees, where the species identity and abundances in each
+plot is known (CITE tropical tree dataset). However, these may not be
+representative of the variability in species abundance distributions found in
+nature. To enable a more comprehensive view, `MeanRarity` includes a tool to
+simulate species abundance distributions where diversity values are given as
+parameters. This way, diversity (in this case, richness and Hill-Simpson
+diversity) are known and fixed, rather than falling out of the simulations.
+In order to achieve this in a sensible way, however, we simulate species
+abundance distributions with known, finite true diversity, but effectively
+infinite abundance, from which finite samples may be taken. The diversity of a
+given sample is of course not pre-determined.
 
-`fit_SAD()` is a potentially novel way to simulate abundance distributions that
+This approach differs from species abundance distribution simulations
+implemented in other R packages. For example, `mobsim` (CITE) and `sads` (CITE)
+allow users to specify continuous parametric probability distributions, but then
+explicitly take finite, discrete samples from those distributions in the
+simulation (in `mobsim` these can even be spatially explicit!).
+
+`fit_SAD()`, by contrast, does not simulate individuals at all. Instead, it
 always gives precisely the same relative abundances for a given set of
-parameters, and may be a helpful tool for exploring the behavior of diversity
-metrics under different sampling scenarios.
+parameters, which may be a helpful tool for exploring the behavior of diversity
+metrics under different community size and sampling scenarios.
 
 

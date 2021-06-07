@@ -158,6 +158,46 @@ simulation (in `mobsim` these can even be spatially explicit!).
 `fit_SAD()`, by contrast, does not simulate individuals at all. Instead, it
 always gives precisely the same relative abundances for a given set of
 parameters, which may be a helpful tool for exploring the behavior of diversity
-metrics under different community size and sampling scenarios.
+metrics under different community size and sampling scenarios. 
+
+```{r fit species abundance distributions}
+# set target richness and Hill-Simpson diversity levels
+rich <- 20
+simpson <- 12
+even_SAD <- fit_SAD(rich = rich, simpson = simpson, distr = "lnorm")
+
+#output is a list with three elements
+even_SAD
+
+rich <- 20
+simpson <- 6
+uneven_SAD <- fit_SAD(rich = rich, simpson = simpson, distr = "lnorm")
+
+
+
+ev<-radplot(even_SAD$rel_abundances) + 
+  ggplot2::labs(y = "relative abundance", title =NULL)+
+  ggplot2::ylim(c(0, 0.4))
+un<-radplot(uneven_SAD$rel_abundances) + 
+  ggplot2::labs(ylab = "relative abundance", title =NULL) +
+  ggplot2::ylim(c(0, 0.4))
+
+ev
+un
+```
+
+`fit_SAD()` only generates an ideal species abundance distribution. To take a finite
+sample, we use `sample_infinite()` (so named because it samples an infinite SAD; `sample_finite()` is for sub-sampling from a realized community/finite sample). The realized
+samples have Poisson-type noise about the mean species relative abundances given
+by `fit_SAD()` The diversity of a sample asymptotically approaches the simulated
+diversity as sample size approaches infinity.
+
+```{r sample from SAD}
+even_sample <- sample_infinite(even_SAD$rel_abundances, 50)
+uneven_sample <- sample_infinite(uneven_SAD$rel_abundances, 50)
+even_sample
+uneven_sample
+```
+
 
 

@@ -28,7 +28,7 @@ parameterization clarifies the role of the
 scaling exponent, and this R package provides illustration tools to visualize
 that scaling concretely. Furthermore, this framework may provide an entry point
 for developing and testing diversity estimators and their related interval
-estimates (e.g. confidence intervals); this package contains novel tools to
+estimates (e.g. confidence intervals); this package contains tools to
 simulate species abundance distributions that should streamline that process.
 
 # Computing Mean Rarity
@@ -54,7 +54,7 @@ concrete meaning of "weight" when applied to $q$ in equation 2 may be difficult
 to understand.
 
 Because Equations 1 and 2 are algebraically equivalent, `rarity(x, l)` is
-equivalent to `vegan::renyi(x, scale = 1-l, hill = T)`.
+equivalent to `vegan::renyi(x, scale = 1-l, hill = T)` and the `qD` output from `iNEXT::estimateD(x)` where `order = 1-l`.
 
 
 
@@ -98,11 +98,11 @@ rarity(even_3, -1)
 ```
 
 
-One might wonder what the meaning of `l` is, in the effective numbers framework. Many authors have described `l` as a factor that weights species relative abundances. Another interpretation is that `l` rescales species rarities. This interpretation lends itself to concrete visualizations of Hill diversities as mean rarities, provided by `rarity_plot()`.  
+One might wonder what the meaning of $\ell$ is, in the effective numbers framework. Many authors have described $\ell$ as a factor that weights species relative abundances. Another interpretation (developed in this package) is that $\ell$ **rescales** species *rarities*. This interpretation lends itself to concrete visualizations of Hill diversities as mean rarities, provided by `rarity_plot()`.  
 
-`rarity_plot()` makes balance plots to visualize mean rarity. The idea behind a balance plot is that means measure the weighted center, or a balance point, of a set of values. Of course, if you have a plank with many weights on it, where the balance point lies depends not only on the weights, but also on their relative locations... the farther towards the ends of the plank a weight lies, the more leverage it has. When describing diversity, there are simple rules for the weights (species abundances) and where they lie (their _scaled_ rarities). The rarity scaling is given by the exponent, `l`.  
+`rarity_plot()` makes balance plots to visualize mean rarity. The idea behind a balance plot is that means measure the weighted center, or a balance point, of a set of values. Of course, if you have a plank with many weights on it, where the balance point lies depends not only on the weights, but also on their relative locations... the farther towards the ends of the plank a weight lies, the more leverage it has. When describing diversity, there are simple rules for the species weights ([relative] abundances) and where they lie (their *scaled* rarities). The rarity scaling is given by the exponent, `l`.  
 
-In a balance plot, the species abundances are plotted on the y-axis, species rarities on the x-axis (values are back-transformed, but scaling is dictated by `l`), the mean is shown with a triangular "fulcrum," and reference points are illustrated for the three pythagorean means (`l= c(1, 0, -1)`, i.e. richness, Hill-Shannon diversity, and Hill-Simpson diversity). By default, each individual is plotted as a "block", and species with the same rarity are stacked. 
+In a balance plot, the species abundances are plotted on the y-axis, species rarities on the x-axis (values are back-transformed, but scaling is dictated by `l`), the mean is shown with a triangular "fulcrum," and reference points are illustrated for the three Pythagorean means (i.e., arithmetic, geometric, and harmonic, given when `l= c(1, 0, -1)`, and equal to richness, Hill-Shannon diversity, and Hill-Simpson diversity). By default, each individual is plotted as a "block", and species with the same rarity are stacked vertically. 
 
 ```{r Balance plot, fig.width = 3, fig.height = 3}
 
@@ -143,17 +143,19 @@ representative of the variability in species abundance distributions found in
 nature. To enable a more comprehensive view, `MeanRarity` includes a tool to
 simulate species abundance distributions where diversity values are given as
 parameters. This way, diversity (in this case, richness and Hill-Simpson
-diversity) are known and fixed, rather than falling out of the simulations.
-In order to achieve this in a sensible way, however, we simulate species
-abundance distributions with known, finite true diversity, but effectively
-infinite abundance, from which finite samples may be taken. The diversity of a
-given sample is of course not pre-determined.
+diversity) are known and fixed, rather than epiphenomena that fall out of the
+simulations. In order to achieve this, we simulate species abundance
+distributions with known, finite true diversity, but infinite
+abundance, from which finite samples may be taken. The diversity of a given
+sample from such as SAD is, of course, not pre-determined.
 
 This approach differs from species abundance distribution simulations
 implemented in other R packages. For example, `mobsim` (CITE) and `sads` (CITE)
 allow users to specify continuous parametric probability distributions, but then
 explicitly take finite, discrete samples from those distributions in the
-simulation (in `mobsim` these can even be spatially explicit!).
+simulation (in `mobsim` these can even be spatially explicit!). These are
+powerful simulation tools, but one drawback from using them is that the
+diversity resulting from any given set of parameter values is variable.
 
 `fit_SAD()`, by contrast, does not simulate individuals at all. Instead, it
 always gives precisely the same relative abundances for a given set of
@@ -186,17 +188,59 @@ ev
 un
 ```
 
-`fit_SAD()` only generates an ideal species abundance distribution. To take a finite
-sample, we use `sample_infinite()` (so named because it samples an infinite SAD; `sample_finite()` is for sub-sampling from a realized community/finite sample). The realized
-samples have Poisson-type noise about the mean species relative abundances given
-by `fit_SAD()` The diversity of a sample asymptotically approaches the simulated
-diversity as sample size approaches infinity.
+`fit_SAD()` generates an ideal species abundance distribution, with relative
+abundances for a community with infinite abundance. To take a finite sample, we
+use `sample_infinite()` (so named because it samples an infinite SAD;
+`sample_finite()` is for sub-sampling from a realized community/finite sample).
+The realized samples have Poisson-type noise about the mean species relative
+abundances given by `fit_SAD()` The diversity of a sample asymptotically
+approaches the simulated diversity as sample size approaches infinity.
 
 ```{r sample from SAD}
+
+# diversity of a small sample unlikely to match the simulated diversity values
+
+# first, sample from our simulated SADs
+
 even_sample <- sample_infinite(even_SAD$rel_abundances, 50)
 uneven_sample <- sample_infinite(uneven_SAD$rel_abundances, 50)
+#sample_infinite returns a numeric vector of sample species abundances
 even_sample
 uneven_sample
+
+# compare diversity from sample vs. ideal SAD: 
+# likely pretty far off for a small sample!
+
+# with an even SAD, all diversities lower
+even_SAD$community_info
+rbind(lapply(c(1, 0, -1), function(l){
+  rarity(even_sample, l)
+}))
+
+# with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson 
+# richness is always lower
+uneven_SAD$community_info
+rbind(lapply(c(1, 0, -1), function(l){
+  rarity(uneven_sample, l)
+}))
+
+
+big_even_sample <- sample_infinite(even_SAD$rel_abundances, 1e7)
+big_uneven_sample <- sample_infinite(uneven_SAD$rel_abundances, 1e7)
+
+# with a big enough sample, simulated diversities nearly recovered
+even_SAD$community_info
+rbind(lapply(c(1, 0, -1), function(l){
+  rarity(big_even_sample, l)
+}))
+
+# with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson 
+# richness is always lower
+uneven_SAD$community_info
+rbind(lapply(c(1, 0, -1), function(l){
+  rarity(big_uneven_sample, l)
+}))
+
 ```
 
 

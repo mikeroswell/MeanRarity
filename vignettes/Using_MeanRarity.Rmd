@@ -24,12 +24,12 @@ reciprocal of relative abundance.
 
 The average species rarity may be simpler to interpret than a transformed,
 generalized entropy (this is how Hill numbers are typically derived). The rarity
-parameterization clarifies the role of the
-scaling exponent, and this R package provides illustration tools to visualize
-that scaling concretely. Furthermore, this framework may provide an entry point
-for developing and testing diversity estimators and their related interval
-estimates (e.g. confidence intervals); this package contains tools to
-simulate species abundance distributions that should streamline that process.
+parameterization clarifies the role of the scaling exponent, and this R package
+provides illustration tools to visualize that scaling concretely. Furthermore,
+this framework may provide an entry point for developing and testing diversity
+estimators and their related interval estimates (e.g., confidence intervals);
+this package contains tools to simulate species abundance distributions that
+should streamline that process.
 
 # Computing Mean Rarity
 `rarity()` computes Hill diversity of a sample, parameterized in terms of the
@@ -39,7 +39,7 @@ We define Hill diversity $D$ as the mean species rarity in the community
 
 $$D=\left( \sum_{i=1}^{S}p_{i}(r_{i})^{\ell} \right)^{1/\ell} \tag{1}$$
 
-where $D$ is diversity or mean rarity, $p_{i}$ is the relative abundance of species $i$, $r_{i}$ is the rarity of species $i$ (defined as the reciprocal of $p_{i}$), $S$ is the total species richness, and $\ell$ is the scaling exponent that determines the type of mean computed (Roswell et al. 2021).
+where $D$ is diversity or mean rarity, $p_{i}$ is the relative abundance of species $i$, $r_{i}$ is the rarity of species $i$ (defined as the reciprocal of $p_{i}$), $S$ is the total species richness, and $\ell$ is the scaling exponent that determines the type of mean computed (Roswell et al. 2021). We define the expression for  $\ell = 0$  based on the limit (from left and right) as (DONT FORGET TO ADD EQN 3).
 
 Hill diversity is more commonly written as 
 
@@ -85,7 +85,7 @@ data.frame(l = l_vals
 
 # Interpreting Mean Rarity
 
-One way of interpreting Hill diversities is that they express the diversity of a community in terms of an imaginary community with that same diversity, but in which all species are equally abundant (Jost 2006). In this perspective, the community from `uneven_comm` is as diverse as a community of six equally abundant species (richness, l = 1), or four equally abundant species (Hill-Shannon diversity, l = 0), or three (Hill-Simpson diversity, l = -1). Obviously, the equivalency depends on the distribution of relative abundances, and the parameter `l`. So when `l = 1`, this community is as diverse (or as species-rich) as any community with six species. When `l = -1`, it is as diverse as a community with twice the number of species and tremendous unevenness, or half the number of species and perfect evenness:
+One way of interpreting Hill diversities is that they express the diversity of a community in terms of an imaginary community with that same diversity, but in which all species are equally abundant (Jost 2006). In this perspective, the community from `uneven_comm` is as diverse as a community of six equally abundant species (richness, `l = 1`), or four equally abundant species (Hill-Shannon diversity, `l = 0`), or three (Hill-Simpson diversity, `l = -1`). Obviously, the equivalency depends on the distribution of relative abundances, and the parameter `l`. So when `l = 1`, this community is as diverse (or as species-rich) as any community with six species. When `l = -1`, it is as diverse as a community with twice the number of species and tremendous unevenness, or half the number of species and perfect evenness:
 
 ``` {r effective numbers}
 uneven_12 <- c(531, 186, 101,  63, 41, 28, 19, 13, 9, 5, 3, 1)

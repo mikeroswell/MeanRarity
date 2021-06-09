@@ -6,3 +6,5 @@ man-roxygen
 ^\.github$
 Makefile
 makestuff
+^doc$
+^Meta$

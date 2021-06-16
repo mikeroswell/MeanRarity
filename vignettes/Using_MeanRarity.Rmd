@@ -6,6 +6,17 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+---
+# need to explore output formats for size, speed, and features (e.g. eqn numbers)
+# had been rmarkdown::html_vignette
+# also see html_document
+# also see prettydoc::html_pretty which might solve the equation numbering issues
+# https://bookdown.org/yihui/rmarkdown/prettydoc.html
+___
+
+
+
 \renewcommand{\[}{\begin{equation}}
 \renewcommand{\]}{\end{equation}}
 ```{r, include = FALSE}

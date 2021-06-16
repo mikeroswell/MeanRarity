@@ -12,9 +12,17 @@ vim_session:
 
 Ignore += Meta/ doc/
 
+package:
+	R CMD INSTALL .
+
 ######################################################################
 
 Sources += vignettes/*.Rmd
+
+%.html: %.Rmd
+	$(rmdh_r)
+
+## vignettes/Using_MeanRarity.vig.html:
 
 ######################################################################
 
@@ -36,6 +44,7 @@ makestuff/Makefile:
 
 -include makestuff/pipeR.mk
 -include makestuff/rpkg.mk
+-include makestuff/rmd.mk
 
 -include makestuff/git.mk
 -include makestuff/visual.mk

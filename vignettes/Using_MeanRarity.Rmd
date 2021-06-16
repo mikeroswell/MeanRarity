@@ -49,23 +49,19 @@ mean rarity.
 
 We define Hill diversity $D$ as the mean species rarity in the community
 
-\begin{equation}
-
-D=\left( \sum_{i=1}^{S}p_{i}(r_{i})^{\ell} \right)^{1/\ell} (\#eq:hill)
-
-\end{equation}
+$$D=\left( \sum_{i=1}^{S}p_{i}(r_{i})^{\ell} \right)^{1/\ell} \tag{1}$$
 
 where $D$ is diversity or mean rarity, $p_{i}$ is the relative abundance of species $i$, $r_{i}$ is the rarity of species $i$ (defined as the reciprocal of $p_{i}$), $S$ is the total species richness, and $\ell$ is the scaling exponent that determines the type of mean computed (Roswell et al. 2021). We define the expression for  $\ell = 0$  based on the limit (from left and right) as 
 
-$$D=e^{ \sum_{i=1}^{S}p_{i} * \log(r_{i})} $$
+$$D=e^{ \sum_{i=1}^{S}p_{i} * \log(r_{i})} \tag{2}$$
 
 Hill diversity is more commonly written as 
 
-$$D=\left( \sum_{i=1}^{S}p_{i}^{q} \right)^{1/1-q} $$ 
+$$D=\left( \sum_{i=1}^{S}p_{i}^{q} \right)^{1/1-q} \tag{3}$$ 
 
 Defined when q = 1 as
-$$D=e^{ -\sum_{i=1}^{S} p_{i} * \log(p_{i})} $$
-Equations \@ref(eq:hill) and 3 (or 2 and 4) are equivalent when $\ell = 1-q$. Re-parameterizing Hill
+$$D=e^{ -\sum_{i=1}^{S} p_{i} * \log(p_{i})} \tag{4}$$
+Equations 1 and 3 (or 2 and 4) are equivalent when $\ell = 1-q$. Re-parameterizing Hill
 diversity in terms of species rarity can provide conceptual clarity. Equation 1
 is a weighted mean rarity, where the weights (relative abundances, $p_i$) are
 factored out. Simplifying (as in Equation 3) hides the weighting by relative

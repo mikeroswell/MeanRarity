@@ -104,7 +104,7 @@ dfun <- rarity
 #' @param ell_hi Scalar, maximum scaling exponent for diversity profile.
 #' @param by Scalar, size of step along scaling exponent continuum.
 #'
-#' @return Dataframe with the scaling exponent \{code{ell} and corresponding
+#' @return Dataframe with the scaling exponent \code{ell} and corresponding
 #'   Hill diversity \code{d}
 #'
 #' @export

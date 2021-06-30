@@ -18,6 +18,7 @@ vignette: >
 
 \renewcommand{\[}{\begin{equation}}
 \renewcommand{\]}{\end{equation}}
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -35,7 +36,7 @@ numbers") in terms of the average species "rarity." Rarity is defined as the
 reciprocal of relative abundance.
 
 The average species rarity may be simpler to interpret than a transformed,
-generalized entropy (this is how Hill numbers are typically derived). The rarity
+generalized entropy (i.e., how Hill numbers are typically derived). The rarity
 parameterization clarifies the role of the scaling exponent, and this R package
 provides illustration tools to visualize that scaling concretely. Furthermore,
 this framework may provide an entry point for developing and testing diversity
@@ -51,7 +52,11 @@ We define Hill diversity $D$ as the mean species rarity in the community
 
 $$D=\left( \sum_{i=1}^{S}p_{i}(r_{i})^{\ell} \right)^{1/\ell} \tag{1}$$
 
-where $D$ is diversity or mean rarity, $p_{i}$ is the relative abundance of species $i$, $r_{i}$ is the rarity of species $i$ (defined as the reciprocal of $p_{i}$), $S$ is the total species richness, and $\ell$ is the scaling exponent that determines the type of mean computed (Roswell et al. 2021). We define the expression for  $\ell = 0$  based on the limit (from left and right) as 
+where $D$ is diversity or mean rarity, $p_{i}$ is the relative abundance of
+species $i$, $r_{i}$ is the rarity of species $i$ (defined as the reciprocal of
+$p_{i}$), $S$ is the total species richness, and $\ell$ is the scaling exponent
+that determines the type of mean computed (Roswell et al. 2021). We define the
+expression for  $\ell = 0$  based on the limit (from left and right) as
 
 $$D=e^{ \sum_{i=1}^{S}p_{i} * \log(r_{i})} \tag{2}$$
 
@@ -61,13 +66,13 @@ $$D=\left( \sum_{i=1}^{S}p_{i}^{q} \right)^{1/1-q} \tag{3}$$
 
 Defined when q = 1 as
 $$D=e^{ -\sum_{i=1}^{S} p_{i} * \log(p_{i})} \tag{4}$$
-Equations 1 and 3 (or 2 and 4) are equivalent when $\ell = 1-q$. Re-parameterizing Hill
-diversity in terms of species rarity can provide conceptual clarity. Equation 1
-is a weighted mean rarity, where the weights (relative abundances, $p_i$) are
-factored out. Simplifying (as in Equation 3) hides the weighting by relative
-abundance, and leads to the claim that the scaling exponent is the "weight." The
-concrete meaning of "weight" when applied to $q$ in equation 2 may be difficult
-to understand.
+Equations 1 and 3 (or 2 and 4) are equivalent when $\ell = 1-q$.
+Re-parameterizing Hill diversity in terms of species rarity can provide
+conceptual clarity. Equation 1 is a weighted mean rarity, where the weights
+(relative abundances, $p_i$) are factored out. Simplifying (as in Equation 3)
+hides the weighting by relative abundance, and leads to the claim that the
+scaling exponent is the "weight." The concrete meaning of "weight" when applied
+to $q$ in equation 2 may be difficult to understand.
 
 Because Equations 1 and 2 are algebraically equivalent, `rarity(x, l)` is
 equivalent to `vegan::renyi(x, scale = 1-l, hill = T)` and the `qD` output from `iNEXT::estimateD(x)` where `order = 1-l`.
@@ -99,7 +104,17 @@ data.frame(l = l_vals
 
 # Interpreting Mean Rarity
 
-One way of interpreting Hill diversities is that they express the diversity of a community in terms of an imaginary community with that same diversity, but in which all species are equally abundant (Jost 2006). In this perspective, the `uneven_comm` is as diverse as a community of six equally abundant species (richness, `l = 1`), or four equally abundant species (Hill-Shannon diversity, `l = 0`), or three (Hill-Simpson diversity, `l = -1`). These equivalencies depend, then, on the the distribution of relative abundances and the parameter `l`. So when `l = 1`, this community is as diverse (or as species-rich) as any community with six species. When `l = -1`, it is as diverse as a community with twice the number of species and tremendous unevenness, or half the number of species and perfect evenness:
+One way of interpreting Hill diversities is that they express the diversity of a
+community in terms of an imaginary community with that same diversity, but in
+which all species are equally abundant (Jost 2006). In this perspective, the
+uneven community `uneven_comm` is as diverse as a community of six equally
+abundant species (richness, `l = 1`), or four equally abundant species
+(Hill-Shannon diversity, `l = 0`), or three (Hill-Simpson diversity, `l = -1`).
+These equivalencies depend on the the distribution of relative abundances and
+the parameter `l`. So when `l = 1`, this community is as diverse (or as
+species-rich) as any community with six species. When `l = -1`, it is as diverse
+as a community with twice the number of species and tremendous unevenness, or
+half the number of species and perfect evenness:
 
 ``` {r effective numbers}
 uneven_12 <- c(531, 186, 101,  63, 41, 28, 19, 13, 9, 5, 3, 1)
@@ -112,11 +127,31 @@ rarity(even_3, -1)
 ```
 
 
-One might wonder what the meaning of $\ell$ is, in the effective numbers framework. Many authors have described $\ell$ as a factor that weights species relative abundances. This suggests that downweighting rare species means a lower effective number of species, but upweighting them means a higher effective number of species. Another interpretation (developed in this package) is that $\ell$ **rescales** species *rarities*. This interpretation lends itself to concrete visualizations of Hill diversities as mean rarities, provided by `rarity_plot()`.  
+One might wonder what the meaning of $\ell$ is, in the effective numbers
+framework. Many authors have described $\ell$ as a factor that weights species
+relative abundances. This suggests that downweighting rare species means a lower
+effective number of species, but upweighting them means a higher effective
+number of species. Another interpretation (developed in this package) is that
+$\ell$ **rescales** species *rarities*. This interpretation lends itself to
+concrete visualizations of Hill diversities as mean rarities, provided by
+`rarity_plot()`.
 
-`rarity_plot()` makes balance plots to visualize mean rarity. The idea behind a balance plot is that means measure the weighted center, or a balance point, of a set of values. Of course, if you have a plank with many weights on it, where the balance point lies depends not only on the weights, but also on their relative locations... the farther towards the ends of the plank a weight lies, the more leverage it has. When describing diversity, there are simple rules for the species weights ([relative] abundances) and where they lie (their *scaled* rarities). The rarity scaling is given by the exponent, `l`.  
+`rarity_plot()` makes balance plots to visualize mean rarity. The idea behind a
+balance plot is that means measure the weighted center, or a balance point, for
+a set of values. Of course, if you have a plank with many weights on it, where
+the balance point lies depends not only on the weights, but also on their
+relative locations... the farther towards the ends of the plank a weight lies,
+the more leverage it has. When describing diversity, there are simple rules for
+the species weights ([relative] abundances) and where they lie (their *scaled*
+rarities). The rarity scaling is given by the exponent, `l`.
 
-In a balance plot, the species abundances are plotted on the y-axis, species rarities on the x-axis (values are back-transformed, but scaling is dictated by `l`), the mean is shown with a triangular "fulcrum," and reference points are illustrated for the three Pythagorean means (i.e., arithmetic, geometric, and harmonic, given when `l= c(1, 0, -1)`, and equal to richness, Hill-Shannon diversity, and Hill-Simpson diversity). By default, each individual is plotted as a "block", and species with the same rarity are stacked vertically. 
+In a balance plot, the species abundances are plotted on the y-axis, species
+rarities on the x-axis (values are back-transformed, but scaling is dictated by
+`l`), the mean is shown with a triangular "fulcrum," and reference points are
+illustrated for the three Pythagorean means (i.e., arithmetic, geometric, and
+harmonic, given when `l= c(1, 0, -1)`, and equal to richness, Hill-Shannon
+diversity, and Hill-Simpson diversity). By default, each individual is plotted
+as a "block", and species with the same rarity are stacked vertically.
 
 ```{r Balance plot, fig.width = 3, fig.height = 3}
 
@@ -156,10 +191,10 @@ abundance, from which finite samples may be taken. The diversity of a given
 sample from such as SAD is, of course, not precisely pre-determined.
 
 This approach differs from species abundance distribution simulations
-implemented in other R packages. For example, `mobsim` (CITE) and `sads` (CITE)
-allow users to specify continuous parametric probability distributions, but then
-explicitly take finite, discrete samples from those distributions in the
-simulation (in `mobsim` these can even be spatially explicit!). Users input
+implemented in other R packages. For example, `mobsim` [@May2018] and `sads`
+(CITE) allow users to specify continuous parametric probability distributions,
+but then explicitly take finite, discrete samples from those distributions in
+the simulation (in `mobsim` these can even be spatially explicit!). Users input
 cannonical parameters of the probability distributions and the number of
 individuals to sample. These are powerful simulation tools, but one drawback
 from using them is that the diversity resulting from any given set of parameter
@@ -170,9 +205,10 @@ always gives precisely the same relative abundances for a given set of
 parameters, which may be a helpful tool for exploring the behavior of diversity
 metrics under different community size and sampling scenarios. 
 
-`fit_SAD()` simulates a species abundance distribution with known
-richness, Hill-Simpson diversity, and a distributional assumption (lognormal or
-gamma). It returns a shape parameter for the chosen probability distribution (because we're focused on relative abundances, multiplicative rescaling is irrelevant), the
+`fit_SAD()` simulates a species abundance distribution with known richness,
+Hill-Simpson diversity, and a distributional assumption (lognormal or gamma). It
+returns a shape parameter for the chosen probability distribution (because we're
+focused on relative abundances, multiplicative rescaling is irrelevant), the
 richness, Hill-Shannon, and Hill-Simpson diversity of the simulated species
 abundance distribution, and relative abundances for each simulated species. It
 provides a warning when relative abundances are very low, implying large total
@@ -209,8 +245,9 @@ abundances for a community with infinite abundance. To take a finite sample, we
 use `sample_infinite()` (so named because it samples an infinite SAD;
 `sample_finite()` is for sub-sampling from a realized community/finite sample).
 The realized samples have Poisson-type noise about the mean species relative
-abundances given by `fit_SAD()` (that is, they are samples from a multinomial distribution). The diversity of a sample asymptotically
-approaches the simulated diversity as sample size approaches infinity.
+abundances given by `fit_SAD()` (that is, they are samples from a multinomial
+distribution). The diversity of a sample asymptotically approaches the simulated
+diversity as sample size approaches infinity.
 
 ```{r sample from SAD}
 
@@ -256,6 +293,28 @@ uneven_SAD$community_info
 rbind(lapply(c(1, 0, -1), function(l){
   rarity(big_uneven_sample, l)
 }))
+
+```
+
+For any distribution of relative abundances, one can ask, "what is the Hill diversity of this distribution?" Yet the answer, of course, depends on the value of the scaling parameter $\ell$. For a comprehensive answer, one might look across values of $\ell$, also known as a Hill diversity profile [@Chao2014b]. `MeanRarity` provides a function to generate a Hill diversity profile based on $\ell$ rather than $q$, `divpro()`. 
+
+```{r diversity profile}
+# the even and uneven communities have same richness but different Hill diversity when `ell != 1`
+ggplot2::ggplot(divpro(even_SAD[[3]]),
+                ggplot2::aes(ell, d)) +
+  ggplot2::geom_line() +
+  ggplot2::ylim(0,22) +
+  ggplot2::theme_classic() +
+  ggplot2::labs(x = "scaling exponent \'l\'", y = "Hill diversity")
+
+ggplot2::ggplot(divpro(uneven_SAD[[3]]),
+                ggplot2::aes(ell, d)) +
+  ggplot2::geom_line() +
+    ggplot2::ylim(0,22) +
+  ggplot2::theme_classic() +
+  ggplot2::labs(x = "scaling exponent \'l\'", y = "Hill diversity")
+
+
 
 ```
 

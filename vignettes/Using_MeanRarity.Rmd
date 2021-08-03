@@ -1,6 +1,7 @@
 ---
 title: "Using_MeanRarity"
 output: rmarkdown::html_vignette
+bibliography: '`r system.file( "REFERENCES.bib", package="MeanRarity")`'
 vignette: >
   %\VignetteIndexEntry{Using_MeanRarity}
   %\VignetteEngine{knitr::rmarkdown}
@@ -55,7 +56,7 @@ $$D=\left( \sum_{i=1}^{S}p_{i}(r_{i})^{\ell} \right)^{1/\ell} \tag{1}$$
 where $D$ is diversity or mean rarity, $p_{i}$ is the relative abundance of
 species $i$, $r_{i}$ is the rarity of species $i$ (defined as the reciprocal of
 $p_{i}$), $S$ is the total species richness, and $\ell$ is the scaling exponent
-that determines the type of mean computed (Roswell et al. 2021). We define the
+that determines the type of mean computed [@Roswell2021]. We define the
 expression for  $\ell = 0$  based on the limit (from left and right) as
 
 $$D=e^{ \sum_{i=1}^{S}p_{i} * \log(r_{i})} \tag{2}$$
@@ -106,7 +107,7 @@ data.frame(l = l_vals
 
 One way of interpreting Hill diversities is that they express the diversity of a
 community in terms of an imaginary community with that same diversity, but in
-which all species are equally abundant (Jost 2006). In this perspective, the
+which all species are equally abundant [@Jost2006]. In this perspective, the
 uneven community `uneven_comm` is as diverse as a community of six equally
 abundant species (richness, `l = 1`), or four equally abundant species
 (Hill-Shannon diversity, `l = 0`), or three (Hill-Simpson diversity, `l = -1`).
@@ -143,17 +144,10 @@ the balance point lies depends not only on the weights, but also on their
 relative locations... the farther towards the ends of the plank a weight lies,
 the more leverage it has. When describing diversity, there are simple rules for
 the species weights ([relative] abundances) and where they lie (their *scaled*
-rarities). The rarity scaling is given by the exponent, `l`.
+rarities). The rarity scaling is given by the exponent $\ell$ from equation 1,
+the argument `l`. Here, we create three balance plots for the three Pythagorean means, given when $\ell \in \{-1,0,1\}$: 
 
-In a balance plot, the species abundances are plotted on the y-axis, species
-rarities on the x-axis (values are back-transformed, but scaling is dictated by
-`l`), the mean is shown with a triangular "fulcrum," and reference points are
-illustrated for the three Pythagorean means (i.e., arithmetic, geometric, and
-harmonic, given when `l= c(1, 0, -1)`, and equal to richness, Hill-Shannon
-diversity, and Hill-Simpson diversity). By default, each individual is plotted
-as a "block", and species with the same rarity are stacked vertically.
-
-```{r Balance plot, fig.width = 3, fig.height = 3}
+```{r Balance plot setup}
 
 rich_bal <- rarity_plot(ab = uneven_comm, l = 1, base_size = 12) +
   ggplot2::labs(x = "") +
@@ -165,7 +159,16 @@ shan_bal <- white_y(rarity_plot(ab = uneven_comm, l = 0, base_size = 12, verbose
 simp_bal <- white_y(rarity_plot(ab = uneven_comm, l = -1, base_size = 12, verbose = F)) + 
   ggplot2::labs(x = "") +
   ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
+```
+In a balance plot, the species abundances are plotted on the y-axis, species
+rarities on the x-axis (values are back-transformed, but scaling is dictated by
+`l`), the mean is shown with a triangular "fulcrum," and reference points are
+illustrated for the three Pythagorean means (i.e., arithmetic, geometric, and
+harmonic, given when `l= c(1, 0, -1)`, and equal to richness, Hill-Shannon
+diversity, and Hill-Simpson diversity). By default, each individual is plotted
+as a "block", and species with the same rarity are stacked vertically.
 
+```{r Balance plot print, fig.width = 3, fig.height = 3}
 rich_bal 
 shan_bal
 simp_bal
@@ -177,7 +180,7 @@ simp_bal
 Unfortunately, it is difficult to assess the performance of diversity estimators
 with real-world data, because ecological communities are not typically fully
 censused, and therefore the true diversity of those communities is not known.
-There are, of course, a few exception datasets... mostly observations of
+There are, of course, a few exceptional datasets... mostly observations of
 vascular plants, often trees, where the species identity and abundances in each
 plot is known (CITE tropical tree dataset). However, these may not be
 representative of the variability in species abundance distributions found in
@@ -191,7 +194,7 @@ abundance, from which finite samples may be taken. The diversity of a given
 sample from such as SAD is, of course, not precisely pre-determined.
 
 This approach differs from species abundance distribution simulations
-implemented in other R packages. For example, `mobsim` [@May2018] and `sads`
+implemented in other R packages. For example, `mobsim` [@May2018a] and `sads`
 (CITE) allow users to specify continuous parametric probability distributions,
 but then explicitly take finite, discrete samples from those distributions in
 the simulation (in `mobsim` these can even be spatially explicit!). Users input

@@ -30,11 +30,29 @@ knitr::opts_chunk$set(
 library(MeanRarity)
 ```
 
-# Purpose
+# Introduction
 
-This R package enables estimating and visualizing Hill diversity (aka "Hill
-numbers") in terms of the average species "rarity." Rarity is defined as the 
-reciprocal of relative abundance.
+Biodiversity underpins human existence and drives the character and function of
+earth’s ecosystems. At the same time, biodiversity is shifting and arguably,
+declining, at an unprecedented rate due to anthropogenic global change. Yet,
+detecting and describing this change means choosing just what to measure, and
+how. Ecologists are faced with a dazzling array of choices.
+
+There is an increasing consensus that Hill diversity is the preferred way to
+measure not only the species diversity of a community [@Roswell2020],
+differentiation among communities [@Jost2007, @Ellison2010, @Chao2016,
+@Botta-Dukát2018, @Chao2019b, @Ohlmann2019], functional and phylogenetic
+diversity [@Chao2014b, @Kang2016], genetic diversity [@Jost2008, @Sherwin2017,
+@Alberdi2019], and evenness [@Chao2019a]. Although Hill diversity ties together
+disparate quantatitve and disciplinary threads, unifying versions of the
+most-used and -studied diversity metrics with a single equation with a single
+control parameter, its adoption within ecological literature has been somewhat
+slow, perhaps because visualizing and interpreting Hill diversity and the
+meaning of the control parameter is difficult.
+
+Here, we introduce the R package `MeanRarity`, which enables estimating and
+visualizing Hill diversity (aka "Hill numbers") in terms of the average species
+"rarity." Rarity is defined as the reciprocal of relative abundance.
 
 The average species rarity may be simpler to interpret than a transformed,
 generalized entropy (i.e., how Hill numbers are typically derived). The rarity
@@ -297,7 +315,7 @@ rbind(lapply(c(1, 0, -1), function(l){
 
 ```
 
-For any distribution of relative abundances, one can ask, "what is the Hill diversity of this distribution?" Yet the answer, of course, depends on the value of the scaling parameter $\ell$. For a comprehensive answer, one might look across values of $\ell$, also known as a Hill diversity profile [@Chao2014b]. `MeanRarity` provides a function to generate a Hill diversity profile based on $\ell$ rather than $q$, `divpro()`. 
+For any distribution of relative abundances, one can ask, "what is the Hill diversity of this distribution?" Yet the answer, of course, depends on the chosen value of the scaling parameter $\ell$. For a comprehensive answer, one might look across values of $\ell$, also known as a Hill "diversity profile" [@Chao2014b]. `MeanRarity` provides a function to generate a Hill diversity profile based on $\ell$ (rather than $q$): `divpro()`. 
 
 ```{r diversity profile}
 # the even and uneven communities have same richness but different Hill diversity when `ell != 1`

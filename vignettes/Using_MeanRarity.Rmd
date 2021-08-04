@@ -347,6 +347,53 @@ ggplot2::ggplot(divpro(uneven_SAD[[3]]),
 
 # EXAMPLE APPLICATIONS
 
+## Evenness and the variability in Hill diversity
+
+```{r eveness makes Hill-Simpson hard}
+evenness<-10^seq(-0.75,-0.35,0.1)
+rich <- 100
+
+# generate SADs with 100 spp and varying evenness, parametric distributions
+SADS<-purrr::flatten(
+  purrr::map(
+    evenness, function(simp_evenness){
+      purrr::map(
+        c("lnorm", "gamma"), function(dist){
+          fit_SAD(rich = rich
+                  , simpson = simp_evenness*(rich-1)+1
+                  , distr = dist)
+   })
+}))
+
+# set sample size
+SS <- 800
+sample_data<-purrr::map_dfr(SADS, function(mySAD){
+  purrr::map_dfr(seq(-1.5, 1.5, 0.01), function(ell){
+    true_diversity = rarity(ab = mySAD[[3]], l = ell)
+    sample_diversity = replicate(300, rarity(sample_infinite(ab = mySAD[[3]], size = SS), l = ell))
+    evenness = (mySAD[[2]][3]-1)/(mySAD[[2]][1]-1)
+    distribution = mySAD[[1]][1]
+    return(data.frame(true_diversity, sample_diversity, evenness, distribution, ell = ell, row.names = NULL))
+  })
+})
+
+sample_data %>% 
+  dplyr::group_by(evenness, distribution, ell) %>% 
+  dplyr::summarize(sdlog_diversity = sd(ifelse(sample_diversity == 0, 0, log(sample_diversity)))
+            , true_diversity = mean(true_diversity)
+            , mean_sample_diversity = mean(sample_diversity)) %>% 
+  dplyr::mutate(evenness = as.factor(round(evenness, 2))) %>% 
+  ggplot2::ggplot(ggplot2::aes(x = ell
+                               , y = sdlog_diversity
+                               , color = evenness
+                               , shape = distribution)) +
+  ggplot2::geom_point(alpha = 0.4)+
+  ggplot2::geom_smooth(ggplot2::aes(color = evenness, linetype = distribution), se = F ) +
+  ggplot2::theme_classic() +
+  ggplot2::xlim(c(-1,1)) + 
+  ggplot2::scale_color_discrete()
+```
+
 # ALTERNATIVE SOFTWARE
 
 

@@ -179,11 +179,14 @@ fit_SAD <- function(rich = 50
     #check feasibility; these should be actual errors in future versions
     if (simpson > rich | simpson < 1) {
         stop("Hill-Simpson diversity cannot be greater than richness nor less than 1")
-    }
+        }
+    if (simpson == rich){
+        stop("a perfectly even species abundance distribution cannot be lognormal nor gamma")
+        }
 
     #check dstr makes sense
     if(!(distr %in% c("lnorm", "gamma"))){
-           stop("distr must be either `lnorm` or `gamma`")}
+        stop("distr must be either `lnorm` or `gamma`")}
 
            #generate SAD optimized with uniroot to find x when ur_distr==0
        else{fit_par = tryCatch(

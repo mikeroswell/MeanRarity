@@ -30,7 +30,7 @@ knitr::opts_chunk$set(
 library(MeanRarity)
 ```
 
-# Introduction
+# INTRODUCTION
 
 Biodiversity underpins human existence and drives the character and function of
 earth’s ecosystems. At the same time, biodiversity is shifting and arguably,
@@ -40,7 +40,7 @@ how. Ecologists are faced with a dazzling array of choices.
 
 There is an increasing consensus that Hill diversity is the preferred way to
 measure not only the species diversity of a community [@Roswell2020],
-differentiation among communities [@Jost2007, @Ellison2010, @Chao2016,
+differentiation among communities [@Jost2007a, @Ellison2010, @Chao2016,
 @Botta-Dukát2018, @Chao2019b, @Ohlmann2019], functional and phylogenetic
 diversity [@Chao2014b, @Kang2016], genetic diversity [@Jost2008, @Sherwin2017,
 @Alberdi2019], and evenness [@Chao2019a]. Although Hill diversity ties together
@@ -63,7 +63,17 @@ estimators and their related interval estimates (e.g., confidence intervals);
 this package contains tools to simulate species abundance distributions that
 should streamline that process.
 
-# Computing Mean Rarity
+This R package provides functions for three purposes: (1) the computation of
+Hill diversities, using the rarity parameterization, (2) the visualization of
+mean rarity, rank abundance distributions, and Hill diversity profiles, and (3)
+the simulation of species abundance distributions, where the diversity of each
+resulting assemblage is a simulation parameter *per se*, rather than a
+downstream result. The package is availabe online on Github (see Data
+accessibility). An interactive shiny application for building "balance plots" is
+also available online (https://mean-rarity.shinyapps.io/rshiny_app1/).
+
+# PACKAGE DESCRIPTION
+## Computing Mean Rarity
 `rarity()` computes Hill diversity of a sample, parameterized in terms of the
 mean rarity. 
 
@@ -121,7 +131,7 @@ data.frame(l = l_vals
 
 ```
 
-# Interpreting Mean Rarity
+## Interpreting Mean Rarity
 
 One way of interpreting Hill diversities is that they express the diversity of a
 community in terms of an imaginary community with that same diversity, but in
@@ -193,7 +203,7 @@ simp_bal
 
 ```
 
-# Simulating communities with known diversity
+## Simulating communities with known diversity
 
 Unfortunately, it is difficult to assess the performance of diversity estimators
 with real-world data, because ecological communities are not typically fully

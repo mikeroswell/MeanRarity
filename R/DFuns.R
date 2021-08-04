@@ -72,6 +72,8 @@ ipfun = function(x, pow){
 #' \insertRef{Simpson1949}{MeanRarity}
 #' \insertRef{Shannon1963}{MeanRarity}
 #'
+#' @concept Computation
+#'
 #' @export
 #' @examples rarity(c(20,8,5,4,2,1), 1) #species richness
 #' rarity(c(20,8,5,4,2,1), 0) # Hill-Shannon diversity
@@ -106,6 +108,8 @@ dfun <- rarity
 #'
 #' @return Dataframe with the scaling exponent \code{ell} and corresponding
 #'   Hill diversity \code{d}
+#'
+#' @concept Visualization
 #'
 #' @export
 #' @examples divpro(c(20,8,5,4,2,1))

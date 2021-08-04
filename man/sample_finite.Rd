@@ -25,3 +25,4 @@ sample_finite(1:9, 15)
 \seealso{
 \code{\link{sample_infinite}}
 }
+\concept{Sampling}

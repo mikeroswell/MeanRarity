@@ -392,6 +392,8 @@ fulcrum <- function(ab, l
 #'   \code{\link{MeanRarity}} package which can be accessed with \code{:::} e.g.
 #'   \code{MeanRarity:::scale_plot}.
 #'
+#' @concept Visualization
+#'
 #' @export
 #' @examples
 #' ab<-c(20,8,5,4,2,1)
@@ -536,7 +538,7 @@ omit_y<-function(p){
 #'
 #' @return ggplot object with a rank-abundance plot
 #'
-#'
+#' @concept Visualization
 #' @export
 #' @examples radplot(c(20,8,5,4,2,1))
 #' radplot(c(20,8,5,4,2,1), Whittaker = TRUE)

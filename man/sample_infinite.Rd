@@ -20,3 +20,4 @@ Subsample the whole community with number of individuals = \code{size}.
 \seealso{
 \code{\link{sample_finite}}
 }
+\concept{Sampling}

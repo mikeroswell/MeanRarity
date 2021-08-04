@@ -2,7 +2,7 @@
 title: "Gods estimator of mean rarity"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Gods_estimator}
+  %\VignetteIndexEntry{Gods estimator of mean rarity}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

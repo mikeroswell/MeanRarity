@@ -16,7 +16,7 @@ divpro(ab, ell_low = -1, ell_hi = 1, by = 0.001)
 \item{by}{Scalar, size of step along scaling exponent continuum.}
 }
 \value{
-Dataframe with the scaling exponent \{code{ell} and corresponding
+Dataframe with the scaling exponent \code{ell} and corresponding
 Hill diversity \code{d}
 }
 \description{
@@ -34,3 +34,4 @@ left.
 \examples{
 divpro(c(20,8,5,4,2,1))
 }
+\concept{Visualization}

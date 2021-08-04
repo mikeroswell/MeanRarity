@@ -1,9 +1,9 @@
 ---
-title: "Using_MeanRarity"
+title: "Using MeanRarity"
 output: rmarkdown::html_vignette
 bibliography: '`r system.file( "REFERENCES.bib", package="MeanRarity")`'
 vignette: >
-  %\VignetteIndexEntry{Using_MeanRarity}
+  %\VignetteIndexEntry{Using MeanRarity}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -63,14 +63,12 @@ estimators and their related interval estimates (e.g., confidence intervals);
 this package contains tools to simulate species abundance distributions that
 should streamline that process.
 
-This R package provides functions for three purposes: (1) the computation of
-Hill diversities, using the rarity parameterization, (2) the visualization of
-mean rarity, rank abundance distributions, and Hill diversity profiles, and (3)
-the simulation of species abundance distributions, where the diversity of each
-resulting assemblage is a simulation parameter *per se*, rather than a
-downstream result. The package is availabe online on Github (see Data
-accessibility). An interactive shiny application for building "balance plots" is
-also available online (https://mean-rarity.shinyapps.io/rshiny_app1/).
+This R package provides functions for three purposes: (1) computing Hill
+diversity as "Mean Rarity", (2) visualizing and interpreting "Mean Rarity", and
+(3) simulating species abundance distributions with known diversity. The package
+is availabe online on Github (see Data accessibility). An interactive shiny
+application for building "balance plots" is also available online
+(https://mean-rarity.shinyapps.io/rshiny_app1/).
 
 # PACKAGE DESCRIPTION
 ## Computing Mean Rarity
@@ -346,6 +344,40 @@ ggplot2::ggplot(divpro(uneven_SAD[[3]]),
 
 
 ```
+
+# EXAMPLE APPLICATIONS
+
+# ALTERNATIVE SOFTWARE
+
+
+# CONCLUSIONS
+
+
+## Acknowledgements
+
+## Author contributions
+
+M.R. and J.D. conceived the package concept and structure and generated source
+code for package functions. M.R. implemented the first package version and the
+shiny online application. M.R. wrote the manuscript with help from J.D.
+
+# DATA ACCESSIBILITY
+This article does not use any empirical data. The package is available on Github
+(SOME KIND OF URL OR DOI REF).
+
+
+```{r table of functions}
+table_dat<-data.frame(
+  `Function name` = c("rarity", "rarity_plot", "radplot", "divpro", "sample_infinite", "sample_finite", "fit_SAD")
+  , `General purpose` = c("Computation", "Visualization", "Visualization", "Visualization", "Sampling", "Sampling", "Simulation")
+  , `Description` = c("Compute Hill diversity using the rarity parameterization")
+)
+```
+
+
+
+
+
 
 
 

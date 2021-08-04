@@ -154,6 +154,8 @@ ur_distr <- function(x
 #'
 #'
 #' @seealso \code{\link[stats]{uniroot}}, \code{\link{MeanRarity}}
+#'
+#' @concept Simulation
 #' @export
 #' @examples
 #' #works

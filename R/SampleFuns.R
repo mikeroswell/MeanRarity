@@ -11,6 +11,8 @@
 #'
 #' @seealso \code{\link{sample_infinite}}
 #'
+#' @concept Sampling
+#'
 #' @export
 #' @examples sample_finite(1:9, 15)
 sample_finite <- function(ab, size = sum(ab)){
@@ -34,6 +36,8 @@ subsam <- sample_finite
 #'
 #' @template ab_template
 #' @param size Number of individuals to sample, a scalar.
+#'
+#' @concept Sampling
 #'
 #' @export
 subcom <- function(ab, size){
@@ -155,6 +159,8 @@ truemu <- function(ab, size, reps, l, ...){
 #' @return A vector of integer species abundances
 #'
 #' @seealso \code{\link{sample_finite}}
+#'
+#' @concept Sampling
 #'
 #' @export
 sample_infinite <- function(ab, size){

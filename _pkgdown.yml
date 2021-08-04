@@ -1,0 +1,10 @@
+reference:
+- title: Key functions
+- contents:
+  - has_concept(c("Visualization", "Simulation", "Computation", "Sampling"))
+- title: Other exported objects
+- contents:
+  - lacks_concepts(c("Visualization", "Simulation", "Computation", "Sampling"))
+
+figures:
+  fig.asp: 1

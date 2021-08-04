@@ -90,3 +90,4 @@ This function depends on internal functions in the
 \code{\link{MeanRarity}} package which can be accessed with \code{:::} e.g.
 \code{MeanRarity:::scale_plot}.
 }
+\concept{Visualization}

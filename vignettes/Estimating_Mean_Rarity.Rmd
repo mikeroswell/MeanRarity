@@ -1,10 +1,10 @@
 ---
-title: "Estimating_Mean_Rarity"
+title: "Estimating mean rarity"
 output: rmarkdown::html_vignette
 bibliography: '`r system.file( "REFERENCES.bib", package="MeanRarity")`'
 latex_engine: xelatex
 vignette: >
-  %\VignetteIndexEntry{Estimating_Mean_Rarity}
+  %\VignetteIndexEntry{Estimating mean rarity}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
   %\SweaveUTF8

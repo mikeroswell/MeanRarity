@@ -42,3 +42,4 @@ distribution or Whittaker plot.
 radplot(c(20,8,5,4,2,1))
 radplot(c(20,8,5,4,2,1), Whittaker = TRUE)
 }
+\concept{Visualization}

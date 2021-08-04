@@ -52,3 +52,4 @@ rarity(c(20,8,5,4,2,1), -1) # Hill-Simpson diversity
 \seealso{
 \code{\link{pfun}}, \code{\link{ipfun}}
 }
+\concept{Computation}

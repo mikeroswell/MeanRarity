@@ -81,3 +81,4 @@ fit_SAD(distr = "lnorm", rich = 50, simpson = 90) #returns error
 \seealso{
 \code{\link[stats]{uniroot}}, \code{\link{MeanRarity}}
 }
+\concept{Simulation}

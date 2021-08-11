@@ -347,51 +347,53 @@ ggplot2::ggplot(divpro(uneven_SAD[[3]]),
 
 # EXAMPLE APPLICATIONS
 
-## Evenness and the variability in Hill diversity
+## Drivers of sampling uncertainty in Hill diversity estimates
+
+Accurate estimates of Hill diversity based on sample data are notoriously
+challenging [@Roswell2021]. Although many estimators have been used, the two
+most common approaches are to a) calculate the diversity of samples directly, or
+b) use non-parametric estimators of the diversity of the entire assemblage. Both
+approaches have merit for comparing communities and ecosystems [@Gooriah2021].
+While the degree to which sample diversity and asymptotic estimate each differs
+from the true diversity (bias) has recieved substantial study, the sampling
+variation in each type of Hill diversity estimate is less
+understood.`MeanRarity` provides a toolkit to explore accuracy and sampling
+uncertainty for Hill diversity estimates. Because this package simulates species
+abundance distributions with known diversity, it allows examination of the
+drivers of sampling variation in Hill diversity estimates.
+
+It is well-known that the diversity of a sample tends to be lower than the
+diversity of the community from which the sample was drawn. This problem is most
+acute for species richness, but can be substantial for all Hill diversities. The
+degree of mismatch between the sample and true diversity is difficult to know
+with real assemblages, because of the fundamental challenge of knowing the true
+diversity of real ecological communities, but this can be addressed directly
+through simulation. At the same time, current asymptotic Hill diversity
+estimators [@Chao2015] typically exhibit little bias when sample sizes are
+reasonably large (hundreds of individuals) and $\ell < \sim 0.5 $. Less
+well-understood is how different features of the species abundance distribution
+(e.g. evenness, or just how rare the rarest species are) drives the degree of
+difference between either sampled diversity or asymptotic estimators, and the
+true diversity of the sampled species abundance distribution.
+
+To explore this, we can first simulate species abundance distributions using the
+function `MeanRarity::fitSAD()`. Here, we generated 6 distributions: for three
+levels of evenness, we simulated both a lognormally- and gamma-distributed
+assemblage of 100 species. To parameterize evenness, we used (Hill-Simpson
+diversity -1)/(richness-1), which is equal to 1 with a perfectly even
+species-abundance distribution, and 0 when Hill-Simpson diversity reaches its
+minimum, 1, for any richness value [@Chao2019]. Thus, in each simulated assemblage, we know richness to be 100, Hill-Simpson takes one of three values given by the evenness paramters, and other Hill diversities depend on the distributional assumption (gamma or lognormal). 
+
+Intuitively, sampling variability in Hill diversity must depend jointly on sample size, the species abundance distribution, and the scaling exponent for Hill diversity. 
+
+<-- Figures showinng bias for sample diveristy and Chao/Jost asymptotic estimators -->
+
+
+
+Much less explored is the variability of both sample diversity, and of asymptotic diversity estimates, under random sampling expectations. 
 
 ```{r eveness makes Hill-Simpson hard}
-evenness<-10^seq(-0.75,-0.35,0.1)
-rich <- 100
 
-# generate SADs with 100 spp and varying evenness, parametric distributions
-SADS<-purrr::flatten(
-  purrr::map(
-    evenness, function(simp_evenness){
-      purrr::map(
-        c("lnorm", "gamma"), function(dist){
-          fit_SAD(rich = rich
-                  , simpson = simp_evenness*(rich-1)+1
-                  , distr = dist)
-   })
-}))
-
-# set sample size
-SS <- 800
-sample_data<-purrr::map_dfr(SADS, function(mySAD){
-  purrr::map_dfr(seq(-1.5, 1.5, 0.01), function(ell){
-    true_diversity = rarity(ab = mySAD[[3]], l = ell)
-    sample_diversity = replicate(300, rarity(sample_infinite(ab = mySAD[[3]], size = SS), l = ell))
-    evenness = (mySAD[[2]][3]-1)/(mySAD[[2]][1]-1)
-    distribution = mySAD[[1]][1]
-    return(data.frame(true_diversity, sample_diversity, evenness, distribution, ell = ell, row.names = NULL))
-  })
-})
-
-sample_data %>% 
-  dplyr::group_by(evenness, distribution, ell) %>% 
-  dplyr::summarize(sdlog_diversity = sd(ifelse(sample_diversity == 0, 0, log(sample_diversity)))
-            , true_diversity = mean(true_diversity)
-            , mean_sample_diversity = mean(sample_diversity)) %>% 
-  dplyr::mutate(evenness = as.factor(round(evenness, 2))) %>% 
-  ggplot2::ggplot(ggplot2::aes(x = ell
-                               , y = sdlog_diversity
-                               , color = evenness
-                               , shape = distribution)) +
-  ggplot2::geom_point(alpha = 0.4)+
-  ggplot2::geom_smooth(ggplot2::aes(color = evenness, linetype = distribution), se = F ) +
-  ggplot2::theme_classic() +
-  ggplot2::xlim(c(-1,1)) + 
-  ggplot2::scale_color_discrete()
 ```
 
 # ALTERNATIVE SOFTWARE

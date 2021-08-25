@@ -419,7 +419,7 @@ evenness, distributional assumption, and sample size.
 
 
 ```{r Hill-Simpson is wiggly}
-ibrary(furrr)
+library(furrr)
 library(MeanRarity)
 plan(strategy = "multiprocess", workers = 7)
 evenness<-10^seq(-0.75,-0.35,0.2)

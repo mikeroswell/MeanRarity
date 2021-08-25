@@ -11,4 +11,4 @@ makestuff
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-*.orig
+^\.orig

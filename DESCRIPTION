@@ -51,3 +51,4 @@ RdMacros: Rdpack
 Language: en-US
 VignetteBuilder: knitr
 Depends: R (>= 3.3)
+URL: https://mikeroswell.github.io/MeanRarity

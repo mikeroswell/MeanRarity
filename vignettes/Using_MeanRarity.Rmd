@@ -1,7 +1,8 @@
 ## ---- include = FALSE--------------------------------------------------------------------------------------
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+  collapse = TRUE, comment = "#>", out.width = "100%",
+  fig.width = 7, fig.height = 4, dev = "CairoPNG", dpi = 150, fig.path = "vignettes/",
+  message = FALSE, warning = FALSE, error = FALSE
 )
 
 ## ----setup, include =F-------------------------------------------------------------------------------------
@@ -156,7 +157,7 @@ ggplot2::ggplot(divpro(uneven_SAD[[3]]),
 
 
 ## ----Hill-Simpson is wiggly--------------------------------------------------------------------------------
-ibrary(furrr)
+library(furrr)
 library(MeanRarity)
 plan(strategy = "multiprocess", workers = 7)
 evenness<-10^seq(-0.75,-0.35,0.2)

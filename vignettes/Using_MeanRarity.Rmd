@@ -1,15 +1,15 @@
-## ---- include = FALSE--------------------------------------------------------------------------------------
+## ---- include = FALSE----------------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE, comment = "#>", out.width = "100%",
   fig.width = 7, fig.height = 4, dev = "CairoPNG", dpi = 150, fig.path = "vignettes/",
   message = FALSE, warning = FALSE, error = FALSE
 )
 
-## ----setup, include =F-------------------------------------------------------------------------------------
+## ----setup, include =F---------------------------------------------------------------
 library(MeanRarity)
 
 
-## ----compute rarity----------------------------------------------------------------------------------------
+## ----compute rarity------------------------------------------------------------------
 # for a totally even distribution, Hill diversity is the same regardless of `l`
 
 even_comm <- rep(2, 6)
@@ -32,7 +32,7 @@ data.frame(l = l_vals
 
 
 
-## ----effective numbers-------------------------------------------------------------------------------------
+## ----effective numbers---------------------------------------------------------------
 uneven_12 <- c(531, 186, 101,  63, 41, 28, 19, 13, 9, 5, 3, 1)
 even_3 <- c(20, 20, 20)
 
@@ -42,7 +42,7 @@ rarity(even_3, -1) %>% round(2)
 
 
 
-## ----Balance plot setup------------------------------------------------------------------------------------
+## ----Balance plot setup--------------------------------------------------------------
 
 rich_bal <- rarity_plot(ab = uneven_comm, l = 1, base_size = 12) +
   ggplot2::labs(x = "") +
@@ -56,14 +56,14 @@ simp_bal <- white_y(rarity_plot(ab = uneven_comm, l = -1, base_size = 12, verbos
   ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
 
 
-## ----Balance plot print, fig.width = 3, fig.height = 3-----------------------------------------------------
+## ----Balance plot print, fig.width = 3, fig.height = 3-------------------------------
 rich_bal
 shan_bal
 simp_bal
 
 
 
-## ----fit species abundance distributions-------------------------------------------------------------------
+## ----fit species abundance distributions---------------------------------------------
 # set target richness and Hill-Simpson diversity levels
 rich <- 20
 simpson <- 12
@@ -89,7 +89,7 @@ ev
 un
 
 
-## ----sample from SAD---------------------------------------------------------------------------------------
+## ----sample from SAD-----------------------------------------------------------------
 
 # diversity of a small sample unlikely to match the simulated diversity values
 
@@ -136,7 +136,7 @@ rbind(lapply(c(1, 0, -1), function(l){
 
 
 
-## ----diversity profile-------------------------------------------------------------------------------------
+## ----diversity profile---------------------------------------------------------------
 # the even and uneven communities have same richness but different Hill diversity when `ell != 1`
 ggplot2::ggplot(divpro(even_SAD[[3]]),
                 ggplot2::aes(ell, d)) +
@@ -156,7 +156,7 @@ ggplot2::ggplot(divpro(uneven_SAD[[3]]),
 
 
 
-## ----Hill-Simpson is wiggly--------------------------------------------------------------------------------
+## ----Hill-Simpson is wiggly----------------------------------------------------------
 library(furrr)
 library(MeanRarity)
 plan(strategy = "multiprocess", workers = 7)
@@ -212,7 +212,44 @@ plot_data<-sample_data %>%
 
 
 
-## ----table of functions------------------------------------------------------------------------------------
+## ----bias figure---------------------------------------------------------------------
+
+# plot for the sample diversity
+plot_data %>%
+  ggplot2::ggplot(ggplot2::aes(x = ell
+                               , y = asymptotic
+                               , color = evenness
+                               , shape = distribution)) +
+  ggplot2::geom_line(ggplot2::aes(color = evenness, linetype = distribution), size = 0.8) +
+  ggplot2::theme_classic() +
+  ggplot2::xlim(c(-1,1)) +
+  ggplot2::scale_color_brewer(palette = "Dark2") +
+  ggplot2::facet_wrap(~sample_size, scales = "free_y"
+                     , labeller = "label_both") +  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
+  ggplot2::labs(x = "scaling exponent \U2113", y = "scaled variability in asymptotic diversity estimate (sdlog)") +
+  ggplot2::scale_y_continuous(limits = c(0, NA),
+                              expand = ggplot2::expansion(mult = c(0, 0.1)))
+
+
+
+# for the asymptotic estimator
+plot_data %>%
+  ggplot2::ggplot(ggplot2::aes(x = ell
+                               , color = evenness
+                               , shape = distribution)) +
+  ggplot2::geom_line(ggplot2::aes(y = (mean_asymptotic-true_diversity)/true_diversity, color = evenness, linetype = distribution), size = 0.8) +
+  ggplot2::theme_classic() +
+  ggplot2::xlim(c(-1,1)) +
+  ggplot2::scale_color_brewer(palette = "Set2") +
+  ggplot2::facet_wrap(~sample_size
+                      , labeller = "label_both") +  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
+  ggplot2::labs(x = "scaling exponent \U2113", y = "scaled average (asymptotic - true diversity)") +
+  ggplot2::scale_y_continuous(limits = c(-0.8, 0.8)) +
+  ggplot2::geom_hline(yintercept = 0)
+
+
+
+## ----table of functions--------------------------------------------------------------
 table_dat<-data.frame(
   `Function name` = c("rarity", "rarity_plot", "radplot", "divpro", "sample_infinite", "sample_finite", "fit_SAD")
   , `General purpose` = c("Computation", "Visualization", "Visualization", "Visualization", "Sampling", "Sampling", "Simulation")

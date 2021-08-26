@@ -489,6 +489,42 @@ Hill diversities when the scaling exponent $\ell << 1 $.
 
 
 <-- Figures showinng bias for sample diveristy and Chao/Jost asymptotic estimators -->
+```{r bias figure}
+
+# plot for the sample diversity
+plot_data %>%
+  ggplot2::ggplot(ggplot2::aes(x = ell
+                               , y = asymptotic
+                               , color = evenness
+                               , shape = distribution)) +
+  ggplot2::geom_line(ggplot2::aes(color = evenness, linetype = distribution), size = 0.8) +
+  ggplot2::theme_classic() +
+  ggplot2::xlim(c(-1,1)) +
+  ggplot2::scale_color_brewer(palette = "Dark2") +
+  ggplot2::facet_wrap(~sample_size, scales = "free_y"
+                     , labeller = "label_both") +  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
+  ggplot2::labs(x = "scaling exponent \U2113", y = "scaled variability in asymptotic diversity estimate (sdlog)") +
+  ggplot2::scale_y_continuous(limits = c(0, NA),
+                              expand = ggplot2::expansion(mult = c(0, 0.1)))
+
+
+
+# for the asymptotic estimator
+plot_data %>%
+  ggplot2::ggplot(ggplot2::aes(x = ell
+                               , color = evenness
+                               , shape = distribution)) +
+  ggplot2::geom_line(ggplot2::aes(y = (mean_asymptotic-true_diversity)/true_diversity, color = evenness, linetype = distribution), size = 0.8) +
+  ggplot2::theme_classic() +
+  ggplot2::xlim(c(-1,1)) +
+  ggplot2::scale_color_brewer(palette = "Set2") +
+  ggplot2::facet_wrap(~sample_size
+                      , labeller = "label_both") +  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
+  ggplot2::labs(x = "scaling exponent \U2113", y = "scaled average (asymptotic - true diversity)") +
+  ggplot2::scale_y_continuous(limits = c(-0.8, 0.8)) +
+  ggplot2::geom_hline(yintercept = 0)
+
+```
 
 
 
@@ -510,9 +546,42 @@ distributional assumption of the SAD, the asymptotic richness estimate could be
 more, or less, than the variability in the asymptotic Hill-Simpson diversity
 estimate.
 
-< -- figures for variability -->
+```{ r sampling variation in diversity estimates}
+# variability in sample diversity
+
+plot_data %>%
+  ggplot2::ggplot(ggplot2::aes(x = ell
+                               , y = sample
+                               , color = evenness
+                               , shape = distribution)) +
+  ggplot2::geom_line(ggplot2::aes(color = evenness, linetype = distribution), size = 0.8) +
+  ggplot2::theme_classic() +
+  ggplot2::xlim(c(-1,1)) +
+  ggplot2::scale_color_brewer(palette = "Dark2") +
+  ggplot2::facet_wrap(~sample_size, scales = "free_y"
+                      , labeller = "label_both") + #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
+  ggplot2::labs(x = "scaling exponent \U2113", y = "scaled variability in sample diversity (sdlog)") +
+  ggplot2::scale_y_continuous(limits = c(0, NA),
+                     expand = ggplot2::expansion(mult = c(0, 0.1)))
 
 
+# for asymptotic estimates
+plot_data %>%
+  ggplot2::ggplot(ggplot2::aes(x = ell
+                               , y = asymptotic
+                               , color = evenness
+                               , shape = distribution)) +
+  ggplot2::geom_line(ggplot2::aes(color = evenness, linetype = distribution), size = 0.8) +
+  ggplot2::theme_classic() +
+  ggplot2::xlim(c(-1,1)) +
+  ggplot2::scale_color_brewer(palette = "Dark2") +
+  ggplot2::facet_wrap(~sample_size, scales = "free_y"
+                     , labeller = "label_both") +  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
+  ggplot2::labs(x = "scaling exponent \U2113", y = "scaled variability in asymptotic diversity estimate (sdlog)") +
+  ggplot2::scale_y_continuous(limits = c(0, NA),
+                              expand = ggplot2::expansion(mult = c(0, 0.1)))
+
+```
 
 # ALTERNATIVE SOFTWARE
 

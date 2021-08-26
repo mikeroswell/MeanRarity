@@ -88,19 +88,19 @@
 
     
     
-<div id="include-false" class="section level2">
+<div id="include-false-" class="section level2">
 <h2 class="hasAnchor">
-<a href="#include-false" class="anchor"></a>—- include = FALSE————————————————————————————–</h2>
+<a href="#include-false-" class="anchor"></a>—- include = FALSE—————————————————————-</h2>
 <p>knitr::opts_chunk$set( collapse = TRUE, comment = “#&gt;”, out.width = “100%”, fig.width = 7, fig.height = 4, dev = “CairoPNG”, dpi = 150, fig.path = “vignettes/”, message = FALSE, warning = FALSE, error = FALSE )</p>
 </div>
-<div id="setup-include-f-" class="section level2">
+<div id="setup-include-f" class="section level2">
 <h2 class="hasAnchor">
-<a href="#setup-include-f-" class="anchor"></a>—-setup, include =F————————————————————————————-</h2>
+<a href="#setup-include-f" class="anchor"></a>—-setup, include =F—————————————————————</h2>
 <p>library(MeanRarity)</p>
 </div>
-<div id="compute-rarity-" class="section level2">
+<div id="compute-rarity" class="section level2">
 <h2 class="hasAnchor">
-<a href="#compute-rarity-" class="anchor"></a>—-compute rarity—————————————————————————————-</h2>
+<a href="#compute-rarity" class="anchor"></a>—-compute rarity——————————————————————</h2>
 </div>
 <div id="for-a-totally-even-distribution-hill-diversity-is-the-same-regardless-of-l" class="section level1">
 <h1 class="hasAnchor">
@@ -116,27 +116,27 @@
 <p>uneven_comm &lt;- c(20, 8, 5, 4, 2, 1)</p>
 <p>l_vals &lt;- c(1, 0, -1, 0.34)</p>
 <p>data.frame(l = l_vals , Hill = sapply(l_vals, function(l){ rarity(uneven_comm, l)}) )</p>
-<div id="effective-numbers-" class="section level2">
+<div id="effective-numbers" class="section level2">
 <h2 class="hasAnchor">
-<a href="#effective-numbers-" class="anchor"></a>—-effective numbers————————————————————————————-</h2>
+<a href="#effective-numbers" class="anchor"></a>—-effective numbers—————————————————————</h2>
 <p>uneven_12 &lt;- c(531, 186, 101, 63, 41, 28, 19, 13, 9, 5, 3, 1) even_3 &lt;- c(20, 20, 20)</p>
 <p>rarity(uneven_comm, -1) %&gt;% round(2) rarity(uneven_12, -1) %&gt;% round(2) rarity(even_3, -1) %&gt;% round(2)</p>
 </div>
 <div id="balance-plot-setup" class="section level2">
 <h2 class="hasAnchor">
-<a href="#balance-plot-setup" class="anchor"></a>—-Balance plot setup————————————————————————————</h2>
+<a href="#balance-plot-setup" class="anchor"></a>—-Balance plot setup————————————————————–</h2>
 <p>rich_bal &lt;- rarity_plot(ab = uneven_comm, l = 1, base_size = 12) + ggplot2::labs(x = "“) + ggplot2::scale_color_brewer(type =”qual“, palette =”Dark2")</p>
 <p>shan_bal &lt;- white_y(rarity_plot(ab = uneven_comm, l = 0, base_size = 12, verbose = F)) + #do not return all the text this time ggplot2::scale_color_brewer(type = “qual”, palette = “Dark2”)</p>
 <p>simp_bal &lt;- white_y(rarity_plot(ab = uneven_comm, l = -1, base_size = 12, verbose = F)) + ggplot2::labs(x = "“) + ggplot2::scale_color_brewer(type =”qual“, palette =”Dark2")</p>
 </div>
-<div id="balance-plot-print-fig-width-3-fig-height-3" class="section level2">
+<div id="balance-plot-print-fig-width-3-fig-height-3-" class="section level2">
 <h2 class="hasAnchor">
-<a href="#balance-plot-print-fig-width-3-fig-height-3" class="anchor"></a>—-Balance plot print, fig.width = 3, fig.height = 3—————————————————–</h2>
+<a href="#balance-plot-print-fig-width-3-fig-height-3-" class="anchor"></a>—-Balance plot print, fig.width = 3, fig.height = 3——————————-</h2>
 <p>rich_bal shan_bal simp_bal</p>
 </div>
-<div id="fit-species-abundance-distributions-" class="section level2">
+<div id="fit-species-abundance-distributions" class="section level2">
 <h2 class="hasAnchor">
-<a href="#fit-species-abundance-distributions-" class="anchor"></a>—-fit species abundance distributions——————————————————————-</h2>
+<a href="#fit-species-abundance-distributions" class="anchor"></a>—-fit species abundance distributions———————————————</h2>
 </div>
 </div>
 <div id="set-target-richness-and-hill-simpson-diversity-levels" class="section level1">
@@ -149,7 +149,7 @@
 <p>ev un</p>
 <div id="sample-from-sad" class="section level2">
 <h2 class="hasAnchor">
-<a href="#sample-from-sad" class="anchor"></a>—-sample from SAD—————————————————————————————</h2>
+<a href="#sample-from-sad" class="anchor"></a>—-sample from SAD—————————————————————–</h2>
 </div>
 </div>
 <div id="diversity-of-a-small-sample-unlikely-to-match-the-simulated-diversity-values" class="section level1">
@@ -197,9 +197,9 @@
 <h1 class="hasAnchor">
 <a href="#richness-is-always-lower-1" class="anchor"></a>richness is always lower</h1>
 <p>uneven_SAD$community_info rbind(lapply(c(1, 0, -1), function(l){ rarity(big_uneven_sample, l) }))</p>
-<div id="diversity-profile-" class="section level2">
+<div id="diversity-profile" class="section level2">
 <h2 class="hasAnchor">
-<a href="#diversity-profile-" class="anchor"></a>—-diversity profile————————————————————————————-</h2>
+<a href="#diversity-profile" class="anchor"></a>—-diversity profile—————————————————————</h2>
 </div>
 </div>
 <div id="the-even-and-uneven-communities-have-same-richness-but-different-hill-diversity-when-ell-1" class="section level1">
@@ -208,9 +208,9 @@
 </h1>
 <p>ggplot2::ggplot(divpro(even_SAD[[3]]), ggplot2::aes(ell, d)) + ggplot2::geom_line() + ggplot2::ylim(0,22) + ggplot2::theme_classic() + ggplot2::labs(x = “scaling exponent 'l'”, y = “Hill diversity”)</p>
 <p>ggplot2::ggplot(divpro(uneven_SAD[[3]]), ggplot2::aes(ell, d)) + ggplot2::geom_line() + ggplot2::ylim(0,22) + ggplot2::theme_classic() + ggplot2::labs(x = “scaling exponent 'l'”, y = “Hill diversity”)</p>
-<div id="hill-simpson-is-wiggly" class="section level2">
+<div id="hill-simpson-is-wiggly-" class="section level2">
 <h2 class="hasAnchor">
-<a href="#hill-simpson-is-wiggly" class="anchor"></a>—-Hill-Simpson is wiggly——————————————————————————–</h2>
+<a href="#hill-simpson-is-wiggly-" class="anchor"></a>—-Hill-Simpson is wiggly———————————————————-</h2>
 <p>library(furrr) library(MeanRarity) plan(strategy = “multiprocess”, workers = 7) evenness&lt;-10^seq(-0.75,-0.35,0.2) rich &lt;- 100 sample_sizes &lt;- floor(10^seq(1.5, 3, 0.5)) # generate SADs with 100 spp and varying evenness, parametric distributions SADS&lt;-purrr::flatten( purrr::map( evenness, function(simp_evenness){ purrr::map( c(“lnorm”, “gamma”), function(dist){ fit_SAD(rich = rich , simpson = simp_evenness*(rich-1)+1 , distr = dist) }) }))</p>
 </div>
 </div>
@@ -219,11 +219,15 @@
 <a href="#set-sample-size" class="anchor"></a>set sample size</h1>
 <p>reps &lt;- 1e3 sample_data&lt;-purrr::map_dfr(SADS, function(mySAD){ evenness = (mySAD[[2]][3]-1)/(mySAD[[2]][1]-1) distribution = mySAD[[1]][1] purrr::map_dfr(sample_sizes, function(SS){ sample_abundances = replicate(reps, sample_infinite(ab = mySAD[[3]], size = SS)) furrr::future_map_dfr(seq(-1.5, 1.5, 0.01), function(ell){ true_diversity = rarity(ab = mySAD[[3]], l = ell) sample_diversity = sapply(1:reps, function(rep){rarity(ab = sample_abundances[, rep], l = ell)}) estimated_diversity = sapply(1:reps, function(rep){Chao_Hill_abu(sample_abundances[, rep], l = ell)}) return(data.frame(evenness , distribution , SS , ell , true_diversity , sample_diversity , estimated_diversity , row.names = NULL)) }) }) })</p>
 <p>plot_data&lt;-sample_data %&gt;% dplyr::group_by(evenness, distribution, ell, SS) %&gt;% dplyr::summarize(sample = sd(ifelse(sample_diversity == 0, 0, log(sample_diversity))) , asymptotic = sd(ifelse(estimated_diversity == 0, 0, log(estimated_diversity))) , true_diversity = mean(true_diversity) , mean_sample = mean(sample_diversity) , mean_asymptotic = mean(estimated_diversity)) %&gt;% dplyr::mutate(evenness = as.factor(round(evenness, 2)) , sample_size = SS)</p>
-<div id="table-of-functions" class="section level2">
+<div id="bias-figure" class="section level2">
 <h2 class="hasAnchor">
-<a href="#table-of-functions" class="anchor"></a>—-table of functions————————————————————————————</h2>
-<p>table_dat&lt;-data.frame( <code>Function name</code> = c(“rarity”, “rarity_plot”, “radplot”, “divpro”, “sample_infinite”, “sample_finite”, “fit_SAD”) , <code>General purpose</code> = c(“Computation”, “Visualization”, “Visualization”, “Visualization”, “Sampling”, “Sampling”, “Simulation”) , <code>Description</code> = c(“Compute Hill diversity using the rarity parameterization”) )</p>
+<a href="#bias-figure" class="anchor"></a>—-bias figure———————————————————————</h2>
 </div>
+</div>
+<div id="plot-for-the-sample-diversity" class="section level1">
+<h1 class="hasAnchor">
+<a href="#plot-for-the-sample-diversity" class="anchor"></a>plot for the sample diversity</h1>
+plot_data %&gt;% ggplot2::ggplot(ggplot2::aes(x = ell , y = asymptotic , color = evenness , shape = distribution)) + ggplot2::geom_line(ggplot2::aes(color = evenness, linetype = distribution), size = 0.8) + ggplot2::theme_classic() + ggplot2::xlim(c(-1,1)) + ggplot2::scale_color_brewer(palette = “Dark2”) + ggplot2::facet_wrap(~sample_size, scales = “free_y” , labeller = “label_both”) + #function(x){sapply(x, function(y){paste(y, " individuals“)})}) + ggplot2::labs(x =”scaling exponent 
 </div>
   </div>
 

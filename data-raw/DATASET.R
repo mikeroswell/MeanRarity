@@ -244,6 +244,64 @@ errs <- compare_ests %>%
   rename(rmse = fn1, bias = fn2)
 
 
+#############################################################
+## make data to show bias and variability for vignette #####
+############################################################
+
+library(furrr)
+library(MeanRarity)
+plan(strategy = "multiprocess", workers = 7)
+evenness<-10^seq(-0.75,-0.35,0.2)
+rich <- 100
+sample_sizes <- floor(10^seq(1.5, 3, 0.5))
+# generate SADs with 100 spp and varying evenness, parametric distributions
+SADS<-purrr::flatten(
+  purrr::map(
+    evenness, function(simp_evenness){
+      purrr::map(
+        c("lnorm", "gamma"), function(dist){
+          fit_SAD(rich = rich
+                  , simpson = simp_evenness*(rich-1)+1
+                  , distr = dist)
+        })
+    }))
+
+# set sample size
+reps <- 1e3
+sample_data<-purrr::map_dfr(SADS, function(mySAD){
+  evenness = (mySAD[[2]][3]-1)/(mySAD[[2]][1]-1)
+  distribution = mySAD[[1]][1]
+  purrr::map_dfr(sample_sizes, function(SS){
+    sample_abundances = replicate(reps, sample_infinite(ab = mySAD[[3]], size = SS))
+    furrr::future_map_dfr(seq(-1.5, 1.5, 0.01), function(ell){
+      true_diversity = rarity(ab = mySAD[[3]], l = ell)
+      sample_diversity = sapply(1:reps, function(rep){rarity(ab = sample_abundances[, rep], l = ell)})
+      estimated_diversity = sapply(1:reps, function(rep){Chao_Hill_abu(sample_abundances[, rep], l = ell)})
+      return(data.frame(evenness
+                        , distribution
+                        , SS
+                        , ell
+                        , true_diversity
+                        , sample_diversity
+                        , estimated_diversity
+                        , row.names = NULL))
+    })
+  })
+})
+
+
+plot_data<-sample_data %>%
+  dplyr::group_by(evenness, distribution, ell, SS) %>%
+  dplyr::summarize(sample = sd(ifelse(sample_diversity == 0, 0, log(sample_diversity)))
+                   , asymptotic = sd(ifelse(estimated_diversity == 0, 0, log(estimated_diversity)))
+                   , true_diversity = mean(true_diversity)
+                   , mean_sample = mean(sample_diversity)
+                   , mean_asymptotic = mean(estimated_diversity)) %>%
+  dplyr::mutate(evenness = as.factor(round(evenness, 2))
+                , sample_size = SS)
+
+
+
 #############################################
 #### turn into package data ##############
 #######################################
@@ -252,3 +310,4 @@ usethis::use_data(beeObs, overwrite = TRUE)
 usethis::use_data(beeAbunds, overwrite = TRUE)
 usethis::use_data(mean_ests, overwrite = TRUE)
 usethis::use_data(effort_rare, overwrite = TRUE)
+usethis::use_data(plot_data, overwite = T)

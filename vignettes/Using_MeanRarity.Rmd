@@ -39,12 +39,12 @@ detecting and describing this change means choosing just what to measure, and
 how. Ecologists are faced with a dazzling array of choices.
 
 There is an increasing consensus that Hill diversity is the preferred way to
-measure not only the species diversity of a community [@Roswell2020],
+measure not only the species diversity of a community [@Roswell2021],
 differentiation among communities [@Jost2007a, @Ellison2010, @Chao2016,
-@Botta-Dukát2018, @Chao2019b, @Ohlmann2019], functional and phylogenetic
+@Botta-Dukát2018a, @Chao2019b, @Ohlmann2019a], functional and phylogenetic
 diversity [@Chao2014b, @Kang2016], genetic diversity [@Jost2008, @Sherwin2017,
-@Alberdi2019], and evenness [@Chao2019a]. Although Hill diversity ties together
-disparate quantitative and disciplinary threads, unifying versions of the
+@Alberdi2019b], and evenness [@Chao2019a]. Although Hill diversity ties together
+disparate quantatitve and disciplinary threads, unifying versions of the
 most-used and -studied diversity metrics with a single equation with a single
 control parameter, its adoption within ecological literature has been somewhat
 slow, perhaps because visualizing and interpreting Hill diversity and the
@@ -82,7 +82,7 @@ $$D=\left( \sum_{i=1}^{S}p_{i}(r_{i})^{\ell} \right)^{1/\ell} \tag{1}$$
 where $D$ is diversity or mean rarity, $p_{i}$ is the relative abundance of
 species $i$, $r_{i}$ is the rarity of species $i$ (defined as the reciprocal of
 $p_{i}$), $S$ is the total species richness, and $\ell$ is the scaling exponent
-that determines the type of mean computed [@Roswell2020]. We define the
+that determines the type of mean computed [@Roswell2021]. We define the
 expression for  $\ell = 0$  based on the limit (from left and right) as
 
 $$D=e^{ \sum_{i=1}^{S}p_{i} * \log(r_{i})} \tag{2}$$
@@ -398,7 +398,7 @@ levels of evenness, we simulated both a lognormally- and gamma-distributed
 assemblage of 100 species. To parameterize evenness, we used (Hill-Simpson
 diversity -1)/(richness-1), which is equal to 1 with a perfectly even
 species-abundance distribution, and 0 when Hill-Simpson diversity reaches its
-minimum, 1, for any richness value [@Chao2019]. Thus, in each simulated
+minimum, 1, for any richness value [@Chao2019a]. Thus, in each simulated
 assemblage, we know richness to be 100, Hill-Simpson takes one of three values
 given by the evenness parameters, and other Hill diversities depend on the
 distributional assumption (gamma or lognormal).
@@ -418,7 +418,7 @@ not only bias, but also sampling variability, and explored the interactions with
 evenness, distributional assumption, and sample size.
 
 
-```{r Hill-Simpson is wiggly, eval = FALSE}
+```{r Hill-Simpson is wiggly}
 library(furrr)
 library(MeanRarity)
 plan(strategy = "multiprocess", workers = 7)
@@ -545,7 +545,7 @@ distributional assumption of the SAD, the asymptotic richness estimate could be
 more, or less, than the variability in the asymptotic Hill-Simpson diversity
 estimate.
 
-```{r sampling variation in diversity estimates}
+```{ r sampling variation in diversity estimates}
 # variability in sample diversity
 
 plot_data %>%

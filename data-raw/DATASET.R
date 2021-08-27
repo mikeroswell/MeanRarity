@@ -248,8 +248,7 @@ errs <- compare_ests %>%
 ## make data to show bias and variability for vignette #####
 ############################################################
 
-library(furrr)
-library(MeanRarity)
+
 plan(strategy = "multiprocess", workers = 7)
 evenness<-10^seq(-0.75,-0.35,0.2)
 rich <- 100

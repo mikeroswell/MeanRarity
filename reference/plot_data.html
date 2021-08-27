@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Take an abundance vector and subsample to size — sample_finite • MeanRarity</title>
+<title>Sampling variability in Hill diversity — plot_data • MeanRarity</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,12 @@
 
 
 
-<meta property="og:title" content="Take an abundance vector and subsample to size — sample_finite" />
-<meta property="og:description" content="Take a finite sample of individuals without replacement from an integer
-abundance vector." />
+<meta property="og:title" content="Sampling variability in Hill diversity — plot_data" />
+<meta property="og:description" content="A simulated dataset with mean absolute error and log sd for sample and
+asymptotic Hill diversity estimates based on finite samples from simulated
+species abundance distributions. Hill diversity was estimated with the naïve
+estimator, rarity(sample_freq, l) and the Chao and Jost 2015 non-parametric asymptotic estimator Chao_Hill_abu(sample_freq, l), and parameterized by
+richness and evenness" />
 
 
 
@@ -122,42 +125,53 @@ abundance vector." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Take an abundance vector and subsample to size</h1>
+    <h1>Sampling variability in Hill diversity</h1>
     
-    <div class="hidden name"><code>sample_finite.Rd</code></div>
+    <div class="hidden name"><code>plot_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Take a finite sample of individuals without replacement from an integer
-abundance vector.</p>
+    <p>A simulated dataset with mean absolute error and log sd for sample and
+asymptotic Hill diversity estimates based on finite samples from simulated
+species abundance distributions. Hill diversity was estimated with the naïve
+estimator, <code>rarity(sample_freq, l) and the Chao and Jost 2015 non-parametric asymptotic estimator </code>Chao_Hill_abu(sample_freq, l), and parameterized by
+richness and evenness</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sample_finite</span><span class='op'>(</span><span class='va'>ab</span>, size <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>ab</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>plot_data</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>ab</th>
-      <td><p>A numeric vector of species abundances or relative abundances.</p></td>
-    </tr>
-    <tr>
-      <th>size</th>
-      <td><p>Number of individuals to sample, defaults to all of them, a
-scalar</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A numeric vector of species abundances, including 0's</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>A data.frame with 7224 rows and 9 variables:</p><ul>
+<li><p><em>evenness</em> Factor, approximately the ratio of Hill-Simpson to richness</p></li>
+<li><p><em>distribution</em> Factor, family, one of "lnorm" or "gamma"</p></li>
+<li><p><em>ell</em>: Scalar, scaling parameter for Hill diversity</p></li>
+<li><p><em>SS</em> Integer, number of individuals sampled</p></li>
+<li><p><em>sample</em>: Numeric, Hill diversity of the sample</p></li>
+<li><p><em>asymptotic</em>: Numeric, estimated Hill diversity of the SAD based on
+asymptotic estimator</p></li>
+<li><p><em>true_diversity</em> Numeric, Hill diversity of the SAD</p></li>
+<li><p><em>mean_sample</em> Numeric, mean of sample diversity for combination of ell,
+evenness, distribution, and SS.</p></li>
+<li><p><em>mean_asymptotic</em> Numeric, mean of estimated asymptotic diversity for
+combination of ell, evenness, distribution, and SS.</p></li>
+</ul>
 
-    <div class='dont-index'><p><code><a href='sample_infinite.html'>sample_infinite</a></code></p></div>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>sample_finite</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>9</span>, <span class='fl'>15</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0 1 1 2 2 1 4 2 2</div></pre>
+    <p>Chao A, Jost L (2015).
+&#8220;Estimating diversity and entropy profiles via discovery rates of new species.&#8221;
+<em>Methods in Ecology and Evolution</em>, <b>6</b>(8), 873--882.
+ISSN 2041210X, doi: <a href='https://doi.org/10.1111/2041-21'>10.1111/2041-21</a>
+.
+
+Chao A, Ricotta C, Aldo P (2019).
+&#8220;Quantifying evenness and linking it to diversity, beta diversity, and similarity.&#8221;
+<em>Ecology</em>, 1--15.
+ISSN 0012-9658, doi: <a href='https://doi.org/10.1002/ecy.2852'>10.1002/ecy.2852</a>
+.</p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

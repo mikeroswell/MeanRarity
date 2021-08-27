@@ -44,7 +44,7 @@ differentiation among communities [@Jost2007a, @Ellison2010, @Chao2016,
 @Botta-Dukát2018, @Chao2019b, @Ohlmann2019], functional and phylogenetic
 diversity [@Chao2014b, @Kang2016], genetic diversity [@Jost2008, @Sherwin2017,
 @Alberdi2019], and evenness [@Chao2019a]. Although Hill diversity ties together
-disparate quantatitve and disciplinary threads, unifying versions of the
+disparate quantitative and disciplinary threads, unifying versions of the
 most-used and -studied diversity metrics with a single equation with a single
 control parameter, its adoption within ecological literature has been somewhat
 slow, perhaps because visualizing and interpreting Hill diversity and the

@@ -545,7 +545,7 @@ distributional assumption of the SAD, the asymptotic richness estimate could be
 more, or less, than the variability in the asymptotic Hill-Simpson diversity
 estimate.
 
-```{ r sampling variation in diversity estimates}
+```{r sampling variation in diversity estimates}
 # variability in sample diversity
 
 plot_data %>%

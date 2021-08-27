@@ -95,11 +95,45 @@
 #'  - *distribution* Factor, family, one of "lnorm" or "gamma"
 #'  - *fitted.parameter* Factor, shape parameter for fitting SAD
 #'  - *n*: Numeric, individuals sampled
-#'  - *SAD*: index of SAD sampled
+#'  - *SAD*: Integer, index of SAD sampled
 #'  - *estimator* Character, estimator whose error is described
 #'  - *rmse* Numeric, root mean squared error of estimator
 #'  - *bias* Numeric, mean difference between estimator and true diversity
 #'
 
 "errs"
+
+
+#' Sampling variability in Hill diversity
+#'
+#' A simulated dataset with mean absolute error and log sd for sample and
+#' asymptotic Hill diversity estimates based on finite samples from simulated
+#' species abundance distributions. Hill diversity was estimated with the naïve
+#' estimator, `rarity(sample_freq, l) and the Chao and Jost 2015 non-parametric
+#' asymptotic estimator `Chao_Hill_abu(sample_freq, l), and parameterized by
+#' richness and evenness
+#'
+#' @references
+#' \insertRef{Chao2015}{MeanRarity}
+#' \insertRef{Chao2019}{MeanRarity}
+#'
+#' @format A data.frame with 7224 rows and 9 variables:
+
+#'  - *evenness* Factor, approximately the ratio of Hill-Simpson to richness
+#'  - *distribution* Factor, family, one of "lnorm" or "gamma"
+#'  - *ell*: Scalar, scaling parameter for Hill diversity
+#'  - *SS* Integer, number of individuals sampled
+#'  - *sample*: Numeric, Hill diversity of the sample
+#'  - *asymptotic*: Numeric, estimated Hill diversity of the SAD based on
+#'  asymptotic estimator
+#'  - *true_diversity* Numeric, Hill diversity of the SAD
+#'  - *mean_sample* Numeric, mean of sample diversity for combination of ell,
+#'  evenness, distribution, and SS.
+#'  - *mean_asymptotic* Numeric, mean of estimated asymptotic diversity for
+#'  combination of ell, evenness, distribution, and SS.
+#'
+
+"plot_data"
+
+
 

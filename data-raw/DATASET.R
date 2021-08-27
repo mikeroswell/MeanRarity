@@ -297,7 +297,8 @@ plot_data<-sample_data %>%
                    , mean_sample = mean(sample_diversity)
                    , mean_asymptotic = mean(estimated_diversity)) %>%
   dplyr::mutate(evenness = as.factor(round(evenness, 2))
-                , sample_size = SS)
+                , sample_size = SS) %>%
+  dplyr::select(-SS)
 
 
 
@@ -309,4 +310,4 @@ usethis::use_data(beeObs, overwrite = TRUE)
 usethis::use_data(beeAbunds, overwrite = TRUE)
 usethis::use_data(mean_ests, overwrite = TRUE)
 usethis::use_data(effort_rare, overwrite = TRUE)
-usethis::use_data(plot_data, overwite = T)
+usethis::use_data(plot_data, overwrite = TRUE)

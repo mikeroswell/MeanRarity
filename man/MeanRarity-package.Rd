@@ -43,6 +43,13 @@ distributions, with or without log-transforming abundances
 \references{
 \insertAllCited{}
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://mikeroswell.github.io/MeanRarity}
+}
+
+}
 \author{
 \strong{Maintainer}: Michael Roswell \email{mike.roswell@gmail.com} (\href{https://orcid.org/0000-0002-8479-9184}{ORCID})
 

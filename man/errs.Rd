@@ -11,7 +11,7 @@ A data.frame with 2376 rows and 8 variables:
 \item \emph{distribution} Factor, family, one of "lnorm" or "gamma"
 \item \emph{fitted.parameter} Factor, shape parameter for fitting SAD
 \item \emph{n}: Numeric, individuals sampled
-\item \emph{SAD}: index of SAD sampled
+\item \emph{SAD}: Integer, index of SAD sampled
 \item \emph{estimator} Character, estimator whose error is described
 \item \emph{rmse} Numeric, root mean squared error of estimator
 \item \emph{bias} Numeric, mean difference between estimator and true diversity

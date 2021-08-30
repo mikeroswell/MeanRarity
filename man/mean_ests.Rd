@@ -24,9 +24,9 @@ mean_ests
 \description{
 A dataset containing expected observed Hill diversity and estimated
 asymptotic Hill diversity for each of the 4 community samples analyzed in
-\insertCite{Roswell2020}{MeanRarity}.
+\insertCite{Roswell2021}{MeanRarity}.
 }
 \references{
-\insertRef{Roswell2020}{MeanRarity}
+\insertRef{Roswell2021}{MeanRarity}
 }
 \keyword{datasets}

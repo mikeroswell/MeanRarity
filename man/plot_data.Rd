@@ -33,6 +33,6 @@ richness and evenness
 }
 \references{
 \insertRef{Chao2015}{MeanRarity}
-\insertRef{Chao2019}{MeanRarity}
+\insertRef{Chao2019a}{MeanRarity}
 }
 \keyword{datasets}

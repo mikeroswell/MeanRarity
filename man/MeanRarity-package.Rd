@@ -9,13 +9,13 @@ framework.}
 \description{
 The MeanRarity package provides a suite of functions related to computing,
 estimating, and visualizing Hill diversity: For references on mean rarity,
-see \insertCite{Roswell2020}{MeanRarity}, \insertCite{Patil2012}{MeanRarity},
+see \insertCite{Roswell2021}{MeanRarity}, \insertCite{Patil2012}{MeanRarity},
 and \insertCite{Jost2006}{MeanRarity}
 }
 \section{Computing Hill diversity}{
 
 \code{\link{rarity}} computes Hill
-diversity as parameterized by \insertCite{Roswell2020}{MeanRarity}, by
+diversity as parameterized by \insertCite{Roswell2021}{MeanRarity}, by
 computing the generalized weighted mean of species rarities (i.e. the
 reciprocal of relative abundance). The "link" functions for the generalized
 mean are \code{\link{pfun}} and its inverse \code{\link{ipfun}}
@@ -23,7 +23,7 @@ mean are \code{\link{pfun}} and its inverse \code{\link{ipfun}}
 
 \section{Simulating Species Abundance Distributions}{
 
-\insertCite{Roswell2020}{MeanRarity} developed a method to simulate a
+\insertCite{Roswell2021}{MeanRarity} developed a method to simulate a
 species abundance distribution (SAD) based on the [Hill] diversity of the
 assemblage. This method fits a discretization (based on quantile values) of
 a continuous parametric distribution (currently gamma or log-normal) based

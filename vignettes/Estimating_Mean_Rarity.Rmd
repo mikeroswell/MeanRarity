@@ -19,7 +19,7 @@ the reciprocal of relative abundance). Additionally, the package contains
 functions for generating and sampling abundance vectors and generating plots.
 This vignette is not a comprehensive guide to the package. However, it includes
 data and code to replicate the quantitative main-text figures presented in
-@Roswell2020. Thus, the examples in the vignette are ordered according to the figures in
+@Roswell2021. Thus, the examples in the vignette are ordered according to the figures in
 the article.
 
 The goal of [Hill] diversity metrics is to summarize the distribution of
@@ -567,7 +567,7 @@ The function uses three parameters: richness, evenness, and the parametric
 distribution family. Richness can be any integer \>0. To parameterize evenness,
 we used \eq{(Hill-Simpson diversity -1)/(richness-1)}, which is equal to 1 with
 a perfectly even species-abundance distribution, and 0 when Hill-Simpson
-diversity reaches its minimum, 1, for any richness value [@Chao2019].
+diversity reaches its minimum, 1, for any richness value [@Chao2019a].
 Hill-Simpson diversity is a positive number between 1 and richness. We used the
 log-normal distribution because it fits observed sample species abundance
 distributions well [@Enquist2019;
@@ -654,7 +654,7 @@ myabs %>% dplyr::left_join(data.frame(
     ggplot2::facet_grid(forcats::fct_rev(scl)~skew, scales="free", switch="y", labeller=remsub)
 ````
 
-In the supplementary materials for [@Roswell2020], we demonstrate that the
+In the supplementary materials for [@Roswell2021], we demonstrate that the
 CI for diversity estimates based on the approach articulated in [@Chao2015] tend 
 to be anti-conservative. The code and data for this are not
 exported by this package; the scripts to generate all relevant data and figures

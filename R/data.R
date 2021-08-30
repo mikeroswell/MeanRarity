@@ -35,10 +35,10 @@
 #'
 #' A dataset containing expected observed Hill diversity and estimated
 #' asymptotic Hill diversity for each of the 4 community samples analyzed in
-#' \insertCite{Roswell2020}{MeanRarity}.
+#' \insertCite{Roswell2021}{MeanRarity}.
 #'
 #' @references
-#' \insertRef{Roswell2020}{MeanRarity}
+#' \insertRef{Roswell2021}{MeanRarity}
 #'
 #' @format A tibble with 2015 rows and 8 variables:
 #'  - *site*: Character, site ID
@@ -115,7 +115,7 @@
 #'
 #' @references
 #' \insertRef{Chao2015}{MeanRarity}
-#' \insertRef{Chao2019}{MeanRarity}
+#' \insertRef{Chao2019a}{MeanRarity}
 #'
 #' @format A data.frame with 7224 rows and 9 variables:
 

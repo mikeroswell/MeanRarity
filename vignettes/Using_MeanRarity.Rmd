@@ -29,6 +29,37 @@ knitr::opts_chunk$set(
 ```{r setup, include =F}
 library(MeanRarity)
 ```
+# ABSTRACT
+
+1. Detecting, describing, and predicting biodiversity shifts, a critical project
+in ecology and evolution, requires metrics with well-understood numerical and
+statistical properties, and transparent interpretations. Recently, Hill
+diversity measures have been promoted for their ability to accommodate many
+historical biodiversity concepts, and quantify diversity in natural "effective
+numbers" units. The transformation to the effective numbers scale, while
+potentially easing comparability and interpretability of disparate measures, can
+fuel false beliefs about the numerical and statistical properties of Hill
+diversity measures. Re-parameterizing the Hill number equation in terms of the
+generalized mean opens avenues to investigate the numerical and statistical
+properties of these widely-used measures.
+
+1. Here, we present the `R` package `MeanRarity`, which enables estimating and
+visualizing Hill diversity (aka "Hill numbers") in terms of the average species
+"rarity." Rarity is defined as the reciprocal of relative abundance. Users can
+compute mean rarity, generate plots to visualize species abundance distributions
+and their average rarity, and simulate species abundance distributions with
+known diversity. Here, we simulate species abundance distributions, and estimate
+the diversity of these assemblages based on random samples from these
+distributions. We investigate how the bias and variability of Hill diversity
+estimates (i.e., the diversity of the sample, and the estimated true diversity
+of the whole species abundance distriution) depend on the scaling parameter in
+the Hill equation, features of the species abundance distribution such as
+evenness, and sampling intensity.
+
+1. Our simulations reveal that Hill-Simpson diversity estimates can be highly variable. Within the range of sample sizes we investigated, sample Hill diversity was always most variable when the scaling parameter was equal to -1 (Hill-Simpson diversity). While the asymptotic estimator for Hill-Simpson diversity was relatively more stable, it was still more variable than asymptotic Hill-diversity estimates where the scaling parameter was between -1 and 1. Furthermore, the asymptotic estimator for Hill-Simpson diversity exhibited greater bias at low sample sizes than the asymptotic estimator for Hill diversities with intermediate scaling parameter values, although as previously reported the bias is negligible for the asymptotic estimates for Hill diversity with a scaling parameter less than about 0.75 for all species abundance distributions once samples sizes were relatively large. 
+
+1. `MeanRarity` provides tools to students, researchers, and biostatisticians to understand and investigate Hill diversity metrics. Fixing diversity values, a priori, in simulating species abundance distributions enables replicable, targeted testing of numerical and statistical properties of Hill diversities and their estimators. Our simulations reveal that for both sample Hill diversities and asymptotic Hill diversity estimates, using a scaling parameter value between -1 and 1 (i.e. between Hill-Simpson diversity and richness) can 
+
 
 # INTRODUCTION
 

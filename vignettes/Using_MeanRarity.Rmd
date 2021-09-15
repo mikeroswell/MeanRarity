@@ -56,10 +56,30 @@ of the whole species abundance distriution) depend on the scaling parameter in
 the Hill equation, features of the species abundance distribution such as
 evenness, and sampling intensity.
 
-1. Our simulations reveal that Hill-Simpson diversity estimates can be highly variable. Within the range of sample sizes we investigated, sample Hill diversity was always most variable when the scaling parameter was equal to -1 (Hill-Simpson diversity). While the asymptotic estimator for Hill-Simpson diversity was relatively more stable, it was still more variable than asymptotic Hill-diversity estimates where the scaling parameter was between -1 and 1. Furthermore, the asymptotic estimator for Hill-Simpson diversity exhibited greater bias at low sample sizes than the asymptotic estimator for Hill diversities with intermediate scaling parameter values, although as previously reported the bias is negligible for the asymptotic estimates for Hill diversity with a scaling parameter less than about 0.75 for all species abundance distributions once samples sizes were relatively large. 
+1. Our simulations reveal that Hill-Simpson diversity estimates can be highly
+variable. Within the range of sample sizes we investigated, sample Hill
+diversity was always most variable when the scaling parameter was equal to -1
+(Hill-Simpson diversity). While the asymptotic estimator for Hill-Simpson
+diversity was relatively more stable, it was still more variable than asymptotic
+Hill-diversity estimates where the scaling parameter was between -1 and 1.
+Furthermore, the asymptotic estimator for Hill-Simpson diversity exhibited
+greater bias at low sample sizes than the asymptotic estimator for Hill
+diversities with intermediate scaling parameter values, although as previously
+reported the bias is negligible for the asymptotic estimates for Hill diversity
+with a scaling parameter less than about 0.75 for all species abundance
+distributions once samples sizes were relatively large.
 
-1. `MeanRarity` provides tools to students, researchers, and biostatisticians to understand and investigate Hill diversity metrics. Fixing diversity values, a priori, in simulating species abundance distributions enables replicable, targeted testing of numerical and statistical properties of Hill diversities and their estimators. Our simulations reveal that for both sample Hill diversities and asymptotic Hill diversity estimates, using a scaling parameter value between -1 and 1 (i.e. between Hill-Simpson diversity and richness) can 
-
+1. `MeanRarity` provides tools to students, researchers, and biostatisticians to
+understand and investigate Hill diversity metrics. Fixing diversity values, a
+priori, in simulated species abundance distributions enables replicable,
+targeted testing of numerical and statistical properties of Hill diversities and
+their estimators. With this simulation platform, we tested Hill diversity
+estimates on samples from species abundance distributions that differed in
+shape, but not in richness or evenness. Our simulations reveal that for both
+sample Hill diversities and asymptotic Hill diversity estimates, lower bias and
+variability may be possible with a scaling parameter value between -1 and 1
+(i.e. between Hill-Simpson diversity and richness) for small, incomplete
+samples.
 
 # INTRODUCTION
 
@@ -518,8 +538,8 @@ Hill diversities when the scaling exponent $\ell << 1 $.
 
 
 
-<-- Figures showinng bias for sample diveristy and Chao/Jost asymptotic estimators -->
-```{r bias figure}
+<-- Figures showing bias for sample diversity and Chao/Jost asymptotic estimators -->
+```{r bias figure , fig.height = 7, fig.width = 7}
 
 # plot for the sample diversity
 plot_data %>%
@@ -576,7 +596,7 @@ distributional assumption of the SAD, the asymptotic richness estimate could be
 more, or less, than the variability in the asymptotic Hill-Simpson diversity
 estimate.
 
-```{ r sampling variation in diversity estimates}
+```{r sampling variation in diversity estimates, fig.height = 7, fig.width = 7}
 # variability in sample diversity
 
 plot_data %>%

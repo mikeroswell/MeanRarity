@@ -61,13 +61,14 @@ variable. Within the range of sample sizes we investigated, sample Hill
 diversity was always most variable when the scaling parameter was equal to -1
 (Hill-Simpson diversity). While the asymptotic estimator for Hill-Simpson
 diversity was relatively more stable, it was still more variable than asymptotic
-Hill-diversity estimates where the scaling parameter was between -1 and 1.
-Furthermore, the asymptotic estimator for Hill-Simpson diversity exhibited
-greater bias at low sample sizes than the asymptotic estimator for Hill
-diversities with intermediate scaling parameter values, although, as previously
-reported, the bias is negligible for the asymptotic estimates for Hill diversity
-with a scaling parameter less than about 0.75 once samples sizes were relatively
-large, for all species abundance distributions tested.
+Hill-diversity estimates where the scaling parameter was between -1 and 0
+(Hill-Shannon diversity). Furthermore, the asymptotic estimator for Hill-Simpson
+diversity exhibited greater bias at low sample sizes than the asymptotic
+estimator for Hill diversities with intermediate scaling parameter values,
+although, as previously reported, the bias is negligible for the asymptotic
+estimates for Hill diversity with a scaling parameter less than about 0.75 once
+samples sizes were relatively large, for all species abundance distributions
+tested.
 
 1. `MeanRarity` provides tools to students, researchers, and biostatisticians to
 understand and investigate Hill diversity metrics. Fixing diversity values, *a
@@ -587,7 +588,7 @@ estimator was typically more variable than the sample diversity was. This was
 especially the case for richness. While the sampling variability in the
 asymptotic Hill-Simpson diversity was still higher than for the asymptotic
 Hill-Shannon diversity, as we saw for the sample diversity, as the scaling
-exponent $\ell$$ approached zero (i.e. more like richness), the variability was
+exponent $\ell$ approached zero (i.e. more like richness), the variability was
 high and declined slowly with additional sampling. Depending on the evenness and
 distributional assumption of the SAD, the asymptotic richness estimate could be
 more, or less, than the variability in the asymptotic Hill-Simpson diversity

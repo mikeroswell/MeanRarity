@@ -8,5 +8,9 @@ reference:
 - contents:
   - lacks_concepts(c("Visualization", "Simulation", "Computation", "Sampling"))
 
+template:
+  params:
+    ganalytics: G-018C47WP3Y
+
 figures:
   fig.asp: 1

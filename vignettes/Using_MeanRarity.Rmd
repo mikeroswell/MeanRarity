@@ -89,12 +89,12 @@ detecting and describing this change means choosing just what to measure, and
 how. Ecologists are faced with a dazzling array of choices.
 
 There is an increasing consensus that Hill diversity is the preferred way to
-measure not only the species diversity of a community [@Roswell2021],
-differentiation among communities [@Jost2007a, @Ellison2010, @Chao2016,
+measure not only the species diversity of an assemblage [@Roswell2021],
+differentiation among assemblages [@Jost2007a, @Ellison2010, @Chao2016,
 @Botta-Dukát2018a, @Chao2019b, @Ohlmann2019a], functional and phylogenetic
 diversity [@Chao2014b, @Kang2016], genetic diversity [@Jost2008, @Sherwin2017,
 @Alberdi2019b], and evenness [@Chao2019a]. Although Hill diversity ties together
-disparate quantatitve and disciplinary threads, unifying versions of the
+disparate quantitative and disciplinary threads, unifying versions of the
 most-used and -studied diversity metrics with a single equation with a single
 control parameter, its adoption within ecological literature has been somewhat
 slow, perhaps because visualizing and interpreting Hill diversity and the
@@ -125,7 +125,7 @@ application for building "balance plots" is also available online
 `rarity()` computes Hill diversity of a sample, parameterized in terms of the
 mean rarity.
 
-We define Hill diversity $D$ as the mean species rarity in the community
+We define Hill diversity $D$ as the mean species rarity in the assemblage
 
 $$D=\left( \sum_{i=1}^{S}p_{i}(r_{i})^{\ell} \right)^{1/\ell} \tag{1}$$
 
@@ -182,15 +182,15 @@ data.frame(l = l_vals
 ## Interpreting Mean Rarity
 
 One way of interpreting Hill diversities is that they express the diversity of a
-community in terms of an imaginary community with that same diversity, but in
+assemblage in terms of an imaginary assemblage with that same diversity, but in
 which all species are equally abundant [@Jost2006]. In this perspective, the
-uneven community `uneven_comm` is as diverse as a community of six equally
+uneven assemblage `uneven_comm` is as diverse as a assemblage of six equally
 abundant species (richness, `l = 1`), or four equally abundant species
 (Hill-Shannon diversity, `l = 0`), or three (Hill-Simpson diversity, `l = -1`).
 These equivalencies depend on the the distribution of relative abundances and
-the parameter `l`. So when `l = 1`, this community is as diverse (or as
-species-rich) as any community with six species. When `l = -1`, it is about as diverse
-as a community with twice the number of species and tremendous unevenness, or
+the parameter `l`. So when `l = 1`, this assemblage is as diverse (or as
+species-rich) as any assemblage with six species. When `l = -1`, it is about as diverse
+as a assemblage with twice the number of species and tremendous unevenness, or
 half the number of species and perfect evenness:
 
 ``` {r effective numbers}
@@ -281,7 +281,7 @@ that the diversity resulting from any given set of parameter values is variable.
 `fit_SAD()`, by contrast, does not simulate individuals at all. Instead, it
 always gives precisely the same relative abundances for a given set of
 parameters, which may be a helpful tool for exploring the behavior of diversity
-metrics under different community size and sampling scenarios.
+metrics under different assemblage size and sampling scenarios.
 
 `fit_SAD()` simulates a species abundance distribution with known richness,
 Hill-Simpson diversity, and a distributional assumption (lognormal or gamma). It
@@ -289,7 +289,7 @@ returns a shape parameter for the chosen probability distribution (because we're
 focused on relative abundances, multiplicative rescaling is irrelevant), the
 richness, Hill-Shannon, and Hill-Simpson diversity of the simulated species
 abundance distribution, and relative abundances for each simulated species. It
-provides a warning when the distribution includes species with very low relative abundances, which implies a large total community abundance.
+provides a warning when the distribution includes species with very low relative abundances, which implies a large total assemblage abundance.
 
 ```{r fit species abundance distributions}
 # set target richness and Hill-Simpson diversity levels
@@ -318,9 +318,9 @@ un
 ```
 
 `fit_SAD()` generates an ideal species abundance distribution, with relative
-abundances for a community with infinite abundance. To take a finite sample, we
+abundances for a assemblage with infinite abundance. To take a finite sample, we
 use `sample_infinite()` (so named because it samples an infinite SAD;
-`sample_finite()` is for sub-sampling from a realized community/finite sample).
+`sample_finite()` is for sub-sampling from a realized assemblage/finite sample).
 The realized samples have Poisson-type noise about the mean species relative
 abundances given by `fit_SAD()` (that is, they are samples from a multinomial
 distribution). The diversity of a sample asymptotically approaches the simulated
@@ -418,7 +418,7 @@ abundance distributions with known diversity, it allows examination of the
 drivers of sampling variation in Hill diversity estimates.
 
 It is well-known that the diversity of a sample tends to be lower than the
-diversity of the community from which the sample was drawn. This problem is most
+diversity of the assemblage from which the sample was drawn. This problem is most
 acute for species richness, but can be substantial for all Hill diversities. The
 degree of mismatch between the sample and true diversity is difficult to know
 with real assemblages, because of the fundamental challenge of knowing the true
@@ -540,25 +540,23 @@ Hill diversities when the scaling exponent $\ell << 1 $.
 <-- Figures showing bias for sample diversity and Chao/Jost asymptotic estimators -->
 ```{r bias figure , fig.height = 7, fig.width = 7}
 
-# plot for the sample diversity
+# so called "bias" in sample diversity... w.r.t. diveristy of full assemblage
 plot_data %>%
   ggplot2::ggplot(ggplot2::aes(x = ell
-                               , y = asymptotic
                                , color = evenness
                                , shape = distribution)) +
-  ggplot2::geom_line(ggplot2::aes(color = evenness, linetype = distribution), size = 0.8) +
+  ggplot2::geom_line(ggplot2::aes(y = (mean_sample-true_diversity)/true_diversity, color = evenness, linetype = distribution), size = 0.8) +
   ggplot2::theme_classic() +
   ggplot2::xlim(c(-1,1)) +
-  ggplot2::scale_color_brewer(palette = "Dark2") +
-  ggplot2::facet_wrap(~sample_size, scales = "free_y"
-                     , labeller = "label_both") +  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
-  ggplot2::labs(x = "scaling exponent \U2113", y = "scaled variability in asymptotic diversity estimate (sdlog)") +
-  ggplot2::scale_y_continuous(limits = c(0, NA),
-                              expand = ggplot2::expansion(mult = c(0, 0.1)))
+  ggplot2::scale_color_brewer(palette = "Set2") +
+  ggplot2::facet_wrap(~sample_size
+                      , labeller = "label_both") +  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
+  ggplot2::labs(x = "scaling exponent \U2113", y = "scaled average (sample - true diversity)") +
+  ggplot2::scale_y_continuous(limits = c(-0.8, 0.8)) +
+  ggplot2::geom_hline(yintercept = 0)
 
 
-
-# for the asymptotic estimator
+# bias for the asymptotic estimator
 plot_data %>%
   ggplot2::ggplot(ggplot2::aes(x = ell
                                , color = evenness
@@ -613,8 +611,7 @@ plot_data %>%
   ggplot2::scale_y_continuous(limits = c(0, NA),
                      expand = ggplot2::expansion(mult = c(0, 0.1)))
 
-
-# for asymptotic estimates
+# plot for variability in asymptotic diversity estimates
 plot_data %>%
   ggplot2::ggplot(ggplot2::aes(x = ell
                                , y = asymptotic
@@ -629,6 +626,9 @@ plot_data %>%
   ggplot2::labs(x = "scaling exponent \U2113", y = "scaled variability in asymptotic diversity estimate (sdlog)") +
   ggplot2::scale_y_continuous(limits = c(0, NA),
                               expand = ggplot2::expansion(mult = c(0, 0.1)))
+
+
+
 
 ```
 

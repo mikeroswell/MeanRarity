@@ -58,17 +58,17 @@ evenness, and sampling intensity.
 
 1. Our simulations reveal that Hill-Simpson diversity estimates can be highly
 variable. Within the range of sample sizes we investigated, sample Hill
-diversity was always most variable when the scaling parameter was equal to -1
-(Hill-Simpson diversity). While the asymptotic estimator for Hill-Simpson
-diversity was relatively more stable, it was still more variable than asymptotic
-Hill-diversity estimates where the scaling parameter was between -1 and 0
-(Hill-Shannon diversity). Furthermore, the asymptotic estimator for Hill-Simpson
-diversity exhibited greater bias at low sample sizes than the asymptotic
-estimator for Hill diversities with intermediate scaling parameter values,
-although, as previously reported, the bias is negligible for the asymptotic
-estimates for Hill diversity with a scaling parameter less than about 0.75 once
-samples sizes were relatively large, for all species abundance distributions
-tested.
+diversity was always most variable for Hill Simpson diversity (scaling parameter
+value equal to -1). While the asymptotic estimator for Hill-Simpson diversity
+was relatively more stable, it was still more variable than asymptotic
+Hill-diversity estimates between Hill-Simpson and Hill-Shannon (scaling
+parameter values between -1 and 0). Furthermore, the asymptotic estimator for
+Hill-Simpson diversity exhibited greater bias at low sample sizes than the
+asymptotic estimator for Hill diversities with intermediate scaling parameter
+values (including Hill-Shannon diversity), although, as previously reported, the
+bias is negligible for the asymptotic estimates for all Hill diversities with a
+scaling parameter less than about 0.75 once samples sizes were relatively large,
+for all species abundance distributions tested.
 
 1. `MeanRarity` provides tools to students, researchers, and biostatisticians to
 understand and investigate Hill diversity metrics. Fixing diversity values, *a
@@ -78,8 +78,8 @@ their estimators. With this simulation platform, we tested Hill diversity
 estimates on samples from species abundance distributions that differed in
 shape, but not in richness. Our simulations reveal that for both sample Hill
 diversities and asymptotic Hill diversity estimates, lower bias and variability
-may be possible with a scaling parameter value between -1 and 1 (i.e. between
-Hill-Simpson diversity and richness) for small, incomplete samples.
+may be possible for Hill diversities between Hill-Simpson diversity and richness
+(for scaling parameter values between -1 and 1) for small, incomplete samples.
 
 # INTRODUCTION
 

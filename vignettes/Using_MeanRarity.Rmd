@@ -267,9 +267,9 @@ sample from such as SAD is, of course, not precisely pre-determined.
 This approach differs from species abundance distribution simulations
 implemented in other R packages. For example, `mobsim` [@May2018a] and `sads`
 (CITE) allow users to specify continuous parametric probability distributions,
-but then explicitly take finite, discrete samples from those distributions in
+but then take finite, discrete samples from those distributions in
 the simulation (in `mobsim` these can even be spatially explicit!). Users input
-cannonical parameters of the probability distributions and the number of
+canonical parameters of the probability distributions and the number of
 individuals to sample. These are powerful simulation tools, but one drawback is
 that the diversity resulting from any given set of parameter values is variable.
 
@@ -284,7 +284,14 @@ returns a shape parameter for the chosen probability distribution (because we're
 focused on relative abundances, multiplicative rescaling is irrelevant), the
 richness, Hill-Shannon, and Hill-Simpson diversity of the simulated species
 abundance distribution, and relative abundances for each simulated species. It
-provides a warning when the distribution includes species with very low relative abundances, which implies a large total assemblage abundance.
+provides a warning when the distribution includes species with very low relative
+abundances, which implies a large total assemblage abundance.
+
+To visualize a realized or simulated species abundance distribution,
+`MeanRarity` includes the convenience function `radplot()`, which plots species
+[relative] abundances against species ranks. The default behavior is *not* to
+log-transform [relative] abundances (i.e. it does not, by default, generate a
+"Whitaker plot")
 
 ```{r fit species abundance distributions}
 # set target richness and Hill-Simpson diversity levels
@@ -332,6 +339,11 @@ uneven_sample <- sample_infinite(uneven_SAD$rel_abundances, 50)
 #sample_infinite returns a numeric vector of sample species abundances
 even_sample
 uneven_sample
+
+# we can compare evenness (given a scaling parameter `l`)
+# the evenness is the normalized ratio of an arbitrary Hill diversity to richness
+e3Fun(even_sample, -1)
+e3Fun(uneven_sample, -1)
 
 # compare diversity from sample vs. ideal SAD:
 # likely pretty far off for a small sample!

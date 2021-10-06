@@ -24,5 +24,6 @@ assemblage, is 0. This evenness metric was defined by Chao and Ricotta
 function of scale, as well as the relative abundances in the assemblage.
 }
 \seealso{
-
+e2d
 }
+\concept{Computation}

@@ -174,11 +174,13 @@ obs_est = function(ab){
 #' (2019) as measure "E3". Like Hill diversity itself, evenness is considered a
 #' function of scale, as well as the relative abundances in the assemblage.
 #'
-#' @seealso
+#' @seealso e2d
+#' @concept Computation
 #'
 #' @template ab_template
 #' @template l_template
 #'
+#' @export
 
 e3Fun = function(ab, l){
   (rarity(ab, l) - 1)/(rarity(ab, 1)-1)
@@ -191,9 +193,12 @@ e3Fun = function(ab, l){
 #' This function is the inverse of e3Fun
 #'
 #' @seealso e3Fun
+#' @concept Computation
 #'
 #' @param e Scalar, evenness value between 0 and 1
 #' @param rich Integer, species richness
+#'
+#' @export
 
 e2d = function(e, rich){
   d = e*(rich-1)+1

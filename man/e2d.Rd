@@ -20,3 +20,4 @@ This function is the inverse of e3Fun
 \seealso{
 e3Fun
 }
+\concept{Computation}

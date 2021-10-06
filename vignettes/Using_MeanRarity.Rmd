@@ -43,18 +43,20 @@ measures. Re-parameterizing the Hill number equation in terms of the generalized
 mean rarity opens avenues to investigate the numerical and statistical
 properties of these widely-used measures.
 
-1. <!-- Hill diversities can be interpreted as the average of rarity on different scales --> Here, we present the `R` package `MeanRarity`, which enables estimating and
+1. Here, we present the `R` package `MeanRarity`, which enables estimating and
 visualizing Hill diversity (aka "Hill numbers") in terms of the average species
-"rarity." Rarity is defined as the reciprocal of relative abundance. Users can
-compute mean rarity, generate plots to visualize species abundance distributions
-and their average rarity, and simulate species abundance distributions with
-known diversity. Here, we simulate species abundance distributions, and estimate
-the diversity of these assemblages based on random samples from these
-distributions. We investigate how the bias and variability of Hill diversity
-estimates (i.e., the diversity of the sample, and the estimated true diversity
-of the whole species abundance distribution) depend on the scaling parameter in
-the Hill equation, features of the species abundance distribution such as
-evenness, and sampling intensity.
+rarity, i.e the reciprocal of relative abundance. Ecologists, accustomed to
+thinking about rarity in the context of diversity, may find it intuitive and
+useful to interpret Hill diversities as the average species rarity on different
+scales. With `MeanRarity`, users can compute mean rarity, generate plots to
+visualize species abundance distributions and their average rarity, and simulate
+species abundance distributions with known diversity. Here, we simulate species
+abundance distributions, and estimate the diversity of these assemblages based
+on random samples from these distributions. We investigate how the bias and
+variability of Hill diversity estimates (i.e., the diversity of the sample, and
+the estimated true diversity of the whole species abundance distribution) depend
+on the scaling parameter in the Hill equation, features of the species abundance
+distribution such as evenness, and sampling intensity.
 
 1. Our simulations reveal that Hill-Simpson diversity estimates can be highly
 variable. Within the range of sample sizes we investigated, sample Hill
@@ -67,8 +69,8 @@ Hill-Simpson diversity exhibited greater bias at low sample sizes than the
 asymptotic estimator for Hill diversities with intermediate scaling parameter
 values (including Hill-Shannon diversity), although, as previously reported, the
 bias is negligible for the asymptotic estimates for all Hill diversities with a
-scaling parameter less than about 0.75 once samples sizes were relatively large,
-for all species abundance distributions tested.
+scaling parameter less than about 0.75. once samples sizes were relatively
+large, for all species abundance distributions tested.
 
 1. `MeanRarity` provides tools to students, researchers, and biostatisticians to
 understand and investigate Hill diversity metrics. Fixing diversity values, *a
@@ -89,17 +91,7 @@ declining, at an unprecedented rate due to anthropogenic global change. Yet,
 detecting and describing this change means choosing just what to measure, and
 how. Ecologists are faced with a dazzling array of choices.
 
-There is an increasing consensus that Hill diversity is the preferred way to
-measure not only the species diversity of an assemblage [@Roswell2021],
-differentiation among assemblages [@Jost2007a, @Ellison2010, @Chao2016,
-@Botta-Dukát2018a, @Chao2019b, @Ohlmann2019a], functional and phylogenetic
-diversity [@Chao2014b, @Kang2016], genetic diversity [@Jost2008, @Sherwin2017,
-@Alberdi2019b], and evenness [@Chao2019a]. Although Hill diversity ties together
-disparate quantitative and disciplinary threads, unifying versions of the
-most-used and -studied diversity metrics with a single equation with a single
-control parameter, its adoption within ecological literature has been somewhat
-slow, perhaps because visualizing and interpreting Hill diversity and the
-meaning of the control parameter is difficult.
+
 
 Here, we introduce the R package `MeanRarity`, which enables estimating and
 visualizing Hill diversity (aka "Hill numbers") in terms of the average species
@@ -117,7 +109,7 @@ should streamline that process.
 This R package provides functions for three purposes: (1) computing Hill
 diversity as "Mean Rarity", (2) visualizing and interpreting "Mean Rarity", and
 (3) simulating species abundance distributions with known diversity. The package
-is availabe online on Github (see Data accessibility). An interactive shiny
+is available online on Github (see Data accessibility). An interactive shiny
 application for building "balance plots" is also available online
 (https://mean-rarity.shinyapps.io/rshiny_app1/).
 
@@ -147,13 +139,14 @@ $$D=e^{ -\sum_{i=1}^{S} p_{i} * \log(p_{i})} \tag{4}$$
 Equations 1 and 3 (or 2 and 4) are equivalent when $\ell = 1-q$.
 Re-parameterizing Hill diversity in terms of species rarity can provide
 conceptual clarity. Equation 1 is a weighted mean rarity, where the weights
-(relative abundances, $p_i$) are factored out. Simplifying (as in Equation 3)
-hides the weighting by relative abundance, and leads to the claim that the
-scaling exponent is the "weight." The concrete meaning of "weight" when applied
-to $q$ in equation 2 may be difficult to understand.
+(relative abundances, $p_i$) are factored out explicitly. Simplifying (as in
+Equation 3) hides the weighting by relative abundance, and leads to the claim
+that the scaling exponent is the "weight." The concrete meaning of "weight" when
+applied to $q$ in Equation 2 may be difficult to understand.
 
 Because Equations 1 and 2 are algebraically equivalent, `rarity(x, l)` is
-equivalent to `vegan::renyi(x, scale = 1-l, hill = T)` and the `qD` output from `iNEXT::estimateD(x)` where `order = 1-l`.
+equivalent to `vegan::renyi(x, scale = 1-l, hill = T)` and the `qD` output from
+`iNEXT::estimateD(x)` where `order = 1-l`.
 
 
 
@@ -190,9 +183,9 @@ abundant species (richness, `l = 1`), or four equally abundant species
 (Hill-Shannon diversity, `l = 0`), or three (Hill-Simpson diversity, `l = -1`).
 These equivalencies depend on the the distribution of relative abundances and
 the parameter `l`. So when `l = 1`, this assemblage is as diverse (or as
-species-rich) as any assemblage with six species. When `l = -1`, it is about as diverse
-as a assemblage with twice the number of species and tremendous unevenness, or
-half the number of species and perfect evenness:
+species-rich) as any assemblage with six species. When `l = -1`, it is about as
+diverse as an assemblage with twice the number of species and tremendous
+unevenness, or half the number of species and perfect evenness:
 
 ``` {r effective numbers}
 uneven_12 <- c(531, 186, 101,  63, 41, 28, 19, 13, 9, 5, 3, 1)
@@ -222,7 +215,8 @@ relative locations... the farther towards the ends of the plank a weight lies,
 the more leverage it has. When describing diversity, there are simple rules for
 the species weights ([relative] abundances) and where they lie (their *scaled*
 rarities). The rarity scaling is given by the exponent $\ell$ from equation 1,
-the argument `l`. Here, we create three balance plots for the three Pythagorean means, given when $\ell \in \{-1,0,1\}$:
+the argument `l`. Here, we create three balance plots for the three Pythagorean
+means, given when $\ell \in \{-1,0,1\}$:
 
 ```{r Balance plot setup}
 

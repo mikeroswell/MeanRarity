@@ -161,3 +161,42 @@ obs_est = function(ab){
     , chaosimp
   ))
 }
+
+#' Normalized Hill evenness
+#'
+#' Computes assemblage evenness measure based on the ratio of Hill diversities.
+#'
+#' There are many valid ways to compute evenness, and this one is the
+#' "normalized slope" of the Hill diversity profile. The normalization means
+#' that for any richness, the maximum evenness is 1, and the minimum, achieved
+#' when 1 species has practically all of the relative abundance in the
+#' assemblage, is 0. This evenness metric was defined by Chao and Ricotta
+#' (2019) as measure "E3". Like Hill diversity itself, evenness is considered a
+#' function of scale, as well as the relative abundances in the assemblage.
+#'
+#' @seealso
+#'
+#' @template ab_template
+#' @template l_template
+#'
+
+e3Fun = function(ab, l){
+  (rarity(ab, l) - 1)/(rarity(ab, 1)-1)
+}
+
+#' Hill diversity from evenness
+#'
+#' returns Hill diversity based on evenness and richness
+#'
+#' This function is the inverse of e3Fun
+#'
+#' @seealso e3Fun
+#'
+#' @param e Scalar, evenness value between 0 and 1
+#' @param rich Integer, species richness
+
+e2d = function(e, rich){
+  d = e*(rich-1)+1
+  return(d)
+}
+

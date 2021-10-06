@@ -417,22 +417,22 @@ most common approaches are to a) calculate the diversity of samples directly, or
 b) use non-parametric estimators of the diversity of the entire assemblage. Both
 approaches have merit for comparing communities and ecosystems [@Gooriah2021].
 While the degree to which sample diversity and asymptotic estimate each differs
-from the true diversity (bias) has recieved substantial study, the sampling
-variation in each type of Hill diversity estimate is less
-understood.`MeanRarity` provides a toolkit to explore accuracy and sampling
-uncertainty for Hill diversity estimates. Because this package simulates species
-abundance distributions with known diversity, it allows examination of the
-drivers of sampling variation in Hill diversity estimates.
+from the true diversity (bias) has received substantial study, the sampling
+variation in each type of Hill diversity estimate is less understood.
+`MeanRarity` provides a toolkit to explore accuracy and sampling uncertainty for
+Hill diversity estimates. Because this package simulates species abundance
+distributions with known diversity, it allows examination of the drivers of
+sampling variation in Hill diversity estimates.
 
 It is well-known that the diversity of a sample tends to be lower than the
-diversity of the assemblage from which the sample was drawn. This problem is most
+diversity of the assemblage from which the sample was drawn. This "bias" is most
 acute for species richness, but can be substantial for all Hill diversities. The
 degree of mismatch between the sample and true diversity is difficult to know
 with real assemblages, because of the fundamental challenge of knowing the true
 diversity of real ecological communities, but this can be addressed directly
 through simulation. At the same time, current asymptotic Hill diversity
 estimators [@Chao2015] typically exhibit little bias when sample sizes are
-reasonably large (hundreds of individuals) and $\ell < \sim 0.5 $. Less
+reasonably large (hundreds of individuals) and $\ell < \sim 0.75 $. Less
 well-understood is how different features of the species abundance distribution
 (e.g. evenness, or just how rare the rarest species are) drives the degree of
 difference between either sampled diversity or asymptotic estimators, and the
@@ -445,7 +445,7 @@ species abundance distribution, and the scaling exponent for Hill diversity.
 Variability, along with bias, is an important consideration when selecting a
 diversity metric. Especially when the number of replicates is modest, as is
 often the case in ecological studies, inaccuracy due to random sampling
-variability leads to equally misleading results as does bias *CITE THIS*.
+variability could lead to equally misleading results as could bias *CITE THIS*.
 
 To explore how the shape of the species abundance distribution and sample size
 drive the sampling expectations for sample and asymptotic Hill diversity
@@ -455,10 +455,10 @@ levels of evenness, we simulated both a lognormally- and gamma-distributed
 assemblage of 100 species. To parameterize evenness, we used (Hill-Simpson
 diversity -1)/(richness-1), which is equal to 1 with a perfectly even
 species-abundance distribution, and 0 when Hill-Simpson diversity reaches its
-minimum, 1, for any richness value [@Chao2019a]. Thus, in each simulated
-assemblage, we know richness to be 100, Hill-Simpson takes one of three values
-given by the evenness parameters, and other Hill diversities depend on the
-distributional assumption (gamma or lognormal).
+minimum, 1, for any richness value [@Kvalseth1991, @Chao2019a]. Thus, in each
+simulated assemblage, we know richness to be 100, Hill-Simpson takes one of
+three values given by the evenness parameters, and other Hill diversities depend
+on the distributional assumption (gamma or lognormal).
 
 `MeanRarity::fitSAD()` returns species relative abundances (a SAD), and we
 generate finite, discrete abundance samples with the function

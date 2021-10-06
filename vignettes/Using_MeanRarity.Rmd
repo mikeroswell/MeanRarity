@@ -416,7 +416,7 @@ challenging [@Roswell2021]. Although many estimators have been used, the two
 most common approaches are to a) calculate the diversity of samples directly, or
 b) use non-parametric estimators of the diversity of the entire assemblage. Both
 approaches have merit for comparing communities and ecosystems [@Gooriah2021].
-While the degree to which sample diversity and asymptotic estimate each differs
+While the degree to which sample diversity and asymptotic estimates each differ
 from the true diversity (bias) has received substantial study, the sampling
 variation in each type of Hill diversity estimate is less understood.
 `MeanRarity` provides a toolkit to explore accuracy and sampling uncertainty for
@@ -434,7 +434,7 @@ through simulation. At the same time, current asymptotic Hill diversity
 estimators [@Chao2015] typically exhibit little bias when sample sizes are
 reasonably large (hundreds of individuals) and $\ell < \sim 0.75 $. Less
 well-understood is how different features of the species abundance distribution
-(e.g. evenness, or just how rare the rarest species are) drives the degree of
+(e.g. evenness, or just how rare the rarest species are) drive the degree of
 difference between either sampled diversity or asymptotic estimators, and the
 true diversity of the sampled species abundance distribution.
 
@@ -541,7 +541,6 @@ distributional assumption and sampling intensity. For the asymptotic Hill
 diversity estimates, bias at very low sample sizes was less than sample
 diversity but could still be extreme. However, this bias evaporated quickly for
 Hill diversities when the scaling exponent $\ell << 1 $.
-
 
 
 <-- Figures showing bias for sample diversity and Chao/Jost asymptotic estimators -->

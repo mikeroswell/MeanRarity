@@ -651,8 +651,8 @@ myabs %>% dplyr::left_join(data.frame(
     ggplot2::theme_classic()+
     # theme(text=element_text(size=16))+
     ggplot2::labs(x="abundance rank", y="", color="", shape="")+
-    ggplot2::facet_grid(forcats::fct_rev(scl)~skew, scales="free", switch="y", labeller=remsub)
-````
+      ggplot2::facet_grid(forcats::fct_rev(scl)~skew, scales="free", switch="y", labeller=remsub)
+```
 
 In the supplementary materials for [@Roswell2021], we demonstrate that the
 CI for diversity estimates based on the approach articulated in [@Chao2015] tend 

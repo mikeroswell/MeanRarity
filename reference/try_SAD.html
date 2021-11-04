@@ -84,7 +84,7 @@ and gives relative abundance estimates for each species." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MeanRarity</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.0000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.0001</span>
       </span>
     </div>
 
@@ -160,7 +160,7 @@ distribution.</p></td>
     </tr>
     <tr>
       <th>distr</th>
-      <td><p>Character string, one of <code><a href='https://rdrr.io/r/base/c.html'>c("lnorm", "gamma")</a></code></p></td>
+      <td><p>Character string, one of <code>c("lnorm", "gamma")</code></p></td>
     </tr>
     </table>
 
@@ -169,22 +169,28 @@ distribution.</p></td>
     <div class='dont-index'><p><code><a href='https://rdrr.io/r/stats/GammaDist.html'>qgamma</a>, <a href='https://rdrr.io/r/stats/Lognormal.html'>qlnorm</a>, <a href='fit_SAD.html'>fit_SAD</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>try_SAD</span><span class='op'>(</span>rich <span class='op'>=</span> <span class='fl'>10</span>, x <span class='op'>=</span> <span class='fl'>0.2</span>, distr <span class='op'>=</span> <span class='st'>"lnorm"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 30606.59 27099.94 25207.53 23791.03 22587.06 21479.79 20392.77 19246.84
-#&gt;  [9] 17902.82 15851.66</div><div class='input'><span class='fu'>try_SAD</span><span class='op'>(</span>rich <span class='op'>=</span> <span class='fl'>10</span>, x <span class='op'>=</span> <span class='fl'>2</span>, distr <span class='op'>=</span> <span class='st'>"lnorm"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 591080.3564 175056.9763  84878.7885  47602.5178  28319.9758  17131.5540
-#&gt;  [7]  10192.0070   5715.9769   2771.4702    820.8109</div><div class='input'>
-<span class='fu'>try_SAD</span><span class='op'>(</span>rich <span class='op'>=</span> <span class='fl'>10</span>, x <span class='op'>=</span> <span class='fl'>0.2</span>, distr <span class='op'>=</span> <span class='st'>"gamma"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 5.152629e+01 1.961988e+01 8.942958e+00 4.045657e+00 1.688655e+00
-#&gt;  [6] 6.081871e-01 1.718565e-01 3.187963e-02 2.477746e-03 1.019607e-05</div><div class='input'><span class='fu'>try_SAD</span><span class='op'>(</span>rich <span class='op'>=</span> <span class='fl'>10</span>, x <span class='op'>=</span> <span class='fl'>2</span>, distr <span class='op'>=</span> <span class='st'>"gamma"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 23.719323 16.862208 13.463173 11.094223  9.217835  7.617366  6.175218
-#&gt;  [8]  4.806394  3.416193  1.776808</div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span>  <span class='fu'>try_SAD</span><span class='op'>(</span>rich <span class='op'>=</span> <span class='fl'>10</span>, x <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>, distr <span class='op'>=</span> <span class='st'>"lnorm"</span><span class='op'>)</span>
-<span class='fu'>try_SAD</span><span class='op'>(</span>rich <span class='op'>=</span> <span class='fl'>10</span>, x <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>, distr <span class='op'>=</span> <span class='st'>"gamma"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in try_SAD(rich = 10, x = -1, distr = "gamma"): shape parameter `x` must be non-negative; positive if distr = `gamma`</span></div><div class='input'><span class='fu'>try_SAD</span><span class='op'>(</span>rich <span class='op'>=</span> <span class='fl'>10</span>, x <span class='op'>=</span> <span class='fl'>0</span>, distr <span class='op'>=</span> <span class='st'>"gamma"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in try_SAD(rich = 10, x = 0, distr = "gamma"): x must be positive</span></div><div class='input'>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>try_SAD</span><span class='op'>(</span>rich <span class='op'>=</span> <span class='fl'>10</span>, x <span class='op'>=</span> <span class='fl'>0.2</span>, distr <span class='op'>=</span> <span class='st'>"lnorm"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 30606.59 27099.94 25207.53 23791.03 22587.06 21479.79 20392.77 19246.84</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] 17902.82 15851.66</span>
+<span class='r-in'><span class='fu'>try_SAD</span><span class='op'>(</span>rich <span class='op'>=</span> <span class='fl'>10</span>, x <span class='op'>=</span> <span class='fl'>2</span>, distr <span class='op'>=</span> <span class='st'>"lnorm"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 591080.3564 175056.9763  84878.7885  47602.5178  28319.9758  17131.5540</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7]  10192.0070   5715.9769   2771.4702    820.8109</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>try_SAD</span><span class='op'>(</span>rich <span class='op'>=</span> <span class='fl'>10</span>, x <span class='op'>=</span> <span class='fl'>0.2</span>, distr <span class='op'>=</span> <span class='st'>"gamma"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 5.152629e+01 1.961988e+01 8.942958e+00 4.045657e+00 1.688655e+00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] 6.081871e-01 1.718565e-01 3.187963e-02 2.477746e-03 1.019607e-05</span>
+<span class='r-in'><span class='fu'>try_SAD</span><span class='op'>(</span>rich <span class='op'>=</span> <span class='fl'>10</span>, x <span class='op'>=</span> <span class='fl'>2</span>, distr <span class='op'>=</span> <span class='st'>"gamma"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 23.719323 16.862208 13.463173 11.094223  9.217835  7.617366  6.175218</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8]  4.806394  3.416193  1.776808</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span>  <span class='fu'>try_SAD</span><span class='op'>(</span>rich <span class='op'>=</span> <span class='fl'>10</span>, x <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>, distr <span class='op'>=</span> <span class='st'>"lnorm"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>try_SAD</span><span class='op'>(</span>rich <span class='op'>=</span> <span class='fl'>10</span>, x <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>, distr <span class='op'>=</span> <span class='st'>"gamma"</span><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in try_SAD(rich = 10, x = -1, distr = "gamma"):</span> shape parameter `x` must be non-negative; positive if distr = `gamma`</span>
+<span class='r-in'><span class='fu'>try_SAD</span><span class='op'>(</span>rich <span class='op'>=</span> <span class='fl'>10</span>, x <span class='op'>=</span> <span class='fl'>0</span>, distr <span class='op'>=</span> <span class='st'>"gamma"</span><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in try_SAD(rich = 10, x = 0, distr = "gamma"):</span> x must be positive</span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

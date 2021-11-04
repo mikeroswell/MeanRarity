@@ -83,7 +83,7 @@ Hill diversity is also the mean species rarity." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MeanRarity</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.0000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.0001</span>
       </span>
     </div>
 
@@ -197,10 +197,13 @@ ISSN 0724-6811, doi: <a href='https://doi.org/10.1145/584091.584093'>10.1145/584
     <div class='dont-index'><p><code><a href='pfun.html'>pfun</a></code>, <code><a href='ipfun.html'>ipfun</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>rarity</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>,<span class='fl'>8</span>,<span class='fl'>5</span>,<span class='fl'>4</span>,<span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span>, <span class='fl'>1</span><span class='op'>)</span> <span class='co'>#species richness</span>
-</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='fu'>rarity</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>,<span class='fl'>8</span>,<span class='fl'>5</span>,<span class='fl'>4</span>,<span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span> <span class='co'># Hill-Shannon diversity</span>
-</div><div class='output co'>#&gt; [1] 4.057871</div><div class='input'><span class='fu'>rarity</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>,<span class='fl'>8</span>,<span class='fl'>5</span>,<span class='fl'>4</span>,<span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span> <span class='co'># Hill-Simpson diversity</span>
-</div><div class='output co'>#&gt; [1] 3.137255</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>rarity</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>,<span class='fl'>8</span>,<span class='fl'>5</span>,<span class='fl'>4</span>,<span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span>, <span class='fl'>1</span><span class='op'>)</span> <span class='co'>#species richness</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 6</span>
+<span class='r-in'><span class='fu'>rarity</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>,<span class='fl'>8</span>,<span class='fl'>5</span>,<span class='fl'>4</span>,<span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span>, <span class='fl'>0</span><span class='op'>)</span> <span class='co'># Hill-Shannon diversity</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 4.057871</span>
+<span class='r-in'><span class='fu'>rarity</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>,<span class='fl'>8</span>,<span class='fl'>5</span>,<span class='fl'>4</span>,<span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span> <span class='co'># Hill-Simpson diversity</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 3.137255</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

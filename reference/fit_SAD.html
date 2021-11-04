@@ -84,7 +84,7 @@ stats::uniroot." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MeanRarity</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.0000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.0001</span>
       </span>
     </div>
 
@@ -220,86 +220,92 @@ SADs may be inappropriate test cases for non-microbial ecologists.</p>
     <div class='dont-index'><p><code><a href='https://rdrr.io/r/stats/uniroot.html'>uniroot</a></code>, <code><a href='MeanRarity-package.html'>MeanRarity</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>#works</span>
-<span class='fu'>fit_SAD</span><span class='op'>(</span>distr <span class='op'>=</span> <span class='st'>"gamma"</span><span class='op'>)</span> <span class='co'>#works</span>
-</div><div class='output co'>#&gt; $distribution_info
-#&gt;       distribution   fitted parameter 
-#&gt;            "gamma" "3.86289520314416" 
-#&gt; 
-#&gt; $community_info
-#&gt;     richness Hill-Shannon Hill-Simpson 
-#&gt;     50.00000     44.29982     40.00000 
-#&gt; 
-#&gt; $rel_abundances
-#&gt;  [1] 0.050977208 0.043067059 0.039210234 0.036585333 0.034570836 0.032923087
-#&gt;  [7] 0.031520640 0.030293970 0.029199456 0.028207877 0.027298671 0.026456798
-#&gt; [13] 0.025670906 0.024932204 0.024233734 0.023569880 0.022936036 0.022328368
-#&gt; [19] 0.021743638 0.021179080 0.020632300 0.020101202 0.019583933 0.019078832
-#&gt; [25] 0.018584395 0.018099242 0.017622091 0.017151738 0.016687030 0.016226850
-#&gt; [31] 0.015770097 0.015315667 0.014862432 0.014409215 0.013954769 0.013497736
-#&gt; [37] 0.013036613 0.012569693 0.012094992 0.011610149 0.011112276 0.010597731
-#&gt; [43] 0.010061772 0.009497971 0.008897183 0.008245572 0.007520342 0.006678887
-#&gt; [49] 0.005622419 0.003971859
-#&gt; </div><div class='input'><span class='fu'>fit_SAD</span><span class='op'>(</span>distr <span class='op'>=</span> <span class='st'>"lnorm"</span>, rich <span class='op'>=</span> <span class='fl'>50</span>, simpson <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='co'>#works</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Rarest species has relative abundance  4.38248906502601e-08 . </span>
-#&gt; <span class='warning'>Consider implied community size.</span></div><div class='output co'>#&gt; $distribution_info
-#&gt;       distribution   fitted parameter 
-#&gt;            "lnorm" "3.56144818681073" 
-#&gt; 
-#&gt; $community_info
-#&gt;     richness Hill-Shannon Hill-Simpson 
-#&gt;    50.000000     3.294258     2.000000 
-#&gt; 
-#&gt; $rel_abundances
-#&gt;  [1] 6.888518e-01 1.409222e-01 6.082007e-02 3.330848e-02 2.059171e-02
-#&gt;  [6] 1.370931e-02 9.596922e-03 6.966149e-03 5.196934e-03 3.960780e-03
-#&gt; [11] 3.070641e-03 2.413851e-03 1.919412e-03 1.540891e-03 1.246962e-03
-#&gt; [16] 1.015930e-03 8.324241e-04 6.853386e-04 5.665088e-04 4.698410e-04
-#&gt; [21] 3.907249e-04 3.256299e-04 2.718228e-04 2.271666e-04 1.899756e-04
-#&gt; [26] 1.589091e-04 1.328930e-04 1.110608e-04 9.270910e-05 7.726371e-05
-#&gt; [31] 6.425335e-05 5.328930e-05 4.404955e-05 3.626620e-05 2.971550e-05
-#&gt; [36] 2.420993e-05 1.959182e-05 1.572818e-05 1.250651e-05 9.831452e-06
-#&gt; [41] 7.621947e-06 5.808974e-06 4.333651e-06 3.145681e-06 2.202070e-06
-#&gt; [46] 1.466069e-06 9.063414e-07 4.963634e-07 2.142236e-07 4.382489e-08
-#&gt; </div><div class='input'><span class='fu'>fit_SAD</span><span class='op'>(</span>distr <span class='op'>=</span> <span class='st'>"gamma"</span>, rich <span class='op'>=</span> <span class='fl'>50</span>, simpson <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='co'>#works</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Rarest species has relative abundance  2.69995080442289e-83 . </span>
-#&gt; <span class='warning'>Consider implied community size.</span></div><div class='output co'>#&gt; $distribution_info
-#&gt;         distribution     fitted parameter 
-#&gt;              "gamma" "0.0242907270521766" 
-#&gt; 
-#&gt; $community_info
-#&gt;     richness Hill-Shannon Hill-Simpson 
-#&gt;    50.000000     2.694709     2.000000 
-#&gt; 
-#&gt; $rel_abundances
-#&gt;  [1] 6.729581e-01 2.005096e-01 7.607360e-02 3.036103e-02 1.219451e-02
-#&gt;  [6] 4.850669e-03 1.897665e-03 7.276530e-04 2.729132e-04 9.996717e-05
-#&gt; [11] 3.571346e-05 1.242684e-05 4.205614e-06 1.382235e-06 4.404637e-07
-#&gt; [16] 1.358457e-07 4.047197e-08 1.162316e-08 3.210401e-09 8.506808e-10
-#&gt; [21] 2.156473e-10 5.213926e-11 1.198286e-11 2.607946e-12 5.352530e-13
-#&gt; [26] 1.031105e-13 1.854538e-14 3.095739e-15 4.763667e-16 6.704994e-17
-#&gt; [31] 8.555806e-18 9.795856e-19 9.942777e-20 8.820577e-21 6.725028e-22
-#&gt; [36] 4.318346e-23 2.278772e-24 9.587660e-26 3.096926e-27 7.318875e-29
-#&gt; [41] 1.188639e-30 1.220237e-32 7.057474e-35 1.950500e-37 2.010861e-40
-#&gt; [46] 5.195004e-44 1.668512e-48 1.608919e-54 1.184325e-63 2.699951e-83
-#&gt; </div><div class='input'><span class='fu'>fit_SAD</span><span class='op'>(</span>distr <span class='op'>=</span> <span class='st'>"gamma"</span>, rich <span class='op'>=</span> <span class='fl'>10</span>, simpson <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $distribution_info
-#&gt;       distribution   fitted parameter 
-#&gt;            "gamma" "1.23540540463064" 
-#&gt; 
-#&gt; $community_info
-#&gt;     richness Hill-Shannon Hill-Simpson 
-#&gt;    10.000000     7.273506     6.000000 
-#&gt; 
-#&gt; $rel_abundances
-#&gt;  [1] 0.286412672 0.188593616 0.142105917 0.110870935 0.087043180 0.067550896
-#&gt;  [7] 0.050836952 0.035950731 0.022158130 0.008476971
-#&gt; </div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>fit_SAD</span><span class='op'>(</span>distr <span class='op'>=</span> <span class='st'>"nonsense"</span><span class='op'>)</span>  <span class='co'>#returns error</span>
-<span class='fu'>fit_SAD</span><span class='op'>(</span>distr <span class='op'>=</span> <span class='st'>"lnorm"</span>, rich <span class='op'>=</span> <span class='fl'>50</span>, simpson <span class='op'>=</span> <span class='fl'>90</span><span class='op'>)</span> <span class='co'>#returns error</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'>#works</span></span>
+<span class='r-in'><span class='fu'>fit_SAD</span><span class='op'>(</span>distr <span class='op'>=</span> <span class='st'>"gamma"</span><span class='op'>)</span> <span class='co'>#works</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $distribution_info</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       distribution   fitted parameter </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            "gamma" "3.86289520314416" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $community_info</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     richness Hill-Shannon Hill-Simpson </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     50.00000     44.29982     40.00000 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $rel_abundances</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 0.050977208 0.043067059 0.039210234 0.036585333 0.034570836 0.032923087</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] 0.031520640 0.030293970 0.029199456 0.028207877 0.027298671 0.026456798</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] 0.025670906 0.024932204 0.024233734 0.023569880 0.022936036 0.022328368</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] 0.021743638 0.021179080 0.020632300 0.020101202 0.019583933 0.019078832</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] 0.018584395 0.018099242 0.017622091 0.017151738 0.016687030 0.016226850</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] 0.015770097 0.015315667 0.014862432 0.014409215 0.013954769 0.013497736</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [37] 0.013036613 0.012569693 0.012094992 0.011610149 0.011112276 0.010597731</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [43] 0.010061772 0.009497971 0.008897183 0.008245572 0.007520342 0.006678887</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [49] 0.005622419 0.003971859</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'>fit_SAD</span><span class='op'>(</span>distr <span class='op'>=</span> <span class='st'>"lnorm"</span>, rich <span class='op'>=</span> <span class='fl'>50</span>, simpson <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='co'>#works</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Rarest species has relative abundance  4.38248906502601e-08 . </span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Consider implied community size.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $distribution_info</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       distribution   fitted parameter </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            "lnorm" "3.56144818681073" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $community_info</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     richness Hill-Shannon Hill-Simpson </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    50.000000     3.294258     2.000000 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $rel_abundances</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 6.888518e-01 1.409222e-01 6.082007e-02 3.330848e-02 2.059171e-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] 1.370931e-02 9.596922e-03 6.966149e-03 5.196934e-03 3.960780e-03</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] 3.070641e-03 2.413851e-03 1.919412e-03 1.540891e-03 1.246962e-03</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [16] 1.015930e-03 8.324241e-04 6.853386e-04 5.665088e-04 4.698410e-04</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [21] 3.907249e-04 3.256299e-04 2.718228e-04 2.271666e-04 1.899756e-04</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [26] 1.589091e-04 1.328930e-04 1.110608e-04 9.270910e-05 7.726371e-05</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] 6.425335e-05 5.328930e-05 4.404955e-05 3.626620e-05 2.971550e-05</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [36] 2.420993e-05 1.959182e-05 1.572818e-05 1.250651e-05 9.831452e-06</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [41] 7.621947e-06 5.808974e-06 4.333651e-06 3.145681e-06 2.202070e-06</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [46] 1.466069e-06 9.063414e-07 4.963634e-07 2.142236e-07 4.382489e-08</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'>fit_SAD</span><span class='op'>(</span>distr <span class='op'>=</span> <span class='st'>"gamma"</span>, rich <span class='op'>=</span> <span class='fl'>50</span>, simpson <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='co'>#works</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Rarest species has relative abundance  2.69995080442289e-83 . </span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Consider implied community size.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $distribution_info</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         distribution     fitted parameter </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              "gamma" "0.0242907270521766" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $community_info</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     richness Hill-Shannon Hill-Simpson </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    50.000000     2.694709     2.000000 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $rel_abundances</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 6.729581e-01 2.005096e-01 7.607360e-02 3.036103e-02 1.219451e-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] 4.850669e-03 1.897665e-03 7.276530e-04 2.729132e-04 9.996717e-05</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] 3.571346e-05 1.242684e-05 4.205614e-06 1.382235e-06 4.404637e-07</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [16] 1.358457e-07 4.047197e-08 1.162316e-08 3.210401e-09 8.506808e-10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [21] 2.156473e-10 5.213926e-11 1.198286e-11 2.607946e-12 5.352530e-13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [26] 1.031105e-13 1.854538e-14 3.095739e-15 4.763667e-16 6.704994e-17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] 8.555806e-18 9.795856e-19 9.942777e-20 8.820577e-21 6.725028e-22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [36] 4.318346e-23 2.278772e-24 9.587660e-26 3.096926e-27 7.318875e-29</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [41] 1.188639e-30 1.220237e-32 7.057474e-35 1.950500e-37 2.010861e-40</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [46] 5.195004e-44 1.668512e-48 1.608919e-54 1.184325e-63 2.699951e-83</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'>fit_SAD</span><span class='op'>(</span>distr <span class='op'>=</span> <span class='st'>"gamma"</span>, rich <span class='op'>=</span> <span class='fl'>10</span>, simpson <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $distribution_info</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       distribution   fitted parameter </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            "gamma" "1.23540540463064" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $community_info</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     richness Hill-Shannon Hill-Simpson </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    10.000000     7.273506     6.000000 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $rel_abundances</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 0.286412672 0.188593616 0.142105917 0.110870935 0.087043180 0.067550896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] 0.050836952 0.035950731 0.022158130 0.008476971</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>fit_SAD</span><span class='op'>(</span>distr <span class='op'>=</span> <span class='st'>"nonsense"</span><span class='op'>)</span>  <span class='co'>#returns error</span></span>
+<span class='r-in'><span class='fu'>fit_SAD</span><span class='op'>(</span>distr <span class='op'>=</span> <span class='st'>"lnorm"</span>, rich <span class='op'>=</span> <span class='fl'>50</span>, simpson <span class='op'>=</span> <span class='fl'>90</span><span class='op'>)</span> <span class='co'>#returns error</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -21,7 +21,11 @@ ENSer <- function(s_k, ens_k_old, k){
 #'
 #' @return numeric scalar, unbiased estimate of rarefied richness, assuming
 #'   abundances are sampled without replacement from a finite species pool
-#' @concept Computation
+#'
+#' @references
+#' \insertRef{Hurlbert1971}{MeanRarity}
+#'
+#' @concept Estimators
 #' @export
 #'
 #' @examples
@@ -53,8 +57,12 @@ hRare <- function(ab, k){
 #' @param maxit integer, maximum number of iterations
 #' @param tol numeric, threshhold for convergence
 #'
-#' @concept Computation
-#' @return Numeric scalar estimated Hurlbert ENS
+#' @concept Estimators
+#' @return Numeric scalar: estimated Hurlbert ENS
+#'
+#' @references
+#' \insertRef{Dauby2012}{MeanRarity}
+#' \insertRef{Hurlbert1971}{MeanRarity}
 #' @export
 #'
 #' @examples

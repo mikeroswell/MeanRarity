@@ -21,7 +21,10 @@ Provides Hurlberts (1971) rarefied richness.
 \examples{
 hRare(1:10, 2)
 }
+\references{
+\insertRef{Hurlbert1971}{MeanRarity}
+}
 \seealso{
 vegan::rarefy()
 }
-\concept{Computation}
+\concept{Estimators}

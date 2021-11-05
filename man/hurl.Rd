@@ -16,7 +16,7 @@ hurl(ab, k, maxit = 1e+05, tol = 1e-12)
 \item{tol}{numeric, threshhold for convergence}
 }
 \value{
-Numeric scalar estimated Hurlbert ENS
+Numeric scalar: estimated Hurlbert ENS
 }
 \description{
 Implements estimate described in Dauby and Hardy 2011 for a class of
@@ -37,4 +37,8 @@ hurl(ab, 2)
 # hurl(ab, 1e5) # returns an error
 
 }
-\concept{Computation}
+\references{
+\insertRef{Dauby2012}{MeanRarity}
+\insertRef{Hurlbert1971}{MeanRarity}
+}
+\concept{Estimators}

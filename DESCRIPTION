@@ -46,6 +46,7 @@ Suggests:
     , iNEXT
     , tidyr
     , forcats
+    , vegan
 Roxygen: list(markdown = TRUE)
 RdMacros: Rdpack
 Language: en-US

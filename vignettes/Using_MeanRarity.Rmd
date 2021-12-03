@@ -91,8 +91,6 @@ declining, at an unprecedented rate due to anthropogenic global change. Yet,
 detecting and describing this change means choosing just what to measure, and
 how. Ecologists are faced with a dazzling array of choices.
 
-
-
 Here, we introduce the R package `MeanRarity`, which enables estimating and
 visualizing Hill diversity (aka "Hill numbers") in terms of the average species
 "rarity." Rarity is defined as the reciprocal of relative abundance.
@@ -175,10 +173,10 @@ data.frame(l = l_vals
 
 ## Interpreting Mean Rarity
 
-One way of interpreting Hill diversities is that they express the diversity of a
-assemblage in terms of an imaginary assemblage with that same diversity, but in
-which all species are equally abundant [@Jost2006]. In this perspective, the
-uneven assemblage `uneven_comm` is as diverse as a assemblage of six equally
+One way of interpreting Hill diversities is that they express the diversity of
+an assemblage in terms of an imaginary assemblage with that same diversity, but
+in which all species are equally abundant [@Jost2006]. In this perspective, the
+uneven assemblage `uneven_comm` is as diverse as an assemblage of six equally
 abundant species (richness, `l = 1`), or four equally abundant species
 (Hill-Shannon diversity, `l = 0`), or three (Hill-Simpson diversity, `l = -1`).
 These equivalencies depend on the the distribution of relative abundances and
@@ -196,7 +194,6 @@ rarity(uneven_12, -1) %>% round(2)
 rarity(even_3, -1) %>% round(2)
 
 ```
-
 
 One might wonder what the meaning of $\ell$ is, in the effective numbers
 framework. Many authors have described $\ell$ as a factor that weights species
@@ -291,7 +288,7 @@ To visualize a realized or simulated species abundance distribution,
 `MeanRarity` includes the convenience function `radplot()`, which plots species
 [relative] abundances against species ranks. The default behavior is *not* to
 log-transform [relative] abundances (i.e. it does not, by default, generate a
-"Whitaker plot")
+"Whitaker plot").
 
 ```{r fit species abundance distributions}
 # set target richness and Hill-Simpson diversity levels

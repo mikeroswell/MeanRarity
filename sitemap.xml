@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://mikeroswell.github.io/MeanRarity/404.html</loc>
+  </url>
+  <url>
+    <loc>https://mikeroswell.github.io/MeanRarity/articles/Estimating_Mean_Rarity.html</loc>
+  </url>
+  <url>
+    <loc>https://mikeroswell.github.io/MeanRarity/articles/Gods_estimator.html</loc>
+  </url>
+  <url>
+    <loc>https://mikeroswell.github.io/MeanRarity/articles/Using_MeanRarity.html</loc>
+  </url>
+  <url>
+    <loc>https://mikeroswell.github.io/MeanRarity/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://mikeroswell.github.io/MeanRarity/authors.html</loc>
+  </url>
+  <url>
     <loc>https://mikeroswell.github.io/MeanRarity/index.html</loc>
   </url>
   <url>
@@ -55,6 +73,9 @@
     <loc>https://mikeroswell.github.io/MeanRarity/reference/hurl.html</loc>
   </url>
   <url>
+    <loc>https://mikeroswell.github.io/MeanRarity/reference/index.html</loc>
+  </url>
+  <url>
     <loc>https://mikeroswell.github.io/MeanRarity/reference/ipfun.html</loc>
   </url>
   <url>
@@ -101,14 +122,5 @@
   </url>
   <url>
     <loc>https://mikeroswell.github.io/MeanRarity/reference/white_y.html</loc>
-  </url>
-  <url>
-    <loc>https://mikeroswell.github.io/MeanRarity/articles/Estimating_Mean_Rarity.html</loc>
-  </url>
-  <url>
-    <loc>https://mikeroswell.github.io/MeanRarity/articles/Gods_estimator.html</loc>
-  </url>
-  <url>
-    <loc>https://mikeroswell.github.io/MeanRarity/articles/Using_MeanRarity.html</loc>
   </url>
 </urlset>

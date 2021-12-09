@@ -4,9 +4,12 @@ reference:
 - title: Key functions
 - contents:
   - has_concept(c("Visualization", "Simulation", "Computation", "Sampling"))
+- title: Datasets
+- contents:
+  -has_keyword("datasets")
 - title: Other exported objects
 - contents:
-  - lacks_concepts(c("Visualization", "Simulation", "Computation", "Sampling"))
+  - lacks_concepts(c("Visualization", "Simulation", "Computation", "Sampling")), -has_keyword("datasets")
 
 template:
   params:

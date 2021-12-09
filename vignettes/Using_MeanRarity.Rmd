@@ -324,6 +324,7 @@ The realized samples have Poisson-type noise about the mean species relative
 abundances given by `fit_SAD()` (that is, they are samples from a multinomial
 distribution). The diversity of a sample asymptotically approaches the simulated
 diversity as sample size approaches infinity.
+<!- the section above could be tightened -->
 
 ```{r sample from SAD}
 
@@ -367,14 +368,6 @@ even_SAD$community_info
 rbind(lapply(c(1, 0, -1), function(l){
   rarity(big_even_sample, l)
 }))
-
-# with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson
-# richness is always lower
-uneven_SAD$community_info
-rbind(lapply(c(1, 0, -1), function(l){
-  rarity(big_uneven_sample, l)
-}))
-
 ```
 
 For any distribution of relative abundances, one can ask, "what is the Hill
@@ -425,18 +418,17 @@ It is well-known that the diversity of a sample tends to be lower than the
 diversity of the assemblage from which the sample was drawn. This "bias" is most
 acute for species richness, but can be substantial for all Hill diversities. The
 degree of mismatch between the sample and true diversity is difficult to know
-with real assemblages, because of the fundamental challenge of knowing the true
-diversity of real ecological communities, but this can be addressed directly
-through simulation. At the same time, current asymptotic Hill diversity
-estimators [@Chao2015] typically exhibit little bias when sample sizes are
-reasonably large (hundreds of individuals) and $\ell < \sim 0.75 $. Less
-well-understood is how different features of the species abundance distribution
-(e.g. evenness, or just how rare the rarest species are) drive the degree of
-difference between either sampled diversity or asymptotic estimators, and the
-true diversity of the sampled species abundance distribution.
+with real assemblages, but this can be addressed directly through simulation. At
+the same time, current asymptotic Hill diversity estimators [@Chao2015]
+typically exhibit little bias when sample sizes are reasonably large (hundreds
+of individuals) and $\ell < \sim 0.75 $. Less well-understood is how different
+features of the species abundance distribution (e.g. evenness, or just how rare
+the rarest species are) drive the degree of difference between either sampled
+diversity or asymptotic estimators, and the true diversity of the sampled
+species abundance distribution.
 
-Similarly, the variability in Hill diversity estimates (both sample diversity
-and asymptotic estimators) is poorly understood. Intuitively, sampling
+Similarly, the sampling variation in Hill diversity estimates (both sample
+diversity and asymptotic estimators) is poorly understood. Intuitively, sampling
 variability in Hill diversity estimates must depend jointly on sample size, the
 species abundance distribution, and the scaling exponent for Hill diversity.
 Variability, along with bias, is an important consideration when selecting a
@@ -537,7 +529,8 @@ Hill-Simpson diversity, although this pattern depended to some degree on both
 distributional assumption and sampling intensity. For the asymptotic Hill
 diversity estimates, bias at very low sample sizes was less than sample
 diversity but could still be extreme. However, this bias evaporated quickly for
-Hill diversities when the scaling exponent $\ell << 1 $.
+both sample and asymptotic Hill diversity estimates when the scaling exponent
+$\ell << 1 $.
 
 
 <-- Figures showing bias for sample diversity and Chao/Jost asymptotic estimators -->
@@ -576,24 +569,22 @@ plot_data %>%
 
 ```
 
-
-
 Much less explored is the variability of both sample diversity, and of
 asymptotic diversity estimates, under random sampling expectations. Here, our
 results were striking, and challenged the orthodoxy that Hill-Simpson diversity
-is the low-uncertainty option for comparing assemblages. The sample Hill-Simpson
-diversity, which has been promoted as a diversity metric that is robust to
-variation in species abundance distributions and sampling intensity
-[@Chase2013], exhibited high sampling uncertainty for most SADs and sampling
-intensities that was greater than for any other Hill diversity. The asymptotic
-estimator was typically more variable than the sample diversity was. This was
-especially the case for richness. While the sampling variability in the
-asymptotic Hill-Simpson diversity was still higher than for the asymptotic
-Hill-Shannon diversity, as we saw for the sample diversity, as the scaling
-exponent $\ell$ approached zero (i.e. more like richness), the variability was
-high and declined slowly with additional sampling. Depending on the evenness and
-distributional assumption of the SAD, the asymptotic richness estimate could be
-more, or less, than the variability in the asymptotic Hill-Simpson diversity
+is the low-uncertainty option for comparing assemblages *CITE BEST REFS ON
+THIS*. The sample Hill-Simpson diversity, which has been promoted as a diversity
+metric that is robust to variation in sampling intensity [@Chase2013], exhibited
+high sampling uncertainty for most SADs and sampling intensities... greater
+variability than for any other Hill diversity. The asymptotic estimator was
+typically more variable than the sample diversity was. This was especially the
+case for richness. While the sampling variability in the asymptotic Hill-Simpson
+diversity was still higher than for the asymptotic Hill-Shannon diversity, as we
+saw for the sample diversity, as the scaling exponent $\ell$ approached zero
+(i.e. increased emphasis on rare species, closer to richness), the variability
+was high and declined slowly with additional sampling. Depending on the evenness
+and distributional assumption of the SAD, the asymptotic richness estimate could
+be more, or less, than the variability in the asymptotic Hill-Simpson diversity
 estimate.
 
 ```{r sampling variation in diversity estimates, fig.height = 7, fig.width = 7}
@@ -636,7 +627,32 @@ plot_data %>%
 ```
 
 # ALTERNATIVE SOFTWARE
+Functions to generate similar diversity estimates and assemblage simulations are
+available in several R packages.
 
+1. `iNEXT`
+  The R package `iNEXT` provides tools for rarefaction and extrapolation of
+  sample Hill diversity estimates, and point estimates for asymptotic estimators
+  for richness, Hill-Shannon, and Hill-Sampson. It computes sample Hill
+  diversity for $\ell\leq 1 = q \geq 0$. The function `MeanRarity::rarity()`
+  also computes mean rarity when $\ell>1$. Although estimates from `iNEXT` and
+  `MeanRarity` should tend to be congruent for $\ell = 1-q$, MeanRarity provides
+  users with the option to use $\ell$ throughout, emphasizing the MeanRarity
+  framework developed in Roswell et al. 2021 [@Roswell2021]. `iNEXT` functions
+  are complex, generating multiple outputs and computing bootstrapped variance
+  estimates by default, whereas in `MeanRarity` most exported functions are
+  comparatively simple. `MeanRarity` provides tools for simulating species
+  abundance distributions and visualizing mean rarity, which `iNEXT` does not,
+  this may make `MeanRarity` best suited to students and those studying
+  biodiversity estimation. `iNEXT` is well-suited to plotting empirical
+  diversity data from a small to modest number of assemblages.
+1. `SpadeR`
+  The R package `SpadeR` provides similar estimates for Hill diversity as iNEXT,
+  also parameterized by $q$ rather than $\ell$. `SpadeR::diversity`, like
+  `MeanRarity::divpro`, generates a Hill diversity "profile". Internal functions from `SpadeR` are used as source code in `MeanRarity` (e.g. a simplified version of`SpadeR:::Chao_Hill_abu()` is a n exported function in `MeanRarity`)
+1. `vegan`
+1. `sads`
+1. `mobsim`
 
 # CONCLUSIONS
 

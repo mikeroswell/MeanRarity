@@ -63,11 +63,11 @@
           <h2 id="key-functions">Key functions <a href="#key-functions" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
         </th>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h3 id="computation">Computation <a href="#computation" class="anchor" aria-hidden="true"></a></h3>
+          <p class="section-desc"></p>
+        </th>
       </tr></tbody><tbody><tr><td>
-          <p><code><a href="divpro.html">divpro()</a></code> </p>
-        </td>
-        <td><p>Generate Hill diversity profile</p></td>
-      </tr><tr><td>
           <p><code><a href="e2d.html">e2d()</a></code> </p>
         </td>
         <td><p>Hill diversity from evenness</p></td>
@@ -76,22 +76,30 @@
         </td>
         <td><p>Normalized Hill evenness</p></td>
       </tr><tr><td>
-          <p><code><a href="fit_SAD.html">fit_SAD()</a></code> </p>
+          <p><code><a href="rarity.html">rarity()</a></code> </p>
         </td>
-        <td><p>Fit a SAD given diversity and a distributional assumption</p></td>
+        <td><p>Compute Hill diversity: the mean species rarity</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h3 id="visualization">Visualization <a href="#visualization" class="anchor" aria-hidden="true"></a></h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="divpro.html">divpro()</a></code> </p>
+        </td>
+        <td><p>Generate Hill diversity profile</p></td>
       </tr><tr><td>
           <p><code><a href="radplot.html">radplot()</a></code> </p>
         </td>
         <td><p>Plot a rank-abundance distribution</p></td>
       </tr><tr><td>
-          <p><code><a href="rarity.html">rarity()</a></code> </p>
-        </td>
-        <td><p>Compute Hill diversity: the mean species rarity</p></td>
-      </tr><tr><td>
           <p><code><a href="rarity_plot.html">rarity_plot()</a></code> </p>
         </td>
         <td><p>Construct rarity balance plot</p></td>
-      </tr><tr><td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h3 id="sampling">Sampling <a href="#sampling" class="anchor" aria-hidden="true"></a></h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
           <p><code><a href="sample_finite.html">sample_finite()</a></code> </p>
         </td>
         <td><p>Take an abundance vector and subsample to size</p></td>
@@ -105,6 +113,42 @@
         <td><p>Subsample of several community vectors
 A wrapper of <code>sample_finite</code> to take a subset of a bunch of
 communities, each subset of equal abundance.</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h3 id="simulation">Simulation <a href="#simulation" class="anchor" aria-hidden="true"></a></h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="fit_SAD.html">fit_SAD()</a></code> </p>
+        </td>
+        <td><p>Fit a SAD given diversity and a distributional assumption</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="datasets">Datasets <a href="#datasets" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="beeAbunds.html">beeAbunds</a></code> </p>
+        </td>
+        <td><p>Bee specimens from 4 sites sampled with equal effort, summarized</p></td>
+      </tr><tr><td>
+          <p><code><a href="beeObs.html">beeObs</a></code> </p>
+        </td>
+        <td><p>Bee specimens from 4 sites sampled with equal effort</p></td>
+      </tr><tr><td>
+          <p><code><a href="effort_rare.html">effort_rare</a></code> </p>
+        </td>
+        <td><p>Rarefied diversity estimates for each site, multiple standards</p></td>
+      </tr><tr><td>
+          <p><code><a href="errs.html">errs</a></code> </p>
+        </td>
+        <td><p>Estimator accuracy and bias</p></td>
+      </tr><tr><td>
+          <p><code><a href="mean_ests.html">mean_ests</a></code> </p>
+        </td>
+        <td><p>Rarefied diversity estimates for each site</p></td>
+      </tr><tr><td>
+          <p><code><a href="plot_data.html">plot_data</a></code> </p>
+        </td>
+        <td><p>Sampling variability in Hill diversity</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="other-exported-objects">Other exported objects <a href="#other-exported-objects" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
@@ -130,25 +174,9 @@ communities, each subset of equal abundance.</p></td>
         </td>
         <td><p>God's unbiased estimator</p></td>
       </tr><tr><td>
-          <p><code><a href="beeAbunds.html">beeAbunds</a></code> </p>
-        </td>
-        <td><p>Bee specimens from 4 sites sampled with equal effort, summarized</p></td>
-      </tr><tr><td>
-          <p><code><a href="beeObs.html">beeObs</a></code> </p>
-        </td>
-        <td><p>Bee specimens from 4 sites sampled with equal effort</p></td>
-      </tr><tr><td>
           <p><code><a href="combfun.html">combfun()</a></code> </p>
         </td>
         <td><p>Sums duplicate values, for determining [species] weights</p></td>
-      </tr><tr><td>
-          <p><code><a href="effort_rare.html">effort_rare</a></code> </p>
-        </td>
-        <td><p>Rarefied diversity estimates for each site, multiple standards</p></td>
-      </tr><tr><td>
-          <p><code><a href="errs.html">errs</a></code> </p>
-        </td>
-        <td><p>Estimator accuracy and bias</p></td>
       </tr><tr><td>
           <p><code><a href="hRare.html">hRare()</a></code> </p>
         </td>
@@ -162,10 +190,6 @@ communities, each subset of equal abundance.</p></td>
         </td>
         <td><p>Inverse function for power transformation</p></td>
       </tr><tr><td>
-          <p><code><a href="mean_ests.html">mean_ests</a></code> </p>
-        </td>
-        <td><p>Rarefied diversity estimates for each site</p></td>
-      </tr><tr><td>
           <p><code><a href="obs_est.html">obs_est()</a></code> </p>
         </td>
         <td><p>Observed and asymptotic diversity</p></td>
@@ -178,10 +202,6 @@ plots</p></td>
           <p><code><a href="pfun.html">pfun()</a></code> </p>
         </td>
         <td><p>Power transformation</p></td>
-      </tr><tr><td>
-          <p><code><a href="plot_data.html">plot_data</a></code> </p>
-        </td>
-        <td><p>Sampling variability in Hill diversity</p></td>
       </tr><tr><td>
           <p><code><a href="power_trans.html">power_trans()</a></code> </p>
         </td>

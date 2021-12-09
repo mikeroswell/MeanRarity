@@ -2,14 +2,38 @@ url: https://mikeroswell.github.io/MeanRarity
 
 reference:
 - title: Key functions
+- subtitle: Computation
 - contents:
-  - has_concept(c("Visualization", "Simulation", "Computation", "Sampling"))
+  - has_concept("Computation")
+- subtitle: Visualization
+- contents:
+  - has_concept("Visualization")
+- subtitle: Sampling
+- contents:
+  - has_concept("Sampling")
+- subtitle: Simulation
+- contents:
+  - has_concept("Simulation")
 - title: Datasets
 - contents:
-  -has_keyword("datasets")
+  - has_keyword("datasets")
 - title: Other exported objects
 - contents:
-  - lacks_concepts(c("Visualization", "Simulation", "Computation", "Sampling")), -has_keyword("datasets")
+  - Bt_prob_abu
+  - Chao_Hill_abu
+  - Chat.Ind
+  - ENSer
+  - GUE
+  - combfun
+  - hRare
+  - hurl
+  - ipfun
+  - obs_est
+  - omit_y
+  - pfun
+  - power_trans
+  - try_SAD
+  - white_y
 
 template:
   params:

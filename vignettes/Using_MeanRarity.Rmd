@@ -639,9 +639,9 @@ available in several R packages.
   `MeanRarity` should tend to be congruent for $\ell = 1-q$, MeanRarity provides
   users with the option to use $\ell$ throughout, emphasizing the MeanRarity
   framework developed in Roswell et al. 2021 [@Roswell2021]. `iNEXT` functions
-  are complex, generating multiple outputs and computing bootstrapped variance
+  are highly integrated, generating multiple outputs and computing bootstrapped variance
   estimates by default, whereas in `MeanRarity` most exported functions are
-  comparatively simple. `MeanRarity` provides tools for simulating species
+  comparatively simple. `MeanRarity` `MeanRarity` provides tools for simulating species
   abundance distributions and visualizing mean rarity, which `iNEXT` does not,
   this may make `MeanRarity` best suited to students and those studying
   biodiversity estimation. `iNEXT` is well-suited to plotting empirical
@@ -649,7 +649,9 @@ available in several R packages.
 1. `SpadeR`
   The R package `SpadeR` provides similar estimates for Hill diversity as iNEXT,
   also parameterized by $q$ rather than $\ell$. `SpadeR::diversity`, like
-  `MeanRarity::divpro`, generates a Hill diversity "profile". Internal functions from `SpadeR` are used as source code in `MeanRarity` (e.g. a simplified version of`SpadeR:::Chao_Hill_abu()` is a n exported function in `MeanRarity`)
+  `MeanRarity::divpro`, generates a Hill diversity "profile". Internal functions
+  from `SpadeR` are used as source code in `MeanRarity` (e.g. a simplified
+  version of`SpadeR:::Chao_Hill_abu()` is a n exported function in `MeanRarity`)
 1. `vegan`
 1. `sads`
 1. `mobsim`

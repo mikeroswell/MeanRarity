@@ -28,7 +28,7 @@ Ma, T. C. Hsieh and Chun-Huo Chiu"><!-- mathjax --><script src="https://cdnjs.cl
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MeanRarity</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.0001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.0002</span>
       </span>
     </div>
 
@@ -76,7 +76,7 @@ Ma, T. C. Hsieh and Chun-Huo Chiu</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">Chao_Hill_abu</span><span class="op">(</span><span class="va">ab</span>, <span class="va">l</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">Chao_Hill_abu</span><span class="op">(</span><span class="va">ab</span>, <span class="va">l</span>, q <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -85,6 +85,9 @@ Ma, T. C. Hsieh and Chun-Huo Chiu</p>
 <dd><p>A numeric vector of species abundances or relative abundances.</p></dd>
 <dt>l</dt>
 <dd><p>Scaling exponent for the mean, can be any real number.</p></dd>
+<dt>q</dt>
+<dd><p>Scalar, traditional Hill number scaling exponent, q = 1-l where l is the
+scaling parameter for the generalized mean. Can be any real number.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -107,11 +110,11 @@ ISSN 2041210X, doi: <a href="https://doi.org/10.1111/2041-21" class="external-li
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># estimate true Hill diversity</span></span>
 <span class="r-in"><span class="fu">Chao_Hill_abu</span><span class="op">(</span><span class="va">abs</span>, l <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># Chao1 estimate of richness lower bound</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 46.01611</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 37.49</span>
 <span class="r-in"><span class="fu">Chao_Hill_abu</span><span class="op">(</span><span class="va">abs</span>, l <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># Asymptotic estimate of Hill-Shannon diversity</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 26.8187</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 28.18528</span>
 <span class="r-in"><span class="fu">Chao_Hill_abu</span><span class="op">(</span><span class="va">abs</span>, l <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="co"># Asymptotic estimate of Hill-Simpson diversity</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16.98328</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 19.63972</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

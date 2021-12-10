@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MeanRarity</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.0001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.0002</span>
       </span>
     </div>
 
@@ -281,7 +281,7 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">un</span></code></pre></div>
 <p><img src="Using_MeanRarity_files/figure-html/fit%20species%20abundance%20distributions-2.png" width="700"></p>
-<p><code><a href="../reference/fit_SAD.html">fit_SAD()</a></code> generates an ideal species abundance distribution, with relative abundances for a assemblage with infinite abundance. To take a finite sample, we use <code><a href="../reference/sample_infinite.html">sample_infinite()</a></code> (so named because it samples an infinite SAD; <code><a href="../reference/sample_finite.html">sample_finite()</a></code> is for sub-sampling from a realized assemblage/finite sample). The realized samples have Poisson-type noise about the mean species relative abundances given by <code><a href="../reference/fit_SAD.html">fit_SAD()</a></code> (that is, they are samples from a multinomial distribution). The diversity of a sample asymptotically approaches the simulated diversity as sample size approaches infinity. &lt;!- the section above could be tightened –&gt;</p>
+<p><code><a href="../reference/fit_SAD.html">fit_SAD()</a></code> generates an ideal species abundance distribution, with relative abundances for a assemblage with infinite abundance. To take a finite sample, we use <code><a href="../reference/sample_infinite.html">sample_infinite()</a></code> (so named because it samples an infinite SAD; <code><a href="../reference/sample_finite.html">sample_finite()</a></code> is for sub-sampling from a realized assemblage/finite sample). The realized samples have Poisson-type noise about the mean species relative abundances given by <code><a href="../reference/fit_SAD.html">fit_SAD()</a></code> (that is, they are samples from a multinomial distribution). The diversity of a sample asymptotically approaches the simulated diversity as sample size approaches infinity. <!-- the section above could be tightened --></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># diversity of a small sample unlikely to match the simulated diversity values</span>
@@ -292,16 +292,16 @@
 <span class="va">uneven_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">uneven_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">50</span><span class="op">)</span>
 <span class="co">#sample_infinite returns a numeric vector of sample species abundances</span>
 <span class="va">even_sample</span>
-<span class="co">#&gt;  [1] 10  6  2  3  4  2  1  1  2  1  3  3  2  0  1  2  2  4  0  1</span>
+<span class="co">#&gt;  [1] 11  9  6  5  2  2  1  2  4  1  0  1  0  1  2  0  2  1  0  0</span>
 <span class="va">uneven_sample</span>
-<span class="co">#&gt;  [1] 17  2  4  5  5  5  4  3  0  0  1  1  1  1  1  0  0  0  0  0</span>
+<span class="co">#&gt;  [1] 20  5  5  0  5  4  4  2  2  1  0  1  0  0  0  1  0  0  0  0</span>
 
 <span class="co"># we can compare evenness (given a scaling parameter `l`)</span>
 <span class="co"># the evenness is the normalized ratio of an arbitrary Hill diversity to richness</span>
 <span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.5976891</span>
+<span class="co">#&gt; [1] 0.5159774</span>
 <span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.4198873</span>
+<span class="co">#&gt; [1] 0.3826255</span>
 
 <span class="co"># compare diversity from sample vs. ideal SAD:</span>
 <span class="co"># likely pretty far off for a small sample!</span>
@@ -314,7 +314,7 @@
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 18   14.16228 11.16071</span>
+<span class="co">#&gt; [1,] 15   10.62806 8.223684</span>
 
 <span class="co"># with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson</span>
 <span class="co"># richness is always lower</span>
@@ -325,7 +325,7 @@
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 13   8.588717 6.038647</span>
+<span class="co">#&gt; [1,] 11   7.054318 4.826255</span>
 
 
 <span class="va">big_even_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">even_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">1e7</span><span class="op">)</span>
@@ -338,8 +338,8 @@
 <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">l</span><span class="op">)</span><span class="op">{</span>
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">big_even_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 20   15.12136 12.00101</span></code></pre></div>
+<span class="co">#&gt;      [,1] [,2]    [,3]    </span>
+<span class="co">#&gt; [1,] 20   15.1217 12.00089</span></code></pre></div>
 <p>For any distribution of relative abundances, one can ask, “what is the Hill diversity of this distribution?” Yet the answer, of course, depends on the chosen value of the scaling parameter <span class="math inline">\(\ell\)</span>. For a comprehensive answer, one might look across values of <span class="math inline">\(\ell\)</span>, also known as a Hill “diversity profile” <span class="citation">(Chao et al. 2014)</span>. <code>MeanRarity</code> provides a function to generate a Hill diversity profile based on <span class="math inline">\(\ell\)</span> (rather than <span class="math inline">\(q\)</span>): <code><a href="../reference/divpro.html">divpro()</a></code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># the even and uneven communities have same richness but different Hill diversity when `ell != 1`</span>
@@ -510,20 +510,26 @@
 <p>Functions to generate similar diversity estimates and assemblage simulations are available in several R packages.</p>
 <ol style="list-style-type: decimal">
 <li>
-<code>iNEXT</code> The R package <code>iNEXT</code> provides tools for rarefaction and extrapolation of sample Hill diversity estimates, and point estimates for asymptotic estimators for richness, Hill-Shannon, and Hill-Sampson. It computes sample Hill diversity for <span class="math inline">\(\ell\leq 1 = q \geq 0\)</span>. The function <code><a href="../reference/rarity.html">MeanRarity::rarity()</a></code> also computes mean rarity when <span class="math inline">\(\ell&gt;1\)</span>. Although estimates from <code>iNEXT</code> and <code>MeanRarity</code> should tend to be congruent for <span class="math inline">\(\ell = 1-q\)</span>, MeanRarity provides users with the option to use <span class="math inline">\(\ell\)</span> throughout, emphasizing the MeanRarity framework developed in Roswell et al. 2021 <span class="citation">(Roswell, Dushoff, and Winfree 2021)</span>. <code>iNEXT</code> functions are highly integrated, generating multiple outputs and computing bootstrapped variance estimates by default, whereas in <code>MeanRarity</code> most exported functions are comparatively simple. <code>MeanRarity</code> <code>MeanRarity</code> provides tools for simulating species abundance distributions and visualizing mean rarity, which <code>iNEXT</code> does not, this may make <code>MeanRarity</code> best suited to students and those studying biodiversity estimation. <code>iNEXT</code> is well-suited to plotting empirical diversity data from a small to modest number of assemblages.</li>
+<code>iNEXT</code> The R package <code>iNEXT</code> provides tools for rarefaction and extrapolation of sample Hill diversity estimates, and point estimates for asymptotic estimators for richness, Hill-Shannon, and Hill-Sampson. It computes sample Hill diversity for <span class="math inline">\(\ell\leq 1 = q \geq 0\)</span>. The function <code><a href="../reference/rarity.html">MeanRarity::rarity()</a></code> also computes mean rarity when <span class="math inline">\(\ell&gt;1\)</span>. Although estimates from <code>iNEXT</code> and <code>MeanRarity</code> should tend to be congruent for <span class="math inline">\(\ell = 1-q\)</span>, MeanRarity provides users with the option to use <span class="math inline">\(\ell\)</span> throughout, emphasizing the MeanRarity framework developed in Roswell et al. 2021 <span class="citation">(Roswell, Dushoff, and Winfree 2021)</span>. <code>iNEXT</code> functions are highly integrated, generating multiple outputs and computing bootstrapped variance estimates by default, whereas in <code>MeanRarity</code> most exported functions are comparatively simple. <code>MeanRarity</code> enables parameterizing Hill diversity with <code>q</code> or <code>l</code>, and provides tools for simulating species abundance distributions and visualizing mean rarity, which <code>iNEXT</code> does not, this may make <code>MeanRarity</code> best suited to students and those studying biodiversity estimation. <code>iNEXT</code> is well-suited to plotting empirical diversity data from a small to modest number of assemblages.</li>
 <li>
-<code>SpadeR</code> The R package <code>SpadeR</code> provides similar estimates for Hill diversity as iNEXT, also parameterized by <span class="math inline">\(q\)</span> rather than <span class="math inline">\(\ell\)</span>. <code>SpadeR::diversity</code>, like <code><a href="../reference/divpro.html">MeanRarity::divpro</a></code>, generates a Hill diversity “profile”. Internal functions from <code>SpadeR</code> are used as source code in <code>MeanRarity</code> (e.g. a simplified version of<code>SpadeR:::Chao_Hill_abu()</code> is a n exported function in <code>MeanRarity</code>)</li>
-<li><code>vegan</code></li>
-<li><code>sads</code></li>
-<li><code>mobsim</code></li>
+<code>SpadeR</code> The R package <code>SpadeR</code> provides similar estimates for Hill diversity as iNEXT, also parameterized by <span class="math inline">\(q\)</span> rather than <span class="math inline">\(\ell\)</span> (<code>MeanRarity</code> allows either parameterization, defaulting to <span class="math inline">\(\ell\)</span>). <code>SpadeR::diversity</code>, like <code><a href="../reference/divpro.html">MeanRarity::divpro</a></code>, generates a Hill diversity “profile”. Internal functions from <code>SpadeR</code> are used as source code in <code>MeanRarity</code> (e.g. a simplified version of<code>SpadeR:::Chao_Hill_abu()</code> is an exported function in <code>MeanRarity</code>). While <code>SpadeR</code> provides a suite of tools for estimating alpha- and beta-diversity, <code>MeanRarity</code> provides additional tools for simulation, visualization, and alternative parameterization.</li>
+<li>
+<code>vegan</code> The R package <code>vegan</code> contains a multitude of tools for comparing community data in R. Like <code>MeanRarity</code>, <code>vegan</code> contains tools to estimate Hill diversity (<code>vegan::renyi(..., hill = TRUE)</code>), rarefy datasets<code><a href="https://rdrr.io/pkg/vegan/man/specaccum.html" class="external-link">vegan::specaccum()</a></code>, and fit parametric distributions to abundance vectors <code><a href="https://rdrr.io/pkg/vegan/man/fisherfit.html" class="external-link">vegan::fisherfit()</a></code>. While <code>vegan</code> is highly versatile, historical artefacts may lead to confusion about Hill diversity. For example, <code>vegan::diversity(x, "invsimpson") = 1/(1-vegan::diversity(x, "simpson"))</code>, although users might assume that <code>vegan::diversity(x, "invsimpson") = 1/vegan::diversity(x, "simpson")</code>. <code>MeanRarity</code> focuses on the interpretation of Hill diversities as average of species rarities across scales to dispel confusion.</li>
+<li>
+<code>sads</code> The R package <code>sads</code> provides functions to fit parametric distributions to abundance vectors using maximum-likelihood. The function `<code>sads::rsad()</code>, like <code><a href="../reference/fit_SAD.html">MeanRarity::fit_SAD()</a></code>, generates abundance vectors based on parametric distributions for true species abundance distributions. While <code>sads::rsad()</code> returns integer-abundance for a simulated <em>sample</em> from a parametric species abundance distribution, <code><a href="../reference/fit_SAD.html">MeanRarity::fit_SAD()</a></code> returns relative abundances for the underlying distribution itself. <code><a href="../reference/fit_SAD.html">MeanRarity::fit_SAD</a></code> expands on the functionality of <code>sads::rsad</code> by enabling users to parameterize the underlying species abundance distributions by both true richness and true Hill-Simpson diversity, rather than richness alone.</li>
+<li>
+<code>mobsim</code> The R package <code>mobsim</code> expands on the simulations provided by <code>sads</code> to generate spatially-explicit simulations. Unlike <code>MeanRarity</code>, <code>mobsim</code> provides tools to simulate and estimate diversity-area relationships. However, in <code>mobsim</code> the diversity of an assemblage is an outcome of a simulation, rather than an input, whereas <code><a href="../reference/fit_SAD.html">MeanRarity::fit_SAD</a></code> allows users to input diversity directly. These functionalities enable complementary approaches to studying the behavior of diversity estimates under different sampling scenarios.</li>
 </ol>
 </div>
 <div class="section level1">
 <h1 id="conclusions">CONCLUSIONS<a class="anchor" aria-label="anchor" href="#conclusions"></a>
 </h1>
+<!-- this is repetitive, needs to be tightened -->
+<p>The combination of tools for simulation, estimation, and visualization of biodiversity provided by <code>MeanRarity</code> enables a coherent study of Hill diversity metrics through the framework of average species rarity. The package supports interpretation of popular diversity metrics and exploration of numerical and statistical properties of these metrics and their estimators. Here, we demonstrated that Hill-Simpson diversity and its asymptotic estimator, which have been promoted as stable, robust measures of biodiversity due to relative emphasis on common, rather than rare species, exhibit high variability, especially in the presence of low unevenness and very rare species. As Hill diversity metrics gain popularity, <code>MeanRarity</code> provides tools to estimate and visulaize them in a coherent framework absent from other statistical packages, and enables continuing research into the properties of these metrics.</p>
 <div class="section level2">
 <h2 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
 </h2>
+<p>We thank Luke Harmon for early feedback on the R package, and….</p>
 </div>
 <div class="section level2">
 <h2 id="author-contributions">Author contributions<a class="anchor" aria-label="anchor" href="#author-contributions"></a>
@@ -535,6 +541,7 @@
 <h1 id="data-accessibility">DATA ACCESSIBILITY<a class="anchor" aria-label="anchor" href="#data-accessibility"></a>
 </h1>
 <p>This article does not use any empirical data. The package is available on Github (SOME KIND OF URL OR DOI REF).</p>
+<!-- looks like this was an attempt to hard-code a table of functions, but the dynamically-generated one from pkgdown or a modification thereof seems better-->
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">table_dat</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
   `Function name` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rarity"</span>, <span class="st">"rarity_plot"</span>, <span class="st">"radplot"</span>, <span class="st">"divpro"</span>, <span class="st">"sample_infinite"</span>, <span class="st">"sample_finite"</span>, <span class="st">"fit_SAD"</span><span class="op">)</span>

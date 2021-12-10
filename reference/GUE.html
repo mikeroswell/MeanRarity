@@ -30,7 +30,7 @@ their sampled frequency."><!-- mathjax --><script src="https://cdnjs.cloudflare.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MeanRarity</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.0001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.0002</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@ their sampled frequency.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">GUE</span><span class="op">(</span><span class="va">freqs</span>, <span class="va">true_p</span>, <span class="va">l</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">GUE</span><span class="op">(</span><span class="va">freqs</span>, <span class="va">true_p</span>, <span class="va">l</span>, q <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -92,6 +92,9 @@ their sampled frequency.</p>
 frequencies</p></dd>
 <dt>l</dt>
 <dd><p>Scaling exponent for the mean, can be any real number.</p></dd>
+<dt>q</dt>
+<dd><p>Scalar, traditional Hill number scaling exponent, q = 1-l where l is the
+scaling parameter for the generalized mean. Can be any real number.</p></dd>
 </dl></div>
 
     <div id="ref-examples">

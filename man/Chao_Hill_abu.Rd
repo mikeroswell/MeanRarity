@@ -4,12 +4,15 @@
 \alias{Chao_Hill_abu}
 \title{Estimate asymptotic Hill diversity}
 \usage{
-Chao_Hill_abu(ab, l)
+Chao_Hill_abu(ab, l, q = NULL)
 }
 \arguments{
 \item{ab}{A numeric vector of species abundances or relative abundances.}
 
 \item{l}{Scaling exponent for the mean, can be any real number.}
+
+\item{q}{Scalar, traditional Hill number scaling exponent, q = 1-l where l is the
+scaling parameter for the generalized mean. Can be any real number.}
 }
 \value{
 Scalar estimate of Hill diversity given \eqn{\ell}

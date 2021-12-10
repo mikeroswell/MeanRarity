@@ -4,7 +4,7 @@
 \alias{divpro}
 \title{Generate Hill diversity profile}
 \usage{
-divpro(ab, ell_low = -1, ell_hi = 1, by = 0.001)
+divpro(ab, ell_low = -1, ell_hi = 1, by = 0.001, use.q = FALSE)
 }
 \arguments{
 \item{ab}{A numeric vector of species abundances or relative abundances.}
@@ -14,6 +14,8 @@ divpro(ab, ell_low = -1, ell_hi = 1, by = 0.001)
 \item{ell_hi}{Scalar, maximum scaling exponent for diversity profile.}
 
 \item{by}{Scalar, size of step along scaling exponent continuum.}
+
+\item{use.q}{Logical, use traditional q parameterization, where q= 1-l.}
 }
 \value{
 Dataframe with the scaling exponent \code{ell} and corresponding
@@ -33,5 +35,7 @@ left.
 }
 \examples{
 divpro(c(20,8,5,4,2,1))
+divpro(c(20,8,5,4,2,1), use.q =TRUE) # Option to use q = 1-ell for traditional
+# Hill number parameterization
 }
-\concept{Visualization}
+\concept{Computation}

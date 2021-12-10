@@ -12,7 +12,7 @@ ENSer <- function(s_k, ens_k_old, k){
 
 #' Hurlbert rarefaction
 #'
-#' Provides Hurlberts (1971) rarefied richness.
+#' Provides Hurlbert's (1971) rarefied richness.
 #'
 #' @seealso vegan::rarefy()
 #'
@@ -44,7 +44,7 @@ hRare <- function(ab, k){
 #' Implements estimate described in Dauby and Hardy 2011 for a class of
 #' rarefaction-based ENS diversity estimates. These estimates suffer from
 #' minimal bias and are quite efficient, while retaining some of the nice
-#' properties of Hill diveristy metrics. They are parameterized by sample size
+#' properties of Hill diversity metrics. They are parameterized by sample size
 #' `k`, and when `k == 2` they are equivalent to Hill-Simpson diversity. One
 #' interpretation is that this ENS is the number of species in a perfectly even
 #' assemblage that would have the same rarefied richness as the focal
@@ -55,7 +55,7 @@ hRare <- function(ab, k){
 #' @template ab_template
 #' @param k integer sample size parameter for rarefaction
 #' @param maxit integer, maximum number of iterations
-#' @param tol numeric, threshhold for convergence
+#' @param tol numeric, threshold for convergence
 #'
 #' @concept Estimators
 #' @return Numeric scalar: estimated Hurlbert ENS

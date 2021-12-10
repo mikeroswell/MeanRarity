@@ -324,7 +324,7 @@ The realized samples have Poisson-type noise about the mean species relative
 abundances given by `fit_SAD()` (that is, they are samples from a multinomial
 distribution). The diversity of a sample asymptotically approaches the simulated
 diversity as sample size approaches infinity.
-<!- the section above could be tightened -->
+<!-- the section above could be tightened -->
 
 ```{r sample from SAD}
 
@@ -639,27 +639,75 @@ available in several R packages.
   `MeanRarity` should tend to be congruent for $\ell = 1-q$, MeanRarity provides
   users with the option to use $\ell$ throughout, emphasizing the MeanRarity
   framework developed in Roswell et al. 2021 [@Roswell2021]. `iNEXT` functions
-  are highly integrated, generating multiple outputs and computing bootstrapped variance
-  estimates by default, whereas in `MeanRarity` most exported functions are
-  comparatively simple. `MeanRarity` `MeanRarity` provides tools for simulating species
-  abundance distributions and visualizing mean rarity, which `iNEXT` does not,
-  this may make `MeanRarity` best suited to students and those studying
-  biodiversity estimation. `iNEXT` is well-suited to plotting empirical
-  diversity data from a small to modest number of assemblages.
+  are highly integrated, generating multiple outputs and computing bootstrapped
+  variance estimates by default, whereas in `MeanRarity` most exported functions
+  are comparatively simple. `MeanRarity` enables parameterizing Hill diversity
+  with `q` or `l`, and provides tools for simulating species abundance
+  distributions and visualizing mean rarity, which `iNEXT` does not, this may
+  make `MeanRarity` best suited to students and those studying biodiversity
+  estimation. `iNEXT` is well-suited to plotting empirical diversity data from a
+  small to modest number of assemblages.
 1. `SpadeR`
   The R package `SpadeR` provides similar estimates for Hill diversity as iNEXT,
-  also parameterized by $q$ rather than $\ell$. `SpadeR::diversity`, like
+  also parameterized by $q$ rather than $\ell$ (`MeanRarity` allows either
+  parameterization, defaulting to $\ell$). `SpadeR::diversity`, like
   `MeanRarity::divpro`, generates a Hill diversity "profile". Internal functions
   from `SpadeR` are used as source code in `MeanRarity` (e.g. a simplified
-  version of`SpadeR:::Chao_Hill_abu()` is a n exported function in `MeanRarity`)
+  version of`SpadeR:::Chao_Hill_abu()` is an exported function in `MeanRarity`).
+  While `SpadeR` provides a suite of tools for estimating alpha- and
+  beta-diversity, `MeanRarity` provides additional tools for simulation,
+  visualization, and alternative parameterization.
 1. `vegan`
+  The R package `vegan` contains a multitude of tools for comparing community
+  data in R. Like `MeanRarity`, `vegan` contains tools to estimate Hill
+  diversity (`vegan::renyi(..., hill = TRUE)`), rarefy
+  datasets`vegan::specaccum()`, and fit parametric distributions to abundance
+  vectors `vegan::fisherfit()`. While `vegan` is highly versatile, historical
+  artefacts may lead to confusion about Hill diversity. For example,
+  `vegan::diversity(x, "invsimpson") = 1/(1-vegan::diversity(x, "simpson"))`,
+  although users might assume that 
+  `vegan::diversity(x, "invsimpson") = 1/vegan::diversity(x, "simpson")`.
+  `MeanRarity` focuses on the interpretation of Hill diversities as average of
+  species rarities across scales to dispel confusion.
 1. `sads`
+  The R package `sads` provides functions to fit parametric distributions to
+  abundance vectors using maximum-likelihood. The function ``sads::rsad()`, like
+  `MeanRarity::fit_SAD()`, generates abundance vectors based on parametric
+  distributions for true species abundance distributions. While `sads::rsad()`
+  returns integer-abundance for a simulated *sample* from a parametric species
+  abundance distribution, `MeanRarity::fit_SAD()` returns relative abundances
+  for the underlying distribution itself. `MeanRarity::fit_SAD` expands on the
+  functionality of `sads::rsad` by enabling users to parameterize the underlying
+  species abundance distributions by both true richness and true Hill-Simpson
+  diversity, rather than richness alone.
 1. `mobsim`
+  The R package `mobsim` expands on the simulations provided by `sads` to
+  generate spatially-explicit simulations. Unlike `MeanRarity`, `mobsim`
+  provides tools to simulate and estimate diversity-area relationships. However,
+  in `mobsim` the diversity of an assemblage is an outcome of a simulation,
+  rather than an input, whereas `MeanRarity::fit_SAD` allows users to input
+  diversity directly. These functionalities enable complementary approaches to
+  studying the behavior of diversity estimates under different sampling
+  scenarios.
 
 # CONCLUSIONS
 
+<!-- this is repetitive, needs to be tightened --> 
+The combination of tools for simulation, estimation, and visualization of
+biodiversity provided by `MeanRarity` enables a coherent study of Hill diversity
+metrics through the framework of average species rarity. The package supports
+interpretation of popular diversity metrics and exploration of numerical and
+statistical properties of these metrics and their estimators. Here, we
+demonstrated that Hill-Simpson diversity and its asymptotic estimator, which
+have been promoted as stable, robust measures of biodiversity due to relative
+emphasis on common, rather than rare species, exhibit high variability,
+especially in the presence of low unevenness and very rare species. As Hill
+diversity metrics gain popularity, `MeanRarity` provides tools to estimate and
+visulaize them in a coherent framework absent from other statistical packages,
+and enables continuing research into the properties of these metrics. 
 
 ## Acknowledgements
+We thank Luke Harmon for early feedback on the R package, and....
 
 ## Author contributions
 
@@ -670,6 +718,8 @@ shiny online application. M.R. wrote the manuscript with help from J.D.
 # DATA ACCESSIBILITY
 This article does not use any empirical data. The package is available on Github
 (SOME KIND OF URL OR DOI REF).
+
+<!-- looks like this was an attempt to hard-code a table of functions, but the dynamically-generated one from pkgdown or a modification thereof seems better-->
 
 
 ```{r table of functions}

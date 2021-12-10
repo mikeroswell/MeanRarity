@@ -55,6 +55,7 @@ ipfun = function(x, pow){
 #'
 #' @template ab_template
 #' @template l_template
+#' @template q_template
 #'
 #' @return Generalized mean community rarity with scaling exponent \code{"l"}.
 #'
@@ -78,7 +79,13 @@ ipfun = function(x, pow){
 #' @examples rarity(c(20,8,5,4,2,1), 1) #species richness
 #' rarity(c(20,8,5,4,2,1), 0) # Hill-Shannon diversity
 #' rarity(c(20,8,5,4,2,1), -1) # Hill-Simpson diversity
-rarity = function(ab, l){
+#' rarity(c(20,8,5,4,2,1), q = 2) # The parameter `q` can be used instead for
+#' # traditional Hill number parameterization
+rarity = function(ab, l, q = NULL){
+  if(!is.null(q)){
+    l = 1-q
+    warning("l has been set to 1-q")
+  }
   ab = ab[ab != 0]
   rp = ab/sum(ab)
   if(l == 0){return(exp(sum(rp * log(1/rp))))}
@@ -105,21 +112,29 @@ dfun <- rarity
 #' @param ell_low Scalar, minimum scaling exponent for diversity profile.
 #' @param ell_hi Scalar, maximum scaling exponent for diversity profile.
 #' @param by Scalar, size of step along scaling exponent continuum.
+#' @param use.q Logical, use traditional q parameterization, where q= 1-l.
 #'
 #' @return Dataframe with the scaling exponent \code{ell} and corresponding
 #'   Hill diversity \code{d}
 #'
-#' @concept Visualization
+#' @concept Computation
 #'
 #' @export
 #' @examples divpro(c(20,8,5,4,2,1))
+#' divpro(c(20,8,5,4,2,1), use.q =TRUE) # Option to use q = 1-ell for traditional
+#' # Hill number parameterization
 
-divpro <- function(ab, ell_low = -1, ell_hi = 1, by = 0.001){
+divpro <- function(ab, ell_low = -1, ell_hi = 1, by = 0.001, use.q = FALSE){
   ell = seq(ell_low, ell_hi, by = by)
   d = sapply(ell
-         , function(l){dfun(ab, l)}
+         , function(l){rarity(ab, l)}
          )
+  if(use.q){
+    return(data.frame(q = 1-ell, d))
+  }
+  if(!use.q){
   return(data.frame(ell, d))
+  }
 }
 
 #' Observed and asymptotic diversity
@@ -179,10 +194,15 @@ obs_est = function(ab){
 #'
 #' @template ab_template
 #' @template l_template
+#' @template q_template
 #'
 #' @export
 
-e3Fun = function(ab, l){
+e3Fun = function(ab, l, q = NULL){
+  if(!is.null(q)){
+    l = 1-q
+    warning("l has been set to 1-q")
+  }
   (rarity(ab, l) - 1)/(rarity(ab, 1)-1)
 }
 

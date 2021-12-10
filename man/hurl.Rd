@@ -13,7 +13,7 @@ hurl(ab, k, maxit = 1e+05, tol = 1e-12)
 
 \item{maxit}{integer, maximum number of iterations}
 
-\item{tol}{numeric, threshhold for convergence}
+\item{tol}{numeric, threshold for convergence}
 }
 \value{
 Numeric scalar: estimated Hurlbert ENS
@@ -22,7 +22,7 @@ Numeric scalar: estimated Hurlbert ENS
 Implements estimate described in Dauby and Hardy 2011 for a class of
 rarefaction-based ENS diversity estimates. These estimates suffer from
 minimal bias and are quite efficient, while retaining some of the nice
-properties of Hill diveristy metrics. They are parameterized by sample size
+properties of Hill diversity metrics. They are parameterized by sample size
 \code{k}, and when \code{k == 2} they are equivalent to Hill-Simpson diversity. One
 interpretation is that this ENS is the number of species in a perfectly even
 assemblage that would have the same rarefied richness as the focal

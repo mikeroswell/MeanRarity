@@ -4,7 +4,7 @@
 \alias{GUE}
 \title{God's unbiased estimator}
 \usage{
-GUE(freqs, true_p, l)
+GUE(freqs, true_p, l, q = NULL)
 }
 \arguments{
 \item{freqs}{Non-negative numeric vector of observed species frequencies}
@@ -13,6 +13,9 @@ GUE(freqs, true_p, l)
 frequencies}
 
 \item{l}{Scaling exponent for the mean, can be any real number.}
+
+\item{q}{Scalar, traditional Hill number scaling exponent, q = 1-l where l is the
+scaling parameter for the generalized mean. Can be any real number.}
 }
 \description{
 The mean rarity perspective suggests a novel approach to estimating true

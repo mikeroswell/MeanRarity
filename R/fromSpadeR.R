@@ -130,6 +130,7 @@ Bt_prob_abu = function(ab){
 #'
 #' @template ab_template
 #' @template l_template
+#' @template q_template
 #'
 #' @export
 #'
@@ -143,7 +144,11 @@ Bt_prob_abu = function(ab){
 #' Chao_Hill_abu(abs, l = 0) # Asymptotic estimate of Hill-Shannon diversity
 #' Chao_Hill_abu(abs, l = -1) # Asymptotic estimate of Hill-Simpson diversity
 #'
-Chao_Hill_abu = function(ab, l){ #modified param names according to package idiom
+Chao_Hill_abu = function(ab, l, q = NULL){ #modified param names according to package idiom
+  if(!is.null(q)){
+    l = 1-q
+    warning("l has been set to 1-q")
+  } # also modification from source
   q = 1 - l # modification from source
   x = ab[ab > 0] # modification from source
   n = sum(x)
@@ -207,6 +212,7 @@ Chao_Hill_abu = function(ab, l){ #modified param names according to package idio
 #'   incidence-based sample frequencies (1st entry must be the number of
 #'   sampling unit).
 #' @template l_template
+#' @template q_template
 #' @param B an integer to specify the number of replications in the bootstrap
 #'   procedure, B = 1000 is suggested for constructing confidence intervals;
 #'  To save running time, use a smaller value (e.g. B = 200)..
@@ -224,9 +230,14 @@ Chao_Hill_abu = function(ab, l){ #modified param names according to package idio
 
 Bootstrap.CI_df = function(x
                            , l
+                           , q = NULL
                            , B = 1000
                            # , datatype = c("abundance","incidence")
                            , conf = 0.95){
+  if(!is.null(q)){
+    l = 1-q
+    warning("l has been set to 1-q")
+  }
   # datatype = match.arg(datatype, c("abundance","incidence"))
   p.new = Bt_prob_abu(x)
   # p.new = Bt_prob(x,datatype)

@@ -12,6 +12,7 @@
 #'
 #'
 #' @inherit ell_template
+#' @template q_template
 #' @param size Integer number of individuals to sample from the SAD (with
 #' replacement)
 #' #' @param SAD List, output from MeanRarity::fit_SAD
@@ -26,7 +27,17 @@
 #'
 #' @noRd
 
-obscp_inf <- function(l = l, size = size, SAD = SAD, B = 2000, truemun = truemun, conf = 0.95, ...){
+obscp_inf <- function(l = l
+                      , q = NULL
+                      , size = size
+                      , SAD = SAD
+                      , B = 2000
+                      , truemun = truemun
+                      , conf = 0.95, ...){
+  if(!is.null(q)){
+    l = 1-q
+    warning("l has been set to 1-q")
+  }
 	sam = sample_infinite(SAD$rel_abundances, size = size)
 	data.bt = stats::rmultinom(B, size, Bt_prob_abu(sam))
 	obs = dfun(sam, l)

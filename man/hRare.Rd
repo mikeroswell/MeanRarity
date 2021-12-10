@@ -16,7 +16,7 @@ numeric scalar, unbiased estimate of rarefied richness, assuming
 abundances are sampled without replacement from a finite species pool
 }
 \description{
-Provides Hurlberts (1971) rarefied richness.
+Provides Hurlbert's (1971) rarefied richness.
 }
 \examples{
 hRare(1:10, 2)

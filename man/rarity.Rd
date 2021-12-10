@@ -4,12 +4,15 @@
 \alias{rarity}
 \title{Compute Hill diversity: the mean species rarity}
 \usage{
-rarity(ab, l)
+rarity(ab, l, q = NULL)
 }
 \arguments{
 \item{ab}{A numeric vector of species abundances or relative abundances.}
 
 \item{l}{Scaling exponent for the mean, can be any real number.}
+
+\item{q}{Scalar, traditional Hill number scaling exponent, q = 1-l where l is the
+scaling parameter for the generalized mean. Can be any real number.}
 }
 \value{
 Generalized mean community rarity with scaling exponent \code{"l"}.
@@ -44,6 +47,8 @@ This function can also be called with \code{dfun()}
 rarity(c(20,8,5,4,2,1), 1) #species richness
 rarity(c(20,8,5,4,2,1), 0) # Hill-Shannon diversity
 rarity(c(20,8,5,4,2,1), -1) # Hill-Simpson diversity
+rarity(c(20,8,5,4,2,1), q = 2) # The parameter `q` can be used instead for
+# traditional Hill number parameterization
 }
 \references{
 \insertRef{Simpson1949}{MeanRarity}

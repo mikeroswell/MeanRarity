@@ -379,6 +379,7 @@ fulcrum <- function(ab, l
 #'
 #' @template ab_template
 #' @template l_template
+#' @template q_template
 #' @param noco Scalar, shrinks text and points if plotting multiple balance
 #'   plots in a single plotting window.
 #' @param lines Logical, should each individual be plotted as a "box" or should
@@ -418,11 +419,16 @@ fulcrum <- function(ab, l
 #' # richness + Hill_Shannon + Hill_Simpson # plot with patchwork
 rarity_plot <- function(ab
                         , l
+                        , q = NULL
                         , means = -1:1
                         , noco = 1
                         , lines = FALSE
                         , ...){
  message(cat("     rarity plot expects a square viewport (likely issues in the RStudio plotting device) and resizes points based on\n     min(dev.size() and noco (for number of columns).\n     Selecting lines = T will plot stacks of individuals as a line element,\n     which tends to be more robust to window size.\n     Setting lines = T may be the best way to deal with overplotting,\n     which results from several species with similar but not identical rarities. \n "))
+  if(!is.null(q)){
+    l = 1-q
+    warning("l has been set to 1-q")
+  }
 
     ab <- ab[ab != 0]
 	return(

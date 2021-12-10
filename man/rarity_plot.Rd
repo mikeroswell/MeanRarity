@@ -4,12 +4,15 @@
 \alias{rarity_plot}
 \title{Construct rarity balance plot}
 \usage{
-rarity_plot(ab, l, means = -1:1, noco = 1, lines = FALSE, ...)
+rarity_plot(ab, l, q = NULL, means = -1:1, noco = 1, lines = FALSE, ...)
 }
 \arguments{
 \item{ab}{A numeric vector of species abundances or relative abundances.}
 
 \item{l}{Scaling exponent for the mean, can be any real number.}
+
+\item{q}{Scalar, traditional Hill number scaling exponent, q = 1-l where l is the
+scaling parameter for the generalized mean. Can be any real number.}
 
 \item{means}{Numeric vector of scaling exponent values corresponding to
 reference (by default, Pythagorean) means.}

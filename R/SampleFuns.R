@@ -85,7 +85,7 @@ subcom <- function(ab, size){
 #' @noRd
 #'
 
-raref <- function(from, to, by, comm, n = 1, l, cores = NULL){
+raref <- function(from, to, by, comm, n = 1, l, q = NULL, cores = NULL){
   # ifelse(para==T, {
   nc <- parallel::detectCores() - 1
   future::plan(strategy = future::multiprocess

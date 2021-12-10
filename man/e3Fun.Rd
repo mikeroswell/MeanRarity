@@ -4,12 +4,15 @@
 \alias{e3Fun}
 \title{Normalized Hill evenness}
 \usage{
-e3Fun(ab, l)
+e3Fun(ab, l, q = NULL)
 }
 \arguments{
 \item{ab}{A numeric vector of species abundances or relative abundances.}
 
 \item{l}{Scaling exponent for the mean, can be any real number.}
+
+\item{q}{Scalar, traditional Hill number scaling exponent, q = 1-l where l is the
+scaling parameter for the generalized mean. Can be any real number.}
 }
 \description{
 Computes assemblage evenness measure based on the ratio of Hill diversities.

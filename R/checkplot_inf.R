@@ -14,6 +14,7 @@
 #' @param B Integer number of replicate samples to take when bootstrapping for
 #' the estimated uncertainty
 #' @inherit ell_template
+#' @template q_template
 #' @param inds Integer number of individuals to sample from the SAD (with
 #' replacement)
 #' @param reps Integer number of replicate samples to take to generate sampling
@@ -23,7 +24,11 @@
 #' \insertAllCited{}
 #'
 #' @noRd
-checkplot_inf <-function (SAD, B = 2000, l, inds, reps) {
+checkplot_inf <-function (SAD, B = 2000, l, q = NULL, inds, reps) {
+  if(!is.null(q)){
+    l = 1-q
+    warning("l has been set to 1-q")
+  }
 	hillname <- ifelse(l == -1, "Hill-Simpson", ifelse(l == 0, "Hill-Shannon", "richness"))
 	td <- SAD$community_info[hillname]
 	furrr::future_map_dfr(1:reps, function(x) {

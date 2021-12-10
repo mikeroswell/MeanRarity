@@ -115,7 +115,8 @@
 #'
 #' @param x Numeric vector of integer species abundances in a sample
 #' @param B Scalar, number of replicate bootstrap draws
-#' @param l Scalar, exponent for scaling rarity in computing Hill diversity
+#' @template l_template
+#' @template q_template
 #' @param truediv Scalar, known true Hill diversity of the pool from which
 #'    sample is drawn, for comparison to estimated sampling distribution
 #' @param conf Scalar, target coverage probability of estimated CI
@@ -128,8 +129,13 @@
 checkchao <- function(x
                     , B
                     , l
+                    , q = NULL
                     , truediv
                     , conf = 0.95){ #, truemu_n
+  if(!is.null(q)){
+    l = 1-q
+    warning("l has been set to 1-q")
+  }
   n <- sum(x)
   #columns of this matrix are replicate boostraps
   data.bt = stats::rmultinom(B, n, Bt_prob_abu(x))
@@ -165,6 +171,7 @@ checkchao <- function(x
 #' sampling from an infinite pool (i.e. with replacement).
 #'
 #' @template l_template
+#' @template q_template
 #' @param SAD List, output from function `fit_SAD`
 #' @param size Scalar, integer number of individuals to sample.
 #' @param B Scalar, integer number of bootstrap replicates.
@@ -182,12 +189,17 @@ checkchao <- function(x
 #'
 #' @noRd
 obscp_inf <- function(l = l
+                      , q = NULL
                       , size = size
                       , SAD = SAD
                       , B = 2000
                       , truemun = truemun
                       , conf = 0.95
                       , ...){
+  if(!is.null(q)){
+    l = 1-q
+    warning("l has been set to 1-q")
+  }
   sam <- sample_infinite(SAD$rel_abundances, size = size)
   data.bt = stats::rmultinom(B
                       , size
@@ -229,6 +241,7 @@ obscp_inf <- function(l = l
 #' Computes Chao and Jost 2015's suggested CI for empirical Hill diversity,
 #' sampling from a finite pool without replacement.
 #'
+#' @template q_template
 #' @template l_template
 #' @template ab_template
 #' @param size Scalar, integer number of individuals to sample.
@@ -245,12 +258,17 @@ obscp_inf <- function(l = l
 #'
 #' @noRd
 obscp_obs <- function(l = l
+                      , q = NULL
                       , size = size
                       , ab = ab
                       , B = 2000
                       , truemun = truemun
                       , conf = 0.95
                       , ...){
+  if(!is.null(q)){
+    l = 1-q
+    warning("l has been set to 1-q")
+  }
   sam <- sample_finite(ab, size = size)
   data.bt = stats::rmultinom(B
                       , size
@@ -302,12 +320,17 @@ obscp_obs <- function(l = l
 #' @param true_p Non-negative numeric vector of true, population-level species
 #'   frequencies
 #' @template l_template
+#' @template q_template
 #' @examples
 #' GUE(freqs =  1:10/sum(1:10), true_p =  1:10/sum(1:10), l = 1) # true richness 10
 #' GUE(freqs =  rep(1:5,2)/sum(1:10), true_p =  1:10/sum(1:10), l = 1) # true richness 10
 #' @export
 
-GUE <- function(freqs, true_p, l) {
+GUE <- function(freqs, true_p, l, q = NULL) {
+  if(!is.null(q)){
+    l = 1-q
+    warning("l has been set to 1-q")
+  }
   refreq = freqs/sum(freqs)
   retrue = true_p/sum(true_p)
   wts = refreq[freqs*true_p > 0]

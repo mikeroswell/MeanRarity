@@ -17,15 +17,20 @@ fsr<-function(x){
 #' This is a riff on \code{\link{dfun}} that uses \code{\link{fsr}}, which is not the correct way to deal with finite
 #' size corrections, though it is similar to E.H. Simpson's estimator. Rather than subtracting 1, though, it subtracts 0.8
 #'
-#' @param ab Numeric vector of species abundances
-#' @param l Exponent determining type of mean (scalar)
+#' @template ab_template
+#' @template l_template
+#' @template q_template
 #'
 #' @return Incorrect estimate of Hill Diversity with a goofy bias correction term (a scalar)
 #'
-#' @seealso \code{\link{dfun}}
+#' @seealso \code{\link{rarity}}
 #'
 #' @noRd
-fsd<-function(ab, l){
+fsd<-function(ab, l, q = NULL){
+  if(!is.null(q)){
+    l = 1-q
+    warning("l has been set to 1-q")
+  }
   ab<-ab[ab!=0]
   rp <- ab/sum(ab)
   fs<-fsr(ab)
@@ -35,7 +40,9 @@ fsd<-function(ab, l){
 
 #' Simpson's estimator of Hill-Simpson Diversity (we think?)
 #'
-#' E.H. Simpson's 1949 estimator of Simpson's Concentration is an unbiased estimator. It is not an unbiased Hill-Simpson estimator, but it is a pretty good one
+#' E.H. Simpson's 1949 estimator of Simpson's Concentration is an unbiased
+#' estimator. It is not an unbiased Hill-Simpson estimator, but it is a pretty
+#' good one
 #'
 #' @param ab Numeric vector of species abundances
 #'

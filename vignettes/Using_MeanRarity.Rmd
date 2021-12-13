@@ -433,6 +433,8 @@ Similarly, the sampling variation in Hill diversity estimates (both sample
 diversity and asymptotic estimators) is poorly understood. Intuitively, sampling
 variability in Hill diversity estimates must depend jointly on sample size, the
 species abundance distribution, and the scaling exponent for Hill diversity.
+However, users of Hill diversity currently lack guidance on  the relatiionship
+between their metric choice and the sampling variability they might expect.
 Variability, along with bias, is an important consideration when selecting a
 diversity metric. Especially when the number of replicates is modest, as is
 often the case in ecological studies, inaccuracy due to random sampling
@@ -699,14 +701,18 @@ The combination of tools for simulation, estimation, and visualization of
 biodiversity provided by `MeanRarity` enables a coherent study of Hill diversity
 metrics through the framework of average species rarity. The package supports
 interpretation of popular diversity metrics and exploration of numerical and
-statistical properties of these metrics and their estimators. Here, we
-demonstrated that Hill-Simpson diversity and its asymptotic estimator, which
-have been promoted as stable, robust measures of biodiversity due to relative
-emphasis on common, rather than rare species, exhibit high variability,
-especially in the presence of low unevenness and very rare species. As Hill
-diversity metrics gain popularity, `MeanRarity` provides tools to estimate and
-visulaize them in a coherent framework absent from other statistical packages,
-and enables continuing research into the properties of these metrics. 
+statistical properties of these metrics and their estimators. We tested how
+different distributions of relative abundance in assemblages drives sampling
+uncertainty in Hill diversity estimators. We found that Hill-Simpson diversity
+and its asymptotic estimator, which have been promoted as stable, robust
+measures of biodiversity due to relative emphasis on common, rather than rare
+species, exhibit high variability, especially in the presence of low evenness
+and very rare species. The `MeanRarity` package facilitates simulating
+assemblages with known diversity, which is not easily done with other popular
+software packages for biodiversity science. As Hill diversity metrics gain
+popularity, `MeanRarity` provides tools to estimate and visulaize them in a
+coherent framework absent from other statistical packages, and enables
+continuing research into the properties of these metrics.
 
 ## Acknowledgements
 We thank Luke Harmon for early feedback on the R package, and....

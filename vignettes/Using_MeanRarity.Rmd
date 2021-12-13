@@ -16,6 +16,7 @@ vignette: >
 <!-- https://bookdown.org/yihui/rmarkdown/prettydoc.html -->
 
 <!-- Application: Short (no more than 3000-4000 words total) descriptions of new software that are intended to describe and promote the software as well as act as a citeable resource for developers. Application papers are made free to access for one month after being assigned to an issue in order to encourage uptake of the methodologies they describe. Uploading a package to a site such as CRAN or sourceforge in advance is not considered prior publication and will not hinder your submission to MEE. View some example Applications here: https://besjournals.onlinelibrary.wiley.com/hub/journal/2041210X/features/applicationpapers -->
+<!-- also see https://www.jstatsoft.org/authors -->
 
 
 

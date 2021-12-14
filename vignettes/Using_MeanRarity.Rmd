@@ -1,11 +1,13 @@
 ---
 title: "Using MeanRarity"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette: default
+  word_document: default
 bibliography: '`r system.file( "REFERENCES.bib", package="MeanRarity")`'
 vignette: >
   %\VignetteIndexEntry{Using MeanRarity}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 
@@ -17,7 +19,6 @@ vignette: >
 
 <!-- Application: Short (no more than 3000-4000 words total) descriptions of new software that are intended to describe and promote the software as well as act as a citeable resource for developers. Application papers are made free to access for one month after being assigned to an issue in order to encourage uptake of the methodologies they describe. Uploading a package to a site such as CRAN or sourceforge in advance is not considered prior publication and will not hinder your submission to MEE. View some example Applications here: https://besjournals.onlinelibrary.wiley.com/hub/journal/2041210X/features/applicationpapers -->
 <!-- also see https://www.jstatsoft.org/authors -->
-
 
 
 \renewcommand{\[}{\begin{equation}}
@@ -635,6 +636,8 @@ plot_data %>%
 Functions to generate similar diversity estimates and assemblage simulations are
 available in several R packages.
 
+<!-- this is currently placeholders, but need to fill this out. Will require some serious focused time and maybe some blog posts -->
+
 1. `iNEXT`
   The R package `iNEXT` provides tools for rarefaction and extrapolation of
   sample Hill diversity estimates, and point estimates for asymptotic estimators
@@ -694,6 +697,8 @@ available in several R packages.
   diversity directly. These functionalities enable complementary approaches to
   studying the behavior of diversity estimates under different sampling
   scenarios.
+1. `entropart`
+1. `EntropyEstimation`
 
 # CONCLUSIONS
 

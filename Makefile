@@ -17,6 +17,10 @@ package:
 
 ######################################################################
 
+## pages/ currently
+
+######################################################################
+
 Sources += vignettes/*.Rmd
 
 %.html: %.Rmd
@@ -25,7 +29,7 @@ Sources += vignettes/*.Rmd
 %.vig.html: vignettes/%.Rmd
 	$(rmdh_r)
 
-## Using_MeanRarity.vig.html:
+## Using_MeanRarity.vig.html: vignettes/Using_MeanRarity.Rmd
 
 ######################################################################
 

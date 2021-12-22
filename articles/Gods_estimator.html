@@ -204,88 +204,75 @@
 <p><img src="Gods_estimator_files/figure-html/plot%20bias-1.png" width="672"></p>
 <p>In our simulations, God’s estimator was usually both less biased (in fact, it is unbiased) and more accurate, across variation in SAD shape, sample sizes, and values of the Hill control parameter. This is expected: God’s estimator uses information not available to other methods (nor to mortal ecologists).</p>
 <p>For SAD 19 we see very large RMSE for species richness. This is because God, but not the other estimators, can distinguish the merely rare from the exceedingly rare, and SAD 19 has wildly rare species (a quarter of species have relative abundance of &lt; 1/ 10 million). When these species are included randomly in a sample, the mean rarity of that sample is very high. Our simulation may be untroubling then, even for proponents of God’s estimator. When ecologists sample SADs with hundreds of millions or billions of individuals (e.g. Rhizospheres), they likely do not attempt to quantify richness, given that it cannot be estimated reliably (CITE Haegeman et al. 2013), and also obtain reads from many more than a few hundred individuals. For God’s estimator not to be unduly swayed by the extraordinarily rare species, however, sample sizes will have to be extremely large. In the presence of such extreme rarity, God’s estimator remains unbiased, but will likely tend towards greater error than estimators that do not account for rarity orders of magnitude higher than the observed rarity in a sample.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">#we can check out whether upping sample sizes by a factor of 100 is </span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co"># sufficient to bring God's estimator in line, but it's pretty time consuming to </span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co"># do this sampling, and with the extreme rarities in SAD 19 we don't actually </span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co"># see God's estimator behaving well with sample sizes ≤1e7, so we won't do this </span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="co"># with brute force.</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co"># nreps &lt;- 999</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co"># </span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co"># ss_to_test &lt;- floor(10^seq(5,7, 0.25))</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="co"># SAD&lt;-19</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="co"># </span></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="co"># </span></span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="co"># nc &lt;- parallel::detectCores() - 1</span></span>
-<span id="cb5-13"><a href="#cb5-13"></a><span class="co"># future::plan(strategy = "multiprocess", workers = nc)</span></span>
-<span id="cb5-14"><a href="#cb5-14"></a><span class="co"># # options &lt;- furrr::furrr_options(seed = TRUE)</span></span>
-<span id="cb5-15"><a href="#cb5-15"></a><span class="co"># tic()</span></span>
-<span id="cb5-16"><a href="#cb5-16"></a><span class="co"># God_with_microbes &lt;- map_dfr(-1:1, function(ell){</span></span>
-<span id="cb5-17"><a href="#cb5-17"></a><span class="co">#    truth = as.numeric(flatsads[[SAD]][[2]][2-ell])</span></span>
-<span id="cb5-18"><a href="#cb5-18"></a><span class="co">#    truep = flatsads[[SAD]][[3]]</span></span>
-<span id="cb5-19"><a href="#cb5-19"></a><span class="co">#    dinfo = data.frame(t(flatsads[[SAD]][[1]]))</span></span>
-<span id="cb5-20"><a href="#cb5-20"></a><span class="co">#   future_map_dfr(.x=1:nreps, .f=function(nrep){</span></span>
-<span id="cb5-21"><a href="#cb5-21"></a><span class="co">#       map_dfr(ss_to_test, function(ss){</span></span>
-<span id="cb5-22"><a href="#cb5-22"></a><span class="co">#         subsam = sample_infinite(truep, ss)</span></span>
-<span id="cb5-23"><a href="#cb5-23"></a><span class="co">#         chaoest = Chao_Hill_abu(subsam, ell)</span></span>
-<span id="cb5-24"><a href="#cb5-24"></a><span class="co">#         naive = rarity(subsam, ell)</span></span>
-<span id="cb5-25"><a href="#cb5-25"></a><span class="co">#         gods = GUE(subsam, truep, ell)</span></span>
-<span id="cb5-26"><a href="#cb5-26"></a><span class="co">#         return(bind_cols(data.frame(truth, chaoest, naive, gods, n=ss, ell, SAD), dinfo))</span></span>
-<span id="cb5-27"><a href="#cb5-27"></a><span class="co">#       })</span></span>
-<span id="cb5-28"><a href="#cb5-28"></a><span class="co">#     }</span></span>
-<span id="cb5-29"><a href="#cb5-29"></a><span class="co">#     # , .options= options</span></span>
-<span id="cb5-30"><a href="#cb5-30"></a><span class="co">#     )</span></span>
-<span id="cb5-31"><a href="#cb5-31"></a><span class="co">#  })</span></span>
-<span id="cb5-32"><a href="#cb5-32"></a><span class="co"># toc()</span></span>
-<span id="cb5-33"><a href="#cb5-33"></a><span class="co"># </span></span>
-<span id="cb5-34"><a href="#cb5-34"></a><span class="co"># microbe_errs &lt;- God_with_microbes %&gt;% </span></span>
-<span id="cb5-35"><a href="#cb5-35"></a><span class="co">#   group_by(ell, distribution, fitted.parameter, n, SAD) %&gt;% </span></span>
-<span id="cb5-36"><a href="#cb5-36"></a><span class="co">#   mutate(godsError = gods - truth</span></span>
-<span id="cb5-37"><a href="#cb5-37"></a><span class="co">#          , naiveError = naive - truth</span></span>
-<span id="cb5-38"><a href="#cb5-38"></a><span class="co">#          , chaoError = chaoest - truth) %&gt;% </span></span>
-<span id="cb5-39"><a href="#cb5-39"></a><span class="co">#   summarize_at(.vars = c("godsError", "naiveError", "chaoError"), .funs = c(rootms, namean)) %&gt;% </span></span>
-<span id="cb5-40"><a href="#cb5-40"></a><span class="co">#   pivot_longer(godsError_fn1:chaoError_fn2,</span></span>
-<span id="cb5-41"><a href="#cb5-41"></a><span class="co">#     names_to = c("estimator", ".value"),</span></span>
-<span id="cb5-42"><a href="#cb5-42"></a><span class="co">#     names_sep = "_"</span></span>
-<span id="cb5-43"><a href="#cb5-43"></a><span class="co">#       ) %&gt;% </span></span>
-<span id="cb5-44"><a href="#cb5-44"></a><span class="co">#   rename(rmse = fn1, bias = fn2)</span></span>
-<span id="cb5-45"><a href="#cb5-45"></a><span class="co"># </span></span>
-<span id="cb5-46"><a href="#cb5-46"></a><span class="co"># </span></span>
-<span id="cb5-47"><a href="#cb5-47"></a><span class="co"># microbe_errs %&gt;% </span></span>
-<span id="cb5-48"><a href="#cb5-48"></a><span class="co">#   mutate(estimator = gsub("*Error", "", estimator)) %&gt;%  </span></span>
-<span id="cb5-49"><a href="#cb5-49"></a><span class="co">#   left_join(inds) %&gt;% </span></span>
-<span id="cb5-50"><a href="#cb5-50"></a><span class="co">#   ggplot(aes(n, rmse, color = estimator)) +</span></span>
-<span id="cb5-51"><a href="#cb5-51"></a><span class="co">#   geom_line(alpha = 0.7, size =1.5) +</span></span>
-<span id="cb5-52"><a href="#cb5-52"></a><span class="co">#   facet_grid(~divind, scales = "free") +</span></span>
-<span id="cb5-53"><a href="#cb5-53"></a><span class="co">#   geom_hline(yintercept = 0) +</span></span>
-<span id="cb5-54"><a href="#cb5-54"></a><span class="co">#   theme_classic() +</span></span>
-<span id="cb5-55"><a href="#cb5-55"></a><span class="co">#   theme(axis.text.x = element_text(angle = 90)) +</span></span>
-<span id="cb5-56"><a href="#cb5-56"></a><span class="co">#   labs(x = "individuals")</span></span>
-<span id="cb5-57"><a href="#cb5-57"></a><span class="co"># </span></span>
-<span id="cb5-58"><a href="#cb5-58"></a><span class="co"># microbe_errs %&gt;% </span></span>
-<span id="cb5-59"><a href="#cb5-59"></a><span class="co">#   mutate(estimator = gsub("*Error", "", estimator)) %&gt;%  </span></span>
-<span id="cb5-60"><a href="#cb5-60"></a><span class="co">#   left_join(inds) %&gt;% </span></span>
-<span id="cb5-61"><a href="#cb5-61"></a><span class="co">#   ggplot(aes(n, bias, color = estimator)) +</span></span>
-<span id="cb5-62"><a href="#cb5-62"></a><span class="co">#   geom_line(alpha = 0.7, size =1.5) +</span></span>
-<span id="cb5-63"><a href="#cb5-63"></a><span class="co">#   facet_grid(~divind, scales = "free") +</span></span>
-<span id="cb5-64"><a href="#cb5-64"></a><span class="co">#   geom_hline(yintercept = 0) +</span></span>
-<span id="cb5-65"><a href="#cb5-65"></a><span class="co">#   theme_classic() +</span></span>
-<span id="cb5-66"><a href="#cb5-66"></a><span class="co">#   theme(axis.text.x = element_text(angle = 90)) +</span></span>
-<span id="cb5-67"><a href="#cb5-67"></a><span class="co">#   labs(x = "individuals")</span></span>
-<span id="cb5-68"><a href="#cb5-68"></a><span class="st">````</span></span>
-<span id="cb5-69"><a href="#cb5-69"></a></span>
-<span id="cb5-70"><a href="#cb5-70"></a></span>
-<span id="cb5-71"><a href="#cb5-71"></a></span>
-<span id="cb5-72"><a href="#cb5-72"></a>What are the implications of this <span class="cf">for</span> mortals? These simulations suggest that</span>
-<span id="cb5-73"><a href="#cb5-73"></a>developing heuristics to estimate true species rarities might enable </span>
-<span id="cb5-74"><a href="#cb5-74"></a>better diversity estimates, and pave a route to more principled confidence</span>
-<span id="cb5-75"><a href="#cb5-75"></a>intervals <span class="cf">for</span> Hill numbers than is likely possible with the non<span class="op">-</span>parametric</span>
-<span id="cb5-76"><a href="#cb5-76"></a>estimators more commonly used today. While it is hard to imagine how an</span>
-<span id="cb5-77"><a href="#cb5-77"></a>estimator <span class="cf">for</span> true rarity could accurately infer rarities far below n<span class="op">/</span><span class="dv">1</span> (where n</span>
-<span id="cb5-78"><a href="#cb5-78"></a>is sample size), our <span class="kw">simulations</span> (and logic) suggest that arithmetic mean rarity</span>
-<span id="cb5-79"><a href="#cb5-79"></a>(i.e. richness), highly sensitive to the stochastic inclusion of these <span class="cf">in</span></span>
-<span id="cb5-80"><a href="#cb5-80"></a>samples, at bests presents a bias<span class="op">/</span>variance trade<span class="op">-</span>off between a mean rarity</span>
-<span id="cb5-81"><a href="#cb5-81"></a><span class="kw">estimator</span> (like God<span class="st">'s, but with estimated rather than true rarities) and more </span></span>
-<span id="cb5-82"><a href="#cb5-82"></a><span class="st">traditional asymptotic diversity estimators.</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#we can check out whether upping sample sizes by a factor of 100 is </span>
+<span class="co"># sufficient to bring God's estimator in line, but it's pretty time consuming to </span>
+<span class="co"># do this sampling, and with the extreme rarities in SAD 19 we don't actually </span>
+<span class="co"># see God's estimator behaving well with sample sizes ≤1e7, so we won't do this </span>
+<span class="co"># with brute force.</span>
+<span class="co"># nreps &lt;- 999</span>
+<span class="co"># </span>
+<span class="co"># ss_to_test &lt;- floor(10^seq(5,7, 0.25))</span>
+<span class="co"># SAD&lt;-19</span>
+<span class="co"># </span>
+<span class="co"># </span>
+<span class="co"># nc &lt;- parallel::detectCores() - 1</span>
+<span class="co"># future::plan(strategy = "multiprocess", workers = nc)</span>
+<span class="co"># # options &lt;- furrr::furrr_options(seed = TRUE)</span>
+<span class="co"># tic()</span>
+<span class="co"># God_with_microbes &lt;- map_dfr(-1:1, function(ell){</span>
+<span class="co">#    truth = as.numeric(flatsads[[SAD]][[2]][2-ell])</span>
+<span class="co">#    truep = flatsads[[SAD]][[3]]</span>
+<span class="co">#    dinfo = data.frame(t(flatsads[[SAD]][[1]]))</span>
+<span class="co">#   future_map_dfr(.x=1:nreps, .f=function(nrep){</span>
+<span class="co">#       map_dfr(ss_to_test, function(ss){</span>
+<span class="co">#         subsam = sample_infinite(truep, ss)</span>
+<span class="co">#         chaoest = Chao_Hill_abu(subsam, ell)</span>
+<span class="co">#         naive = rarity(subsam, ell)</span>
+<span class="co">#         gods = GUE(subsam, truep, ell)</span>
+<span class="co">#         return(bind_cols(data.frame(truth, chaoest, naive, gods, n=ss, ell, SAD), dinfo))</span>
+<span class="co">#       })</span>
+<span class="co">#     }</span>
+<span class="co">#     # , .options= options</span>
+<span class="co">#     )</span>
+<span class="co">#  })</span>
+<span class="co"># toc()</span>
+<span class="co"># </span>
+<span class="co"># microbe_errs &lt;- God_with_microbes %&gt;% </span>
+<span class="co">#   group_by(ell, distribution, fitted.parameter, n, SAD) %&gt;% </span>
+<span class="co">#   mutate(godsError = gods - truth</span>
+<span class="co">#          , naiveError = naive - truth</span>
+<span class="co">#          , chaoError = chaoest - truth) %&gt;% </span>
+<span class="co">#   summarize_at(.vars = c("godsError", "naiveError", "chaoError"), .funs = c(rootms, namean)) %&gt;% </span>
+<span class="co">#   pivot_longer(godsError_fn1:chaoError_fn2,</span>
+<span class="co">#     names_to = c("estimator", ".value"),</span>
+<span class="co">#     names_sep = "_"</span>
+<span class="co">#       ) %&gt;% </span>
+<span class="co">#   rename(rmse = fn1, bias = fn2)</span>
+<span class="co"># </span>
+<span class="co"># </span>
+<span class="co"># microbe_errs %&gt;% </span>
+<span class="co">#   mutate(estimator = gsub("*Error", "", estimator)) %&gt;%  </span>
+<span class="co">#   left_join(inds) %&gt;% </span>
+<span class="co">#   ggplot(aes(n, rmse, color = estimator)) +</span>
+<span class="co">#   geom_line(alpha = 0.7, size =1.5) +</span>
+<span class="co">#   facet_grid(~divind, scales = "free") +</span>
+<span class="co">#   geom_hline(yintercept = 0) +</span>
+<span class="co">#   theme_classic() +</span>
+<span class="co">#   theme(axis.text.x = element_text(angle = 90)) +</span>
+<span class="co">#   labs(x = "individuals")</span>
+<span class="co"># </span>
+<span class="co"># microbe_errs %&gt;% </span>
+<span class="co">#   mutate(estimator = gsub("*Error", "", estimator)) %&gt;%  </span>
+<span class="co">#   left_join(inds) %&gt;% </span>
+<span class="co">#   ggplot(aes(n, bias, color = estimator)) +</span>
+<span class="co">#   geom_line(alpha = 0.7, size =1.5) +</span>
+<span class="co">#   facet_grid(~divind, scales = "free") +</span>
+<span class="co">#   geom_hline(yintercept = 0) +</span>
+<span class="co">#   theme_classic() +</span>
+<span class="co">#   theme(axis.text.x = element_text(angle = 90)) +</span>
+<span class="co">#   labs(x = "individuals")</span></code></pre></div>
+<p>What are the implications of this for mortals? These simulations suggest that developing heuristics to estimate true species rarities might enable better diversity estimates, and pave a route to more principled confidence intervals for Hill numbers than is likely possible with the non-parametric estimators more commonly used today. While it is hard to imagine how an estimator for true rarity could accurately infer rarities far below n/1 (where n is sample size), our simulations (and logic) suggest that arithmetic mean rarity (i.e. richness), highly sensitive to the stochastic inclusion of these in samples, at bests presents a bias/variance trade-off between a mean rarity estimator (like God’s, but with estimated rather than true rarities) and more traditional asymptotic diversity estimators.</p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

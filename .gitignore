@@ -6,3 +6,4 @@ inst/doc
 /doc/
 /Meta/
 docs
+.log # building PDF vignettes generates .log files

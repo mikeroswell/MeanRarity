@@ -133,10 +133,6 @@ base_plot <- function(ab, pointScale
                       , lines = F
                       , verbose = T
                       ){
-    #0.0353 is approximate points to cm conversion (a little less than 3 pts per mm)
-
-
-
 
     #make plotting data
     rf <- tibble::tibble(names = as.factor(1:length(ab))
@@ -147,7 +143,13 @@ base_plot <- function(ab, pointScale
 	y_extent <- max(y_extent, max(combfun(ab)))
 	#14 is empirically derived scaling factor; but isn't quite right.
 	# Seems like stuff below axis is about 2.5* height of 1 line of text
-	pointScale <- (14 * (min(grDevices::dev.size("cm")) / noco - (2.5 * 0.0353 * base_size)))
+	typeface_size = 14
+
+	pointScale <- (typeface_size *
+	                 (min(grDevices::dev.size("cm")) /
+	                    noco - (2.5 * 1/.pt/10 * base_size)
+	                  )
+	               )
 	pointsize <- pointScale / (y_extent * 1.1)
 
 	#0.5; shape is centered on  x,y; offset so it rests upon x, y-1
@@ -194,9 +196,9 @@ base_plot <- function(ab, pointScale
 #fix plank location and add space above and below data range
 		+ggplot2::scale_y_continuous(
 		    expand = c(0,0)
-		    , limits = c(y_extent-1.05*y_extent, 1.05*y_extent)
+		    , limits = c(y_extent-1.05 * y_extent, 1.05 * y_extent)
 		)
-    	+ ggplot2::labs(y="individuals")
+    	+ ggplot2::labs(y = "individuals")
 	)
 	#calls the function theme plot to generate basic figure
 	return(theme_plot(base, base_size = base_size, noco = noco))
@@ -285,7 +287,7 @@ scale_plot <- function(
 #' @noRd
 mean_points <- function(ab, l, noco = 1){
     ab <- ab[ab != 0]
-	div <- Vectorize(dfun, vectorize.args = ("l"))(ab, l)
+	div <- Vectorize(rarity, vectorize.args = ("l"))(ab, l)
 	pointDat = tibble::tibble(x = div, y = 0*div, clr = 1:length(div))
 	return(ggplot2::geom_point(data = pointDat
 	  , ggplot2::aes(x = .data$x, y = .data$y, color = as.factor(.data$clr))
@@ -319,16 +321,21 @@ fulcrum <- function(ab, l
                   , verbose = T){
 
     ab <- ab[ab != 0]
-    div <- dfun(ab, l)
+    div <- rarity(ab, l)
 
     if(verbose == T){
         print(c(paste("diversity =", div), paste("community size =", sum(ab))
                 , paste("max observed rarity =", sum(ab) / min(ab))
                 , paste("min observed rarity =", sum(ab) / max(ab))))}
-    fulcDat = tibble::tibble(x = div, y = -0.03 * y_extent)
-    return( ggplot2::geom_point( data = fulcDat
-         # gets fulcrum point close.
-        , size = (0.48 * min(grDevices::dev.size("cm")) - (2.5 * 0.0353 * base_size)) / noco #scales with plotting device and number of columns
+    # y_off = -0.03 # small amount to offset the y axis.
+    y_off = -1/.pt/10
+    size_adjust = 0.5 # this shrinks the fulcrum given the size of other
+    # points for shape = 17 to have its apex at y = 0.
+    fulcDat = tibble::tibble(x = div, y = y_off * y_extent)
+    return( ggplot2::geom_point(data = fulcDat
+        , size = (size_adjust * min(grDevices::dev.size("cm")) -
+                    (2.5 * 1/.pt/10 * base_size)) /
+            noco # scales with plotting device and number of columns
         # , size=rel(0.3)
         , shape = 17
         , ggplot2::aes(.data$x, .data$y)

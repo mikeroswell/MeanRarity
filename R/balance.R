@@ -147,7 +147,7 @@ base_plot <- function(ab, pointScale
 
 	pointScale <- (typeface_size *
 	                 (min(grDevices::dev.size("cm")) /
-	                    noco - (2.5 * 1/.pt/10 * base_size)
+	                    noco - (2.5 * 1/ggplot2::.pt/10 * base_size)
 	                  )
 	               )
 	pointsize <- pointScale / (y_extent * 1.1)
@@ -328,13 +328,13 @@ fulcrum <- function(ab, l
                 , paste("max observed rarity =", sum(ab) / min(ab))
                 , paste("min observed rarity =", sum(ab) / max(ab))))}
     # y_off = -0.03 # small amount to offset the y axis.
-    y_off = -1/.pt/10
+    y_off = -1/ggplot2::.pt/10
     size_adjust = 0.5 # this shrinks the fulcrum given the size of other
     # points for shape = 17 to have its apex at y = 0.
     fulcDat = tibble::tibble(x = div, y = y_off * y_extent)
     return( ggplot2::geom_point(data = fulcDat
         , size = (size_adjust * min(grDevices::dev.size("cm")) -
-                    (2.5 * 1/.pt/10 * base_size)) /
+                    (2.5 * 1/ggplot2::.pt/10 * base_size)) /
             noco # scales with plotting device and number of columns
         # , size=rel(0.3)
         , shape = 17

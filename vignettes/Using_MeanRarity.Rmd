@@ -435,7 +435,7 @@ Similarly, the sampling variation in Hill diversity estimates (both sample
 diversity and asymptotic estimators) is poorly understood. Intuitively, sampling
 variability in Hill diversity estimates must depend jointly on sample size, the
 species abundance distribution, and the scaling exponent for Hill diversity.
-However, users of Hill diversity currently lack guidance on  the relatiionship
+However, users of Hill diversity currently lack guidance on  the relationship
 between their metric choice and the sampling variability they might expect.
 Variability, along with bias, is an important consideration when selecting a
 diversity metric. Especially when the number of replicates is modest, as is
@@ -671,7 +671,7 @@ available in several R packages.
   diversity (`vegan::renyi(..., hill = TRUE)`), rarefy
   datasets`vegan::specaccum()`, and fit parametric distributions to abundance
   vectors `vegan::fisherfit()`. While `vegan` is highly versatile, historical
-  artefacts may lead to confusion about Hill diversity. For example,
+  artifacts may lead to confusion about Hill diversity. For example,
   `vegan::diversity(x, "invsimpson") = 1/(1-vegan::diversity(x, "simpson"))`,
   although users might assume that 
   `vegan::diversity(x, "invsimpson") = 1/vegan::diversity(x, "simpson")`.
@@ -716,7 +716,7 @@ species, exhibit high variability, especially in the presence of low evenness
 and very rare species. The `MeanRarity` package facilitates simulating
 assemblages with known diversity, which is not easily done with other popular
 software packages for biodiversity science. As Hill diversity metrics gain
-popularity, `MeanRarity` provides tools to estimate and visulaize them in a
+popularity, `MeanRarity` provides tools to estimate and visualize them in a
 coherent framework absent from other statistical packages, and enables
 continuing research into the properties of these metrics.
 

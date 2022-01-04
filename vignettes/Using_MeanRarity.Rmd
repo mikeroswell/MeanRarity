@@ -5,7 +5,13 @@ output:
     fig_width: 3
     fig_height: 3
     fig.retina: NULL
-  rmarkdown::html_vignette: default
+  rmarkdown::html_vignette: 
+    fig_width: 3
+    fig_height: 3
+  rmarkdown::pdf_document: 
+    fig_width: 3
+    fig_height: 3
+    latex_engine: xelatex
   word_document: default
 bibliography: '`r system.file( "REFERENCES.bib", package="MeanRarity")`'
 vignette: >
@@ -229,10 +235,18 @@ rich_bal <- rarity_plot(ab = uneven_comm, l = 1, base_size = 12) +
   ggplot2::labs(x = "") +
   ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
 
-shan_bal <- white_y(rarity_plot(ab = uneven_comm, l = 0, base_size = 12, verbose = F)) + #do not return all the text this time
+shan_bal <- white_y( # hide y axis
+  rarity_plot(ab = uneven_comm
+              , l = 0
+              , base_size = 12
+              , verbose = F)) +
   ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
 
-simp_bal <- white_y(rarity_plot(ab = uneven_comm, l = -1, base_size = 12, verbose = F)) +
+simp_bal <- white_y(
+  rarity_plot(ab = uneven_comm
+              , l = -1
+              , base_size = 12
+              , verbose = F)) +
   ggplot2::labs(x = "") +
   ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
 ```
@@ -244,7 +258,7 @@ harmonic, given when `l= c(1, 0, -1)`, and equal to richness, Hill-Shannon
 diversity, and Hill-Simpson diversity). By default, each individual is plotted
 as a "block", and species with the same rarity are stacked vertically.
 
-```{r Balance plot print, fig.width = 3, fig.height = 3, fig.show = "hold"}
+```{r Balance plot print, out.width = '33%', out.height = '33%', fig.show = "hold"}
 rich_bal
 shan_bal
 simp_bal

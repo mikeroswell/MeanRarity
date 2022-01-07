@@ -50,6 +50,7 @@ Suggests:
 Roxygen: list(markdown = TRUE)
 RdMacros: Rdpack
 Language: en-US
+Encoding: UTF-8
 VignetteBuilder: knitr
 Depends: R (>= 3.3)
 URL: https://mikeroswell.github.io/MeanRarity

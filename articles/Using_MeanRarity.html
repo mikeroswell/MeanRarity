@@ -296,16 +296,16 @@
 <span class="va">uneven_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">uneven_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">50</span><span class="op">)</span>
 <span class="co">#sample_infinite returns a numeric vector of sample species abundances</span>
 <span class="va">even_sample</span>
-<span class="co">#&gt;  [1] 14  6  3  4  5  3  0  1  2  2  2  4  0  1  1  1  0  0  1  0</span>
+<span class="co">#&gt;  [1] 7 8 6 4 6 3 1 1 5 1 1 1 0 3 1 0 0 0 1 1</span>
 <span class="va">uneven_sample</span>
-<span class="co">#&gt;  [1] 16  9  6  1  1  3  3  4  2  2  1  1  0  0  1  0  0  0  0  0</span>
+<span class="co">#&gt;  [1] 15  6  5  6  5  3  1  2  2  3  0  0  0  1  0  1  0  0  0  0</span>
 
 <span class="co"># we can compare evenness (given a scaling parameter `l`)</span>
 <span class="co"># the evenness is the normalized ratio of an arbitrary Hill diversity to richness</span>
 <span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.4797178</span>
+<span class="co">#&gt; [1] 0.594709</span>
 <span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.4126984</span>
+<span class="co">#&gt; [1] 0.5135397</span>
 
 <span class="co"># compare diversity from sample vs. ideal SAD:</span>
 <span class="co"># likely pretty far off for a small sample!</span>
@@ -318,7 +318,7 @@
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 15   10.59428 7.716049</span>
+<span class="co">#&gt; [1,] 16   11.86012 9.920635</span>
 
 <span class="co"># with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson</span>
 <span class="co"># richness is always lower</span>
@@ -329,7 +329,7 @@
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 13   8.298662 5.952381</span>
+<span class="co">#&gt; [1,] 12   8.674718 6.648936</span>
 
 
 <span class="va">big_even_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">even_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">1e7</span><span class="op">)</span>
@@ -343,7 +343,7 @@
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">big_even_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 20   15.12175 12.00076</span></code></pre></div>
+<span class="co">#&gt; [1,] 20   15.12172 12.00159</span></code></pre></div>
 <p>For any distribution of relative abundances, one can ask, “what is the Hill diversity of this distribution?” Yet the answer, of course, depends on the chosen value of the scaling parameter <span class="math inline">\(\ell\)</span>. For a comprehensive answer, one might look across values of <span class="math inline">\(\ell\)</span>, also known as a Hill “diversity profile” <span class="citation">(Chao et al. 2014)</span>. <code>MeanRarity</code> provides a function to generate a Hill diversity profile based on <span class="math inline">\(\ell\)</span> (rather than <span class="math inline">\(q\)</span>): <code><a href="../reference/divpro.html">divpro()</a></code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># the even and uneven communities have same richness but different Hill diversity when `ell != 1`</span>

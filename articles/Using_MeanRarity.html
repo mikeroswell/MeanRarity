@@ -98,9 +98,9 @@
 <!-- Application: Short (no more than 3000-4000 words total) descriptions of new software that are intended to describe and promote the software as well as act as a citeable resource for developers. Application papers are made free to access for one month after being assigned to an issue in order to encourage uptake of the methodologies they describe. Uploading a package to a site such as CRAN or sourceforge in advance is not considered prior publication and will not hinder your submission to MEE. View some example Applications here: https://besjournals.onlinelibrary.wiley.com/hub/journal/2041210X/features/applicationpapers -->
 <!-- also see https://www.jstatsoft.org/authors -->
 
-<div class="section level1">
-<h1 id="abstract">ABSTRACT<a class="anchor" aria-label="anchor" href="#abstract"></a>
-</h1>
+<div class="section level2">
+<h2 id="abstract">ABSTRACT<a class="anchor" aria-label="anchor" href="#abstract"></a>
+</h2>
 <ol style="list-style-type: decimal">
 <li><p>Detecting, describing, and predicting biodiversity shifts, a critical project in ecology and evolution, requires metrics with well-understood numerical and statistical properties, and transparent interpretations. Recently, Hill diversity measures have been promoted for their ability to accommodate many historical biodiversity concepts, and quantify diversity in natural “effective numbers” units. The switch to the “effective numbers” scale, while potentially easing comparability and interpretability of disparate measures, can fuel false beliefs about the numerical and statistical properties of Hill diversity measures. Re-parameterizing the Hill number equation in terms of the generalized mean rarity opens avenues to investigate the numerical and statistical properties of these widely-used measures.</p></li>
 <li><p>Here, we present the <code>R</code> package <code>MeanRarity</code>, which enables estimating and visualizing Hill diversity (aka “Hill numbers”) in terms of the average species rarity, i.e the reciprocal of relative abundance. Ecologists, accustomed to thinking about rarity in the context of diversity, may find it intuitive and useful to interpret Hill diversities as the average species rarity on different scales. With <code>MeanRarity</code>, users can compute mean rarity, generate plots to visualize species abundance distributions and their average rarity, and simulate species abundance distributions with known diversity. Here, we simulate species abundance distributions, and estimate the diversity of these assemblages based on random samples from these distributions. We investigate how the bias and variability of Hill diversity estimates (i.e., the diversity of the sample, and the estimated true diversity of the whole species abundance distribution) depend on the scaling parameter in the Hill equation, features of the species abundance distribution such as evenness, and sampling intensity.</p></li>
@@ -108,20 +108,20 @@
 <li><p><code>MeanRarity</code> provides tools to students, researchers, and biostatisticians to understand and investigate Hill diversity metrics. Fixing diversity values, <em>a priori</em>, in simulated species abundance distributions enables replicable, targeted testing of numerical and statistical properties of Hill diversities and their estimators. With this simulation platform, we tested Hill diversity estimates on samples from species abundance distributions that differed in shape, but not in richness. Our simulations reveal that for both sample Hill diversities and asymptotic Hill diversity estimates, lower bias and variability may be possible for Hill diversities between Hill-Simpson diversity and richness (for scaling parameter values between -1 and 1) for small, incomplete samples.</p></li>
 </ol>
 </div>
-<div class="section level1">
-<h1 id="introduction">INTRODUCTION<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h1>
+<div class="section level2">
+<h2 id="introduction">INTRODUCTION<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>Biodiversity underpins human existence and drives the character and function of earth’s ecosystems. At the same time, biodiversity is shifting and arguably, declining, at an unprecedented rate due to anthropogenic global change. Yet, detecting and describing this change means choosing just what to measure, and how. Ecologists are faced with a dazzling array of choices.</p>
 <p>Here, we introduce the R package <code>MeanRarity</code>, which enables estimating and visualizing Hill diversity (aka “Hill numbers”) in terms of the average species “rarity.” Rarity is defined as the reciprocal of relative abundance.</p>
 <p>The average species rarity may be simpler to interpret than a transformed, generalized entropy (i.e., how Hill numbers are typically derived). The rarity parameterization clarifies the role of the scaling exponent, and this R package provides illustration tools to visualize that scaling concretely. Furthermore, this framework may provide an entry point for developing and testing diversity estimators and their related interval estimates (e.g., confidence intervals); this package contains tools to simulate species abundance distributions that should streamline that process.</p>
 <p>This R package provides functions for three purposes: (1) computing Hill diversity as “Mean Rarity”, (2) visualizing and interpreting “Mean Rarity”, and (3) simulating species abundance distributions with known diversity. The package is available online on Github (see Data accessibility). An interactive shiny application for building “balance plots” is also available online (<a href="https://mean-rarity.shinyapps.io/rshiny_app1/" class="external-link uri">https://mean-rarity.shinyapps.io/rshiny_app1/</a>).</p>
 </div>
-<div class="section level1">
-<h1 id="package-description">PACKAGE DESCRIPTION<a class="anchor" aria-label="anchor" href="#package-description"></a>
-</h1>
 <div class="section level2">
-<h2 id="computing-mean-rarity">Computing Mean Rarity<a class="anchor" aria-label="anchor" href="#computing-mean-rarity"></a>
+<h2 id="package-description">PACKAGE DESCRIPTION<a class="anchor" aria-label="anchor" href="#package-description"></a>
 </h2>
+<div class="section level3">
+<h3 id="computing-mean-rarity">Computing Mean Rarity<a class="anchor" aria-label="anchor" href="#computing-mean-rarity"></a>
+</h3>
 <p><code><a href="../reference/rarity.html">rarity()</a></code> computes Hill diversity of a sample, parameterized in terms of the mean rarity.</p>
 <p>We define Hill diversity <span class="math inline">\(D\)</span> as the mean species rarity in the assemblage</p>
 <p><span class="math display">\[D=\left( \sum_{i=1}^{S}p_{i}(r_{i})^{\ell} \right)^{1/\ell} \tag{1}\]</span></p>
@@ -160,9 +160,9 @@
 <span class="co">#&gt; 3 -1.00 3.137255</span>
 <span class="co">#&gt; 4  0.34 4.574320</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="interpreting-mean-rarity">Interpreting Mean Rarity<a class="anchor" aria-label="anchor" href="#interpreting-mean-rarity"></a>
-</h2>
+<div class="section level3">
+<h3 id="interpreting-mean-rarity">Interpreting Mean Rarity<a class="anchor" aria-label="anchor" href="#interpreting-mean-rarity"></a>
+</h3>
 <p>One way of interpreting Hill diversities is that they express the diversity of an assemblage in terms of an imaginary assemblage with that same diversity, but in which all species are equally abundant <span class="citation">(Jost 2006)</span>. In this perspective, the uneven assemblage <code>uneven_comm</code> is as diverse as an assemblage of six equally abundant species (richness, <code>l = 1</code>), or four equally abundant species (Hill-Shannon diversity, <code>l = 0</code>), or three (Hill-Simpson diversity, <code>l = -1</code>). These equivalencies depend on the the distribution of relative abundances and the parameter <code>l</code>. So when <code>l = 1</code>, this assemblage is as diverse (or as species-rich) as any assemblage with six species. When <code>l = -1</code>, it is about as diverse as an assemblage with twice the number of species and tremendous unevenness, or half the number of species and perfect evenness:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">uneven_12</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">531</span>, <span class="fl">186</span>, <span class="fl">101</span>,  <span class="fl">63</span>, <span class="fl">41</span>, <span class="fl">28</span>, <span class="fl">19</span>, <span class="fl">13</span>, <span class="fl">9</span>, <span class="fl">5</span>, <span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span>
@@ -235,9 +235,9 @@
 <span class="va">simp_bal</span></code></pre></div>
 <p><img src="Using_MeanRarity_files/figure-html/Balance%20plot%20print-1.png" width="33%" height="33%"><img src="Using_MeanRarity_files/figure-html/Balance%20plot%20print-2.png" width="33%" height="33%"><img src="Using_MeanRarity_files/figure-html/Balance%20plot%20print-3.png" width="33%" height="33%"></p>
 </div>
-<div class="section level2">
-<h2 id="simulating-communities-with-known-diversity">Simulating communities with known diversity<a class="anchor" aria-label="anchor" href="#simulating-communities-with-known-diversity"></a>
-</h2>
+<div class="section level3">
+<h3 id="simulating-communities-with-known-diversity">Simulating communities with known diversity<a class="anchor" aria-label="anchor" href="#simulating-communities-with-known-diversity"></a>
+</h3>
 <p>Unfortunately, it is difficult to assess the performance of diversity estimators with real-world data, because ecological communities are not typically fully censused, and therefore the true diversity of those communities is not known. There are, of course, a few exceptional datasets… mostly observations of vascular plants, often trees, where the species identity and abundances in each plot is known (CITE tropical tree dataset). However, these may not be representative of the variability in species abundance distributions found in nature. To enable a more comprehensive view, <code>MeanRarity</code> includes a tool to simulate species abundance distributions where diversity values are given as parameters. This way, diversity (in this case, richness and Hill-Simpson diversity) are known and fixed, rather than epiphenomena that fall out of the simulations. In order to achieve this, we simulate species abundance distributions with known, finite, true diversity, but infinite abundance, from which finite samples may be taken. The diversity of a given sample from such as SAD is, of course, not precisely pre-determined.</p>
 <p>This approach differs from species abundance distribution simulations implemented in other R packages. For example, <code>mobsim</code> <span class="citation">(May et al. 2018)</span> and <code>sads</code> (CITE) allow users to specify continuous parametric probability distributions, but then take finite, discrete samples from those distributions in the simulation (in <code>mobsim</code> these can even be spatially explicit!). Users input canonical parameters of the probability distributions and the number of individuals to sample. These are powerful simulation tools, but one drawback is that the diversity resulting from any given set of parameter values is variable.</p>
 <p><code><a href="../reference/fit_SAD.html">fit_SAD()</a></code>, by contrast, does not simulate individuals at all. Instead, it always gives precisely the same relative abundances for a given set of parameters, which may be a helpful tool for exploring the behavior of diversity metrics under different assemblage size and sampling scenarios.</p>
@@ -296,16 +296,16 @@
 <span class="va">uneven_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">uneven_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">50</span><span class="op">)</span>
 <span class="co">#sample_infinite returns a numeric vector of sample species abundances</span>
 <span class="va">even_sample</span>
-<span class="co">#&gt;  [1] 7 8 6 4 6 3 1 1 5 1 1 1 0 3 1 0 0 0 1 1</span>
+<span class="co">#&gt;  [1] 12  6  5  5  1  1  2  2  4  1  3  1  3  1  1  1  0  0  1  0</span>
 <span class="va">uneven_sample</span>
-<span class="co">#&gt;  [1] 15  6  5  6  5  3  1  2  2  3  0  0  0  1  0  1  0  0  0  0</span>
+<span class="co">#&gt;  [1] 16  9  5  4  6  4  1  1  0  0  1  0  2  0  0  1  0  0  0  0</span>
 
 <span class="co"># we can compare evenness (given a scaling parameter `l`)</span>
 <span class="co"># the evenness is the normalized ratio of an arbitrary Hill diversity to richness</span>
 <span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.594709</span>
+<span class="co">#&gt; [1] 0.4955357</span>
 <span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.5135397</span>
+<span class="co">#&gt; [1] 0.4707763</span>
 
 <span class="co"># compare diversity from sample vs. ideal SAD:</span>
 <span class="co"># likely pretty far off for a small sample!</span>
@@ -318,7 +318,7 @@
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 16   11.86012 9.920635</span>
+<span class="co">#&gt; [1,] 17   11.94793 8.928571</span>
 
 <span class="co"># with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson</span>
 <span class="co"># richness is always lower</span>
@@ -329,7 +329,7 @@
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 12   8.674718 6.648936</span>
+<span class="co">#&gt; [1,] 11   7.417234 5.707763</span>
 
 
 <span class="va">big_even_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">even_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">1e7</span><span class="op">)</span>
@@ -343,7 +343,7 @@
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">big_even_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 20   15.12172 12.00159</span></code></pre></div>
+<span class="co">#&gt; [1,] 20   15.11846 12.00002</span></code></pre></div>
 <p>For any distribution of relative abundances, one can ask, “what is the Hill diversity of this distribution?” Yet the answer, of course, depends on the chosen value of the scaling parameter <span class="math inline">\(\ell\)</span>. For a comprehensive answer, one might look across values of <span class="math inline">\(\ell\)</span>, also known as a Hill “diversity profile” <span class="citation">(Chao et al. 2014)</span>. <code>MeanRarity</code> provides a function to generate a Hill diversity profile based on <span class="math inline">\(\ell\)</span> (rather than <span class="math inline">\(q\)</span>): <code><a href="../reference/divpro.html">divpro()</a></code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># the even and uneven communities have same richness but different Hill diversity when `ell != 1`</span>
@@ -365,12 +365,12 @@
 <p><img src="Using_MeanRarity_files/figure-html/diversity%20profile-2.png" width="700"></p>
 </div>
 </div>
-<div class="section level1">
-<h1 id="example-applications">EXAMPLE APPLICATIONS<a class="anchor" aria-label="anchor" href="#example-applications"></a>
-</h1>
 <div class="section level2">
-<h2 id="drivers-of-sampling-uncertainty-in-hill-diversity-estimates">Drivers of sampling uncertainty in Hill diversity estimates<a class="anchor" aria-label="anchor" href="#drivers-of-sampling-uncertainty-in-hill-diversity-estimates"></a>
+<h2 id="example-applications">EXAMPLE APPLICATIONS<a class="anchor" aria-label="anchor" href="#example-applications"></a>
 </h2>
+<div class="section level3">
+<h3 id="drivers-of-sampling-uncertainty-in-hill-diversity-estimates">Drivers of sampling uncertainty in Hill diversity estimates<a class="anchor" aria-label="anchor" href="#drivers-of-sampling-uncertainty-in-hill-diversity-estimates"></a>
+</h3>
 <p>Accurate estimates of Hill diversity based on sample data are notoriously challenging <span class="citation">(Roswell, Dushoff, and Winfree 2021)</span>. Although many estimators have been used, the two most common approaches are to a) calculate the diversity of samples directly, or b) use non-parametric estimators of the diversity of the entire assemblage. Both approaches have merit for comparing communities and ecosystems <span class="citation">(Gooriah et al. 2021)</span>. While the degree to which sample diversity and asymptotic estimates each differ from the true diversity (bias) has received substantial study, the sampling variation in each type of Hill diversity estimate is less understood. <code>MeanRarity</code> provides a toolkit to explore accuracy and sampling uncertainty for Hill diversity estimates. Because this package simulates species abundance distributions with known diversity, it allows examination of the drivers of sampling variation in Hill diversity estimates.</p>
 <p>It is well-known that the diversity of a sample tends to be lower than the diversity of the assemblage from which the sample was drawn. This “bias” is most acute for species richness, but can be substantial for all Hill diversities. The degree of mismatch between the sample and true diversity is difficult to know with real assemblages, but this can be addressed directly through simulation. At the same time, current asymptotic Hill diversity estimators <span class="citation">(Chao and Jost 2015)</span> typically exhibit little bias when sample sizes are reasonably large (hundreds of individuals) and $&lt; 0.75 $. Less well-understood is how different features of the species abundance distribution (e.g. evenness, or just how rare the rarest species are) drive the degree of difference between either sampled diversity or asymptotic estimators, and the true diversity of the sampled species abundance distribution.</p>
 <p>Similarly, the sampling variation in Hill diversity estimates (both sample diversity and asymptotic estimators) is poorly understood. Intuitively, sampling variability in Hill diversity estimates must depend jointly on sample size, the species abundance distribution, and the scaling exponent for Hill diversity. However, users of Hill diversity currently lack guidance on the relationship between their metric choice and the sampling variability they might expect. Variability, along with bias, is an important consideration when selecting a diversity metric. Especially when the number of replicates is modest, as is often the case in ecological studies, inaccuracy due to random sampling variability could lead to equally misleading results as could bias <em>CITE THIS</em>.</p>
@@ -508,9 +508,9 @@
 <p><img src="Using_MeanRarity_files/figure-html/sampling%20variation%20in%20diversity%20estimates-2.png" width="672"></p>
 </div>
 </div>
-<div class="section level1">
-<h1 id="alternative-software">ALTERNATIVE SOFTWARE<a class="anchor" aria-label="anchor" href="#alternative-software"></a>
-</h1>
+<div class="section level2">
+<h2 id="alternative-software">ALTERNATIVE SOFTWARE<a class="anchor" aria-label="anchor" href="#alternative-software"></a>
+</h2>
 <p>Functions to generate similar diversity estimates and assemblage simulations are available in several R packages.</p>
 <!-- this is currently placeholders, but need to fill this out. Will require some serious focused time and maybe some blog posts -->
 <ol style="list-style-type: decimal">
@@ -528,25 +528,25 @@
 <li><code>EntropyEstimation</code></li>
 </ol>
 </div>
-<div class="section level1">
-<h1 id="conclusions">CONCLUSIONS<a class="anchor" aria-label="anchor" href="#conclusions"></a>
-</h1>
+<div class="section level2">
+<h2 id="conclusions">CONCLUSIONS<a class="anchor" aria-label="anchor" href="#conclusions"></a>
+</h2>
 <!-- this is repetitive, needs to be tightened -->
 <p>The combination of tools for simulation, estimation, and visualization of biodiversity provided by <code>MeanRarity</code> enables a coherent study of Hill diversity metrics through the framework of average species rarity. The package supports interpretation of popular diversity metrics and exploration of numerical and statistical properties of these metrics and their estimators. We tested how different distributions of relative abundance in assemblages drives sampling uncertainty in Hill diversity estimators. We found that Hill-Simpson diversity and its asymptotic estimator, which have been promoted as stable, robust measures of biodiversity due to relative emphasis on common, rather than rare species, exhibit high variability, especially in the presence of low evenness and very rare species. The <code>MeanRarity</code> package facilitates simulating assemblages with known diversity, which is not easily done with other popular software packages for biodiversity science. As Hill diversity metrics gain popularity, <code>MeanRarity</code> provides tools to estimate and visualize them in a coherent framework absent from other statistical packages, and enables continuing research into the properties of these metrics.</p>
-<div class="section level2">
-<h2 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
-</h2>
+<div class="section level3">
+<h3 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
+</h3>
 <p>We thank Luke Harmon for early feedback on the R package, and….</p>
 </div>
-<div class="section level2">
-<h2 id="author-contributions">Author contributions<a class="anchor" aria-label="anchor" href="#author-contributions"></a>
-</h2>
+<div class="section level3">
+<h3 id="author-contributions">Author contributions<a class="anchor" aria-label="anchor" href="#author-contributions"></a>
+</h3>
 <p>M.R. and J.D. conceived the package concept and structure and generated source code for package functions. M.R. implemented the first package version and the shiny online application. M.R. wrote the manuscript with help from J.D.</p>
 </div>
 </div>
-<div class="section level1">
-<h1 id="data-accessibility">DATA ACCESSIBILITY<a class="anchor" aria-label="anchor" href="#data-accessibility"></a>
-</h1>
+<div class="section level2">
+<h2 id="data-accessibility">DATA ACCESSIBILITY<a class="anchor" aria-label="anchor" href="#data-accessibility"></a>
+</h2>
 <p>This article does not use any empirical data. The package is available on Github (SOME KIND OF URL OR DOI REF).</p>
 <!-- looks like this was an attempt to hard-code a table of functions, but the dynamically-generated one from pkgdown or a modification thereof seems better-->
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
@@ -604,7 +604,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>

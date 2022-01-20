@@ -1,11 +1,11 @@
 pandoc: 2.7.3
-pkgdown: 2.0.1
+pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   Estimating_Mean_Rarity: Estimating_Mean_Rarity.html
   Gods_estimator: Gods_estimator.html
   Using_MeanRarity: Using_MeanRarity.html
-last_built: 2022-01-07T13:55Z
+last_built: 2022-01-20T16:24Z
 urls:
   reference: https://mikeroswell.github.io/MeanRarity/reference
   article: https://mikeroswell.github.io/MeanRarity/articles

@@ -137,22 +137,18 @@ $$D=\left( \sum_{i=1}^{S}p_{i}(r_{i})^{\ell} \right)^{1/\ell} \tag{1}$$
 where $D$ is diversity or mean rarity, $p_{i}$ is the relative abundance of
 species $i$, $r_{i}$ is the rarity of species $i$ (defined as the reciprocal of
 $p_{i}$), $S$ is the total species richness, and $\ell$ is the scaling exponent
-that determines the type of mean computed [@Roswell2021]. We define the
-expression for  $\ell = 0$  based on the limit (from left and right) as
-
-$$D=e^{ \sum_{i=1}^{S}p_{i} * \log(r_{i})} \tag{2}$$
+that determines the type of mean computed [@Roswell2021]. 
 
 Hill diversity is more commonly written as
 
-$$D=\left( \sum_{i=1}^{S}p_{i}^{q} \right)^{1/1-q} \tag{3}$$
+$$D=\left( \sum_{i=1}^{S}p_{i}^{q} \right)^{1/1-q} \tag{2}$$
+When $\ell =1$ ($q=0$) these equations are defined by their limit.
 
-Defined when q = 1 as
-$$D=e^{ -\sum_{i=1}^{S} p_{i} * \log(p_{i})} \tag{4}$$
-Equations 1 and 3 (or 2 and 4) are equivalent when $\ell = 1-q$.
+Equations 1 and 2 are equivalent when $\ell = 1-q$.
 Re-parameterizing Hill diversity in terms of species rarity can provide
 conceptual clarity. Equation 1 is a weighted mean rarity, where the weights
 (relative abundances, $p_i$) are factored out explicitly. Simplifying (as in
-Equation 3) hides the weighting by relative abundance, and leads to the claim
+Equation 2) hides the weighting by relative abundance, and leads to the claim
 that the scaling exponent is the "weight." The concrete meaning of "weight" when
 applied to $q$ in Equation 2 may be difficult to understand.
 
@@ -189,7 +185,7 @@ data.frame(l = l_vals
 
 One way of interpreting Hill diversities is that they express the diversity of
 an assemblage in terms of an imaginary assemblage with that same diversity, but
-in which all species are equally abundant [@Jost2006]. In this perspective, the
+in which all species are equally abundant [@Jost2006]. <!-- sharpen this, maybe be more explicit about asking what does $\ell$ mean--> In this perspective, the
 uneven assemblage `uneven_comm` is as diverse as an assemblage of six equally
 abundant species (richness, `l = 1`), or four equally abundant species
 (Hill-Shannon diversity, `l = 0`), or three (Hill-Simpson diversity, `l = -1`).
@@ -228,6 +224,7 @@ the species weights ([relative] abundances) and where they lie (their *scaled*
 rarities). The rarity scaling is given by the exponent $\ell$ from equation 1,
 the argument `l`. Here, we create three balance plots for the three Pythagorean
 means, given when $\ell \in \{-1,0,1\}$:
+<!-- make sure to add $\ell$ to these plots!-->
 
 ```{r Balance plot setup}
 
@@ -250,6 +247,11 @@ simp_bal <- white_y(
   ggplot2::labs(x = "") +
   ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
 ```
+
+<!-- should say more. Call more attention to the points and how they move and
+how diversity moves and all. Otherwise the coolness of this easy to miss. Also,
+consider making the reference points bigger since they aren't that visually
+distinct for some eyes.-->
 In a balance plot, the species abundances are plotted on the y-axis, species
 rarities on the x-axis (values are back-transformed, but scaling is dictated by
 `l`), the mean is shown with a triangular "fulcrum," and reference points are
@@ -270,18 +272,13 @@ simp_bal
 Unfortunately, it is difficult to assess the performance of diversity estimators
 with real-world data, because ecological communities are not typically fully
 censused, and therefore the true diversity of those communities is not known.
-There are, of course, a few exceptional datasets... mostly observations of
-vascular plants, often trees, where the species identity and abundances in each
-plot is known (CITE tropical tree dataset). However, these may not be
-representative of the variability in species abundance distributions found in
-nature. To enable a more comprehensive view, `MeanRarity` includes a tool to
-simulate species abundance distributions where diversity values are given as
-parameters. This way, diversity (in this case, richness and Hill-Simpson
-diversity) are known and fixed, rather than epiphenomena that fall out of the
-simulations. In order to achieve this, we simulate species abundance
-distributions with known, finite, true diversity, but infinite
-abundance, from which finite samples may be taken. The diversity of a given
-sample from such as SAD is, of course, not precisely pre-determined.
+`MeanRarity` includes a tool to simulate species abundance distributions where
+diversity values are given as parameters. This way, diversity (in this case,
+richness and Hill-Simpson diversity) are known and fixed, rather than
+epiphenomena that fall out of the simulations. In order to achieve this, we
+simulate species abundance distributions with known, finite, true diversity, but
+infinite abundance, from which finite samples may be taken. The diversity of a
+given sample from such as SAD is, of course, not precisely pre-determined.
 
 This approach differs from species abundance distribution simulations
 implemented in other R packages. For example, `mobsim` [@May2018a] and `sads`
@@ -308,9 +305,10 @@ abundances, which implies a large total assemblage abundance.
 
 To visualize a realized or simulated species abundance distribution,
 `MeanRarity` includes the convenience function `radplot()`, which plots species
-[relative] abundances against species ranks. The default behavior is *not* to
-log-transform [relative] abundances (i.e. it does not, by default, generate a
-"Whitaker plot").
+[relative] abundances against species ranks. <!-- consider cutting this which is
+a pretty rnadom detail--> The default behavior is *not* to log-transform
+[relative] abundances (i.e. it does not, by default, generate a "Whitaker
+plot").
 
 ```{r fit species abundance distributions}
 # set target richness and Hill-Simpson diversity levels
@@ -331,7 +329,7 @@ ev<-radplot(even_SAD$rel_abundances) +
   ggplot2::labs(y = "relative abundance", title =NULL)+
   ggplot2::ylim(c(0, 0.4))
 un<-radplot(uneven_SAD$rel_abundances) +
-  ggplot2::labs(ylab = "relative abundance", title =NULL) +
+  ggplot2::labs(y = "relative abundance", title =NULL) +
   ggplot2::ylim(c(0, 0.4))
 ```
 ``` {r plot radplots, fig.width = 3, fig.height =3, fig.show = "hold"}
@@ -347,7 +345,10 @@ The realized samples have Poisson-type noise about the mean species relative
 abundances given by `fit_SAD()` (that is, they are samples from a multinomial
 distribution). The diversity of a sample asymptotically approaches the simulated
 diversity as sample size approaches infinity.
-<!-- the section above could be tightened -->
+<!-- the section above could be tightened. A key issue is that the paragraphs
+above make it clear what `fit_SAD` does but not as much what it is for. A
+central point is that one generates samples from the distribution given by
+fit_SAD-->
 
 ```{r sample from SAD}
 
@@ -399,6 +400,7 @@ chosen value of the scaling parameter $\ell$. For a comprehensive answer, one
 might look across values of $\ell$, also known as a Hill "diversity profile"
 [@Chao2014b]. `MeanRarity` provides a function to generate a Hill diversity
 profile based on $\ell$ (rather than $q$): `divpro()`.
+<!-- these should be on a single plot, will be much more interesting that way!-->
 
 ```{r diversity profile}
 # the even and uneven communities have same richness but different Hill diversity when `ell != 1`
@@ -740,7 +742,8 @@ coherent framework absent from other statistical packages, and enables
 continuing research into the properties of these metrics.
 
 ## Acknowledgements
-We thank Luke Harmon for early feedback on the R package, and....
+We thank Luke Harmon for early feedback on the R package, Dan Gruner for his
+thoughtful comments on this manuscript, and....
 
 ## Author contributions
 

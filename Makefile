@@ -29,7 +29,8 @@ Sources += vignettes/*.Rmd
 %.vig.html: vignettes/%.Rmd
 	$(rmdh_r)
 
-## Using_MeanRarity.vig.html: vignettes/Using_MeanRarity.Rmd
+## This rule is $#@!ed because of rmd directory issues.
+## vignettes/Using_MeanRarity.vig.html: vignettes/Using_MeanRarity.Rmd
 
 ######################################################################
 

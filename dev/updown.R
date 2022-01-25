@@ -34,6 +34,20 @@ ipfun = function(x, pow){
   return(r)
 }
 
+# current rarity function
+rarity = function(ab, l, q = NULL){
+  if(!is.null(q)){
+    l = 1-q
+    warning("l has been set to 1-q")
+  }
+  ab = ab[ab != 0]
+  rp = ab/sum(ab)
+  if(l == 0){return(exp(sum(rp * log(1/rp))))}
+  return(ipfun(sum(rp * pfun(1/rp, l)), l)) #removed potentially problematic sign corrections
+  # return(sign(l)*ipfun(sign(l)*sum(rp*pfun(1/rp, l)),l))
+  # is it possible there was a mistake here?
+}
+
 # modified rarity for better numerical behavior (precise rarity)
 prec_rarity = function(ab, l, q = NULL){
   if(!is.null(q)){

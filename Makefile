@@ -10,10 +10,22 @@ vim_session:
 
 ######################################################################
 
+Sources += .Rbuildignore
+
 Ignore += Meta/ doc/
 
 package:
 	R CMD INSTALL .
+
+######################################################################
+
+Sources += $(wildcard dev/*.R)
+
+dev/updown.Rout: dev/updown.R
+	$(pipeR)
+
+dev/udtest.Rout: dev/udtest.R dev/updown.rda
+	$(pipeR)
 
 ######################################################################
 
@@ -26,11 +38,9 @@ Sources += vignettes/*.Rmd
 %.html: %.Rmd
 	$(rmdh_r)
 
-%.vig.html: vignettes/%.Rmd
-	$(rmdh_r)
-
-## This rule is $#@!ed because of rmd directory issues.
 ## vignettes/Using_MeanRarity.vig.html: vignettes/Using_MeanRarity.Rmd
+vignettes/%.vig.html: vignettes/%.Rmd
+	$(rmdh_r)
 
 ######################################################################
 

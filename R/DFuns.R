@@ -89,7 +89,13 @@ rarity = function(ab, l, q = NULL){
   ab = ab[ab != 0]
   rp = ab/sum(ab)
   if(l == 0){return(exp(sum(rp * log(1/rp))))}
-  return(ipfun(sum(rp * pfun(1/rp, l)), l)) #removed potentially problematic sign corrections
+  D<-ipfun(sum(rp * pfun(1/rp, l)), l)
+  if(!is.finite(D)){
+    warning(
+      "when `abs(l)` is very large, `rarity()` can return infinite results (multiplication errors with double-precision numbers). As l->Inf, rarity -> the maximum species rarity, ~N. As l -> -Inf, rarity -> the minimum species rarity, ~1."
+    )
+  }
+  return(D) #removed potentially problematic sign corrections
   # return(sign(l)*ipfun(sign(l)*sum(rp*pfun(1/rp, l)),l))
   # is it possible there was a mistake here?
 }

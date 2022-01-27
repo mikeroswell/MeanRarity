@@ -177,8 +177,7 @@
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_color_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span>
 <span class="co">#&gt; Joining, by = "site"</span>
 <span class="co">#&gt; Warning: Removed 257 rows containing missing values (geom_point).</span>
-
-<span class="co">#&gt; Warning: Removed 257 rows containing missing values (geom_point).</span></code></pre></div>
+<span class="co">#&gt; Removed 257 rows containing missing values (geom_point).</span></code></pre></div>
 <p><img src="Estimating_Mean_Rarity_files/figure-html/Species%20Accumulation%20Curves-1.png" width="480"></p>
 <p>Figure 3 in the guide shows an empirical Hill diversity profile. The <code>MeanRarity</code> package has a function to produce such profiles, <code><a href="../reference/divpro.html">divpro()</a></code>. This lightweight function does not produce asymptotic estimates. Because the guide focused on the mean rarity formulation for Hill diversities, parameterizing the scaling exponent with <span class="math inline">\(\ell\)</span>, the profile is plotted from <span class="math inline">\(\ell = -1\)</span> to <span class="math inline">\(\ell =1\)</span>, whereas other software packages such as <code>iNEXT</code> and <code>SpadeR</code> plot the profile from <span class="math inline">\(q = 1-\ell =0\)</span> to <span class="math inline">\(q = 1-\ell =2\)</span>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">

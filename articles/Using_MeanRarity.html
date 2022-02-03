@@ -127,7 +127,7 @@
 <p><span class="math display">\[D=\left( \sum_{i=1}^{S}p_{i}(r_{i})^{\ell} \right)^{1/\ell} \tag{1}\]</span></p>
 <p>where <span class="math inline">\(D\)</span> is diversity or mean rarity, <span class="math inline">\(p_{i}\)</span> is the relative abundance of species <span class="math inline">\(i\)</span>, <span class="math inline">\(r_{i}\)</span> is the rarity of species <span class="math inline">\(i\)</span> (defined as the reciprocal of <span class="math inline">\(p_{i}\)</span>), <span class="math inline">\(S\)</span> is the total species richness, and <span class="math inline">\(\ell\)</span> is the scaling exponent that determines the type of mean computed <span class="citation">(Roswell, Dushoff, and Winfree 2021)</span>.</p>
 <p>Hill diversity is more commonly written as</p>
-<p><span class="math display">\[D=\left( \sum_{i=1}^{S}p_{i}^{q} \right)^{1/1-q} \tag{2}\]</span> When <span class="math inline">\(\ell =1\)</span> (<span class="math inline">\(q=0\)</span>) these equations are defined by their limit.</p>
+<p><span class="math display">\[D=\left( \sum_{i=1}^{S}p_{i}^{q} \right)^{1/1-q} \tag{2}\]</span> When <span class="math inline">\(\ell = 0\)</span> (<span class="math inline">\(q = 1\)</span>), these equations are defined by their limit.</p>
 <p>Equations 1 and 2 are equivalent when <span class="math inline">\(\ell = 1-q\)</span>. Re-parameterizing Hill diversity in terms of species rarity can provide conceptual clarity. Equation 1 is a weighted mean rarity, where the weights (relative abundances, <span class="math inline">\(p_i\)</span>) are factored out explicitly. Simplifying (as in Equation 2) hides the weighting by relative abundance, and leads to the claim that the scaling exponent is the “weight.” The concrete meaning of “weight” when applied to <span class="math inline">\(q\)</span> in Equation 2 may be difficult to understand.</p>
 <p>Because Equations 1 and 2 are algebraically equivalent, <code>rarity(x, l)</code> is equivalent to <code>vegan::renyi(x, scale = 1-l, hill = T)</code> and the <code>qD</code> output from <code>iNEXT::estimateD(x)</code> where <code>order = 1-l</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -162,7 +162,8 @@
 <div class="section level3">
 <h3 id="interpreting-mean-rarity">Interpreting Mean Rarity<a class="anchor" aria-label="anchor" href="#interpreting-mean-rarity"></a>
 </h3>
-<p>One way of interpreting Hill diversities is that they express the diversity of an assemblage in terms of an imaginary assemblage with that same diversity, but in which all species are equally abundant <span class="citation">(Jost 2006)</span>. <!-- sharpen this, maybe be more explicit about asking what does $\ell$ mean--> In this perspective, the uneven assemblage <code>uneven_comm</code> is as diverse as an assemblage of six equally abundant species (richness, <code>l = 1</code>), or four equally abundant species (Hill-Shannon diversity, <code>l = 0</code>), or three (Hill-Simpson diversity, <code>l = -1</code>). These equivalencies depend on the the distribution of relative abundances and the parameter <code>l</code>. So when <code>l = 1</code>, this assemblage is as diverse (or as species-rich) as any assemblage with six species. When <code>l = -1</code>, it is about as diverse as an assemblage with twice the number of species and tremendous unevenness, or half the number of species and perfect evenness:</p>
+<p>One way of interpreting Hill diversities is that they express the diversity of an assemblage in terms of an imaginary assemblage with that same diversity, but in which all species are equally abundant <span class="citation">(Jost 2006)</span>. The parameter <span class="math inline">\(\ell\)</span>, along with the distribution of abundances, determines where the equivalency lies (that is, what is the “effective number of species” for that assemblage). The <code>MeanRarity</code> package is designed to clarify what the choice of <span class="math inline">\(\ell\)</span> reflects. Before diving in there, we can explore how different values of <span class="math inline">\(\ell\)</span> lead to different diversities for the same assemblage.</p>
+<p>It may be perplexing to claim that a single assemblage, say, the uneven assemblage <code>uneven_comm</code>, is simultaneously as diverse as an assemblage of six (richness, <code>l = 1</code>), four (Hill-Shannon diversity, <code>l = 0</code>), or three (Hill-Simpson diversity, <code>l = -1</code>) species. Furthermore, when <code>l = 1</code>, this assemblage is as diverse (or as species-rich) as <em>any assemblage</em> with six species. At the same time, when <code>l = -1</code>, it is about as diverse as an assemblage with twice the number of species and tremendous unevenness, or half the number of species and perfect evenness:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">uneven_12</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">531</span>, <span class="fl">186</span>, <span class="fl">101</span>,  <span class="fl">63</span>, <span class="fl">41</span>, <span class="fl">28</span>, <span class="fl">19</span>, <span class="fl">13</span>, <span class="fl">9</span>, <span class="fl">5</span>, <span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span>
 <span class="va">even_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">20</span>, <span class="fl">20</span><span class="op">)</span>
@@ -173,12 +174,17 @@
 <span class="co">#&gt; [1] 3</span>
 <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">even_3</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt; [1] 3</span></code></pre></div>
-<p>One might wonder what the meaning of <span class="math inline">\(\ell\)</span> is, in the effective numbers framework. Many authors have described <span class="math inline">\(\ell\)</span> as a factor that weights species relative abundances. This suggests that downweighting rare species means a lower effective number of species, but upweighting them means a higher effective number of species. Another interpretation (developed in this package) is that <span class="math inline">\(\ell\)</span> <strong>rescales</strong> species <em>rarities</em>. This interpretation lends itself to concrete visualizations of Hill diversities as mean rarities, provided by <code><a href="../reference/rarity_plot.html">rarity_plot()</a></code>.</p>
-<p><code><a href="../reference/rarity_plot.html">rarity_plot()</a></code> makes balance plots to visualize mean rarity. The idea behind a balance plot is that means measure the weighted center, or a balance point, for a set of values. Of course, if you have a plank with many weights on it, where the balance point lies depends not only on the weights, but also on their relative locations… the farther towards the ends of the plank a weight lies, the more leverage it has. When describing diversity, there are simple rules for the species weights ([relative] abundances) and where they lie (their <em>scaled</em> rarities). The rarity scaling is given by the exponent <span class="math inline">\(\ell\)</span> from equation 1, the argument <code>l</code>. Here, we create three balance plots for the three Pythagorean means, given when <span class="math inline">\(\ell \in \{-1,0,1\}\)</span>: <!-- make sure to add $\ell$ to these plots!--></p>
+<p>Many authors have described <span class="math inline">\(\ell\)</span> as a factor that weights species relative abundances - presumably suggesting that downweighting rare species means a lower effective diversity, upweighting them means a higher effective diversity. Another interpretation (developed in this package) is that <span class="math inline">\(\ell\)</span> <strong>rescales</strong> species <em>rarities</em>. This interpretation lends itself to concrete visualizations of Hill diversities as mean rarities, provided by <code><a href="../reference/rarity_plot.html">rarity_plot()</a></code>.</p>
+<p><code><a href="../reference/rarity_plot.html">rarity_plot()</a></code> makes “balance plots,” introduced below, to visualize mean rarity. The idea behind a balance plot is that means measure the weighted center, or a balance point, for a set of values. Of course, if you have a plank with many weights on it, where the balance point lies depends not only on the weights, but also on their relative locations… the farther towards the ends of the plank a weight lies, the more leverage it has. When describing diversity, there are simple rules for the species weights ([relative] abundances) and where they lie (their <em>scaled</em> rarities). The rarity scaling is given by the exponent <span class="math inline">\(\ell\)</span> from equation 1, the argument <code>l</code>. Here, we create three balance plots for the three Pythagorean means, given when <span class="math inline">\(\ell \in \{1, 0, -1\}\)</span>: <!-- $\ell$ should show up now with html rendering but probably not .pdf--></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">rich_bal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rarity_plot.html">rarity_plot</a></span><span class="op">(</span>ab <span class="op">=</span> <span class="va">uneven_comm</span>, l <span class="op">=</span> <span class="fl">1</span>, base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"\u2113 = 1\n richness"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.6</span>
+                                                    , vjust <span class="op">=</span> <span class="fl">0.5</span>
+                                                    , family <span class="op">=</span> <span class="st">"Arial Unicode MS"</span><span class="op">)</span>
+                 <span class="op">)</span> <span class="op">+</span> 
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_color_brewer</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"qual"</span>, palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span>
 <span class="co">#&gt;      rarity plot expects a square viewport (likely issues in the RStudio plotting device) and resizes points based on</span>
 <span class="co">#&gt;      min(dev.size() and noco (for number of columns).</span>
@@ -198,7 +204,12 @@
               , l <span class="op">=</span> <span class="fl">0</span>
               , base_size <span class="op">=</span> <span class="fl">12</span>
               , verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_color_brewer</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"qual"</span>, palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span>
+    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"\u2113 = 0\nHill-Shannon diversity"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.6</span>
+                                                    , vjust <span class="op">=</span> <span class="fl">0.5</span>
+                                                    , family <span class="op">=</span> <span class="st">"Arial Unicode MS"</span><span class="op">)</span>
+                 <span class="op">)</span> <span class="op">+</span> 
+    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_color_brewer</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"qual"</span>, palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span>
 <span class="co">#&gt;      rarity plot expects a square viewport (likely issues in the RStudio plotting device) and resizes points based on</span>
 <span class="co">#&gt;      min(dev.size() and noco (for number of columns).</span>
 <span class="co">#&gt;      Selecting lines = T will plot stacks of individuals as a line element,</span>
@@ -215,6 +226,11 @@
               , l <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>
               , base_size <span class="op">=</span> <span class="fl">12</span>
               , verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"\u2113 = -1\nHill-Simpson diversity"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.6</span>
+                                                    , vjust <span class="op">=</span> <span class="fl">0.5</span>
+                                                    , family <span class="op">=</span> <span class="st">"Arial Unicode MS"</span><span class="op">)</span>
+                 <span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_color_brewer</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"qual"</span>, palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span>
 <span class="co">#&gt;      rarity plot expects a square viewport (likely issues in the RStudio plotting device) and resizes points based on</span>
@@ -303,16 +319,16 @@ fit_SAD--></p>
 <span class="va">uneven_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">uneven_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">50</span><span class="op">)</span>
 <span class="co">#sample_infinite returns a numeric vector of sample species abundances</span>
 <span class="va">even_sample</span>
-<span class="co">#&gt;  [1] 8 9 5 4 3 0 5 1 4 1 1 5 2 2 0 0 0 0 0 0</span>
+<span class="co">#&gt;  [1] 8 4 3 2 5 3 2 2 3 2 2 7 3 0 0 2 0 1 1 0</span>
 <span class="va">uneven_sample</span>
-<span class="co">#&gt;  [1] 16 10  2  1  1  2  3  3  2  2  1  2  1  2  0  1  0  0  1  0</span>
+<span class="co">#&gt;  [1] 19  7  4  6  2  4  1  1  2  0  1  2  0  0  0  0  0  0  0  1</span>
 
 <span class="co"># we can compare evenness (given a scaling parameter `l`)</span>
 <span class="co"># the evenness is the normalized ratio of an arbitrary Hill diversity to richness</span>
 <span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.682598</span>
+<span class="co">#&gt; [1] 0.7049383</span>
 <span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.3458746</span>
+<span class="co">#&gt; [1] 0.3691572</span>
 
 <span class="co"># compare diversity from sample vs. ideal SAD:</span>
 <span class="co"># likely pretty far off for a small sample!</span>
@@ -325,7 +341,7 @@ fit_SAD--></p>
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 13   10.56773 9.191176</span>
+<span class="co">#&gt; [1,] 16   13.53143 11.57407</span>
 
 <span class="co"># with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson</span>
 <span class="co"># richness is always lower</span>
@@ -336,7 +352,7 @@ fit_SAD--></p>
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 16   9.641617 6.188119</span>
+<span class="co">#&gt; [1,] 12   7.394325 5.060729</span>
 
 
 <span class="va">big_even_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">even_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">1e7</span><span class="op">)</span>
@@ -349,8 +365,8 @@ fit_SAD--></p>
 <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">l</span><span class="op">)</span><span class="op">{</span>
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">big_even_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;      [,1] [,2]    [,3]   </span>
-<span class="co">#&gt; [1,] 20   15.1201 11.9981</span></code></pre></div>
+<span class="co">#&gt;      [,1] [,2]     [,3]    </span>
+<span class="co">#&gt; [1,] 20   15.11579 11.99283</span></code></pre></div>
 <p>For any distribution of relative abundances, one can ask, “what is the Hill diversity of this distribution?” Yet the answer, of course, depends on the chosen value of the scaling parameter <span class="math inline">\(\ell\)</span>. For a comprehensive answer, one might look across values of <span class="math inline">\(\ell\)</span>, also known as a Hill “diversity profile” <span class="citation">(Chao et al. 2014)</span>. <code>MeanRarity</code> provides a function to generate a Hill diversity profile based on <span class="math inline">\(\ell\)</span> (rather than <span class="math inline">\(q\)</span>): <code><a href="../reference/divpro.html">divpro()</a></code>. <!-- these should be on a single plot, will be much more interesting that way!--></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># the even and uneven communities have same richness but different Hill diversity when `ell != 1`</span>

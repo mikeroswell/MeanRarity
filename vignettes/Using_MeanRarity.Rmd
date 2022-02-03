@@ -238,7 +238,8 @@ rich_bal <- rarity_plot(ab = uneven_comm, l = 1, base_size = 12) +
   ggplot2::labs(title = "\u2113 = 1\n richness") +
   ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.6
                                                     , vjust = 0.5
-                                                    , family = "Arial Unicode MS")
+                                                    # , family = "Arial Unicode MS"
+                                                    )
                  ) + 
   ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
 
@@ -250,7 +251,8 @@ shan_bal <- white_y( # hide y axis
     ggplot2::labs(title = "\u2113 = 0\nHill-Shannon diversity") +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.6
                                                     , vjust = 0.5
-                                                    , family = "Arial Unicode MS")
+                                                    # , family = "Arial Unicode MS"
+                                                    )
                  ) + 
     ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
 
@@ -262,7 +264,8 @@ simp_bal <- white_y(
   ggplot2::labs(title = "\u2113 = -1\nHill-Simpson diversity") +
   ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.6
                                                     , vjust = 0.5
-                                                    , family = "Arial Unicode MS")
+                                                    # , family = "Arial Unicode MS"
+                                                    )
                  ) +
   ggplot2::labs(x = "") +
   ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")

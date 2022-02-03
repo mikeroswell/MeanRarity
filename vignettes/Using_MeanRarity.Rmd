@@ -4,14 +4,14 @@ output:
   rmarkdown::html_vignette: 
     fig_width: 3
     fig_height: 3
-  rmarkdown::html_document:
-    fig_width: 3
-    fig_height: 3
-    fig.retina: NULL
   rmarkdown::pdf_document: 
     fig_width: 3
     fig_height: 3
     latex_engine: xelatex
+  rmarkdown::html_document:
+    fig_width: 3
+    fig_height: 3
+    fig.retina: NULL
   word_document: default
 bibliography: '`r system.file( "REFERENCES.bib", package="MeanRarity")`'
 vignette: >
@@ -142,7 +142,7 @@ that determines the type of mean computed [@Roswell2021].
 Hill diversity is more commonly written as
 
 $$D=\left( \sum_{i=1}^{S}p_{i}^{q} \right)^{1/1-q} \tag{2}$$
-When $\ell =1$ ($q=0$) these equations are defined by their limit.
+When $\ell = 0$ ($q = 1$), these equations are defined by their limit.
 
 Equations 1 and 2 are equivalent when $\ell = 1-q$.
 Re-parameterizing Hill diversity in terms of species rarity can provide
@@ -185,15 +185,21 @@ data.frame(l = l_vals
 
 One way of interpreting Hill diversities is that they express the diversity of
 an assemblage in terms of an imaginary assemblage with that same diversity, but
-in which all species are equally abundant [@Jost2006]. <!-- sharpen this, maybe be more explicit about asking what does $\ell$ mean--> In this perspective, the
-uneven assemblage `uneven_comm` is as diverse as an assemblage of six equally
-abundant species (richness, `l = 1`), or four equally abundant species
-(Hill-Shannon diversity, `l = 0`), or three (Hill-Simpson diversity, `l = -1`).
-These equivalencies depend on the the distribution of relative abundances and
-the parameter `l`. So when `l = 1`, this assemblage is as diverse (or as
-species-rich) as any assemblage with six species. When `l = -1`, it is about as
-diverse as an assemblage with twice the number of species and tremendous
-unevenness, or half the number of species and perfect evenness:
+in which all species are equally abundant [@Jost2006]. The parameter $\ell$,
+along with the distribution of abundances, determines where the equivalency lies
+(that is, what is the "effective number of species" for that assemblage). The
+`MeanRarity` package is designed to clarify what the choice of $\ell$ reflects.
+Before diving in there, we can explore how different values of $\ell$ lead to
+different diversities for the same assemblage.
+
+It may be perplexing to claim that a single assemblage, say, the uneven
+assemblage `uneven_comm`, is simultaneously as diverse as an assemblage of six
+(richness, `l = 1`), four (Hill-Shannon diversity, `l = 0`), or three
+(Hill-Simpson diversity, `l = -1`) species. Furthermore, when `l = 1`, this
+assemblage is as diverse (or as species-rich) as *any assemblage* with six
+species. At the same time, when `l = -1`, it is about as diverse as an
+assemblage with twice the number of species and tremendous unevenness, or half
+the number of species and perfect evenness:
 
 ``` {r effective numbers}
 uneven_12 <- c(531, 186, 101,  63, 41, 28, 19, 13, 9, 5, 3, 1)
@@ -205,31 +211,34 @@ rarity(even_3, -1) %>% round(2)
 
 ```
 
-One might wonder what the meaning of $\ell$ is, in the effective numbers
-framework. Many authors have described $\ell$ as a factor that weights species
-relative abundances. This suggests that downweighting rare species means a lower
-effective number of species, but upweighting them means a higher effective
-number of species. Another interpretation (developed in this package) is that
-$\ell$ **rescales** species *rarities*. This interpretation lends itself to
-concrete visualizations of Hill diversities as mean rarities, provided by
-`rarity_plot()`.
+Many authors have described $\ell$ as a factor that weights species relative
+abundances - presumably suggesting that downweighting rare species means a lower
+effective diversity, upweighting them means a higher effective diversity.
+Another interpretation (developed in this package) is that $\ell$ **rescales**
+species *rarities*. This interpretation lends itself to concrete visualizations
+of Hill diversities as mean rarities, provided by `rarity_plot()`.
 
-`rarity_plot()` makes balance plots to visualize mean rarity. The idea behind a
-balance plot is that means measure the weighted center, or a balance point, for
-a set of values. Of course, if you have a plank with many weights on it, where
-the balance point lies depends not only on the weights, but also on their
-relative locations... the farther towards the ends of the plank a weight lies,
-the more leverage it has. When describing diversity, there are simple rules for
-the species weights ([relative] abundances) and where they lie (their *scaled*
-rarities). The rarity scaling is given by the exponent $\ell$ from equation 1,
-the argument `l`. Here, we create three balance plots for the three Pythagorean
-means, given when $\ell \in \{-1,0,1\}$:
-<!-- make sure to add $\ell$ to these plots!-->
+`rarity_plot()` makes "balance plots," introduced below, to visualize mean
+rarity. The idea behind a balance plot is that means measure the weighted
+center, or a balance point, for a set of values. Of course, if you have a plank
+with many weights on it, where the balance point lies depends not only on the
+weights, but also on their relative locations... the farther towards the ends of
+the plank a weight lies, the more leverage it has. When describing diversity,
+there are simple rules for the species weights ([relative] abundances) and where
+they lie (their *scaled* rarities). The rarity scaling is given by the exponent
+$\ell$ from equation 1, the argument `l`. Here, we create three balance plots
+for the three Pythagorean means, given when $\ell \in \{1, 0, -1\}$:
+<!-- $\ell$ should show up now with html rendering but probably not .pdf-->
 
 ```{r Balance plot setup}
 
 rich_bal <- rarity_plot(ab = uneven_comm, l = 1, base_size = 12) +
   ggplot2::labs(x = "") +
+  ggplot2::labs(title = "\u2113 = 1\n richness") +
+  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.6
+                                                    , vjust = 0.5
+                                                    , family = "Arial Unicode MS")
+                 ) + 
   ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
 
 shan_bal <- white_y( # hide y axis
@@ -237,13 +246,23 @@ shan_bal <- white_y( # hide y axis
               , l = 0
               , base_size = 12
               , verbose = F)) +
-  ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
+    ggplot2::labs(title = "\u2113 = 0\nHill-Shannon diversity") +
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.6
+                                                    , vjust = 0.5
+                                                    , family = "Arial Unicode MS")
+                 ) + 
+    ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
 
 simp_bal <- white_y(
   rarity_plot(ab = uneven_comm
               , l = -1
               , base_size = 12
               , verbose = F)) +
+  ggplot2::labs(title = "\u2113 = -1\nHill-Simpson diversity") +
+  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.6
+                                                    , vjust = 0.5
+                                                    , family = "Arial Unicode MS")
+                 ) +
   ggplot2::labs(x = "") +
   ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
 ```

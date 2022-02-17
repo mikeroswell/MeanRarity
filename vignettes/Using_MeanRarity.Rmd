@@ -717,7 +717,7 @@ available in several R packages.
 1. **iNEXT**
   The R package **iNEXT** provides tools for rarefaction and extrapolation of
   sample Hill diversity estimates, and point estimates for asymptotic estimators
-  for richness, Hill-Shannon, and Hill-Sampson. It computes sample Hill
+  for richness, Hill-Shannon, and Hill-Simpson. It computes sample Hill
   diversity for $\ell\leq 1 = q \geq 0$. The function `MeanRarity::rarity()`
   also computes mean rarity when $\ell>1$. Although estimates from **iNEXT** and
   **MeanRarity** should tend to be congruent for $\ell = 1-q$, MeanRarity

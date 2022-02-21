@@ -463,27 +463,29 @@ Accurate estimates of Hill diversity based on sample data are notoriously
 challenging [@Roswell2021]. Although many estimators have been used, the two
 most common approaches are to a) calculate the diversity of samples directly, or
 b) use non-parametric estimators of the diversity of the entire assemblage. Both
-approaches have merit for comparing communities and ecosystems [@Gooriah2021].
-While the degree to which sample diversity and asymptotic estimates each differ
-from the true diversity (bias) has received substantial study, the sampling
-variation in each type of Hill diversity estimate is less understood.
-**MeanRarity** provides a toolkit to explore accuracy and sampling uncertainty for
-Hill diversity estimates. Because this package simulates species abundance
-distributions with known diversity, it allows examination of the drivers of
-sampling variation in Hill diversity estimates.
+approaches have merit for comparing communities and ecosystems [@Gooriah2021]
+<!-- may want a stronger reference here-->. While the degree to which sample
+diversity and asymptotic estimates each differ from the true diversity (bias)
+has received substantial study, the sampling variation in each type of Hill
+diversity estimate is less understood. **MeanRarity** provides a toolkit to
+explore accuracy and sampling uncertainty for Hill diversity estimates. Because
+this package simulates species abundance distributions with known diversity, it
+allows examination of the drivers of sampling variation in Hill diversity
+estimates.
 
-It is well-known that the diversity of a sample tends to be lower than the
+It is well known that the diversity of a sample tends to be lower than the
 diversity of the assemblage from which the sample was drawn. This "bias" is most
-acute for species richness, but can be substantial for all Hill diversities. The
-degree of mismatch between the sample and true diversity is difficult to know
-with real assemblages, but this can be addressed directly through simulation. At
-the same time, current asymptotic Hill diversity estimators [@Chao2015]
-typically exhibit little bias when sample sizes are reasonably large (hundreds
-of individuals) and $\ell < \sim 0.75 $. Less well-understood is how different
-features of the species abundance distribution (e.g. evenness, or just how rare
-the rarest species are) drive the degree of difference between either sampled
-diversity or asymptotic estimators, and the true diversity of the sampled
-species abundance distribution.
+acute for species richness, but can be substantial for all Hill diversities <!--
+is the opposite true when $\ell >1$? I think so! -->. The degree of mismatch
+between the sample and true diversity is difficult to know with real
+assemblages, but this can be addressed directly through simulation. At the same
+time, current asymptotic Hill diversity estimators [@Chao2015] typically exhibit
+little bias when sample sizes are reasonably large (hundreds of individuals) and
+$\ell < \sim 0.75 $. Less well-understood is how different features of the
+species abundance distribution (e.g. evenness, or just how rare the rarest
+species are) drive the degree of difference between either sampled diversity or
+asymptotic estimators, and the true diversity of the sampled species abundance
+distribution.
 
 Similarly, the sampling variation in Hill diversity estimates (both sample
 diversity and asymptotic estimators) is poorly understood. Intuitively, sampling
@@ -506,7 +508,7 @@ diversity -1)/(richness-1), which is equal to 1 with a perfectly even
 species-abundance distribution, and 0 when Hill-Simpson diversity reaches its
 minimum, 1, for any richness value [@Kvalseth1991, @Chao2019a]. Thus, in each
 simulated assemblage, we know richness to be 100, Hill-Simpson takes one of
-three values given by the evenness parameters, and other Hill diversities depend
+three values given by the evenness parameter, and other Hill diversities depend
 on the distributional assumption (gamma or lognormal).
 
 `MeanRarity::fitSAD()` returns species relative abundances (a SAD), and we
@@ -527,7 +529,7 @@ evenness, distributional assumption, and sample size.
 ```{r Hill-Simpson is wiggly, eval = F}
 library(furrr)
 library(MeanRarity)
-plan(strategy = "multiprocess", workers = 7)
+plan(strategy = "multiprocess", workers = parallel::detectCores()-1)
 evenness<-10^seq(-0.75,-0.35,0.2)
 rich <- 100
 sample_sizes <- floor(10^seq(1.5, 3, 0.5))
@@ -571,13 +573,20 @@ sample_data<-purrr::map_dfr(SADS, function(mySAD){
   })
 })
 
+rmsle<- function(x, true_x = mean(log(x))){
+  sqrt(mean((log(x)-true_x)^2))
+}
 
 plot_data<-sample_data %>%
   dplyr::group_by(evenness, distribution, ell, SS) %>%
-  dplyr::summarize(sample = sd(ifelse(sample_diversity == 0
+  dplyr::summarize(sample_sdlog = sd(ifelse(sample_diversity == 0
                                       , 0, log(sample_diversity)))
-                   , asymptotic = sd(ifelse(estimated_diversity == 0
+                   , asymptotic_sdlog = sd(ifelse(estimated_diversity == 0
                                             , 0, log(estimated_diversity)))
+                   , sample_bias = mean(log(sample_diversity)- mean(log(sample_diversity)))
+                   , estimator_bias = mean(log(estimated_diversity)-log(true_diversity))
+                   , sample_rmsle = rmsle(sample_diversity)
+                   , estimator_rmsle = rmsle(estimated_diversity, log(true_diversity))
                    , true_diversity = mean(true_diversity)
                    , mean_sample = mean(sample_diversity)
                    , mean_asymptotic = mean(estimated_diversity)) %>%
@@ -603,13 +612,59 @@ $\ell << 1 $.
 <-- Figures showing bias for sample diversity and Chao/Jost asymptotic estimators -->
 ```{r bias figure , fig.height = 7, fig.width = 7}
 
+plot_data %>%
+  ggplot2::ggplot(ggplot2::aes(x = ell
+                               , color = evenness
+                               , shape = distribution)) +
+  ggplot2::geom_line(ggplot2::aes(
+    y = sample_rmsle
+    , color = evenness, linetype = distribution), size = 0.8) +
+  ggplot2::theme_classic() +
+  ggplot2::xlim(c(-1,1)) +
+   # ggplot2::scale_color_manual(values = c("#007E78", "#65BB8C", "#D4F3A3")) +
+  ggplot2::scale_color_manual(values = hcl.colors(5, palette = "Emrld")[2:4]) +
+  # ggplot2::scale_color_manual(values = c("#006ddb","#490092", "#b66dff"))+
+  # ggplot2::scale_color_viridis_d(option = "plasma") +
+#   ggplot2::scale_color_manual(values = c("#fecc5c",
+# "#fd8d3c",
+# "#e31a1c")) +
+  # ggplot2::scale_color_brewer(palette = "BrBG") +
+  ggplot2::facet_wrap(~sample_size
+                      , labeller = "label_both") +  
+  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
+  ggplot2::labs(x = "scaling exponent \U2113"
+                , y = "scaled average (sample - true diversity)") +
+  ggplot2::scale_y_continuous(limits = c(-0, 0.8)) +
+  ggplot2::geom_hline(yintercept = 0)
+
+
+plot_data %>%
+  ggplot2::ggplot(ggplot2::aes(x = ell
+                               , color = evenness
+                               , shape = distribution)) +
+  ggplot2::geom_line(ggplot2::aes(
+    y = estimator_rmsle
+    , color = evenness, linetype = distribution), size = 0.8) +
+  ggplot2::theme_classic() +
+  ggplot2::xlim(c(-1,1)) +
+  ggplot2::scale_color_brewer(palette = "PuRd") +
+  ggplot2::facet_wrap(~sample_size
+                      , labeller = "label_both") +  
+  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
+  ggplot2::labs(x = "scaling exponent \U2113"
+                , y = "scaled average (sample - true diversity)") +
+  ggplot2::scale_y_continuous(limits = c(-0, 0.8)) +
+  ggplot2::geom_hline(yintercept = 0)
+
+
+
 # so called "bias" in sample diversity... w.r.t. diveristy of full assemblage
 plot_data %>%
   ggplot2::ggplot(ggplot2::aes(x = ell
                                , color = evenness
                                , shape = distribution)) +
   ggplot2::geom_line(ggplot2::aes(
-    y = (mean_sample-true_diversity)/true_diversity
+    y = sample_bias
     , color = evenness, linetype = distribution), size = 0.8) +
   ggplot2::theme_classic() +
   ggplot2::xlim(c(-1,1)) +

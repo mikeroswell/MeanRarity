@@ -248,9 +248,9 @@ errs <- compare_ests %>%
 ## make data to show bias and variability for vignette #####
 ############################################################
 
+# genereate SADs
 
-plan(strategy = "multiprocess", workers = 7)
-evenness<-10^seq(-0.75,-0.35,0.2)
+evenness <- c(0.3, 0.5, 0.8)
 rich <- 100
 sample_sizes <- floor(10^seq(1.5, 3, 0.5))
 # generate SADs with 100 spp and varying evenness, parametric distributions
@@ -265,17 +265,26 @@ SADS<-purrr::flatten(
         })
     }))
 
+# warning alerts us that with these parameters, the rare species in the gamma
+# SADS are supremely rare
+
+
 # set sample size
 reps <- 1e3
 sample_data<-purrr::map_dfr(SADS, function(mySAD){
   evenness = (mySAD[[2]][3]-1)/(mySAD[[2]][1]-1)
   distribution = mySAD[[1]][1]
   purrr::map_dfr(sample_sizes, function(SS){
-    sample_abundances = replicate(reps, sample_infinite(ab = mySAD[[3]], size = SS))
+    sample_abundances = replicate(reps, sample_infinite(ab = mySAD[[3]]
+                                                        , size = SS))
     furrr::future_map_dfr(seq(-1.5, 1.5, 0.01), function(ell){
       true_diversity = rarity(ab = mySAD[[3]], l = ell)
-      sample_diversity = sapply(1:reps, function(rep){rarity(ab = sample_abundances[, rep], l = ell)})
-      estimated_diversity = sapply(1:reps, function(rep){Chao_Hill_abu(sample_abundances[, rep], l = ell)})
+      sample_diversity = sapply(1:reps
+                                , function(rep){
+                                  rarity(ab = sample_abundances[, rep]
+                                         , l = ell)})
+      estimated_diversity = sapply(1:reps, function(rep){
+        Chao_Hill_abu(sample_abundances[, rep], l = ell)})
       return(data.frame(evenness
                         , distribution
                         , SS
@@ -288,18 +297,24 @@ sample_data<-purrr::map_dfr(SADS, function(mySAD){
   })
 })
 
-
 plot_data<-sample_data %>%
   dplyr::group_by(evenness, distribution, ell, SS) %>%
-  dplyr::summarize(sample = sd(ifelse(sample_diversity == 0, 0, log(sample_diversity)))
-                   , asymptotic = sd(ifelse(estimated_diversity == 0, 0, log(estimated_diversity)))
+  dplyr::summarize(sample_sdlog = sd(ifelse(sample_diversity == 0
+                                            , 0, Ln(sample_diversity)))
+                   , asymptotic_sdlog = sd(ifelse(estimated_diversity == 0
+                                                  , 0, Ln(estimated_diversity)))
+                   , sample_bias = mean(Ln(sample_diversity) -
+                                          mean(Ln(sample_diversity)))
+                   , estimator_bias = mean(Ln(estimated_diversity) -
+                                             Ln(true_diversity))
+                   , sample_rmsle = rmsle(sample_diversity)
+                   , estimator_rmsle = rmsle(estimated_diversity
+                                             , Ln(true_diversity))
                    , true_diversity = mean(true_diversity)
                    , mean_sample = mean(sample_diversity)
                    , mean_asymptotic = mean(estimated_diversity)) %>%
-  dplyr::mutate(evenness = as.factor(round(evenness, 2))
-                , sample_size = SS) %>%
-  dplyr::select(-SS)
-
+  dplyr::mutate(evenness = as.factor(round(evenness, 2))) %>%
+  dplyr::rename(sample_size = SS)
 
 
 #############################################

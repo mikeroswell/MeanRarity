@@ -122,15 +122,24 @@
 #'  - *evenness* Factor, approximately the ratio of Hill-Simpson to richness
 #'  - *distribution* Factor, family, one of "lnorm" or "gamma"
 #'  - *ell*: Scalar, scaling parameter for Hill diversity
-#'  - *SS* Integer, number of individuals sampled
-#'  - *sample*: Numeric, Hill diversity of the sample
-#'  - *asymptotic*: Numeric, estimated Hill diversity of the SAD based on
-#'  asymptotic estimator
+#'  - *sample_sdlog*: Numeric, standard deviation of natural log of sample
+#'  Hill diversity
+#'  - *asymptotic_sdlog*: Numeric, standard deviation of natural log of
+#'  estimated Hill diversity of the SAD based on asymptotic estimator
+#'  - *sample_bias* Numeric, mean log ratio of sample diversity to expected
+#'  sample diversity
+#'  - *estimator_bias* Numeric, mean log ratio of estimated asymptotic diversity
+#'  to true diversity
+#'  - *sample_rmsle* Numeric, square root of the mean squared log ratio of
+#'  sample diversity to expected sample diversity
+#'  - *estimator_rmsle* Numeric, square root of the mean squared log ratio of
+#'  estimated asymptotic diveristy to true diversity
 #'  - *true_diversity* Numeric, Hill diversity of the SAD
 #'  - *mean_sample* Numeric, mean of sample diversity for combination of ell,
 #'  evenness, distribution, and SS.
 #'  - *mean_asymptotic* Numeric, mean of estimated asymptotic diversity for
 #'  combination of ell, evenness, distribution, and SS.
+#'  - *sample_size* Integer, number of individuals sampled
 #'
 
 "plot_data"

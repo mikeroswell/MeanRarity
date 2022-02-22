@@ -38,8 +38,8 @@ jobs:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
-# added these two lines
-      - uses: r-lib/actions/setup-pandoc
+
+      - uses: r-lib/actions/setup-pandoc@
       - uses: r-lib/actions/setup-tinytex
 
       - uses: r-lib/actions/setup-r-dependencies@v1

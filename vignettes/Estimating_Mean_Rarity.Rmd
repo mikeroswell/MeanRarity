@@ -342,8 +342,7 @@ rightPlot <- togn %>%
                               , "#d95f02" ))
 
 
-
-print(leftPlot + rightPlot + plot_layout(widths = c(3, 1)))
+leftPlot + rightPlot + plot_layout(widths = c(3, 1))
 
 ```
 

@@ -90,7 +90,7 @@ Hill-Simpson diversity exhibited greater bias at low sample sizes than the
 asymptotic estimator for Hill diversities with intermediate scaling parameter
 values (including Hill-Shannon diversity). As previously reported, however, the
 bias is negligible for the asymptotic estimates for all Hill diversities with a
-scaling parameter less than about 0.75, once samples sizes were relatively
+scaling parameter less than about 0.25, once samples sizes were relatively
 large, for all species abundance distributions tested.
 
 1. **MeanRarity** provides tools to students, researchers, and biostatisticians
@@ -481,7 +481,7 @@ between the sample and true diversity is difficult to know with real
 assemblages, but this can be addressed directly through simulation. At the same
 time, current asymptotic Hill diversity estimators [@Chao2015] typically exhibit
 little bias when sample sizes are reasonably large (hundreds of individuals) and
-$\ell < \sim 0.75 $. Less well-understood is how different features of the
+$\ell < \sim 0.25 $. Less well-understood is how different features of the
 species abundance distribution (e.g. evenness, or just how rare the rarest
 species are) drive the degree of difference between either sampled diversity or
 asymptotic estimators, and the true diversity of the sampled species abundance

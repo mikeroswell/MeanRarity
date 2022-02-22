@@ -4,7 +4,7 @@
 \alias{\%ni\%}
 \title{Not in}
 \usage{
-lhs \%ni\% rhs
+... \%ni\% NA
 }
 \description{
 Not in

@@ -21,7 +21,7 @@ Ln = function(x) {ifelse(x != 0, log(x), 0)}
 #' @param x Numeric vector or scalar
 #' @param y Numeric scalar
 #'
-#' @return
+#' @return vector with same length as x, x^y
 #' @export
 #'
 #' @examples
@@ -33,7 +33,7 @@ Exp = function(x, y) {ifelse(x != 0, x^y, 0)}
 
 #' Root mean squared log error
 #'
-#' @param x positive numeric vecotr
+#' @param x positive numeric vector
 #' @param true_x numeric scalar, target x value, `mean(Ln(x))` by default
 #'
 #' @return scalar, root mean of the squared log ratio of observations to target value
@@ -55,7 +55,6 @@ rmsle <- function(x, true_x = mean(Ln(x))){
 #' Not in
 #' @name %ni%
 #' @export
-#' @usage lhs \%ni\% rhs
 #' @examples
 #'
 #' 6 %ni% 1:5

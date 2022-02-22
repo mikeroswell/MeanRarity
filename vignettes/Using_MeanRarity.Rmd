@@ -626,7 +626,7 @@ plot_data %>%
   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
   ggplot2::labs(x = "scaling exponent \U2113"
                 , y = "sample diversity root mean squared log error") +
-  ggplot2::scale_y_continuous(limits = c(-0, 1.3), expand = c(0,0)) +
+  ggplot2::scale_y_continuous(limits = c(-0, 1.1), expand = c(0,0)) +
   ggplot2::geom_hline(yintercept = 0)
 
 # total error for asymptotic diversity
@@ -646,7 +646,7 @@ plot_data %>%
   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
   ggplot2::labs(x = "scaling exponent \U2113"
                 , y = "asymptotic estimator root mean squared log error") +
-  ggplot2::scale_y_continuous(limits = c(-0, 1.3), expand = c(0,0)) +
+  ggplot2::scale_y_continuous(limits = c(-0, 1.1), expand = c(0,0)) +
   ggplot2::geom_hline(yintercept = 0)
 
 
@@ -748,49 +748,6 @@ be more, or less, than the variability in the asymptotic Hill-Simpson diversity
 estimate.
 
 ```{r sampling variation in diversity estimates, fig.height = 7, fig.width = 7}
-# variability in sample diversity
-
-plot_data %>%
-  ggplot2::ggplot(ggplot2::aes(x = ell
-                               , y = sample
-                               , color = evenness
-                               , shape = distribution)) +
-  ggplot2::geom_line(ggplot2::aes(color = evenness
-                                  , linetype = distribution)
-                     , size = 0.8) +
-  ggplot2::theme_classic() +
-  ggplot2::xlim(c(-1,1)) +
-  ggplot2::scale_color_brewer(palette = "Dark2") +
-  ggplot2::facet_wrap(~sample_size, scales = "free_y"
-                      , labeller = "label_both") + 
-  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
-  ggplot2::labs(x = "scaling exponent \U2113"
-                , y = "scaled variability in sample diversity (sdlog)") +
-  ggplot2::scale_y_continuous(limits = c(0, NA),
-                     expand = ggplot2::expansion(mult = c(0, 0.1)))
-
-# plot for variability in asymptotic diversity estimates
-plot_data %>%
-  ggplot2::ggplot(ggplot2::aes(x = ell
-                               , y = asymptotic
-                               , color = evenness
-                               , shape = distribution)) +
-  ggplot2::geom_line(ggplot2::aes(color = evenness
-                                  , linetype = distribution)
-                     , size = 0.8) +
-  ggplot2::theme_classic() +
-  ggplot2::xlim(c(-1,1)) +
-  ggplot2::scale_color_brewer(palette = "Dark2") +
-  ggplot2::facet_wrap(~sample_size, scales = "free_y"
-                     , labeller = "label_both") +  
-  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
-  ggplot2::labs(x = "scaling exponent \U2113"
-                , y = "scaled variability in asymptotic diversity 
-                estimate (sdlog)") +
-  ggplot2::scale_y_continuous(limits = c(0, NA),
-                              expand = ggplot2::expansion(mult = c(0, 0.1)))
-
-
 
 
 ```

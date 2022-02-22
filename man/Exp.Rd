@@ -12,7 +12,7 @@ Exp(x, y)
 \item{y}{Numeric scalar}
 }
 \value{
-
+vector with same length as x, x^y
 }
 \description{
 Exponentiate \code{x} to power \code{y}

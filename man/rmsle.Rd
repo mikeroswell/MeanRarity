@@ -7,7 +7,7 @@
 rmsle(x, true_x = mean(Ln(x)))
 }
 \arguments{
-\item{x}{positive numeric vecotr}
+\item{x}{positive numeric vector}
 
 \item{true_x}{numeric scalar, target x value, \code{mean(Ln(x))} by default}
 }

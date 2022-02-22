@@ -626,27 +626,27 @@ plot_data %>%
   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
   ggplot2::labs(x = "scaling exponent \U2113"
                 , y = "sample diversity root mean squared log error") +
-  ggplot2::scale_y_continuous(limits = c(-0, 1.1), expand = c(0,0)) +
+  ggplot2::scale_y_continuous(limits = c(-0, 1.7), expand = c(0,0)) +
   ggplot2::geom_hline(yintercept = 0)
 
 # treating the sample diversity as a naive diversity estimator
 # total error for sample diversity
-# plot_data %>%
-#   ggplot2::ggplot(ggplot2::aes(x = ell
-#                                , color = evenness
-#                                , shape = distribution)) +
-#   ggplot2::geom_line(ggplot2::aes(y =  naive_rmsle
-#     , color = evenness, linetype = distribution), size = 0.8) +
-#   ggplot2::theme_classic() +
-#   ggplot2::xlim(c(-1,1)) +
-#   ggplot2::scale_color_manual(values = hcl.colors(5, palette = "Red-Blue")[2:4]) +
-#   ggplot2::facet_wrap(~sample_size
-#                       , labeller = "label_both") +  
-#   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
-#   ggplot2::labs(x = "scaling exponent \U2113"
-#                 , y = "naïve estimator root mean squared log error") +
-#   ggplot2::scale_y_continuous(limits = c(-0, 1.1), expand = c(0,0)) +
-#   ggplot2::geom_hline(yintercept = 0)
+plot_data %>%
+  ggplot2::ggplot(ggplot2::aes(x = ell
+                               , color = evenness
+                               , shape = distribution)) +
+  ggplot2::geom_line(ggplot2::aes(y =  naive_rmsle
+    , color = evenness, linetype = distribution), size = 0.8) +
+  ggplot2::theme_classic() +
+  ggplot2::xlim(c(-1,1)) +
+  ggplot2::scale_color_manual(values = hcl.colors(5, palette = "Red-Blue")[2:4]) +
+  ggplot2::facet_wrap(~sample_size
+                      , labeller = "label_both") +
+  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
+  ggplot2::labs(x = "scaling exponent \U2113"
+                , y = "naïve estimator root mean squared log error") +
+  ggplot2::scale_y_continuous(limits = c(-0, 1.7), expand = c(0,0)) +
+  ggplot2::geom_hline(yintercept = 0)
 
 # total error for asymptotic diversity
 plot_data %>%
@@ -665,7 +665,7 @@ plot_data %>%
   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
   ggplot2::labs(x = "scaling exponent \U2113"
                 , y = "asymptotic estimator root mean squared log error") +
-  ggplot2::scale_y_continuous(limits = c(-0, 1.1), expand = c(0,0)) +
+  ggplot2::scale_y_continuous(limits = c(-0, 1.7), expand = c(0,0)) +
   ggplot2::geom_hline(yintercept = 0)
 
 
@@ -694,7 +694,7 @@ plot_data %>%
                                , color = evenness
                                , shape = distribution)) +
   ggplot2::geom_line(ggplot2::aes(
-    y = asymptotic_sdlog
+    y = estimator_sdlog
     , color = evenness, linetype = distribution), size = 0.8) +
   ggplot2::theme_classic() +
   ggplot2::xlim(c(-1,1)) +
@@ -728,23 +728,23 @@ plot_data %>%
   ggplot2::geom_hline(yintercept = 0)
 
 # bias for naïve estimator
-# plot_data %>%
-#   ggplot2::ggplot(ggplot2::aes(x = ell
-#                                , color = evenness
-#                                , shape = distribution)) +
-#   ggplot2::geom_line(ggplot2::aes(
-#     y = naive_bias
-#     , color = evenness, linetype = distribution), size = 0.8) +
-#   ggplot2::theme_classic() +
-#   ggplot2::xlim(c(-1,1)) +
-#   ggplot2::scale_color_manual(values = hcl.colors(5, palette = "Red-Blue")[2:4]) +
-#   ggplot2::facet_wrap(~sample_size
-#                       , labeller = "label_both") +  
-#   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
-#   ggplot2::labs(x = "scaling exponent \U2113"
-#                 , y = "mean log(observed/expected sample diversity)") +
-#   ggplot2::scale_y_continuous(limits = c(-1.3, 0.3)) +
-#   ggplot2::geom_hline(yintercept = 0)
+plot_data %>%
+  ggplot2::ggplot(ggplot2::aes(x = ell
+                               , color = evenness
+                               , shape = distribution)) +
+  ggplot2::geom_line(ggplot2::aes(
+    y = naive_bias
+    , color = evenness, linetype = distribution), size = 0.8) +
+  ggplot2::theme_classic() +
+  ggplot2::xlim(c(-1,1)) +
+  ggplot2::scale_color_manual(values = hcl.colors(5, palette = "Red-Blue")[2:4]) +
+  ggplot2::facet_wrap(~sample_size
+                      , labeller = "label_both") +
+  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
+  ggplot2::labs(x = "scaling exponent \U2113"
+                , y = "mean log(observed/expected sample diversity)") +
+  ggplot2::scale_y_continuous(limits = c(-1.3, 0.3)) +
+  ggplot2::geom_hline(yintercept = 0)
 
 
 # bias for the asymptotic estimator

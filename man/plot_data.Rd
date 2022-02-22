@@ -12,7 +12,7 @@ A data.frame with 7224 rows and 9 variables:
 \item \emph{ell}: Scalar, scaling parameter for Hill diversity
 \item \emph{sample_sdlog}: Numeric, standard deviation of natural log of sample
 Hill diversity
-\item \emph{asymptotic_sdlog}: Numeric, standard deviation of natural log of
+\item \emph{estimator_sdlog}: Numeric, standard deviation of natural log of
 estimated Hill diversity of the SAD based on asymptotic estimator
 \item \emph{sample_bias} Numeric, mean log ratio of sample diversity to expected
 sample diversity

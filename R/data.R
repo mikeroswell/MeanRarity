@@ -124,7 +124,7 @@
 #'  - *ell*: Scalar, scaling parameter for Hill diversity
 #'  - *sample_sdlog*: Numeric, standard deviation of natural log of sample
 #'  Hill diversity
-#'  - *asymptotic_sdlog*: Numeric, standard deviation of natural log of
+#'  - *estimator_sdlog*: Numeric, standard deviation of natural log of
 #'  estimated Hill diversity of the SAD based on asymptotic estimator
 #'  - *sample_bias* Numeric, mean log ratio of sample diversity to expected
 #'  sample diversity

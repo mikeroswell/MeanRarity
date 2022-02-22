@@ -329,16 +329,16 @@ functions to enable this --></p>
 <span class="va">uneven_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">uneven_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">50</span><span class="op">)</span>
 <span class="co">#sample_infinite returns a numeric vector of sample species abundances</span>
 <span class="va">even_sample</span>
-<span class="co">#&gt;  [1] 13  3  3  8  1  1  4  1  1  2  2  2  3  1  1  1  2  1  0  0</span>
+<span class="co">#&gt;  [1] 10  9  5  4  3  2  2  4  2  1  1  1  0  0  1  2  1  0  1  1</span>
 <span class="va">uneven_sample</span>
-<span class="co">#&gt;  [1] 21 12  2  4  2  2  1  1  1  0  0  0  1  2  0  0  1  0  0  0</span>
+<span class="co">#&gt;  [1] 17  7  6  5  4  1  3  2  2  1  1  0  0  1  0  0  0  0  0  0</span>
 
 <span class="co"># we can compare evenness (given a scaling parameter `l`)</span>
 <span class="co"># the evenness is the normalized ratio of an arbitrary Hill diversity to richness</span>
 <span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.4313725</span>
+<span class="co">#&gt; [1] 0.5162037</span>
 <span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.2744811</span>
+<span class="co">#&gt; [1] 0.4303586</span>
 
 <span class="co"># compare diversity from sample vs. ideal SAD:</span>
 <span class="co"># likely pretty far off for a small sample!</span>
@@ -351,7 +351,7 @@ functions to enable this --></p>
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 18   12.09592 8.333333</span>
+<span class="co">#&gt; [1,] 17   12.13913 9.259259</span>
 
 <span class="co"># with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson</span>
 <span class="co"># richness is always lower</span>
@@ -362,7 +362,7 @@ functions to enable this --></p>
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 12   6.141929 4.019293</span>
+<span class="co">#&gt; [1,] 12   7.909591 5.733945</span>
 
 
 <span class="va">big_even_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">even_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">1e7</span><span class="op">)</span>
@@ -376,7 +376,7 @@ functions to enable this --></p>
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">big_even_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 20   15.11855 11.99776</span></code></pre></div>
+<span class="co">#&gt; [1,] 20   15.11512 11.99558</span></code></pre></div>
 <p>For any distribution of relative abundances, one can ask, “what is the Hill diversity of this distribution?” Yet the answer, of course, depends on the chosen value of the scaling parameter <span class="math inline">\(\ell\)</span>. For a comprehensive answer, one might look across values of <span class="math inline">\(\ell\)</span>, also known as a Hill “diversity profile” <span class="citation">(Chao et al. 2014)</span>. <strong>MeanRarity</strong> provides a function to generate a Hill diversity profile based on <span class="math inline">\(\ell\)</span> (rather than <span class="math inline">\(q\)</span>): <code><a href="../reference/divpro.html">divpro()</a></code>. <!-- these should be on a single plot, will be much more interesting that way!--></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># the even and uneven communities have same richness but different Hill </span>
@@ -501,6 +501,25 @@ is the opposite true when $\ell >1$? I think so! -->. The degree of mismatch bet
 <p><img src="Using_MeanRarity_files/figure-html/bias%20figure%20-1.png" width="672"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
+<span class="co"># treating the sample diversity as a naive diversity estimator</span>
+<span class="co"># total error for sample diversity</span>
+<span class="co"># plot_data %&gt;%</span>
+<span class="co">#   ggplot2::ggplot(ggplot2::aes(x = ell</span>
+<span class="co">#                                , color = evenness</span>
+<span class="co">#                                , shape = distribution)) +</span>
+<span class="co">#   ggplot2::geom_line(ggplot2::aes(y =  naive_rmsle</span>
+<span class="co">#     , color = evenness, linetype = distribution), size = 0.8) +</span>
+<span class="co">#   ggplot2::theme_classic() +</span>
+<span class="co">#   ggplot2::xlim(c(-1,1)) +</span>
+<span class="co">#   ggplot2::scale_color_manual(values = hcl.colors(5, palette = "Red-Blue")[2:4]) +</span>
+<span class="co">#   ggplot2::facet_wrap(~sample_size</span>
+<span class="co">#                       , labeller = "label_both") +  </span>
+<span class="co">#   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +</span>
+<span class="co">#   ggplot2::labs(x = "scaling exponent \U2113"</span>
+<span class="co">#                 , y = "naïve estimator root mean squared log error") +</span>
+<span class="co">#   ggplot2::scale_y_continuous(limits = c(-0, 1.1), expand = c(0,0)) +</span>
+<span class="co">#   ggplot2::geom_hline(yintercept = 0)</span>
+
 <span class="co"># total error for asymptotic diversity</span>
 <span class="va">plot_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ell</span>
@@ -592,6 +611,25 @@ is the opposite true when $\ell >1$? I think so! -->. The degree of mismatch bet
 <p><img src="Using_MeanRarity_files/figure-html/bias%20figure%20-5.png" width="672"></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
+<span class="co"># bias for naïve estimator</span>
+<span class="co"># plot_data %&gt;%</span>
+<span class="co">#   ggplot2::ggplot(ggplot2::aes(x = ell</span>
+<span class="co">#                                , color = evenness</span>
+<span class="co">#                                , shape = distribution)) +</span>
+<span class="co">#   ggplot2::geom_line(ggplot2::aes(</span>
+<span class="co">#     y = naive_bias</span>
+<span class="co">#     , color = evenness, linetype = distribution), size = 0.8) +</span>
+<span class="co">#   ggplot2::theme_classic() +</span>
+<span class="co">#   ggplot2::xlim(c(-1,1)) +</span>
+<span class="co">#   ggplot2::scale_color_manual(values = hcl.colors(5, palette = "Red-Blue")[2:4]) +</span>
+<span class="co">#   ggplot2::facet_wrap(~sample_size</span>
+<span class="co">#                       , labeller = "label_both") +  </span>
+<span class="co">#   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +</span>
+<span class="co">#   ggplot2::labs(x = "scaling exponent \U2113"</span>
+<span class="co">#                 , y = "mean log(observed/expected sample diversity)") +</span>
+<span class="co">#   ggplot2::scale_y_continuous(limits = c(-1.3, 0.3)) +</span>
+<span class="co">#   ggplot2::geom_hline(yintercept = 0)</span>
+
 
 <span class="co"># bias for the asymptotic estimator</span>
 <span class="va">plot_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>

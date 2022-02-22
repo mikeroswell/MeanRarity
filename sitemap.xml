@@ -34,7 +34,13 @@
     <loc>https://mikeroswell.github.io/MeanRarity/reference/ENSer.html</loc>
   </url>
   <url>
+    <loc>https://mikeroswell.github.io/MeanRarity/reference/Exp.html</loc>
+  </url>
+  <url>
     <loc>https://mikeroswell.github.io/MeanRarity/reference/GUE.html</loc>
+  </url>
+  <url>
+    <loc>https://mikeroswell.github.io/MeanRarity/reference/Ln.html</loc>
   </url>
   <url>
     <loc>https://mikeroswell.github.io/MeanRarity/reference/MeanRarity-package.html</loc>
@@ -65,6 +71,9 @@
   </url>
   <url>
     <loc>https://mikeroswell.github.io/MeanRarity/reference/fit_SAD.html</loc>
+  </url>
+  <url>
+    <loc>https://mikeroswell.github.io/MeanRarity/reference/grapes-ni-grapes.html</loc>
   </url>
   <url>
     <loc>https://mikeroswell.github.io/MeanRarity/reference/hRare.html</loc>
@@ -107,6 +116,9 @@
   </url>
   <url>
     <loc>https://mikeroswell.github.io/MeanRarity/reference/rarity_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://mikeroswell.github.io/MeanRarity/reference/rmsle.html</loc>
   </url>
   <url>
     <loc>https://mikeroswell.github.io/MeanRarity/reference/sample_finite.html</loc>

@@ -82,15 +82,27 @@ richness and evenness</p>
     <p>A data.frame with 7224 rows and 9 variables:</p><ul><li><p><em>evenness</em> Factor, approximately the ratio of Hill-Simpson to richness</p></li>
 <li><p><em>distribution</em> Factor, family, one of "lnorm" or "gamma"</p></li>
 <li><p><em>ell</em>: Scalar, scaling parameter for Hill diversity</p></li>
-<li><p><em>SS</em> Integer, number of individuals sampled</p></li>
-<li><p><em>sample</em>: Numeric, Hill diversity of the sample</p></li>
-<li><p><em>asymptotic</em>: Numeric, estimated Hill diversity of the SAD based on
-asymptotic estimator</p></li>
+<li><p><em>sample_sdlog</em>: Numeric, standard deviation of natural log of sample
+Hill diversity</p></li>
+<li><p><em>asymptotic_sdlog</em>: Numeric, standard deviation of natural log of
+estimated Hill diversity of the SAD based on asymptotic estimator</p></li>
+<li><p><em>sample_bias</em> Numeric, mean log ratio of sample diversity to expected
+sample diversity</p></li>
+<li><p><em>naive_bias</em> Numeric, mean log ratio of sample diversity to true diversity</p></li>
+<li><p><em>estimator_bias</em> Numeric, mean log ratio of estimated asymptotic diversity
+to true diversity</p></li>
+<li><p><em>sample_rmsle</em> Numeric, square root of the mean squared log ratio of
+sample diversity to expected sample diversity</p></li>
+<li><p><em>estimator_rmsle</em> Numeric, square root of the mean squared log ratio of
+estimated asymptotic diversity to true diversity</p></li>
+<li><p><em>estimator_rmsle</em> Numeric, square root of the mean squared log ratio of
+estimated asymptotic diversity to true diversity</p></li>
 <li><p><em>true_diversity</em> Numeric, Hill diversity of the SAD</p></li>
 <li><p><em>mean_sample</em> Numeric, mean of sample diversity for combination of ell,
 evenness, distribution, and SS.</p></li>
 <li><p><em>mean_asymptotic</em> Numeric, mean of estimated asymptotic diversity for
 combination of ell, evenness, distribution, and SS.</p></li>
+<li><p><em>sample_size</em> Integer, number of individuals sampled</p></li>
 </ul></div>
     <div id="references">
     <h2>References</h2>

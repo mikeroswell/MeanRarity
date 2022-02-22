@@ -45,3 +45,7 @@ traditional "user's guide" type vignette. We have some work to do on this; feel
 free to share suggestions and questions!
 
 Thank you!
+
+<!-- badges: start -->
+  [![R-CMD-check](https://github.com/mikeroswell/MeanRarity/workflows/R-CMD-check/badge.svg)](https://github.com/mikeroswell/MeanRarity/actions)
+<!-- badges: end -->

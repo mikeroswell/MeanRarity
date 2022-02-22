@@ -460,38 +460,40 @@ ggplot2::ggplot(divpro(uneven_SAD[[3]]),
 ## Drivers of sampling uncertainty in Hill diversity estimates
 
 Accurate estimates of Hill diversity based on sample data are notoriously
-challenging [@Roswell2021]. Although many estimators have been used, the two
-most common approaches are to a) calculate the diversity of samples directly, or
-b) use non-parametric estimators of the diversity of the entire assemblage. Both
-approaches have merit for comparing communities and ecosystems [@Gooriah2021]
-<!-- may want a stronger reference here-->. While the degree to which sample
-diversity and asymptotic estimates each differ from the true diversity (bias)
-has received substantial study, the sampling variation in each type of Hill
-diversity estimate is less understood. **MeanRarity** provides a toolkit to
-explore accuracy and sampling uncertainty for Hill diversity estimates. Because
-this package simulates species abundance distributions with known diversity, it
-allows examination of the drivers of sampling variation in Hill diversity
-estimates.
+challenging [@Roswell2021]. Although many estimators have been used, the three
+most common approaches are to a) calculate the diversity of samples directly,
+treating this as a sample-size dependent diversity measure (CITE SMITH AND
+GRASSLE), b) calculate the diversity of the sample directly, but treat this as
+an estimate of the diversity of the entire assemblage (hereafter the "naïve"
+estimator) (CITE SOMEBODY), or c) use non-parametric estimators of the diversity
+of the entire assemblage. All three approaches have merit for comparing
+communities and ecosystems [@Gooriah2021] <!-- may want a stronger reference
+here-->. While the degree to which sample diversity and asymptotic estimates
+each differ from the true diversity (bias) has received substantial study, the
+sampling variation in each type of Hill diversity estimate is less understood.
+**MeanRarity** provides a toolkit to explore accuracy and sampling uncertainty
+for Hill diversity estimates. Because this package simulates species abundance
+distributions with known diversity, it allows examination of the drivers of
+sampling variation in Hill diversity estimates.
 
 It is well known that the diversity of a sample tends to be lower than the
 diversity of the assemblage from which the sample was drawn. This "bias" is most
-acute for species richness, but can be substantial for all Hill diversities <!--
-is the opposite true when $\ell >1$? I think so! -->. The degree of mismatch
-between the sample and true diversity is difficult to know with real
-assemblages, but this can be addressed directly through simulation. At the same
-time, current asymptotic Hill diversity estimators [@Chao2015] typically exhibit
-little bias when sample sizes are reasonably large (hundreds of individuals) and
-$\ell < \sim 0.25 $. Less well-understood is how different features of the
-species abundance distribution (e.g. evenness, or just how rare the rarest
-species are) drive the degree of difference between either sampled diversity or
-asymptotic estimators, and the true diversity of the sampled species abundance
-distribution.
+acute for species richness, but can be substantial for all Hill diversities when
+$\ell \leq 1$. The degree of mismatch between the sample and true diversity is
+difficult to know with real assemblages, but this can be addressed directly
+through simulation. At the same time, current asymptotic Hill diversity
+estimators [@Chao2015] typically exhibit little bias when sample sizes are
+reasonably large (hundreds of individuals) and $\ell < \sim 0.25 $. Less
+well-understood is how different features of the species abundance distribution
+(e.g. evenness, or just how rare the rarest species are) drive the degree of
+difference between either sampled diversity or asymptotic estimators, and the
+true diversity of the sampled species abundance distribution.
 
 Similarly, the sampling variation in Hill diversity estimates (both sample
 diversity and asymptotic estimators) is poorly understood. Intuitively, sampling
 variability in Hill diversity estimates must depend jointly on sample size, the
 species abundance distribution, and the scaling exponent for Hill diversity.
-However, users of Hill diversity currently lack guidance on  the relationship
+However, users of Hill diversity currently lack guidance on the relationship
 between their metric choice and the sampling variability they might expect.
 Variability, along with bias, is an important consideration when selecting a
 diversity metric. Especially when the number of replicates is modest, as is
@@ -501,7 +503,7 @@ variability could lead to equally misleading results as could bias *CITE THIS*.
 To explore how the shape of the species abundance distribution and sample size
 drive the sampling expectations for sample and asymptotic Hill diversity
 estimates, we can first simulate species abundance distributions using the
-function `MeanRarity::fitSAD()`. Here, we generated 6 distributions: for three
+function `MeanRarity::fitSAD()`. Here, we generated six distributions: for three
 levels of evenness, we simulated both a lognormally- and gamma-distributed
 assemblage of 100 species. To parameterize evenness, we used (Hill-Simpson
 diversity -1)/(richness-1), which is equal to 1 with a perfectly even
@@ -517,95 +519,33 @@ generate finite, discrete abundance samples with the function
 simulated SAD of 31, 100, 316, and 1000 individuals. Then, for each sample, we
 computed Hill diversity profiles for both the sample and estimated asymptotic
 Hill diversities. For each combination of SAD, sample size, and estimate type
-(i.e., sample or asymptotic) we plotted the scaled mean absolute error of each
-Hill diversity estimate (a unitless measure of bias) and the standard deviation
-of the log Hill diversity (a unitless measure of variability) for the entire
-Hill diversity profile from Hill-Simpson diversity to richness. We asked, on a
-relative scale, how choice of scaling exponent for Hill diversity would affect
-not only bias, but also sampling variability, and explored the interactions with
-evenness, distributional assumption, and sample size.
-
-
-```{r Hill-Simpson is wiggly, eval = F}
-library(furrr)
-library(MeanRarity)
-plan(strategy = "multiprocess", workers = parallel::detectCores()-1)
-evenness <- c(0.3, 0.5, 0.8)
-rich <- 100
-sample_sizes <- floor(10^seq(1.5, 3, 0.5))
-# generate SADs with 100 spp and varying evenness, parametric distributions
-SADS<-purrr::flatten(
-  purrr::map(
-    evenness, function(simp_evenness){
-      purrr::map(
-        c("lnorm", "gamma"), function(dist){
-          fit_SAD(rich = rich
-                  , simpson = simp_evenness*(rich-1)+1
-                  , distr = dist)
-        })
-    }))
-
-# set sample size
-reps <- 1e3
-sample_data<-purrr::map_dfr(SADS, function(mySAD){
-  evenness = (mySAD[[2]][3]-1)/(mySAD[[2]][1]-1)
-  distribution = mySAD[[1]][1]
-    purrr::map_dfr(sample_sizes, function(SS){
-      sample_abundances = replicate(reps, sample_infinite(ab = mySAD[[3]]
-                                                          , size = SS))
-      furrr::future_map_dfr(seq(-1.5, 1.5, 0.01), function(ell){
-        true_diversity = rarity(ab = mySAD[[3]], l = ell)
-        sample_diversity = sapply(1:reps
-                                  , function(rep){
-                                    rarity(ab = sample_abundances[, rep]
-                                           , l = ell)})
-        estimated_diversity = sapply(1:reps, function(rep){
-          Chao_Hill_abu(sample_abundances[, rep], l = ell)})
-        return(data.frame(evenness
-                          , distribution
-                          , SS
-                          , ell
-                          , true_diversity
-                          , sample_diversity
-                          , estimated_diversity
-                          , row.names = NULL))
-    })
-  })
-})
-
-plot_data<-sample_data %>%
-  dplyr::group_by(evenness, distribution, ell, SS) %>%
-  dplyr::summarize(sample_sdlog = sd(ifelse(sample_diversity == 0
-                                            , 0, Ln(sample_diversity)))
-                   , asymptotic_sdlog = sd(ifelse(estimated_diversity == 0
-                                                  , 0, Ln(estimated_diversity)))
-                   , sample_bias = mean(Ln(sample_diversity) - 
-                                          mean(Ln(sample_diversity)))
-                   , estimator_bias = mean(Ln(estimated_diversity) -
-                                             Ln(true_diversity))
-                   , sample_rmsle = rmsle(sample_diversity)
-                   , estimator_rmsle = rmsle(estimated_diversity
-                                             , Ln(true_diversity))
-                   , true_diversity = mean(true_diversity)
-                   , mean_sample = mean(sample_diversity)
-                   , mean_asymptotic = mean(estimated_diversity)) %>%
-  dplyr::mutate(evenness = as.factor(round(evenness, 2))) %>% 
-  dplyr::rename(sample_size = SS)
-
-
-```
+(i.e., sample, "naïve," or asymptotic) we plotted measures of total error,
+variability, and bias along the Hill diversity profile from Hill-Simpson
+diversity to richness. For total error, we plotted the root mean squared log
+ratio between each estimate and the target value (i.e mean sample diversity or
+true diversity), hereafter "rmsle." <!-- give JD's 1% with compounding
+definition in figure caption! --> For bias, we plotted the log ratio between the
+Hill diversity estimate and its target, and for variability we plotted and the
+standard deviation of the log Hill diversity (a unitless measure of
+variability). Mean squared log error is the sum of the squared bias and the
+variance in the log diversity estimates. We asked, on a relative scale, how
+choice of scaling exponent for Hill diversity affects total error, bias, and
+sampling variability, and explored the interactions with evenness,
+distributional assumption, and sample size.
 
 Our findings for bias were similar to those reported elsewhere *CITE*. We found
 a strong negative bias for species richness for the asymptotic estimator, as
-well as for the sample diversity. Evenness and distributional assumption of the
-SAD affected the bias for both sample and Hill diversity estimates. More even
-communities tended to exhibit lower bias for richness but higher bias for
-Hill-Simpson diversity, although this pattern depended to some degree on both
-distributional assumption and sampling intensity. For the asymptotic Hill
-diversity estimates, bias at very low sample sizes was less than sample
-diversity but could still be extreme. However, this bias evaporated quickly for
-both sample and asymptotic Hill diversity estimates when the scaling exponent
-$\ell << 1 $.
+well as for the naïve estimator, but when sample diversity is not treated as an
+estimator for the full assemblage diversity, it has no "bias" (CITE Smith and
+Grassle, Hurlbert, Dauby & Hardy). Evenness and distributional assumption of the
+SAD affected the bias for both the näive and asymptotic Hill diversity
+estimates. More even communities tended to exhibit lower bias for richness but
+higher bias for Hill-Simpson diversity, although this pattern depended to some
+degree on both distributional assumption and sampling intensity. For the
+asymptotic Hill diversity estimates, bias at very low sample sizes was less than
+sample diversity but could still be extreme. However, this bias evaporated
+quickly for both sample and asymptotic Hill diversity estimates when the scaling
+exponent $\ell << 1 $.
 
 
 <-- Figures showing bias for sample diversity and Chao/Jost asymptotic estimators -->
@@ -627,7 +567,7 @@ plot_data %>%
   ggplot2::labs(x = "scaling exponent \U2113"
                 , y = "sample diversity root mean squared log error") +
   ggplot2::scale_y_continuous(limits = c(-0, 1.7), expand = c(0,0)) +
-  ggplot2::geom_hline(yintercept = 0)
+  ggplot2::geom_hline(yintercept = 0, size = 0.2)
 
 # treating the sample diversity as a naive diversity estimator
 # total error for sample diversity
@@ -646,7 +586,7 @@ plot_data %>%
   ggplot2::labs(x = "scaling exponent \U2113"
                 , y = "naïve estimator root mean squared log error") +
   ggplot2::scale_y_continuous(limits = c(-0, 1.7), expand = c(0,0)) +
-  ggplot2::geom_hline(yintercept = 0)
+  ggplot2::geom_hline(yintercept = 0, size = 0.2)
 
 # total error for asymptotic diversity
 plot_data %>%
@@ -666,7 +606,7 @@ plot_data %>%
   ggplot2::labs(x = "scaling exponent \U2113"
                 , y = "asymptotic estimator root mean squared log error") +
   ggplot2::scale_y_continuous(limits = c(-0, 1.7), expand = c(0,0)) +
-  ggplot2::geom_hline(yintercept = 0)
+  ggplot2::geom_hline(yintercept = 0, size = 0.2)
 
 
 # sdlog of sample diversity
@@ -686,7 +626,7 @@ plot_data %>%
   ggplot2::labs(x = "scaling exponent \U2113"
                 , y = "sd log(sample diversity)") +
   ggplot2::scale_y_continuous(limits = c(-0, 0.6), expand = c(0,0)) +
-  ggplot2::geom_hline(yintercept = 0)
+  ggplot2::geom_hline(yintercept = 0, size = 0.2)
 
 # sdlog asymptotic diversity
 plot_data %>%
@@ -706,7 +646,7 @@ plot_data %>%
   ggplot2::labs(x = "scaling exponent \U2113"
                 , y = "sd log(asymptotic estimator)") +
   ggplot2::scale_y_continuous(limits = c(-0, 0.6), expand = c(0,0)) +
-  ggplot2::geom_hline(yintercept = 0)
+  ggplot2::geom_hline(yintercept = 0, size = 0.2)
 
 # log ratio bias in sample diversity... w.r.t. expected value
 plot_data %>%
@@ -724,8 +664,8 @@ plot_data %>%
   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
   ggplot2::labs(x = "scaling exponent \U2113"
                 , y = "mean log(observed/expected sample diversity)") +
-  ggplot2::scale_y_continuous(limits = c(-1.3, 0.3)) +
-  ggplot2::geom_hline(yintercept = 0)
+  ggplot2::scale_y_continuous(limits = c(-1.8, 0.3)) +
+  ggplot2::geom_hline(yintercept = 0, size = 0.2)
 
 # bias for naïve estimator
 plot_data %>%
@@ -743,8 +683,8 @@ plot_data %>%
   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
   ggplot2::labs(x = "scaling exponent \U2113"
                 , y = "mean log(observed/expected sample diversity)") +
-  ggplot2::scale_y_continuous(limits = c(-1.3, 0.3)) +
-  ggplot2::geom_hline(yintercept = 0)
+  ggplot2::scale_y_continuous(limits = c(-1.8, 0.3)) +
+  ggplot2::geom_hline(yintercept = 0, size = 0.2)
 
 
 # bias for the asymptotic estimator
@@ -762,7 +702,7 @@ plot_data %>%
   ggplot2::facet_wrap(~sample_size
                       , labeller = "label_both") +  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
   ggplot2::labs(x = "scaling exponent \U2113", y = "mean log(estimated asymptotic/true diversity)") +
-  ggplot2::scale_y_continuous(limits = c(-1.3, 0.3)) +
+  ggplot2::scale_y_continuous(limits = c(-1.8, 0.3)) +
   ggplot2::geom_hline(yintercept = 0, size = 0.2)
 
 ```

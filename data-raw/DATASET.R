@@ -271,6 +271,10 @@ SADS<-purrr::flatten(
 
 # set sample size
 reps <- 1e3
+
+# set future plan
+
+future::plan(strategy = "multiprocess", workers = parallel::detectCores()-1)
 sample_data<-purrr::map_dfr(SADS, function(mySAD){
   evenness = (mySAD[[2]][3]-1)/(mySAD[[2]][1]-1)
   distribution = mySAD[[1]][1]
@@ -301,13 +305,16 @@ plot_data<-sample_data %>%
   dplyr::group_by(evenness, distribution, ell, SS) %>%
   dplyr::summarize(sample_sdlog = sd(ifelse(sample_diversity == 0
                                             , 0, Ln(sample_diversity)))
-                   , asymptotic_sdlog = sd(ifelse(estimated_diversity == 0
+                   , estimator_sdlog = sd(ifelse(estimated_diversity == 0
                                                   , 0, Ln(estimated_diversity)))
                    , sample_bias = mean(Ln(sample_diversity) -
                                           mean(Ln(sample_diversity)))
+                   , naive_bias = mean(Ln(sample_diversity) -
+                                            Ln(true_diversity))
                    , estimator_bias = mean(Ln(estimated_diversity) -
                                              Ln(true_diversity))
                    , sample_rmsle = rmsle(sample_diversity)
+                   , naive_rmsle = rmsle(sample_diversity, Ln(true_diversity))
                    , estimator_rmsle = rmsle(estimated_diversity
                                              , Ln(true_diversity))
                    , true_diversity = mean(true_diversity)

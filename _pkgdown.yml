@@ -22,12 +22,15 @@ reference:
   - Bt_prob_abu
   - Chao_Hill_abu
   - Chat.Ind
-  - ENSer
-  - GUE
   - combfun
+  - ENSer
+  - Exp
+  - GUE
   - hRare
   - hurl
   - ipfun
+  - Ln
+  - \%ni\%
   - obs_est
   - omit_y
   - pfun

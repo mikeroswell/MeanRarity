@@ -128,12 +128,15 @@
 #'  estimated Hill diversity of the SAD based on asymptotic estimator
 #'  - *sample_bias* Numeric, mean log ratio of sample diversity to expected
 #'  sample diversity
+#'  - *naive_bias* Numeric, mean log ratio of sample diversity to true diversity
 #'  - *estimator_bias* Numeric, mean log ratio of estimated asymptotic diversity
 #'  to true diversity
 #'  - *sample_rmsle* Numeric, square root of the mean squared log ratio of
 #'  sample diversity to expected sample diversity
 #'  - *estimator_rmsle* Numeric, square root of the mean squared log ratio of
-#'  estimated asymptotic diveristy to true diversity
+#'  estimated asymptotic diversity to true diversity
+#'  - *estimator_rmsle* Numeric, square root of the mean squared log ratio of
+#'  estimated asymptotic diversity to true diversity
 #'  - *true_diversity* Numeric, Hill diversity of the SAD
 #'  - *mean_sample* Numeric, mean of sample diversity for combination of ell,
 #'  evenness, distribution, and SS.

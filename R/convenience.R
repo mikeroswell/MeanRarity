@@ -53,12 +53,22 @@ rmsle <- function(x, true_x = mean(Ln(x))){
 
 
 #' Not in
+#'
+#' \code{%ni%} returns a logical vector indicating if there is a non-match or
+#' match for its left operand
+#'
 #' @name %ni%
+#' @param x vector or NULL, values to be matched
+#' @param table vector or NULL, values to be matched against
+#' @return Logical, `TRUE` when `x %in% table` is `FALSE`
+#' @seealso \code{\link{%in%}}
 #' @export
 #' @examples
-#'
 #' 6 %ni% 1:5
 
-`%ni%` <- Negate(`%in%`)
+`%ni%` <- function(x, table) {
+  match(x, table, nomatch = 0L) == 0L
+  }
+
 
 

@@ -4,12 +4,23 @@
 \alias{\%ni\%}
 \title{Not in}
 \usage{
-... \%ni\% NA
+x \%ni\% table
+}
+\arguments{
+\item{x}{vector or NULL, values to be matched}
+
+\item{table}{vector or NULL, values to be matched against}
+}
+\value{
+Logical, \code{TRUE} when \code{x \%in\% table} is \code{FALSE}
 }
 \description{
-Not in
+\code{\%ni\%} returns a logical vector indicating if there is a non-match or
+match for its left operand
 }
 \examples{
-
 6 \%ni\% 1:5
+}
+\seealso{
+\code{\link{\%in\%}}
 }

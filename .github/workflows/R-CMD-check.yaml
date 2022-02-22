@@ -39,9 +39,13 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
 
-      - name: add TeX deps
+     - name: Install dependencies
         run: |
-          tinytex::tlmgr_install(pkgs = "name")
+          remotes::install_deps(dependencies = TRUE)
+          remotes::install_cran("rcmdcheck")
+          tinytex::parse_install(text = "! LaTeX Error: File `pdfpages.sty' not found.")
+          tinytex::parse_install(text = "! LaTeX Error: File `ae.sty' not found.")
+          tinytex::parse_install(text = "! LaTeX Error: File `pdflscape.sty' not found.")
         shell: Rscript {0}
 
       - uses: r-lib/actions/setup-pandoc@v1

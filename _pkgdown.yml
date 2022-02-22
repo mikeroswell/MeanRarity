@@ -30,11 +30,12 @@ reference:
   - hurl
   - ipfun
   - Ln
-  - %ni%
+  - starts_with("%")
   - obs_est
   - omit_y
   - pfun
   - power_trans
+  - rmsle
   - try_SAD
   - white_y
 

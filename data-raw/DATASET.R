@@ -301,7 +301,7 @@ sample_data<-purrr::map_dfr(SADS, function(mySAD){
   })
 })
 
-plot_data<-sample_data %>%
+err_plot_data<-sample_data %>%
   dplyr::group_by(evenness, distribution, ell, SS) %>%
   dplyr::summarize(sample_sdlog = sd(ifelse(sample_diversity == 0
                                             , 0, Ln(sample_diversity)))
@@ -332,4 +332,4 @@ usethis::use_data(beeObs, overwrite = TRUE)
 usethis::use_data(beeAbunds, overwrite = TRUE)
 usethis::use_data(mean_ests, overwrite = TRUE)
 usethis::use_data(effort_rare, overwrite = TRUE)
-usethis::use_data(plot_data, overwrite = TRUE)
+usethis::use_data(err_plot_data, overwrite = TRUE)

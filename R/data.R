@@ -145,7 +145,7 @@
 #'  - *sample_size* Integer, number of individuals sampled
 #'
 
-"plot_data"
+"err_plot_data"
 
 
 

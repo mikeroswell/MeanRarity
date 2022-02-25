@@ -533,7 +533,28 @@ choice of scaling exponent for Hill diversity affects total error, bias, and
 sampling variability, and explored the interactions with evenness,
 distributional assumption, and sample size.
 
-Our findings for bias were similar to those reported elsewhere *CITE*. We found
+
+
+The diversity of a sample of fixed size was a stable, accurate measure of
+rarefied diversity across all the SADs we tested. The total error, greatest for
+Hill-Simpson diversity, when samples were smaller, and for less even SADs,
+shrank quickly as sample sizes increased, and was driven entirely by sampling
+variability, as the sample diversity is a natural unbiased estimator for the
+expected diversity of a random sample of a given size. Most surprising for us
+was that the variability for sample diversity was typically highest for
+Hill-Simpson diversity than for other Hill diversities, until sample sizes got
+quite large. Although the shape of the SAD (e.g. "lnorm" vs. "gamma") affected 
+the variability in sample Hill diversity, how it does so appeared to depend on 
+both the Hill scaling exponent and sample size. 
+
+The diversity of a sample of fixed size was a stable, but inaccurate measure of
+true diversity, as has been extensively reported elsewhere (REFS). Although the
+variability of the naïve estimator is identical to the variability in sample
+diversity, the bias, i.e. the ratio between sample and true diversity, depends
+jointly on the choice of Hill scaling exponent, the SAD, and sampling
+completeness [@Roswell2021].
+
+We found
 a strong negative bias for species richness for the asymptotic estimator, as
 well as for the naïve estimator, but when sample diversity is not treated as an
 estimator for the full assemblage diversity, it has no "bias" (CITE Smith and
@@ -551,8 +572,10 @@ exponent $\ell << 1 $.
 <-- Figures showing bias for sample diversity and Chao/Jost asymptotic estimators -->
 ```{r bias figure , fig.height = 7, fig.width = 7}
 
+
+pdf("/Users/mikeroswell/Dropbox/bias_variability_figs.pdf")
 # total error for sample diversity
-plot_data %>%
+err_plot_data %>%
   ggplot2::ggplot(ggplot2::aes(x = ell
                                , color = evenness
                                , shape = distribution)) +
@@ -560,7 +583,7 @@ plot_data %>%
     , color = evenness, linetype = distribution), size = 0.8) +
   ggplot2::theme_classic() +
   ggplot2::xlim(c(-1,1)) +
-  ggplot2::scale_color_manual(values = hcl.colors(5, palette = "Emrld")[2:4]) +
+  ggplot2::scale_color_manual(values = hcl.colors(4, palette = "BluGrn")[1:3]) +
   ggplot2::facet_wrap(~sample_size
                       , labeller = "label_both") +  
   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
@@ -571,7 +594,7 @@ plot_data %>%
 
 # treating the sample diversity as a naive diversity estimator
 # total error for sample diversity
-plot_data %>%
+err_plot_data %>%
   ggplot2::ggplot(ggplot2::aes(x = ell
                                , color = evenness
                                , shape = distribution)) +
@@ -579,7 +602,7 @@ plot_data %>%
     , color = evenness, linetype = distribution), size = 0.8) +
   ggplot2::theme_classic() +
   ggplot2::xlim(c(-1,1)) +
-  ggplot2::scale_color_manual(values = hcl.colors(5, palette = "Red-Blue")[2:4]) +
+  ggplot2::scale_color_manual(values = hcl.colors(4, palette = "Red-Blue")[1:3]) +
   ggplot2::facet_wrap(~sample_size
                       , labeller = "label_both") +
   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
@@ -589,7 +612,7 @@ plot_data %>%
   ggplot2::geom_hline(yintercept = 0, size = 0.2)
 
 # total error for asymptotic diversity
-plot_data %>%
+err_plot_data %>%
   ggplot2::ggplot(ggplot2::aes(x = ell
                                , color = evenness
                                , shape = distribution)) +
@@ -599,7 +622,7 @@ plot_data %>%
   ggplot2::theme_classic() +
   ggplot2::xlim(c(-1,1)) +
   ggplot2::scale_color_manual(values = 
-                                hcl.colors(5, palette = "SunsetDark")[2:4]) +
+                                hcl.colors(4, palette = "SunsetDark")[1:3]) +
   ggplot2::facet_wrap(~sample_size
                       , labeller = "label_both") +  
   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
@@ -610,7 +633,7 @@ plot_data %>%
 
 
 # sdlog of sample diversity
-plot_data %>%
+err_plot_data %>%
   ggplot2::ggplot(ggplot2::aes(x = ell
                                , color = evenness
                                , shape = distribution)) +
@@ -619,7 +642,7 @@ plot_data %>%
     , color = evenness, linetype = distribution), size = 0.8) +
   ggplot2::theme_classic() +
   ggplot2::xlim(c(-1,1)) +
-  ggplot2::scale_color_manual(values = hcl.colors(5, palette = "Emrld")[2:4]) +
+  ggplot2::scale_color_manual(values = hcl.colors(4, palette = "RedBlue")[1:3]) +
   ggplot2::facet_wrap(~sample_size
                       , labeller = "label_both") +  
   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
@@ -629,7 +652,7 @@ plot_data %>%
   ggplot2::geom_hline(yintercept = 0, size = 0.2)
 
 # sdlog asymptotic diversity
-plot_data %>%
+err_plot_data %>%
   ggplot2::ggplot(ggplot2::aes(x = ell
                                , color = evenness
                                , shape = distribution)) +
@@ -639,7 +662,7 @@ plot_data %>%
   ggplot2::theme_classic() +
   ggplot2::xlim(c(-1,1)) +
   ggplot2::scale_color_manual(values = 
-                                hcl.colors(5, palette = "SunsetDark")[2:4]) +
+                                hcl.colors(4, palette = "SunsetDark")[1:3]) +
   ggplot2::facet_wrap(~sample_size
                       , labeller = "label_both") +  
   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
@@ -649,7 +672,7 @@ plot_data %>%
   ggplot2::geom_hline(yintercept = 0, size = 0.2)
 
 # log ratio bias in sample diversity... w.r.t. expected value
-plot_data %>%
+err_plot_data %>%
   ggplot2::ggplot(ggplot2::aes(x = ell
                                , color = evenness
                                , shape = distribution)) +
@@ -658,7 +681,7 @@ plot_data %>%
     , color = evenness, linetype = distribution), size = 0.8) +
   ggplot2::theme_classic() +
   ggplot2::xlim(c(-1,1)) +
-  ggplot2::scale_color_manual(values = hcl.colors(5, palette = "Emrld")[2:4]) +
+  ggplot2::scale_color_manual(values = hcl.colors(4, palette = "BluGrn")[1:3]) +
   ggplot2::facet_wrap(~sample_size
                       , labeller = "label_both") +  
   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
@@ -668,7 +691,7 @@ plot_data %>%
   ggplot2::geom_hline(yintercept = 0, size = 0.2)
 
 # bias for naïve estimator
-plot_data %>%
+err_plot_data %>%
   ggplot2::ggplot(ggplot2::aes(x = ell
                                , color = evenness
                                , shape = distribution)) +
@@ -677,18 +700,18 @@ plot_data %>%
     , color = evenness, linetype = distribution), size = 0.8) +
   ggplot2::theme_classic() +
   ggplot2::xlim(c(-1,1)) +
-  ggplot2::scale_color_manual(values = hcl.colors(5, palette = "Red-Blue")[2:4]) +
+  ggplot2::scale_color_manual(values = hcl.colors(4, palette = "Red-Blue")[1:3]) +
   ggplot2::facet_wrap(~sample_size
                       , labeller = "label_both") +
   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
   ggplot2::labs(x = "scaling exponent \U2113"
-                , y = "mean log(observed/expected sample diversity)") +
+                , y = "mean log(observed/true diversity)") +
   ggplot2::scale_y_continuous(limits = c(-1.8, 0.3)) +
   ggplot2::geom_hline(yintercept = 0, size = 0.2)
 
 
 # bias for the asymptotic estimator
-plot_data %>%
+err_plot_data %>%
   ggplot2::ggplot(ggplot2::aes(x = ell
                                , color = evenness
                                , shape = distribution)) +
@@ -698,12 +721,55 @@ plot_data %>%
   ggplot2::theme_classic() +
   ggplot2::xlim(c(-1,1)) +
   ggplot2::scale_color_manual(values = 
-                                hcl.colors(5, palette = "SunsetDark")[2:4]) +
+                                hcl.colors(4, palette = "SunsetDark")[1:3]) +
   ggplot2::facet_wrap(~sample_size
                       , labeller = "label_both") +  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
   ggplot2::labs(x = "scaling exponent \U2113", y = "mean log(estimated asymptotic/true diversity)") +
   ggplot2::scale_y_continuous(limits = c(-1.8, 0.3)) +
   ggplot2::geom_hline(yintercept = 0, size = 0.2)
+
+```
+
+
+```{r sidenote on when naive beats asymptotic}
+
+occam <- err_plot_data %>% 
+  group_by(evenness, distribution, ell, sample_size) %>% 
+  summarize(total = estimator_rmsle > naive_rmsle
+            , bias = abs(estimator_bias) > abs(naive_bias)
+            , variability = estimator_sdlog > sample_sdlog)
+
+
+occam %>% 
+  filter(total %in% c(TRUE, FALSE)) %>% 
+  ggplot(aes(total, ell, color = as.factor(sample_size), shape = distribution ))+
+  geom_jitter(height = 0, width = 0.4)+
+  scale_color_manual(values = hcl.colors(4, "Plasma")) +
+  facet_wrap(~evenness)+
+  labs(x = "naive estimator beats Chao (rmsle)")+
+  ylim(c(-1, 1))+
+  theme_classic()
+
+
+occam %>% 
+  filter(bias %in% c(TRUE, FALSE)) %>% 
+  ggplot(aes(bias, ell, color = as.factor(sample_size), shape = distribution ))+
+  geom_jitter(height = 0, width = 0.4)+
+  scale_color_manual(values = hcl.colors(4, "Plasma")) +
+  facet_wrap(~evenness)+
+  labs(x = "naive estimator beats Chao (log accuracy ratio)")+
+  ylim(c(-1, 1))+
+  theme_classic()
+
+occam %>% 
+  filter(variability %in% c(TRUE, FALSE)) %>% 
+  ggplot(aes(variability, ell, color = as.factor(sample_size), shape = distribution ))+
+  geom_jitter(height = 0, width = 0.4)+
+  scale_color_manual(values = hcl.colors(4, "Plasma")) +
+  facet_wrap(~evenness)+
+  labs(x = "naive estimator beats Chao (sdlog)")+
+  ylim(c(-1, 1))+
+  theme_classic()
 
 ```
 

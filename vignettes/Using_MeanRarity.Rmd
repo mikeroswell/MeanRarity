@@ -580,13 +580,13 @@ exponent $\ell << 1 $.
 
 
 err_plot_data %>% 
-  mutate(naive_sdlog = sample_sdlog) %>% 
-  pivot_longer(c(5:12, 16)
+  dplyr::mutate(naive_sdlog = sample_sdlog) %>% 
+  tidyr::pivot_longer(c(5:12, 16)
                , names_to = c("est", "err_type")
                , names_pattern = "(.*)_(.*)"
                , values_to = "this_error"
   ) %>% 
-  mutate(col.col = paste0(est, evenness)) %>% 
+  dplyr::mutate(col.col = paste0(est, evenness)) %>% 
   ggplot2::ggplot(ggplot2::aes(x = ell
                                , color = col.col
                                , shape = distribution)) +

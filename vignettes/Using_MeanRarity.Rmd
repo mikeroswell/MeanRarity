@@ -586,30 +586,59 @@ err_plot_data %>%
                , names_pattern = "(.*)_(.*)"
                , values_to = "this_error"
   ) %>% 
-  dplyr::mutate(col.col = paste0(est, evenness)) %>% 
+  dplyr::mutate(err_type = factor(err_type
+                                  , levels = c("rmsle", "sdlog", "bias")
+                                  , labels = c("Average Error \n\n(back-transformed rmsle)", "Variability \n\n(back-\ntransformed \nsdlog)", "Proportional Bias \n\n(back-transformed \nlog accuracy ratio)")
+                                  )
+                , est = if_else(est == "estimator", "asymptotic"
+                              , if_else(est == "naive", "naïve", "sample"))
+                , exp_err = exp(this_error)
+                ) %>% 
+  dplyr::filter(distribution == "lnorm" # "gamma"
+                ) %>% 
   ggplot2::ggplot(ggplot2::aes(x = ell
-                               , color = col.col
-                               , shape = distribution)) +
-  ggplot2::geom_line(ggplot2::aes(y = this_error
-    , linetype = distribution), size = 0.8) +
+                               , color = evenness)) +
+  ggplot2::geom_line(ggplot2::aes(y = exp_err
+    , linetype = est), size = 0.8) +
   ggplot2::theme_classic() +
-  ggplot2::xlim(c(-1,1)) +
-  ggplot2::scale_color_manual(values = c(hcl.colors(4, palette = "BluGrn")[1:3]
-                                         , hcl.colors(4, palette = "RedBlue")[1:3]
-                                         , hcl.colors(4, palette = "SunsetDar")[1:3])) +
+  ggplot2::theme(strip.background = element_blank()
+                 , strip.placement.y = "outside"
+                 , panel.spacing.x = unit(1.5, "lines")
+                 , panel.spacing.y = unit(2, "lines")
+                 , legend.key.width = unit(2.5, "lines")
+                 # , panel.background = element_rect(size = 1
+                 #                                   , color = "black"
+                 #                                   , linetype = "solid")
+                 )+
+  ggplot2::scale_x_continuous(limits = c(-1,1)
+                              # , expand = expansion(c(0.2, 0.2))
+                              ) +
+  ggplot2::scale_y_continuous(trans = scales::pseudo_log_trans(sigma = 1
+                                                               , base = exp(1))
+                              ) +
+  ggplot2::scale_color_manual(values = hcl.colors(4, palette = "SunsetDark")[1:3]
+                                         # , hcl.colors(4, palette = "RedBlue")[1:3]
+                                         # , hcl.colors(4, palette = "SunsetDar")[1:3])
+                              ) +
+  ggplot2::scale_linetype_manual(values = c("solid", "dashed", "dotted"))+
   ggplot2::facet_grid(err_type~sample_size
     # rows = vars(err_type)
     #                   , cols = vars(sample_size)
-                      , labeller = "label_both"
+                      , labeller = labeller(sample_size = label_both
+                                            , err_type = label_value
+                      )
                       , scales = "free_y"
-                      # , space = "free_y"
+                      , space = "free_y"
+                      , switch = "y"
+                      
                       ) +  
   #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
   ggplot2::labs(x = "scaling exponent \U2113"
+                , y = ""
                 # , y = "sample diversity root mean squared log error"
                 ) +
   # ggplot2::scale_y_continuous(limits = c(-0, 1.7), expand = c(0,0)) +
-  ggplot2::geom_hline(yintercept = 0, size = 0.2)
+  ggplot2::geom_hline(yintercept = 1, size = 0.2)
 # dev.off()
 
 # by type
@@ -621,7 +650,7 @@ err_plot_data %>%
                                , shape = distribution)) +
   ggplot2::geom_line(ggplot2::aes(y = sample_rmsle
     , color = evenness, linetype = distribution), size = 0.8) +
-  ggplot2::theme_classic() +
+  ggplot2::theme_bw() +
   ggplot2::xlim(c(-1,1)) +
   ggplot2::scale_color_manual(values = hcl.colors(4, palette = "BluGrn")[1:3]) +
   ggplot2::facet_wrap(~sample_size

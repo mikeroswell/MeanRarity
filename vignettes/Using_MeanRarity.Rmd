@@ -782,7 +782,7 @@ occam <- err_plot_data %>%
 
 occam %>% 
   dplyr::filter(total %in% c(TRUE, FALSE)) %>% 
-  ggplot2::ggplot(aes(total, ell, color = as.factor(sample_size), shape = distribution ))+
+  ggplot2::ggplot(ggplot2::aes(total, ell, color = as.factor(sample_size), shape = distribution ))+
   ggplot2::geom_jitter(height = 0, width = 0.4)+
   ggplot2::scale_color_manual(values = hcl.colors(4, "Plasma")) +
   ggplot2::facet_wrap(~evenness)+
@@ -793,7 +793,7 @@ occam %>%
 
 occam %>% 
   dplyr::filter(bias %in% c(TRUE, FALSE)) %>% 
-  ggplot2::ggplot(aes(bias, ell, color = as.factor(sample_size), shape = distribution ))+
+  ggplot2::ggplot(ggplot2::aes(bias, ell, color = as.factor(sample_size), shape = distribution ))+
   ggplot2::geom_jitter(height = 0, width = 0.4)+
   ggplot2::scale_color_manual(values = hcl.colors(4, "Plasma")) +
   ggplot2::facet_wrap(~evenness)+
@@ -802,8 +802,8 @@ occam %>%
   ggplot2::theme_classic()
 
 occam %>% 
-  dply::filter(variability %in% c(TRUE, FALSE)) %>% 
-  ggplot2::ggplot(aes(variability, ell, color = as.factor(sample_size), shape = distribution ))+
+  dplyr::filter(variability %in% c(TRUE, FALSE)) %>% 
+  ggplot2::ggplot(ggplot2::aes(variability, ell, color = as.factor(sample_size), shape = distribution ))+
   ggplot2::geom_jitter(height = 0, width = 0.4)+
   ggplot2::scale_color_manual(values = hcl.colors(4, "Plasma")) +
   ggplot2::facet_wrap(~evenness)+

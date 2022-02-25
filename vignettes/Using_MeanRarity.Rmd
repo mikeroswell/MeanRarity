@@ -462,19 +462,20 @@ ggplot2::ggplot(divpro(uneven_SAD[[3]]),
 Accurate estimates of Hill diversity based on sample data are notoriously
 challenging [@Roswell2021]. Although many estimators have been used, the three
 most common approaches are to a) calculate the diversity of samples directly,
-treating this as a sample-size dependent diversity measure (CITE SMITH AND
-GRASSLE), b) calculate the diversity of the sample directly, but treat this as
-an estimate of the diversity of the entire assemblage (hereafter the "naïve"
-estimator) (CITE SOMEBODY), or c) use non-parametric estimators of the diversity
-of the entire assemblage. All three approaches have merit for comparing
-communities and ecosystems [@Gooriah2021] <!-- may want a stronger reference
-here-->. While the degree to which sample diversity and asymptotic estimates
-each differ from the true diversity (bias) has received substantial study, the
-sampling variation in each type of Hill diversity estimate is less understood.
-**MeanRarity** provides a toolkit to explore accuracy and sampling uncertainty
-for Hill diversity estimates. Because this package simulates species abundance
-distributions with known diversity, it allows examination of the drivers of
-sampling variation in Hill diversity estimates.
+treating this as a sample-size-dependent diversity measure (i.e. "sample
+diversity") (CITE SMITH AND GRASSLE), b) calculate the diversity of the sample
+directly, but treat this as an estimate of the diversity of the entire
+assemblage (hereafter the "naïve estimator") (CITE SOMEBODY), or c) use
+non-parametric estimators of the diversity of the entire assemblage, or an
+"asymptotic estimator" [@Chao2015]. All three approaches have merit for
+comparing communities and ecosystems [@Gooriah2021] <!-- may want a stronger
+reference here-->. While the degree to which sample diversity and asymptotic
+estimates each differ from the true diversity (bias) has received substantial
+study, the sampling variation in each type of Hill diversity estimate is less
+understood. **MeanRarity** provides a toolkit to explore accuracy and sampling
+uncertainty for Hill diversity estimates. Because this package simulates species
+abundance distributions with known diversity, it allows examination of the
+drivers of sampling variation in Hill diversity estimates.
 
 It is well known that the diversity of a sample tends to be lower than the
 diversity of the assemblage from which the sample was drawn. This "bias" is most
@@ -490,15 +491,16 @@ difference between either sampled diversity or asymptotic estimators, and the
 true diversity of the sampled species abundance distribution.
 
 Similarly, the sampling variation in Hill diversity estimates (both sample
-diversity and asymptotic estimators) is poorly understood. Intuitively, sampling
-variability in Hill diversity estimates must depend jointly on sample size, the
-species abundance distribution, and the scaling exponent for Hill diversity.
-However, users of Hill diversity currently lack guidance on the relationship
-between their metric choice and the sampling variability they might expect.
-Variability, along with bias, is an important consideration when selecting a
-diversity metric. Especially when the number of replicates is modest, as is
-often the case in ecological studies, inaccuracy due to random sampling
-variability could lead to equally misleading results as could bias *CITE THIS*.
+diversity/the naïve estimator, and asymptotic estimators) is poorly understood.
+Intuitively, sampling variability in Hill diversity estimates must depend
+jointly on sample size, the species abundance distribution, and the scaling
+exponent for Hill diversity. However, users of Hill diversity currently lack
+guidance on the relationship between their metric choice and the sampling
+variability they might expect. Variability, along with bias, is an important
+consideration when selecting a diversity metric. Especially when the number of
+replicates is modest, as is often the case in ecological studies, inaccuracy due
+to random sampling variability could lead to equally misleading results as could
+bias *CITE THIS*.
 
 To explore how the shape of the species abundance distribution and sample size
 drive the sampling expectations for sample and asymptotic Hill diversity
@@ -573,8 +575,46 @@ exponent $\ell << 1 $.
 ```{r bias figure , fig.height = 7, fig.width = 7}
 
 
-pdf("/Users/mikeroswell/Dropbox/bias_variability_figs.pdf")
+# pdf("/Users/mikeroswell/Dropbox/bias_variability_figs_condensed.pdf")
 # total error for sample diversity
+
+
+err_plot_data %>% 
+  mutate(naive_sdlog = sample_sdlog) %>% 
+  pivot_longer(c(5:12, 16)
+               , names_to = c("est", "err_type")
+               , names_pattern = "(.*)_(.*)"
+               , values_to = "this_error"
+  ) %>% 
+  mutate(col.col = paste0(est, evenness)) %>% 
+  ggplot2::ggplot(ggplot2::aes(x = ell
+                               , color = col.col
+                               , shape = distribution)) +
+  ggplot2::geom_line(ggplot2::aes(y = this_error
+    , linetype = distribution), size = 0.8) +
+  ggplot2::theme_classic() +
+  ggplot2::xlim(c(-1,1)) +
+  ggplot2::scale_color_manual(values = c(hcl.colors(4, palette = "BluGrn")[1:3]
+                                         , hcl.colors(4, palette = "RedBlue")[1:3]
+                                         , hcl.colors(4, palette = "SunsetDar")[1:3])) +
+  ggplot2::facet_grid(err_type~sample_size
+    # rows = vars(err_type)
+    #                   , cols = vars(sample_size)
+                      , labeller = "label_both"
+                      , scales = "free_y"
+                      # , space = "free_y"
+                      ) +  
+  #function(x){sapply(x, function(y){paste(y, " individuals")})}) +
+  ggplot2::labs(x = "scaling exponent \U2113"
+                # , y = "sample diversity root mean squared log error"
+                ) +
+  # ggplot2::scale_y_continuous(limits = c(-0, 1.7), expand = c(0,0)) +
+  ggplot2::geom_hline(yintercept = 0, size = 0.2)
+# dev.off()
+
+# by type
+
+
 err_plot_data %>%
   ggplot2::ggplot(ggplot2::aes(x = ell
                                , color = evenness

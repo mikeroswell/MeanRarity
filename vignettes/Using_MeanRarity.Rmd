@@ -774,42 +774,42 @@ err_plot_data %>%
 ```{r sidenote on when naive beats asymptotic}
 
 occam <- err_plot_data %>% 
-  group_by(evenness, distribution, ell, sample_size) %>% 
-  summarize(total = estimator_rmsle > naive_rmsle
+  dplyr::group_by(evenness, distribution, ell, sample_size) %>% 
+  dplyr::summarize(total = estimator_rmsle > naive_rmsle
             , bias = abs(estimator_bias) > abs(naive_bias)
             , variability = estimator_sdlog > sample_sdlog)
 
 
 occam %>% 
-  filter(total %in% c(TRUE, FALSE)) %>% 
-  ggplot(aes(total, ell, color = as.factor(sample_size), shape = distribution ))+
-  geom_jitter(height = 0, width = 0.4)+
-  scale_color_manual(values = hcl.colors(4, "Plasma")) +
-  facet_wrap(~evenness)+
-  labs(x = "naive estimator beats Chao (rmsle)")+
-  ylim(c(-1, 1))+
-  theme_classic()
+  dplyr::filter(total %in% c(TRUE, FALSE)) %>% 
+  ggplot2::ggplot(aes(total, ell, color = as.factor(sample_size), shape = distribution ))+
+  ggplot2::geom_jitter(height = 0, width = 0.4)+
+  ggplot2::scale_color_manual(values = hcl.colors(4, "Plasma")) +
+  ggplot2::facet_wrap(~evenness)+
+  ggplot2::labs(x = "naive estimator beats Chao (rmsle)")+
+  ggplot2::ylim(c(-1, 1))+
+  ggplot2::theme_classic()
 
 
 occam %>% 
-  filter(bias %in% c(TRUE, FALSE)) %>% 
-  ggplot(aes(bias, ell, color = as.factor(sample_size), shape = distribution ))+
-  geom_jitter(height = 0, width = 0.4)+
-  scale_color_manual(values = hcl.colors(4, "Plasma")) +
-  facet_wrap(~evenness)+
-  labs(x = "naive estimator beats Chao (log accuracy ratio)")+
-  ylim(c(-1, 1))+
-  theme_classic()
+  dplyr::filter(bias %in% c(TRUE, FALSE)) %>% 
+  ggplot2::ggplot(aes(bias, ell, color = as.factor(sample_size), shape = distribution ))+
+  ggplot2::geom_jitter(height = 0, width = 0.4)+
+  ggplot2::scale_color_manual(values = hcl.colors(4, "Plasma")) +
+  ggplot2::facet_wrap(~evenness)+
+  ggplot2::labs(x = "naive estimator beats Chao (log accuracy ratio)")+
+  ggplot2::ylim(c(-1, 1))+
+  ggplot2::theme_classic()
 
 occam %>% 
-  filter(variability %in% c(TRUE, FALSE)) %>% 
-  ggplot(aes(variability, ell, color = as.factor(sample_size), shape = distribution ))+
-  geom_jitter(height = 0, width = 0.4)+
-  scale_color_manual(values = hcl.colors(4, "Plasma")) +
-  facet_wrap(~evenness)+
-  labs(x = "naive estimator beats Chao (sdlog)")+
-  ylim(c(-1, 1))+
-  theme_classic()
+  dply::filter(variability %in% c(TRUE, FALSE)) %>% 
+  ggplot2::ggplot(aes(variability, ell, color = as.factor(sample_size), shape = distribution ))+
+  ggplot2::geom_jitter(height = 0, width = 0.4)+
+  ggplot2::scale_color_manual(values = hcl.colors(4, "Plasma")) +
+  ggplot2::facet_wrap(~evenness)+
+  ggplot2::labs(x = "naive estimator beats Chao (sdlog)")+
+  ggplot2::ylim(c(-1, 1))+
+  ggplot2::theme_classic()
 
 ```
 

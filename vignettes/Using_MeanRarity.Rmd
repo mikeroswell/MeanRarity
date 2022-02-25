@@ -583,11 +583,15 @@ err_plot_data %>%
   ) %>% 
   dplyr::mutate(err_type = factor(err_type
                                   , levels = c("rmsle", "sdlog", "bias")
-                                  , labels = c("Average Error \n\n(back-transformed rmsle)", "Variability \n\n(back-\ntransformed \nsdlog)", "Proportional Bias \n\n(back-transformed \nlog accuracy ratio)")
+                                  , labels = c("Average Error \n\nexp(rmsle)-1"
+                   , "Variability \n\nexp(sdlog)-1"
+                   , "Proportional Bias \n\nexp(log \naccuracy ratio)-1")
                                   )
-                , est = if_else(est == "estimator", "asymptotic"
-                              , if_else(est == "naive", "naïve", "sample"))
-                , exp_err = exp(this_error)
+                , est = dplyr::if_else(est == "estimator", "asymptotic"
+                              , dplyr::if_else(est == "naive"
+                                               , "naïve"
+                                               , "sample"))
+                , exp_err = exp(this_error)-1
                 ) %>% 
   dplyr::filter(distribution == "lnorm" # "gamma"
                 ) %>% 
@@ -596,27 +600,24 @@ err_plot_data %>%
   ggplot2::geom_line(ggplot2::aes(y = exp_err
     , linetype = est), size = 0.8) +
   ggplot2::theme_classic() +
-  ggplot2::theme(strip.background = element_blank()
+  ggplot2::theme(strip.background = ggplot2::element_blank()
                  , strip.placement.y = "outside"
-                 , panel.spacing.x = unit(1.5, "lines")
-                 , panel.spacing.y = unit(2, "lines")
-                 , legend.key.width = unit(2.5, "lines")
-                 # , panel.background = element_rect(size = 1
-                 #                                   , color = "black"
-                 #                                   , linetype = "solid")
+                 , panel.spacing.x = ggplot2::unit(1.3, "lines")
+                 , panel.spacing.y = ggplot2::unit(1.3, "lines")
+                 , legend.key.width = ggplot2::unit(2, "lines")
                  )+
   ggplot2::scale_x_continuous(limits = c(-1,1)
-                              # , expand = expansion(c(0.2, 0.2))
                               ) +
   ggplot2::scale_y_continuous(trans = scales::pseudo_log_trans(sigma = 1
                                                                , base = exp(1))
+                              , n.breaks = 5
                               ) +
   ggplot2::scale_color_manual(values = hcl.colors(4
                                                   , palette = "SunsetDark")[1:3]
                               ) +
   ggplot2::scale_linetype_manual(values = c("solid", "dashed", "dotted"))+
   ggplot2::facet_grid(err_type~sample_size
-                      , labeller = labeller(sample_size = label_both
+                      , labeller = ggplot2::labeller(sample_size = label_both
                                             , err_type = label_value
                                             )
                       , scales = "free_y"
@@ -625,8 +626,9 @@ err_plot_data %>%
                       ) +  
     ggplot2::labs(x = "scaling exponent \U2113"
                 , y = ""
+                , linetype = "estimator"
                   ) +
-    ggplot2::geom_hline(yintercept = 1, size = 0.2)
+    ggplot2::geom_hline(yintercept = 0, size = 0.2)
 
 ```
 

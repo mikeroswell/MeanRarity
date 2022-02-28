@@ -570,7 +570,8 @@ bias evaporated quickly for both sample and asymptotic Hill diversity estimates
 when the scaling exponent $\ell << 1 $.
 
 
-<-- Figures showing bias for sample diversity and Chao/Jost asymptotic estimators -->
+<-- check theme options like panel.spacing and legend.key.width -->
+
 ```{r bias figure , fig.height = 7, fig.width = 7}
 
 
@@ -617,8 +618,8 @@ err_plot_data %>%
                               ) +
   ggplot2::scale_linetype_manual(values = c("solid", "dashed", "dotted"))+
   ggplot2::facet_grid(err_type~sample_size
-                      , labeller = ggplot2::labeller(sample_size = label_both
-                                            , err_type = label_value
+                      , labeller = ggplot2::labeller(sample_size = ggplot2::label_both
+                                            , err_type = ggplot2::label_value
                                             )
                       , scales = "free_y"
                       , space = "free_y"

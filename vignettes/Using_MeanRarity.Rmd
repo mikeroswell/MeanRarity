@@ -560,7 +560,7 @@ We found a strong negative bias for species richness for the asymptotic
 estimator, as well as for the naïve estimator, but when sample diversity is not
 treated as an estimator for the full assemblage diversity, it has no "bias"
 (CITE Smith and Grassle, Hurlbert, Dauby & Hardy). Evenness and distributional
-assumption of the SAD affected the bias for both the näive and asymptotic Hill
+assumption of the SAD affected the bias for both the naïve and asymptotic Hill
 diversity estimates. More even communities tended to exhibit lower bias for
 richness but higher bias for Hill-Simpson diversity, although this pattern
 depended to some degree on both distributional assumption and sampling
@@ -633,6 +633,8 @@ err_plot_data %>%
 
 ```
 
+<!-- fig caption draft -->
+Figure X: Hill-Simpson diversity estimates have high variability under random sampling.  
 
 ```{r sidenote on when naive beats asymptotic}
 
@@ -647,7 +649,7 @@ occam %>%
   dplyr::filter(total %in% c(TRUE, FALSE)) %>% 
   ggplot2::ggplot(ggplot2::aes(total, ell, color = as.factor(sample_size), shape = distribution ))+
   ggplot2::geom_jitter(height = 0, width = 0.4)+
-  ggplot2::scale_color_manual(values = hcl.colors(4, "Plasma")) +
+al(values = hcl.colors(4, "Plasma")) +
   ggplot2::facet_wrap(~evenness)+
   ggplot2::labs(x = "naive estimator beats Chao (rmsle)")+
   ggplot2::ylim(c(-1, 1))+

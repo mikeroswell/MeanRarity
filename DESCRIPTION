@@ -21,9 +21,7 @@ License: LGPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    furrr
-    , stats
-    , parallel
+    stats
     , purrr
     , future
     , scales
@@ -48,6 +46,9 @@ Suggests:
     , forcats
     , vegan
     , ragg
+    , furrr
+    , parallel
+    , invgamma
 Roxygen: list(markdown = TRUE)
 RdMacros: Rdpack
 Language: en-US

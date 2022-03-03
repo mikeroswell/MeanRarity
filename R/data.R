@@ -117,7 +117,7 @@
 #' \insertRef{Chao2015}{MeanRarity}
 #' \insertRef{Chao2019a}{MeanRarity}
 #'
-#' @format A data.frame with 7224 rows and 9 variables:
+#' @format A data.frame with 10836 rows and 15 variables:
 
 #'  - *evenness* Factor, approximately the ratio of Hill-Simpson to richness
 #'  - *distribution* Factor, family, one of "lnorm" or "gamma"

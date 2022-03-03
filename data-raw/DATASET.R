@@ -250,7 +250,7 @@ errs <- compare_ests %>%
 
 # genereate SADs
 
-evenness <- c(0.3, 0.5, 0.8)
+evenness <- c(0.1, 0.3, 0.5)
 rich <- 100
 sample_sizes <- floor(10^seq(1.5, 3, 0.5))
 # generate SADs with 100 spp and varying evenness, parametric distributions
@@ -258,10 +258,11 @@ SADS<-purrr::flatten(
   purrr::map(
     evenness, function(simp_evenness){
       purrr::map(
-        c("lnorm", "gamma"), function(dist){
+        c("lnorm", "gamma", "invgamma"), function(dist){
           fit_SAD(rich = rich
                   , simpson = simp_evenness*(rich-1)+1
-                  , distr = dist)
+                  , distr = dist
+                  , int_lwr = ifelse(dist == "invgamma", 1e-2, 1e-4))
         })
     }))
 

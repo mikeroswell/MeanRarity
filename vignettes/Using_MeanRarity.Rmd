@@ -649,7 +649,7 @@ occam %>%
   dplyr::filter(total %in% c(TRUE, FALSE)) %>% 
   ggplot2::ggplot(ggplot2::aes(total, ell, color = as.factor(sample_size), shape = distribution ))+
   ggplot2::geom_jitter(height = 0, width = 0.4)+
-al(values = hcl.colors(4, "Plasma")) +
+  ggplot2::scale_color_manual(values = hcl.colors(4, "Plasma")) +
   ggplot2::facet_wrap(~evenness)+
   ggplot2::labs(x = "naive estimator beats Chao (rmsle)")+
   ggplot2::ylim(c(-1, 1))+

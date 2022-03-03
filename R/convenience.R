@@ -68,7 +68,24 @@ rmsle <- function(x, true_x = mean(Ln(x))){
 
 `%ni%` <- function(x, table) {
   match(x, table, nomatch = 0L) == 0L
-  }
+}
 
+
+#' Multiplicative transformation
+#'
+#' This transformation provides symmetrical-looking multiplicative factors from
+#' log-scaled variables
+#'
+#' @export
+#' @examples
+#' plot(mult_trans(), xlim = c(log(0.1), log(10)))
+mult_trans <- function(){
+  scales::trans_new(
+    name = "mult"
+    , transform =  function(x){ sign(x)*exp(abs(x))}
+    , inverse = function(x){sign(x)*Ln(abs(x))}
+
+  )
+}
 
 

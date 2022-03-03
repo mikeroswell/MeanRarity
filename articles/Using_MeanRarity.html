@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MeanRarity</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.0003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.0004</span>
       </span>
     </div>
 
@@ -49,7 +49,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -329,16 +329,16 @@ functions to enable this --></p>
 <span class="va">uneven_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">uneven_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">50</span><span class="op">)</span>
 <span class="co">#sample_infinite returns a numeric vector of sample species abundances</span>
 <span class="va">even_sample</span>
-<span class="co">#&gt;  [1] 11  3  2  6  4  2  2  5  2  3  1  3  0  0  2  0  2  0  1  1</span>
+<span class="co">#&gt;  [1] 11  7  1  5  3  5  4  1  1  1  1  2  1  1  1  2  1  2  0  0</span>
 <span class="va">uneven_sample</span>
-<span class="co">#&gt;  [1] 14  7  9  1  2  1  2  2  0  2  2  2  5  1  0  0  0  0  0  0</span>
+<span class="co">#&gt;  [1] 22  7  2  4  2  3  3  2  1  0  0  2  0  0  1  0  0  0  0  1</span>
 
 <span class="co"># we can compare evenness (given a scaling parameter `l`)</span>
 <span class="co"># the evenness is the normalized ratio of an arbitrary Hill diversity to richness</span>
 <span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.594709</span>
+<span class="co">#&gt; [1] 0.4940292</span>
 <span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.4678131</span>
+<span class="co">#&gt; [1] 0.2969283</span>
 
 <span class="co"># compare diversity from sample vs. ideal SAD:</span>
 <span class="co"># likely pretty far off for a small sample!</span>
@@ -350,8 +350,8 @@ functions to enable this --></p>
 <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">l</span><span class="op">)</span><span class="op">{</span>
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;      [,1] [,2]    [,3]    </span>
-<span class="co">#&gt; [1,] 16   12.5978 9.920635</span>
+<span class="co">#&gt;      [,1] [,2]     [,3]    </span>
+<span class="co">#&gt; [1,] 18   12.55568 9.398496</span>
 
 <span class="co"># with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson</span>
 <span class="co"># richness is always lower</span>
@@ -362,7 +362,7 @@ functions to enable this --></p>
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 13   8.827395 6.613757</span>
+<span class="co">#&gt; [1,] 12   6.861296 4.266212</span>
 
 
 <span class="va">big_even_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">even_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">1e7</span><span class="op">)</span>
@@ -376,7 +376,7 @@ functions to enable this --></p>
   <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">big_even_sample</span>, <span class="va">l</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2]     [,3]    </span>
-<span class="co">#&gt; [1,] 20   15.12152 12.00231</span></code></pre></div>
+<span class="co">#&gt; [1,] 20   15.11845 11.99727</span></code></pre></div>
 <p>For any distribution of relative abundances, one can ask, “what is the Hill diversity of this distribution?” Yet the answer, of course, depends on the chosen value of the scaling parameter <span class="math inline">\(\ell\)</span>. For a comprehensive answer, one might look across values of <span class="math inline">\(\ell\)</span>, also known as a Hill “diversity profile” <span class="citation">(Chao et al. 2014)</span>. <strong>MeanRarity</strong> provides a function to generate a Hill diversity profile based on <span class="math inline">\(\ell\)</span> (rather than <span class="math inline">\(q\)</span>): <code><a href="../reference/divpro.html">divpro()</a></code>. <!-- these should be on a single plot, will be much more interesting that way!--></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># the even and uneven communities have same richness but different Hill </span>
@@ -414,7 +414,7 @@ reference here-->. While the degree to which sample diversity and asymptotic est
 definition in figure caption! --> For bias, we plotted the log ratio between the Hill diversity estimate and its target, and for variability we plotted and the standard deviation of the log Hill diversity (a unitless measure of variability). Mean squared log error is the sum of the squared bias and the variance in the log diversity estimates. We asked, on a relative scale, how choice of scaling exponent for Hill diversity affects total error, bias, and sampling variability, and explored the interactions with evenness, distributional assumption, and sample size.</p>
 <p>The diversity of a sample of fixed size was a stable, accurate measure of rarefied diversity across all the SADs we tested. The total error, greatest for Hill-Simpson diversity, when samples were smaller, and for less even SADs, shrank quickly as sample sizes increased, and was driven entirely by sampling variability, as the sample diversity is a natural unbiased estimator for the expected diversity of a random sample of a given size. Most surprising for us was that the variability for sample diversity was typically highest for Hill-Simpson diversity than for other Hill diversities, until sample sizes got quite large. Although the shape of the SAD (e.g. “lnorm” vs. “gamma”) affected the variability in sample Hill diversity, how it does so appeared to depend on both the Hill scaling exponent and sample size.</p>
 <p>The diversity of a sample of fixed size was a stable, but inaccurate measure of true diversity, as has been extensively reported elsewhere (REFS). Although the variability of the naïve estimator is identical to the variability in sample diversity, the bias, i.e. the ratio between sample and true diversity, depends jointly on the choice of Hill scaling exponent, the SAD, and sampling completeness <span class="citation">(Roswell, Dushoff, and Winfree 2021)</span>.</p>
-<p>We found a strong negative bias for species richness for the asymptotic estimator, as well as for the naïve estimator, but when sample diversity is not treated as an estimator for the full assemblage diversity, it has no “bias” (CITE Smith and Grassle, Hurlbert, Dauby &amp; Hardy). Evenness and distributional assumption of the SAD affected the bias for both the näive and asymptotic Hill diversity estimates. More even communities tended to exhibit lower bias for richness but higher bias for Hill-Simpson diversity, although this pattern depended to some degree on both distributional assumption and sampling intensity. For the asymptotic Hill diversity estimates, bias at very low sample sizes was less than sample diversity but could still be extreme. However, this bias evaporated quickly for both sample and asymptotic Hill diversity estimates when the scaling exponent $&lt;&lt; 1 $.</p>
+<p>We found a strong negative bias for species richness for the asymptotic estimator, as well as for the naïve estimator, but when sample diversity is not treated as an estimator for the full assemblage diversity, it has no “bias” (CITE Smith and Grassle, Hurlbert, Dauby &amp; Hardy). Evenness and distributional assumption of the SAD affected the bias for both the naïve and asymptotic Hill diversity estimates. More even communities tended to exhibit lower bias for richness but higher bias for Hill-Simpson diversity, although this pattern depended to some degree on both distributional assumption and sampling intensity. For the asymptotic Hill diversity estimates, bias at very low sample sizes was less than sample diversity but could still be extreme. However, this bias evaporated quickly for both sample and asymptotic Hill diversity estimates when the scaling exponent $&lt;&lt; 1 $.</p>
 <p>&lt;– check theme options like panel.spacing and legend.key.width –&gt;</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -476,6 +476,8 @@ definition in figure caption! --> For bias, we plotted the log ratio between the
     <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, size <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>
 <span class="co">#&gt; Warning: Removed 902 row(s) containing missing values (geom_path).</span></code></pre></div>
 <p><img src="Using_MeanRarity_files/figure-html/bias%20figure%20-1.png" width="672"></p>
+<!-- fig caption draft -->
+<p>Figure X: Hill-Simpson diversity estimates have high variability under random sampling.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">occam</span> <span class="op">&lt;-</span> <span class="va">err_plot_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 

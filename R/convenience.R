@@ -74,6 +74,24 @@ rmsle <- function(x, true_x = mean(Ln(x))){
 #' Multiplicative transformation
 #'
 #' This transformation provides symmetrical-looking multiplicative factors from
+#' log-scaled variables, using the pseudo-log transform with sigma = 1
+#'
+#' @export
+#' @examples
+#' plot(mult_trans(), xlim = c(log(0.1), log(10)))
+mult_trans <- function(){
+  scales::trans_new(
+    name = "mult"
+    , transform =  function(x){sign(x)* 2 * sinh(abs(x))}
+    , inverse = function(x){ sign(x)*asinh(abs(x) / 2 ) }
+
+  )
+}
+
+
+#' Multiplicative transformation
+#'
+#' This transformation provides symmetrical-looking multiplicative factors from
 #' log-scaled variables
 #'
 #' @export
@@ -82,10 +100,13 @@ rmsle <- function(x, true_x = mean(Ln(x))){
 mult_trans <- function(){
   scales::trans_new(
     name = "mult"
-    , transform =  function(x){ sign(x)*exp(abs(x))}
-    , inverse = function(x){sign(x)*Ln(abs(x))}
+    , transform =  function(x){
+        as_mult = exp(abs(x))
+        signfix = ifelse((x>=0 | isTRUE(all.equal(as_mult, 1))), 1, -1) * as_mult
+        return(signfix)
+    }xxxxxx
+    , inverse = function(x){x} #ifelse(x>=0, 1, -1) * Ln(abs(x))}
 
   )
 }
-
 

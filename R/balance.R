@@ -76,13 +76,15 @@ prettify <- function(breaks){
 #'   \code{\link{pfun}}, \code{\link{ipfun}}
 #' @export
 power_trans = function(pow, nb) scales::trans_new(name = "power"
-   , transform = function(x) pfun(x, pow)
-   , inverse = function(x) ipfun(x, pow)
-   , breaks = function(x) prettify(
-		scales::trans_breaks(
-			function(x) pfun(x, pow), function(x) ipfun(x, pow), n = nb
-		)(x * 1.1)
-	)
+   , transform = function(x){pfun(x, pow)}
+   , inverse = function(x){ipfun(x, pow)}
+   , breaks = function(x){ prettify(
+  		scales::trans_breaks(
+  			trans = function(x){pfun(x, pow)}
+  			, inv = function(x) {ipfun(x, pow)}
+  			, n = nb)(x * 1.1)
+       )
+     }
    , domain = c(1, 10000) #this is to deal with -Inf
 )
 

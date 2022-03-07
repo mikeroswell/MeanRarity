@@ -4,6 +4,7 @@
 ^data-raw$
 man-roxygen
 ^\.github$
+ratio_scales
 Makefile
 makestuff
 ^doc$

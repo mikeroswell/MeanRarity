@@ -27,3 +27,4 @@ ggplot2::ggplot(data = data.frame(x= 1:6, y = seq(-1, 1.5, 0.5))
              ) +
              ggplot2::geom_hline(yintercept = 0, size = 0.2)
 }
+\concept{Visualization}

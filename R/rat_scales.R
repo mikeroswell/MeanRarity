@@ -4,6 +4,8 @@
 #' @param x Numeric, on a logarithmic scale
 #' @param base Scalar, base of the logarithm used
 #'
+#' @concept Visualization
+#'
 #' @return String to be evaluated with \code{str2expression}
 #' @export
 #'
@@ -28,6 +30,8 @@ print_operator <- function(x, base = exp(1)){
 #'
 #' @param base Scalar, base of the logarithm in use (not implemented)
 #' @param n scalar, target number of breaks (not implemented)
+#'
+#' @concept Visualization
 #'
 #' @return Function to apply over a vector values to generate axis breaks
 #' @export

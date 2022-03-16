@@ -42,6 +42,15 @@ Sources += vignettes/*.Rmd
 %.vig.html: vignettes/%.Rmd
 	$(rmdh_r)
 
+Ignore += *.tangle.r
+
+estimating.tangle.r: vignettes/Estimating_Mean_Rarity.Rmd
+	$(tangle_r)
+god.tangle.r: vignettes/Gods_estimator.Rmd
+	$(tangle_r)
+using.tangle.r: vignettes/Using_MeanRarity.Rmd
+	$(tangle_r)
+
 ######################################################################
 
 ### Makestuff

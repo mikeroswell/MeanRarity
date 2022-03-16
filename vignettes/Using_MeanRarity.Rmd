@@ -1,13 +1,13 @@
 ---
 title: "Using MeanRarity"
 output: 
+  rmarkdown::html_vignette: 
+    fig_width: 3
+    fig_height: 3
   rmarkdown::pdf_document: 
     fig_width: 3
     fig_height: 3
     latex_engine: xelatex
-  rmarkdown::html_vignette: 
-    fig_width: 3
-    fig_height: 3
   rmarkdown::html_document:
     fig_width: 3
     fig_height: 3

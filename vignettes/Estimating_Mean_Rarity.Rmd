@@ -206,7 +206,7 @@ by_effort <- purrr::map_dfr(lapply(iN_form, sum), function(size){
     iNEXT::estimateD(iN_form
                     , base = "size"
                     , level = size) %>% 
-    dplyr::filter(.data$method == "observed")
+    dplyr::filter(Method == "Observed") 
 
 })
     
@@ -214,7 +214,7 @@ iseveral <- dplyr::bind_rows(size = by_size
                              , coverage = by_coverage
                              , effort = by_effort
                              , .id = "standard") %>%
-  dplyr::mutate(order = 1 - order)
+  dplyr::mutate(order = 1 - Order.q)
                    
 #tictoc::toc()  #43 sec this time!?!?!
 
@@ -244,13 +244,13 @@ minm <- min(by_effort %>%
               dplyr::pull(m)) 
 
 minc <- min(by_effort %>% 
-              dplyr::group_by(site) %>% 
+              dplyr::group_by(Assemblage) %>% 
               dplyr::summarize(SC = max(SC)) %>% 
               dplyr::pull(SC)) # coverage of sample with lowest
 
 
 tog <- allseveral %>% 
-  dplyr::mutate(sm = paste(standard, site, sep=""))
+  dplyr::mutate(sm = paste(standard, Assemblage, sep=""))
 
 inds <- data.frame("order" = c(1, 0, -1), divind = factor(c("richness"
                                                            , "Hill-Shannon"
@@ -316,7 +316,7 @@ leftPlot <- togn %>%
                                 , "#d95f02")) 
 rightPlot <- togn %>% 
   dplyr::filter(methlab == "asymptotic") %>% 
-  ggplot2::ggplot(ggplot2::aes(site, qD, color = site, shape = site)) +
+  ggplot2::ggplot(ggplot2::aes(Assemblage, qD, color = Assemblage, shape = Assemblage)) +
   ggplot2::geom_errorbar(ggplot2::aes(ymin = qD.LCL, ymax = qD.UCL)
                          , size = ebsize, width = ebw) +
   ggplot2::geom_point(size = psize) +

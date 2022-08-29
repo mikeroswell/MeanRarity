@@ -223,7 +223,7 @@ asyseveral <- purrr::map_dfr(2:5, function(sitio){
   purrr::map_dfr(-1:1, function(l){
     theboots <- MeanRarity:::Bootstrap.CI_df(pull(beeAbunds[, sitio]), l)
     est <- Chao_Hill_abu(dplyr::pull(beeAbunds[, sitio]), l)
-    data.frame(site = names(beeAbunds[, sitio])
+    data.frame(Assemblage = names(beeAbunds[, sitio])
                , order = l
                , qD = est
                , qD.LCL = est - theboots[2]
@@ -232,7 +232,7 @@ asyseveral <- purrr::map_dfr(2:5, function(sitio){
 })
 #tictoc::toc() # <2 seconds.
 
-asyseveral$method <- "asymptotic"
+asyseveral$Method <- "asymptotic"
 asyseveral$standard <- "asymptotic"
 allseveral <- dplyr::bind_rows(iseveral, asyseveral)
 #diversities, standardized by effort

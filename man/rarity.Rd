@@ -4,7 +4,7 @@
 \alias{rarity}
 \title{Compute Hill diversity: the mean species rarity}
 \usage{
-rarity(ab, l, q = NULL)
+rarity(ab, l, q = NULL, na.rm = TRUE)
 }
 \arguments{
 \item{ab}{A numeric vector of species abundances or relative abundances.}

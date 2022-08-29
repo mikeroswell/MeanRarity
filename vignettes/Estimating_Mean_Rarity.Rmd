@@ -205,7 +205,8 @@ by_coverage <- iNEXT::estimateD(iN_form
 by_effort <- purrr::map_dfr(lapply(iN_form, sum), function(size){
     iNEXT::estimateD(iN_form
                     , base = "size"
-                    , level = size) %>% dplyr::filter(method == "observed")
+                    , level = size) %>% 
+    dplyr::filter(method == "observed")
 
 })
     
@@ -307,7 +308,7 @@ leftPlot <- togn %>%
           , legend.position = "none"
           , strip.placement = "outside") +
     ggplot2::scale_y_continuous(limits = c(0,NA)
-                       , expand = ggplot2::expand_scale(mult = c(0, .05))) +
+                       , expand = ggplot2::expansion(mult = c(0, .05))) +
     ggplot2::scale_shape_manual(values = c(17, 15, 18, 16)) +
     ggplot2::scale_color_manual(values = c("#7570b3"
                                 , "#1b9e77"
@@ -334,7 +335,7 @@ rightPlot <- togn %>%
         legend.position = "none",
         strip.placement = "outside") +
   ggplot2::scale_y_continuous(limits = c(0, NA)
-                     , expand = ggplot2::expand_scale(mult = c(0, 0.05))) +
+                     , expand = ggplot2::expansion(mult = c(0, 0.05))) +
   ggplot2::scale_shape_manual(values = c(17, 15, 18, 16)) +
   ggplot2::scale_color_manual(values = c("#7570b3"
                               , "#1b9e77"

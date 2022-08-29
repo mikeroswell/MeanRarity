@@ -268,7 +268,7 @@ togn <- togn %>%
                          , levels = c("richness"
                                       , "Hill-Shannon"
                                       , "Hill-Simpson"))
-          , site = factor(site
+          , site = factor(Assemblage
                           , levels = c("IAS_3"
                                      , "Cold Soil_5"
                                      , "Lord Stirling_4"
@@ -291,7 +291,7 @@ psize<-2.5
 # make figures, which get stuck together.
 leftPlot <- togn %>% 
     dplyr::filter(methlab != "asymptotic") %>% 
-    ggplot2::ggplot(aes(Assemblage, qD, color = Assemblage, shape = Assemblage)) +
+    ggplot2::ggplot(aes(site, qD, color = site, shape = site)) +
     ggplot2::geom_errorbar(aes(ymin = qD.LCL, ymax = qD.UCL)
                   , size = ebsize, width = ebw) +
     ggplot2::geom_point(size = psize) +
@@ -316,7 +316,7 @@ leftPlot <- togn %>%
                                 , "#d95f02")) 
 rightPlot <- togn %>% 
   dplyr::filter(methlab == "asymptotic") %>% 
-  ggplot2::ggplot(ggplot2::aes(Assemblage, qD, color = Assemblage, shape = Assemblage)) +
+  ggplot2::ggplot(ggplot2::aes(site, qD, color = site, shape = site)) +
   ggplot2::geom_errorbar(ggplot2::aes(ymin = qD.LCL, ymax = qD.UCL)
                          , size = ebsize, width = ebw) +
   ggplot2::geom_point(size = psize) +

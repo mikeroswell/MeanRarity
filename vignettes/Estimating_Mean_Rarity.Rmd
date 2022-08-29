@@ -373,7 +373,7 @@ show_ests <- furrr::future_map_dfr(1:reps, function(x){
   purrr::map_dfr(1:maxeff, function(i){
     sam <- beeObs %>%
       dplyr::group_by(sr) %>%
-      dplyr::do(filter(., start %in%
+      dplyr::do(dplyr::filter(., start %in%
                          sample(unique(.$start)
                                 , size = maxeff - i + 1
                                 , replace = F)))

@@ -291,7 +291,7 @@ psize<-2.5
 # make figures, which get stuck together.
 leftPlot <- togn %>% 
     dplyr::filter(methlab != "asymptotic") %>% 
-    ggplot2::ggplot(aes(site, qD, color = site, shape = site)) +
+    ggplot2::ggplot(aes(Assemblage, qD, color = Assemblage, shape = Assemblage)) +
     ggplot2::geom_errorbar(aes(ymin = qD.LCL, ymax = qD.UCL)
                   , size = ebsize, width = ebw) +
     ggplot2::geom_point(size = psize) +

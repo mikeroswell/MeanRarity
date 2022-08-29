@@ -206,7 +206,7 @@ by_effort <- purrr::map_dfr(lapply(iN_form, sum), function(size){
     iNEXT::estimateD(iN_form
                     , base = "size"
                     , level = size) %>% 
-    dplyr::filter(method == "observed")
+    dplyr::filter(.data$method == "observed")
 
 })
     
@@ -326,14 +326,15 @@ rightPlot <- togn %>%
                  , axis.text.x = ggplot2::element_blank()
                  , axis.ticks.x = ggplot2::element_blank()) +
   ggplot2::labs(y = NULL, x = NULL) +
-  ggplot2::theme(panel.spacing = unit(0, "lines"),
-        panel.border = ggplot2::element_rect(fill = NA),
-        strip.background = ggplot2::element_blank(),
-        strip.text.x = ggplot2::element_text(face = "bold", size = 10),
-        strip.text.y = ggplot2::element_blank(),
-        axis.title = ggplot2::element_blank(),
-        legend.position = "none",
-        strip.placement = "outside") +
+  ggplot2::theme(panel.spacing = unit(0, "lines")
+                 , panel.border = ggplot2::element_rect(fill = NA)
+                 , strip.background = ggplot2::element_blank()
+                 , strip.text.x = ggplot2::element_text(face = "bold"
+                                                        , size = 10)
+                 , strip.text.y = ggplot2::element_blank()
+                 , axis.title = ggplot2::element_blank()
+                 , legend.position = "none"
+                 , strip.placement = "outside") +
   ggplot2::scale_y_continuous(limits = c(0, NA)
                      , expand = ggplot2::expansion(mult = c(0, 0.05))) +
   ggplot2::scale_shape_manual(values = c(17, 15, 18, 16)) +

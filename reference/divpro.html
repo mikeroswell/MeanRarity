@@ -68,26 +68,39 @@ range of scaling exponent values.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">divpro</span><span class="op">(</span><span class="va">ab</span>, ell_low <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, ell_hi <span class="op">=</span> <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">0.001</span>, use.q <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">divpro</span><span class="op">(</span><span class="va">ab</span>, ell_low <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, ell_hi <span class="op">=</span> <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">0.001</span>, use.q <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>ab</dt>
 <dd><p>A numeric vector of species abundances or relative abundances.</p></dd>
+
+
 <dt>ell_low</dt>
 <dd><p>Scalar, minimum scaling exponent for diversity profile.</p></dd>
+
+
 <dt>ell_hi</dt>
 <dd><p>Scalar, maximum scaling exponent for diversity profile.</p></dd>
+
+
 <dt>by</dt>
 <dd><p>Scalar, size of step along scaling exponent continuum.</p></dd>
+
+
 <dt>use.q</dt>
 <dd><p>Logical, use traditional q parameterization, where q= 1-l.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Dataframe with the scaling exponent <code>ell</code> and corresponding
+    
+
+<p>Dataframe with the scaling exponent <code>ell</code> and corresponding
 Hill diversity <code>d</code></p>
+
+
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -101,7 +114,7 @@ left.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">divpro</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">8</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">divpro</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">8</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         ell        d</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    -1.000 3.137255</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    -0.999 3.137860</span>
@@ -2104,7 +2117,7 @@ left.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1999  0.998 5.994765</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2000  0.999 5.997382</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2001  1.000 6.000000</span>
-<span class="r-in"><span class="fu">divpro</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">8</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>, use.q <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Option to use q = 1-ell for traditional</span></span>
+<span class="r-in"><span><span class="fu">divpro</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">8</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>, use.q <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Option to use q = 1-ell for traditional</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          q        d</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    2.000 3.137255</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    1.999 3.137860</span>
@@ -4107,7 +4120,7 @@ left.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1999 0.002 5.994765</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2000 0.001 5.997382</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2001 0.000 6.000000</span>
-<span class="r-in"><span class="co"># Hill number parameterization</span></span>
+<span class="r-in"><span><span class="co"># Hill number parameterization</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -4122,7 +4135,7 @@ left.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

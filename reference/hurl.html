@@ -84,47 +84,56 @@ estimators are given for k &lt; sample size.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">hurl</span><span class="op">(</span><span class="va">ab</span>, <span class="va">k</span>, maxit <span class="op">=</span> <span class="fl">1e+05</span>, tol <span class="op">=</span> <span class="fl">1e-12</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">hurl</span><span class="op">(</span><span class="va">ab</span>, <span class="va">k</span>, maxit <span class="op">=</span> <span class="fl">1e+05</span>, tol <span class="op">=</span> <span class="fl">1e-12</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>ab</dt>
 <dd><p>A numeric vector of species abundances or relative abundances.</p></dd>
+
+
 <dt>k</dt>
 <dd><p>integer sample size parameter for rarefaction</p></dd>
+
+
 <dt>maxit</dt>
 <dd><p>integer, maximum number of iterations</p></dd>
+
+
 <dt>tol</dt>
 <dd><p>numeric, threshold for convergence</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Numeric scalar: estimated Hurlbert ENS</p>
+    
+
+<p>Numeric scalar: estimated Hurlbert ENS</p>
     </div>
     <div id="references">
     <h2>References</h2>
     <p>Dauby G, Hardy OJ (2012).
 “Sampled-based estimation of diversity sensu stricto by transforming Hurlbert diversities into effective number of species.”
 <em>Ecography</em>, <b>35</b>(7), 661--672.
-doi: <a href="https://doi.org/10.1111/j.1600-0587.2011.06860.x" class="external-link">10.1111/j.1600-0587.2011.06860.x</a>
+<a href="https://doi.org/10.1111/j.1600-0587.2011.06860.x" class="external-link">doi:10.1111/j.1600-0587.2011.06860.x</a>
 .
 
 Hurlbert SH (1971).
 “The nonconcept of species diversity: a critique and alternative parameters.”
 <em>Ecology</em>, <b>52</b>(4), 577--586.
-doi: <a href="https://doi.org/10.2307/1934145" class="external-link">10.2307/1934145</a>
+<a href="https://doi.org/10.2307/1934145" class="external-link">doi:10.2307/1934145</a>
 , <a href="http://www.esajournals.org/doi/abs/10.2307/1934145" class="external-link">http://www.esajournals.org/doi/abs/10.2307/1934145</a>.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">ab</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">50</span>, replace <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">hurl</span><span class="op">(</span><span class="va">ab</span>, <span class="fl">2</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 43.79056</span>
-<span class="r-in"><span class="co"># not run</span></span>
-<span class="r-in"><span class="co"># hurl(ab, 1e5) # returns an error</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ab</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">50</span>, replace <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">hurl</span><span class="op">(</span><span class="va">ab</span>, <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 44.71707</span>
+<span class="r-in"><span><span class="co"># not run</span></span></span>
+<span class="r-in"><span><span class="co"># hurl(ab, 1e5) # returns an error</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -139,7 +148,7 @@ doi: <a href="https://doi.org/10.2307/1934145" class="external-link">10.2307/193
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

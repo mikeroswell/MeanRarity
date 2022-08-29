@@ -70,7 +70,7 @@ parameter and gives relative abundance estimates for each species.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">try_SAD</span><span class="op">(</span><span class="va">rich</span>, <span class="va">x</span>, <span class="va">distr</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">try_SAD</span><span class="op">(</span><span class="va">rich</span>, <span class="va">x</span>, <span class="va">distr</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -78,10 +78,15 @@ parameter and gives relative abundance estimates for each species.</p>
     <dl><dt>rich</dt>
 <dd><p>Integer, the total number of species in the species abundance
 distribution.</p></dd>
+
+
 <dt>x</dt>
 <dd><p>Non-negative scalar, the shape parameter for a gamma distribution.</p></dd>
+
+
 <dt>distr</dt>
 <dd><p>Character string, one of <code>c("lnorm", "gamma")</code></p></dd>
+
 </dl></div>
     <div id="see-also">
     <h2>See also</h2>
@@ -91,28 +96,28 @@ distribution.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">try_SAD</span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">10</span>, x <span class="op">=</span> <span class="fl">0.2</span>, distr <span class="op">=</span> <span class="st">"lnorm"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">try_SAD</span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">10</span>, x <span class="op">=</span> <span class="fl">0.2</span>, distr <span class="op">=</span> <span class="st">"lnorm"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 30606.59 27099.94 25207.53 23791.03 22587.06 21479.79 20392.77 19246.84</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9] 17902.82 15851.66</span>
-<span class="r-in"><span class="fu">try_SAD</span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">10</span>, x <span class="op">=</span> <span class="fl">2</span>, distr <span class="op">=</span> <span class="st">"lnorm"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">try_SAD</span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">10</span>, x <span class="op">=</span> <span class="fl">2</span>, distr <span class="op">=</span> <span class="st">"lnorm"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 591080.3564 175056.9763  84878.7885  47602.5178  28319.9758  17131.5540</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  10192.0070   5715.9769   2771.4702    820.8109</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">try_SAD</span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">10</span>, x <span class="op">=</span> <span class="fl">0.2</span>, distr <span class="op">=</span> <span class="st">"gamma"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">try_SAD</span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">10</span>, x <span class="op">=</span> <span class="fl">0.2</span>, distr <span class="op">=</span> <span class="st">"gamma"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 5.152629e+01 1.961988e+01 8.942958e+00 4.045657e+00 1.688655e+00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6] 6.081871e-01 1.718565e-01 3.187963e-02 2.477746e-03 1.019607e-05</span>
-<span class="r-in"><span class="fu">try_SAD</span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">10</span>, x <span class="op">=</span> <span class="fl">2</span>, distr <span class="op">=</span> <span class="st">"gamma"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">try_SAD</span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">10</span>, x <span class="op">=</span> <span class="fl">2</span>, distr <span class="op">=</span> <span class="st">"gamma"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 23.719323 16.862208 13.463173 11.094223  9.217835  7.617366  6.175218</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [8]  4.806394  3.416193  1.776808</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span>  <span class="fu">try_SAD</span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">10</span>, x <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, distr <span class="op">=</span> <span class="st">"lnorm"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">try_SAD</span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">10</span>, x <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, distr <span class="op">=</span> <span class="st">"gamma"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span>  <span class="fu">try_SAD</span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">10</span>, x <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, distr <span class="op">=</span> <span class="st">"lnorm"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">try_SAD</span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">10</span>, x <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, distr <span class="op">=</span> <span class="st">"gamma"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in try_SAD(rich = 10, x = -1, distr = "gamma"):</span> shape parameter `x` must be non-negative;</span>
 <span class="r-err co"><span class="r-pr">#&gt;</span>            positive if distr = `gamma`</span>
-<span class="r-in"><span class="fu">try_SAD</span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">10</span>, x <span class="op">=</span> <span class="fl">0</span>, distr <span class="op">=</span> <span class="st">"gamma"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">try_SAD</span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">10</span>, x <span class="op">=</span> <span class="fl">0</span>, distr <span class="op">=</span> <span class="st">"gamma"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in try_SAD(rich = 10, x = 0, distr = "gamma"):</span> x must be positive</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -127,7 +132,7 @@ distribution.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

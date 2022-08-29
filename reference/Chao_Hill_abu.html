@@ -76,46 +76,55 @@ Ma, T. C. Hsieh and Chun-Huo Chiu</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">Chao_Hill_abu</span><span class="op">(</span><span class="va">ab</span>, <span class="va">l</span>, q <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">Chao_Hill_abu</span><span class="op">(</span><span class="va">ab</span>, <span class="va">l</span>, q <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>ab</dt>
 <dd><p>A numeric vector of species abundances or relative abundances.</p></dd>
+
+
 <dt>l</dt>
 <dd><p>Scaling exponent for the mean, can be any real number.</p></dd>
+
+
 <dt>q</dt>
 <dd><p>Scalar, traditional Hill number scaling exponent, q = 1-l where l is the
 scaling parameter for the generalized mean. Can be any real number.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Scalar estimate of Hill diversity given \(\ell\)</p>
+    
+
+<p>Scalar estimate of Hill diversity given \(\ell\)</p>
+
+
     </div>
     <div id="references">
     <h2>References</h2>
     <p>Chao A, Jost L (2015).
 “Estimating diversity and entropy profiles via discovery rates of new species.”
 <em>Methods in Ecology and Evolution</em>, <b>6</b>(8), 873--882.
-ISSN 2041210X, doi: <a href="https://doi.org/10.1111/2041-21" class="external-link">10.1111/2041-21</a>
+ISSN 2041210X, <a href="https://doi.org/10.1111/2041-21" class="external-link">doi:10.1111/2041-21</a>
 .</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># generate sample</span></span>
-<span class="r-in"><span class="va">abs</span> <span class="op">&lt;-</span> <span class="fu"><a href="sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="fu"><a href="fit_SAD.html">fit_SAD</a></span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">50</span>, simpson <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>, <span class="fl">150</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># estimate true Hill diversity</span></span>
-<span class="r-in"><span class="fu">Chao_Hill_abu</span><span class="op">(</span><span class="va">abs</span>, l <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># Chao1 estimate of richness lower bound</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 54.96875</span>
-<span class="r-in"><span class="fu">Chao_Hill_abu</span><span class="op">(</span><span class="va">abs</span>, l <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># Asymptotic estimate of Hill-Shannon diversity</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 32.96938</span>
-<span class="r-in"><span class="fu">Chao_Hill_abu</span><span class="op">(</span><span class="va">abs</span>, l <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="co"># Asymptotic estimate of Hill-Simpson diversity</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 21.74125</span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># generate sample</span></span></span>
+<span class="r-in"><span><span class="va">abs</span> <span class="op">&lt;-</span> <span class="fu"><a href="sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="fu"><a href="fit_SAD.html">fit_SAD</a></span><span class="op">(</span>rich <span class="op">=</span> <span class="fl">50</span>, simpson <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>, <span class="fl">150</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># estimate true Hill diversity</span></span></span>
+<span class="r-in"><span><span class="fu">Chao_Hill_abu</span><span class="op">(</span><span class="va">abs</span>, l <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># Chao1 estimate of richness lower bound</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 52.78733</span>
+<span class="r-in"><span><span class="fu">Chao_Hill_abu</span><span class="op">(</span><span class="va">abs</span>, l <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># Asymptotic estimate of Hill-Shannon diversity</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 27.35474</span>
+<span class="r-in"><span><span class="fu">Chao_Hill_abu</span><span class="op">(</span><span class="va">abs</span>, l <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="co"># Asymptotic estimate of Hill-Simpson diversity</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 17.24537</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -130,7 +139,7 @@ ISSN 2041210X, doi: <a href="https://doi.org/10.1111/2041-21" class="external-li
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

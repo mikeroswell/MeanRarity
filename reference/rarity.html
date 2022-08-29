@@ -68,27 +68,44 @@ Hill diversity is also the mean species rarity.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">rarity</span><span class="op">(</span><span class="va">ab</span>, <span class="va">l</span>, q <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rarity</span><span class="op">(</span><span class="va">ab</span>, <span class="va">l</span>, q <span class="op">=</span> <span class="cn">NULL</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>ab</dt>
 <dd><p>A numeric vector of species abundances or relative abundances.</p></dd>
+
+
 <dt>l</dt>
 <dd><p>Scaling exponent for the mean, can be any real number.</p></dd>
+
+
 <dt>q</dt>
 <dd><p>Scalar, traditional Hill number scaling exponent, q = 1-l where l is the
 scaling parameter for the generalized mean. Can be any real number.</p></dd>
+
+
+<dt>na.rm</dt>
+<dd><p>Logical, replace NA values with 0 abundance</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Generalized mean community rarity with scaling exponent <code>"l"</code>.
-When <code>l = 1</code>, arithmetic mean rarity (species richness).
-When <code>l = 0</code>, geometric mean rarity (Hill-Shannon diversity), Shannon's
+    
+
+<p>Generalized mean community rarity with scaling exponent <code>"l"</code>.</p>
+
+
+<p>When <code>l = 1</code>, arithmetic mean rarity (species richness).</p>
+
+
+<p>When <code>l = 0</code>, geometric mean rarity (Hill-Shannon diversity), Shannon's
 entropy (Shannon and Weaver 1963)
- exponentiated.
-When <code>l = -1</code>, harmonic mean rarity (Hill-Simpson diversity),
+ exponentiated.</p>
+
+
+<p>When <code>l = -1</code>, harmonic mean rarity (Hill-Simpson diversity),
 the inverse of the Simpson concentration
 (Simpson 1949)
 .</p>
@@ -110,13 +127,13 @@ where \(q=1-l\).</p>
     <p>Simpson EH (1949).
 “Measurement of diversity.”
 <em>Nature</em>, <b>163</b>, 688--688.
-doi: <a href="https://doi.org/10.1038/163688a0" class="external-link">10.1038/163688a0</a>
+<a href="https://doi.org/10.1038/163688a0" class="external-link">doi:10.1038/163688a0</a>
 , 9411012, <a href="http://www.ncbi.nlm.nih.gov/pubmed/9230594" class="external-link">http://www.ncbi.nlm.nih.gov/pubmed/9230594</a>.
 
 Shannon CE, Weaver W (1963).
 “The mathematical theory of communication.”
 <em>The University of Illinois Press</em>, <b>5</b>(1), 1--131.
-ISSN 0724-6811, doi: <a href="https://doi.org/10.1145/584091.584093" class="external-link">10.1145/584091.584093</a>
+ISSN 0724-6811, <a href="https://doi.org/10.1145/584091.584093" class="external-link">doi:10.1145/584091.584093</a>
 , <a href="http://www.ncbi.nlm.nih.gov/pubmed/9230594" class="external-link">http://www.ncbi.nlm.nih.gov/pubmed/9230594</a>.</p>
     </div>
     <div id="see-also">
@@ -126,16 +143,16 @@ ISSN 0724-6811, doi: <a href="https://doi.org/10.1145/584091.584093" class="exte
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">rarity</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">8</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span> <span class="co">#species richness</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">rarity</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">8</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span> <span class="co">#species richness</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6</span>
-<span class="r-in"><span class="fu">rarity</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">8</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>, <span class="fl">0</span><span class="op">)</span> <span class="co"># Hill-Shannon diversity</span></span>
+<span class="r-in"><span><span class="fu">rarity</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">8</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>, <span class="fl">0</span><span class="op">)</span> <span class="co"># Hill-Shannon diversity</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.057871</span>
-<span class="r-in"><span class="fu">rarity</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">8</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="co"># Hill-Simpson diversity</span></span>
+<span class="r-in"><span><span class="fu">rarity</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">8</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="co"># Hill-Simpson diversity</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.137255</span>
-<span class="r-in"><span class="fu">rarity</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">8</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>, q <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="co"># The parameter `q` can be used instead for</span></span>
+<span class="r-in"><span><span class="fu">rarity</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">8</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>, q <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="co"># The parameter `q` can be used instead for</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>l has been set to 1-q</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.137255</span>
-<span class="r-in"><span class="co"># traditional Hill number parameterization</span></span>
+<span class="r-in"><span><span class="co"># traditional Hill number parameterization</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -150,7 +167,7 @@ ISSN 0724-6811, doi: <a href="https://doi.org/10.1145/584091.584093" class="exte
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

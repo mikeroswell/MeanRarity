@@ -70,46 +70,67 @@ assumption. Fits an optimal SAD given these constraints using
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">fit_SAD</span><span class="op">(</span>
-  rich <span class="op">=</span> <span class="fl">50</span>,
-  simpson <span class="op">=</span> <span class="fl">40</span>,
-  distr <span class="op">=</span> <span class="st">"lnorm"</span>,
-  int_lwr <span class="op">=</span> <span class="fl">1e-04</span>,
-  int_uppr <span class="op">=</span> <span class="fl">100</span>,
-  totAb <span class="op">=</span> <span class="fl">1e+07</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fit_SAD</span><span class="op">(</span></span>
+<span>  rich <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  simpson <span class="op">=</span> <span class="fl">40</span>,</span>
+<span>  distr <span class="op">=</span> <span class="st">"lnorm"</span>,</span>
+<span>  int_lwr <span class="op">=</span> <span class="fl">1e-04</span>,</span>
+<span>  int_uppr <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  totAb <span class="op">=</span> <span class="fl">1e+07</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>rich</dt>
 <dd><p>Total number of species in the SAD, an integer.</p></dd>
+
+
 <dt>simpson</dt>
 <dd><p>Hill-Simpson diversity of the SAD, a real number in
 [1,rich].</p></dd>
+
+
 <dt>distr</dt>
 <dd><p>Name of the distribution (<code>"lnorm"</code> or <code>"gamma"</code>).</p></dd>
+
+
 <dt>int_lwr</dt>
 <dd><p>Lower bound of search space for <code><a href="https://rdrr.io/r/stats/uniroot.html" class="external-link">uniroot()</a></code>; default is a
 small number close to 0 to deal with potential boundary issues for
 <code><a href="https://rdrr.io/r/stats/uniroot.html" class="external-link">stats::uniroot</a></code> (a scalar).</p></dd>
+
+
 <dt>int_uppr</dt>
 <dd><p>Upper bound of search space for <code>uniroot</code> (scalar).</p></dd>
+
+
 <dt>totAb</dt>
 <dd><p>Integer, assumed total # of individuals in hypothetical
 community. See details.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>pass arguments to other</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with three elements.
-<code>distribution_info</code> Contains the name of the distribution and the
-fitted shape parameter value.
-<code>community_info</code> gives richness, Hill-Shannon, and Hill=Simpson
-diversity of the SAD.
-<code>rel_abundances</code> is a vector of relative abundances for each species
+    
+
+<p>A list with three elements.</p>
+
+
+<p><code>distribution_info</code> Contains the name of the distribution and the
+fitted shape parameter value.</p>
+
+
+<p><code>community_info</code> gives richness, Hill-Shannon, and Hill=Simpson
+diversity of the SAD.</p>
+
+
+<p><code>rel_abundances</code> is a vector of relative abundances for each species
 in SAD.</p>
     </div>
     <div id="details">
@@ -135,8 +156,8 @@ SADs may be inappropriate test cases for non-microbial ecologists.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">#works</span></span>
-<span class="r-in"><span class="fu">fit_SAD</span><span class="op">(</span>distr <span class="op">=</span> <span class="st">"gamma"</span><span class="op">)</span> <span class="co">#works</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#works</span></span></span>
+<span class="r-in"><span><span class="fu">fit_SAD</span><span class="op">(</span>distr <span class="op">=</span> <span class="st">"gamma"</span><span class="op">)</span> <span class="co">#works</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $distribution_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       distribution   fitted parameter </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            "gamma" "3.86289520314416" </span>
@@ -156,7 +177,7 @@ SADs may be inappropriate test cases for non-microbial ecologists.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [43] 0.010061772 0.009497971 0.008897183 0.008245572 0.007520342 0.006678887</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [49] 0.005622419 0.003971859</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">fit_SAD</span><span class="op">(</span>distr <span class="op">=</span> <span class="st">"lnorm"</span>, rich <span class="op">=</span> <span class="fl">50</span>, simpson <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="co">#works</span></span>
+<span class="r-in"><span><span class="fu">fit_SAD</span><span class="op">(</span>distr <span class="op">=</span> <span class="st">"lnorm"</span>, rich <span class="op">=</span> <span class="fl">50</span>, simpson <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="co">#works</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Rarest species has relative abundance  4.38248906502601e-08 . </span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Consider implied community size.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $distribution_info</span>
@@ -179,7 +200,7 @@ SADs may be inappropriate test cases for non-microbial ecologists.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [41] 7.621947e-06 5.808974e-06 4.333651e-06 3.145681e-06 2.202070e-06</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [46] 1.466069e-06 9.063414e-07 4.963634e-07 2.142236e-07 4.382489e-08</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">fit_SAD</span><span class="op">(</span>distr <span class="op">=</span> <span class="st">"gamma"</span>, rich <span class="op">=</span> <span class="fl">50</span>, simpson <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="co">#works</span></span>
+<span class="r-in"><span><span class="fu">fit_SAD</span><span class="op">(</span>distr <span class="op">=</span> <span class="st">"gamma"</span>, rich <span class="op">=</span> <span class="fl">50</span>, simpson <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="co">#works</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Rarest species has relative abundance  2.69995080442289e-83 . </span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Consider implied community size.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $distribution_info</span>
@@ -202,7 +223,7 @@ SADs may be inappropriate test cases for non-microbial ecologists.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [41] 1.188639e-30 1.220237e-32 7.057474e-35 1.950500e-37 2.010861e-40</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [46] 5.195004e-44 1.668512e-48 1.608919e-54 1.184325e-63 2.699951e-83</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">fit_SAD</span><span class="op">(</span>distr <span class="op">=</span> <span class="st">"gamma"</span>, rich <span class="op">=</span> <span class="fl">10</span>, simpson <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">fit_SAD</span><span class="op">(</span>distr <span class="op">=</span> <span class="st">"gamma"</span>, rich <span class="op">=</span> <span class="fl">10</span>, simpson <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $distribution_info</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       distribution   fitted parameter </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            "gamma" "1.23540540463064" </span>
@@ -215,11 +236,11 @@ SADs may be inappropriate test cases for non-microbial ecologists.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.286412672 0.188593616 0.142105917 0.110870935 0.087043180 0.067550896</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.050836952 0.035950731 0.022158130 0.008476971</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">fit_SAD</span><span class="op">(</span>distr <span class="op">=</span> <span class="st">"nonsense"</span><span class="op">)</span>  <span class="co">#returns error</span></span>
-<span class="r-in"><span class="fu">fit_SAD</span><span class="op">(</span>distr <span class="op">=</span> <span class="st">"lnorm"</span>, rich <span class="op">=</span> <span class="fl">50</span>, simpson <span class="op">=</span> <span class="fl">90</span><span class="op">)</span> <span class="co">#returns error</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">fit_SAD</span><span class="op">(</span>distr <span class="op">=</span> <span class="st">"nonsense"</span><span class="op">)</span>  <span class="co">#returns error</span></span></span>
+<span class="r-in"><span><span class="fu">fit_SAD</span><span class="op">(</span>distr <span class="op">=</span> <span class="st">"lnorm"</span>, rich <span class="op">=</span> <span class="fl">50</span>, simpson <span class="op">=</span> <span class="fl">90</span><span class="op">)</span> <span class="co">#returns error</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -234,7 +255,7 @@ SADs may be inappropriate test cases for non-microbial ecologists.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

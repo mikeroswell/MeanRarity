@@ -56,6 +56,7 @@ ipfun = function(x, pow){
 #' @template ab_template
 #' @template l_template
 #' @template q_template
+#' @param na.rm Logical, replace NA values with 0 abundance
 #'
 #' @return Generalized mean community rarity with scaling exponent \code{"l"}.
 #'

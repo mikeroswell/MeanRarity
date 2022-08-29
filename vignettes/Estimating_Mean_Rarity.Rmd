@@ -366,8 +366,8 @@ used.
 maxeff <- 14
 reps <- 9999
 #tictoc::tic() #time this
-nc <- parallel::detectCores() - 1 #nc is number of cores to use in parallel processing
-future::plan(strategy = future::multiprocess, workers = nc) #this sets up the cluster
+nc <- parallel::detectCores() - 1 #nc is  cores to use in parallel processing
+future::plan(strategy = future::multiprocess, workers = nc) # sets up cluster
 
 show_ests <- furrr::future_map_dfr(1:reps, function(x){
   purrr::map_dfr(1:maxeff, function(i){
@@ -384,7 +384,9 @@ show_ests <- furrr::future_map_dfr(1:reps, function(x){
                     , fill = 0) %>%
       as.data.frame()
     basicdat <- purrr::map_dfr(apply(subcom[, -1], MARGIN = 2, obs_est), rbind)
-    return(data.frame(basicdat, site = names(subcom[, -1]), transects = maxeff - i + 1))
+    return(data.frame(basicdat
+                      , site = names(subcom[, -1])
+                      , transects = maxeff - i + 1))
   })
 })
 
@@ -528,7 +530,8 @@ rich_bal <- rarity_plot(ab, 1, base_size = 12) +
   ggplot2::labs(x = "") +
   scale_color_brewer(type = "qual", palette = "Dark2") 
 
-shan_bal <- white_y(rarity_plot(ab, 0, base_size = 12, verbose = F)) + #do not return all the text this time
+#do not return all the text this time
+shan_bal <- white_y(rarity_plot(ab, 0, base_size = 12, verbose = F)) + 
   scale_color_brewer(type = "qual", palette = "Dark2")
 
 simp_bal <- white_y(rarity_plot(ab, -1, base_size = 12, verbose = F)) + 

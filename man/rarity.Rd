@@ -13,6 +13,8 @@ rarity(ab, l, q = NULL, na.rm = TRUE)
 
 \item{q}{Scalar, traditional Hill number scaling exponent, q = 1-l where l is the
 scaling parameter for the generalized mean. Can be any real number.}
+
+\item{na.rm}{Logical, replace NA values with 0 abundance}
 }
 \value{
 Generalized mean community rarity with scaling exponent \code{"l"}.

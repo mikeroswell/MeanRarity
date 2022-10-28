@@ -14,9 +14,6 @@ Sources += .Rbuildignore
 
 Ignore += Meta/ doc/
 
-package:
-	R CMD INSTALL .
-
 ######################################################################
 
 Sources += $(wildcard dev/*.R)

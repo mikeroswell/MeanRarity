@@ -15,9 +15,9 @@ distribution.}
 \item{distr}{Character string, one of \code{c("lnorm", "gamma")}}
 }
 \description{
-Wrapper for \code{\link[stats]{qgamma}} and \code{\link[stats]{qlnorm}} that
-takes the number of species and a shape parameter
-and gives relative abundance estimates for each species.
+Wrapper for \code{\link[stats]{qgamma}}, \code{\link[invgamma]{qinvgamma}},
+and \code{\link[stats]{qlnorm}} that takes the number of species and a shape
+parameter and gives relative abundance estimates for each species.
 }
 \examples{
 try_SAD(rich = 10, x = 0.2, distr = "lnorm")
@@ -33,5 +33,6 @@ try_SAD(rich = 10, x = 0, distr = "gamma")
 
 }
 \seealso{
-\code{\link[stats]{qgamma}, \link[stats]{qlnorm}, \link{fit_SAD}}
+\code{\link[stats]{qgamma}, \link[stats]{qlnorm}, \link{fit_SAD},
+  \link[invgamma]{qinvgamma}}
 }

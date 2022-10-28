@@ -56,15 +56,10 @@ subcom <- function(ab, size){
 
 #' Estimate Hill diversity with order \code{l = 1-q} under rarefaction
 #'
-#' This is a function (currently run in parallel with
+#' This function returns rarefied Hill diversity estimates for a list of sample
+#' (or true) abundance vectors. Optionally run in parallel with
 #' \code{\link[parallel]{detectCores}} and \code{\link[furrr]{future_map_dfr}})
-#' that returns rarefied Hill diversity estimates for a list of sample (or true)
-#' abundance vectors.
 #'
-#'
-#' Note to developer:  this might be the only place parallel is used, figure out
-#' if necessary and then either allow to not always be parallelized or consider
-#' omitting entirely
 #'
 #' @param from Scalar, smallest sample size in rarefaction.
 #' @param to Scalar, largest sample size in rarefaction.
@@ -74,6 +69,7 @@ subcom <- function(ab, size){
 #' @template l_template
 #' @param cores optional argument to set number of cores for parallel computing,
 #'   defaults to \code{parallel::detectCores()-1}.
+#' @param use_furr Logical, use parallel processing with the 'furrr' package
 #' @param ... Additional arguments passed to other functions.
 #'
 #' @return data.frame with various Hill-Diversity estimates and sample coverage
@@ -85,36 +81,72 @@ subcom <- function(ab, size){
 #' @noRd
 #'
 
-raref <- function(from, to, by, comm, n = 1, l, q = NULL, cores = NULL){
+raref <- function(from, to, by, comm, n = 1, l, q = NULL, cores = NULL, use_furrr = TRUE){
   # ifelse(para==T, {
   nc <- parallel::detectCores() - 1
-  future::plan(strategy = future::multiprocess
+  if(use_furrr){
+    if(!requireNamespace("furrr")){
+      message("to use parallel processing, the 'furrr' package is required")
+      return(invisible())
+    }
+    future::plan(strategy = future::multiprocess
                , workers = ifelse(is.null(cores), nc, cores))
-  p <- furrr::future_map_dfr(1:n, function(z){
-    purrr::map_dfr(lapply(seq(from, to, by), function(b){
-      o1 <- apply(subcom(comm, b), 1, function(x){
-        mrest <- fsd(ab = x, l = l)
-        est <- Chao_Hill_abu(x, l = l)#}
-        emp <- rarity(ab = x, l = l)
-        coverage <- Chat.Ind(x)
-        out <- rbind(divest = est
-                     , zhangest = mrest
-                     , divemp = emp
-                     , coverage = coverage
-                     , size = rep(b, length(est))
-                     , l = rep(l, length(est)))
-        return(out)
-    })
-    return(data.frame(
-      comm = row.names(comm)
-      , divest = o1[1,]
-      , divzhang = o1[2,]
-      , divemp = o1[3,]
-      , coverage = o1[4,]
-      , inds = o1[5,]
-      , ell = o1[6,]))
-  }), rbind)})
-  return(p)
+    p <- furrr::future_map_dfr(1:n, function(z){
+      purrr::map_dfr(lapply(seq(from, to, by), function(b){
+        o1 <- apply(subcom(comm, b), 1, function(x){
+          mrest <- fsd(ab = x, l = l)
+          est <- Chao_Hill_abu(x, l = l)#}
+          emp <- rarity(ab = x, l = l)
+          coverage <- Chat.Ind(x)
+          out <- rbind(divest = est
+                       , zhangest = mrest
+                       , divemp = emp
+                       , coverage = coverage
+                       , size = rep(b, length(est))
+                       , l = rep(l, length(est)))
+          return(out)
+      })
+
+      return(data.frame(
+        comm = row.names(comm)
+        , divest = o1[1,]
+        , divzhang = o1[2,]
+        , divemp = o1[3,]
+        , coverage = o1[4,]
+        , inds = o1[5,]
+        , ell = o1[6,]))
+    }), rbind)})
+    return(p)
+  }
+  else{
+    p <- purrr::map_dfr(1:n, function(z){
+      purrr::map_dfr(lapply(seq(from, to, by), function(b){
+        o1 <- apply(subcom(comm, b), 1, function(x){
+          mrest <- fsd(ab = x, l = l)
+          est <- Chao_Hill_abu(x, l = l)#}
+          emp <- rarity(ab = x, l = l)
+          coverage <- Chat.Ind(x)
+          out <- rbind(divest = est
+                       , zhangest = mrest
+                       , divemp = emp
+                       , coverage = coverage
+                       , size = rep(b, length(est))
+                       , l = rep(l, length(est)))
+          return(out)
+        })
+
+        return(data.frame(
+          comm = row.names(comm)
+          , divest = o1[1,]
+          , divzhang = o1[2,]
+          , divemp = o1[3,]
+          , coverage = o1[4,]
+          , inds = o1[5,]
+          , ell = o1[6,]))
+      }), rbind)})
+    return(p)
+
+  }
 }
 
 

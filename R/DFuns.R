@@ -56,6 +56,7 @@ ipfun = function(x, pow){
 #' @template ab_template
 #' @template l_template
 #' @template q_template
+#' @param na.rm Logical, replace NA values with 0 abundance
 #'
 #' @return Generalized mean community rarity with scaling exponent \code{"l"}.
 #'
@@ -81,7 +82,10 @@ ipfun = function(x, pow){
 #' rarity(c(20,8,5,4,2,1), -1) # Hill-Simpson diversity
 #' rarity(c(20,8,5,4,2,1), q = 2) # The parameter `q` can be used instead for
 #' # traditional Hill number parameterization
-rarity = function(ab, l, q = NULL){
+rarity = function(ab, l, q = NULL, na.rm = TRUE){
+  if(na.rm){ab[is.na(ab)]<-0}
+  else{warning("abundance vector contains NA values")
+    return(NA)}
   if(!is.null(q)){
     l = 1-q
     warning("l has been set to 1-q")

@@ -250,7 +250,7 @@ errs <- compare_ests %>%
 
 # genereate SADs
 
-evenness <- c(0.3, 0.5, 0.8)
+evenness <- c(0.1, 0.3, 0.5)
 rich <- 100
 sample_sizes <- floor(10^seq(1.5, 3, 0.5))
 # generate SADs with 100 spp and varying evenness, parametric distributions
@@ -258,10 +258,11 @@ SADS<-purrr::flatten(
   purrr::map(
     evenness, function(simp_evenness){
       purrr::map(
-        c("lnorm", "gamma"), function(dist){
+        c("lnorm", "gamma", "invgamma"), function(dist){
           fit_SAD(rich = rich
                   , simpson = simp_evenness*(rich-1)+1
-                  , distr = dist)
+                  , distr = dist
+                  , int_lwr = ifelse(dist == "invgamma", 1e-2, 1e-4))
         })
     }))
 
@@ -301,7 +302,7 @@ sample_data<-purrr::map_dfr(SADS, function(mySAD){
   })
 })
 
-plot_data<-sample_data %>%
+err_plot_data<-sample_data %>%
   dplyr::group_by(evenness, distribution, ell, SS) %>%
   dplyr::summarize(sample_sdlog = sd(ifelse(sample_diversity == 0
                                             , 0, Ln(sample_diversity)))
@@ -332,4 +333,4 @@ usethis::use_data(beeObs, overwrite = TRUE)
 usethis::use_data(beeAbunds, overwrite = TRUE)
 usethis::use_data(mean_ests, overwrite = TRUE)
 usethis::use_data(effort_rare, overwrite = TRUE)
-usethis::use_data(plot_data, overwrite = TRUE)
+usethis::use_data(err_plot_data, overwrite = TRUE)

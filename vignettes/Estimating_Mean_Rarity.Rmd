@@ -205,7 +205,8 @@ by_coverage <- iNEXT::estimateD(iN_form
 by_effort <- purrr::map_dfr(lapply(iN_form, sum), function(size){
     iNEXT::estimateD(iN_form
                     , base = "size"
-                    , level = size) %>% dplyr::filter(method == "observed")
+                    , level = size) %>% 
+    dplyr::filter(Method == "Observed") 
 
 })
     
@@ -213,7 +214,7 @@ iseveral <- dplyr::bind_rows(size = by_size
                              , coverage = by_coverage
                              , effort = by_effort
                              , .id = "standard") %>%
-  dplyr::mutate(order = 1 - order)
+  dplyr::mutate(order = 1 - Order.q)
                    
 #tictoc::toc()  #43 sec this time!?!?!
 
@@ -222,7 +223,7 @@ asyseveral <- purrr::map_dfr(2:5, function(sitio){
   purrr::map_dfr(-1:1, function(l){
     theboots <- MeanRarity:::Bootstrap.CI_df(pull(beeAbunds[, sitio]), l)
     est <- Chao_Hill_abu(dplyr::pull(beeAbunds[, sitio]), l)
-    data.frame(site = names(beeAbunds[, sitio])
+    data.frame(Assemblage = names(beeAbunds[, sitio])
                , order = l
                , qD = est
                , qD.LCL = est - theboots[2]
@@ -231,7 +232,7 @@ asyseveral <- purrr::map_dfr(2:5, function(sitio){
 })
 #tictoc::toc() # <2 seconds.
 
-asyseveral$method <- "asymptotic"
+asyseveral$Method <- "asymptotic"
 asyseveral$standard <- "asymptotic"
 allseveral <- dplyr::bind_rows(iseveral, asyseveral)
 #diversities, standardized by effort
@@ -243,13 +244,13 @@ minm <- min(by_effort %>%
               dplyr::pull(m)) 
 
 minc <- min(by_effort %>% 
-              dplyr::group_by(site) %>% 
+              dplyr::group_by(Assemblage) %>% 
               dplyr::summarize(SC = max(SC)) %>% 
               dplyr::pull(SC)) # coverage of sample with lowest
 
 
 tog <- allseveral %>% 
-  dplyr::mutate(sm = paste(standard, site, sep=""))
+  dplyr::mutate(sm = paste(standard, Assemblage, sep=""))
 
 inds <- data.frame("order" = c(1, 0, -1), divind = factor(c("richness"
                                                            , "Hill-Shannon"
@@ -267,7 +268,7 @@ togn <- togn %>%
                          , levels = c("richness"
                                       , "Hill-Shannon"
                                       , "Hill-Simpson"))
-          , site = factor(site
+          , site = factor(Assemblage
                           , levels = c("IAS_3"
                                      , "Cold Soil_5"
                                      , "Lord Stirling_4"
@@ -307,7 +308,7 @@ leftPlot <- togn %>%
           , legend.position = "none"
           , strip.placement = "outside") +
     ggplot2::scale_y_continuous(limits = c(0,NA)
-                       , expand = ggplot2::expand_scale(mult = c(0, .05))) +
+                       , expand = ggplot2::expansion(mult = c(0, .05))) +
     ggplot2::scale_shape_manual(values = c(17, 15, 18, 16)) +
     ggplot2::scale_color_manual(values = c("#7570b3"
                                 , "#1b9e77"
@@ -325,16 +326,17 @@ rightPlot <- togn %>%
                  , axis.text.x = ggplot2::element_blank()
                  , axis.ticks.x = ggplot2::element_blank()) +
   ggplot2::labs(y = NULL, x = NULL) +
-  ggplot2::theme(panel.spacing = unit(0, "lines"),
-        panel.border = ggplot2::element_rect(fill = NA),
-        strip.background = ggplot2::element_blank(),
-        strip.text.x = ggplot2::element_text(face = "bold", size = 10),
-        strip.text.y = ggplot2::element_blank(),
-        axis.title = ggplot2::element_blank(),
-        legend.position = "none",
-        strip.placement = "outside") +
+  ggplot2::theme(panel.spacing = unit(0, "lines")
+                 , panel.border = ggplot2::element_rect(fill = NA)
+                 , strip.background = ggplot2::element_blank()
+                 , strip.text.x = ggplot2::element_text(face = "bold"
+                                                        , size = 10)
+                 , strip.text.y = ggplot2::element_blank()
+                 , axis.title = ggplot2::element_blank()
+                 , legend.position = "none"
+                 , strip.placement = "outside") +
   ggplot2::scale_y_continuous(limits = c(0, NA)
-                     , expand = ggplot2::expand_scale(mult = c(0, 0.05))) +
+                     , expand = ggplot2::expansion(mult = c(0, 0.05))) +
   ggplot2::scale_shape_manual(values = c(17, 15, 18, 16)) +
   ggplot2::scale_color_manual(values = c("#7570b3"
                               , "#1b9e77"
@@ -365,14 +367,14 @@ used.
 maxeff <- 14
 reps <- 9999
 #tictoc::tic() #time this
-nc <- parallel::detectCores() - 1 #nc is number of cores to use in parallel processing
-future::plan(strategy = future::multiprocess, workers = nc) #this sets up the cluster
+nc <- parallel::detectCores() - 1 #nc is  cores to use in parallel processing
+future::plan(strategy = future::multiprocess, workers = nc) # sets up cluster
 
 show_ests <- furrr::future_map_dfr(1:reps, function(x){
   purrr::map_dfr(1:maxeff, function(i){
     sam <- beeObs %>%
       dplyr::group_by(sr) %>%
-      dplyr::do(filter(., start %in%
+      dplyr::do(dplyr::filter(., start %in%
                          sample(unique(.$start)
                                 , size = maxeff - i + 1
                                 , replace = F)))
@@ -383,7 +385,9 @@ show_ests <- furrr::future_map_dfr(1:reps, function(x){
                     , fill = 0) %>%
       as.data.frame()
     basicdat <- purrr::map_dfr(apply(subcom[, -1], MARGIN = 2, obs_est), rbind)
-    return(data.frame(basicdat, site = names(subcom[, -1]), transects = maxeff - i + 1))
+    return(data.frame(basicdat
+                      , site = names(subcom[, -1])
+                      , transects = maxeff - i + 1))
   })
 })
 
@@ -527,7 +531,8 @@ rich_bal <- rarity_plot(ab, 1, base_size = 12) +
   ggplot2::labs(x = "") +
   scale_color_brewer(type = "qual", palette = "Dark2") 
 
-shan_bal <- white_y(rarity_plot(ab, 0, base_size = 12, verbose = F)) + #do not return all the text this time
+#do not return all the text this time
+shan_bal <- white_y(rarity_plot(ab, 0, base_size = 12, verbose = F)) + 
   scale_color_brewer(type = "qual", palette = "Dark2")
 
 simp_bal <- white_y(rarity_plot(ab, -1, base_size = 12, verbose = F)) + 

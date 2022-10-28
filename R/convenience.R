@@ -68,7 +68,5 @@ rmsle <- function(x, true_x = mean(Ln(x))){
 
 `%ni%` <- function(x, table) {
   match(x, table, nomatch = 0L) == 0L
-  }
-
-
+}
 

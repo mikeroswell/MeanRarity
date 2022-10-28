@@ -1,8 +1,8 @@
 Package: MeanRarity
 Type: Package
 Title: Hill Diversity Estimation and Visualization
-Version: 0.0.1.0003
-Date: 2022-01-03
+Version: 0.0.1.0004
+Date: 2022-02-03
 Maintainer: Michael Roswell <mike.roswell@gmail.com>
 Authors@R: 
    c( person(given = "Michael",
@@ -21,9 +21,7 @@ License: LGPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    furrr
-    , stats
-    , parallel
+    stats
     , purrr
     , future
     , scales
@@ -33,9 +31,8 @@ Imports:
     , ggthemes
     , tibble
     , rlang
-    , gert
     , Rdpack
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Suggests: 
     testthat
     , spelling
@@ -48,6 +45,9 @@ Suggests:
     , forcats
     , vegan
     , ragg
+    , furrr
+    , parallel
+    , invgamma
 Roxygen: list(markdown = TRUE)
 RdMacros: Rdpack
 Language: en-US

@@ -1,26 +1,19 @@
-# functions to Generate a semi-parametric SAD based on richness, and Hill-Simpson.
-
-
-# define variables but also give them values for messing with
-# totAb<-1e7 #total true abundance in community
-# rich<-50 # true richness
-# simpson<-40 #true simpson
-
-
+# functions to generate semi-parametric SAD based on richness, and Hill-Simpson.
 
 
 #' Relative abundances, given richness and distributional assumption
 #'
-#' Wrapper for \code{\link[stats]{qgamma}} and \code{\link[stats]{qlnorm}} that
-#' takes the number of species and a shape parameter
-#' and gives relative abundance estimates for each species.
+#' Wrapper for \code{\link[stats]{qgamma}}, \code{\link[invgamma]{qinvgamma}},
+#' and \code{\link[stats]{qlnorm}} that takes the number of species and a shape
+#' parameter and gives relative abundance estimates for each species.
 #'
 #' @param x Non-negative scalar, the shape parameter for a gamma distribution.
 #' @param rich Integer, the total number of species in the species abundance
 #' distribution.
 #' @param distr Character string, one of \code{c("lnorm", "gamma")}
 #'
-#' @seealso \code{\link[stats]{qgamma}, \link[stats]{qlnorm}, \link{fit_SAD}}
+#' @seealso \code{\link[stats]{qgamma}, \link[stats]{qlnorm}, \link{fit_SAD},
+#'   \link[invgamma]{qinvgamma}}
 #'
 #' @export
 #' @examples
@@ -36,8 +29,11 @@
 #' }
 #'
 try_SAD <- function(rich, x, distr){
-    if(!(distr %in% c("lnorm", "gamma"))){stop("distr must be either `lnorm` or `gamma`")}
-    if(x<0){stop("shape parameter `x` must be non-negative; positive if distr = `gamma`")}
+    if(!(distr %in% c("lnorm", "gamma", "invgamma"))){
+      stop("distr must be either `lnorm`, `gamma`, or `invgamma`")}
+    if(x<0){
+      stop("shape parameter `x` must be non-negative;
+           positive if distr = `gamma`")}
     myab = if(distr == "lnorm"){
                 stats::qlnorm(seq(from = (1 / rich) / 2
                                , to = 1 - (1 / rich) / 2
@@ -53,12 +49,25 @@ try_SAD <- function(rich, x, distr){
                               , by = (1 / rich))
                           , shape = x
                           , scale = 10 / ifelse(x>0, x, 1))
-        }
+    }
+    else if(distr == "invgamma"){
+      if(!requireNamespace("invgamma")){
+        message("To use the inverse gamma you must install the package
+                'invgamma'")
+        return(invisible())
+      }
+      if(x == 0 ) stop("x must be positive")
+      invgamma::qinvgamma(seq(from = (1 / rich) / 2
+                        , to = 1 - (1 / rich) / 2
+                        , by = (1 / rich))
+                    , shape = x
+                    , scale = 10 / ifelse(x>0, x, 1))
+    }
 
     tryCatch(myab[order(myab, decreasing = TRUE)]
-             , error = function(e) "Check that distr = c(\"lnorm\", \"gamma\")"
-    )
-}
+             , error = function(e){"Check that distr = c(\"lnorm\", \"gamma\"
+               , \"invgamma\")"})
+  }
 
 
 #' Difference between target and realized diversity of simulated SAD (gamma
@@ -86,7 +95,7 @@ try_SAD <- function(rich, x, distr){
 #' @return a scalar, the difference between empirical and target Hill-Simpson
 #'   diversity
 #'
-#' @seealso \code{\link{dfun}}
+#' @seealso \code{\link{rarity}}
 #'
 #' @noRd
 #' @examples
@@ -101,7 +110,7 @@ ur_distr <- function(x
                      , distr = distr
                      , totAb = totAb
                      , ...){
-    simpson - dfun(try_SAD(rich, x, distr = distr), -1)}
+    simpson - rarity(try_SAD(rich, x, distr = distr), l = -1)}
 
 
 
@@ -176,7 +185,7 @@ fit_SAD <- function(rich = 50
                     , int_uppr = 1e2
                     , totAb = 1e7
                     , ...) {
-    #check feasibility; these should be actual errors in future versions
+    #check feasibility
     if (simpson > rich | simpson < 1) {
         stop("Hill-Simpson diversity cannot be greater than richness nor less than 1")
         }
@@ -185,27 +194,28 @@ fit_SAD <- function(rich = 50
         }
 
     #check dstr makes sense
-    if(!(distr %in% c("lnorm", "gamma"))){
-        stop("distr must be either `lnorm` or `gamma`")}
+    if(!(distr %in% c("lnorm", "gamma", "invgamma"))){
+        stop("distr must be either `lnorm`, `gamma`, or `invgamma`")}
 
            #generate SAD optimized with uniroot to find x when ur_distr==0
-       else{fit_par = tryCatch(
-               stats::uniroot(function(x) {
-                   ur_distr(
-                       simpson = simpson,
-                       rich = rich,
-                       x = x,
-                       distr = distr,
-                       totAb = totAb
-                   )
-               }
-               , lower = int_lwr, upper =
-                   int_uppr)
-               ,
-               error = function(e)
-                   message(
-                       "test int_lwr and int_uppr as values for `x` in ur_distr(); output must have opposite signs"
-                   )
+     else{fit_par = tryCatch(
+             stats::uniroot(function(x) {
+                 ur_distr(
+                     simpson = simpson,
+                     rich = rich,
+                     x = x,
+                     distr = distr,
+                     totAb = totAb
+                 )
+             }
+             , lower = int_lwr, upper =
+                 int_uppr)
+             ,
+             error = function(e){
+                 message(
+                     "test int_lwr and int_uppr as values for `x` in ur_distr();
+                     output must have opposite signs"
+                 )}
            )
 
            #make sure to return rel abundances!
@@ -230,8 +240,6 @@ fit_SAD <- function(rich = 50
 
            #return Hill-Shannon also
            shannon = dfun(abus, 0)
-          # if(sum(abus==0)>0) print("WARNING: you simulated species with near 0 abundance")
-
 
            return(list(
                "distribution_info" = c(
@@ -251,7 +259,6 @@ fit_SAD <- function(rich = 50
        }
 }
 
-# need to improve error handling, think a/t tolerance and warnings too.
 
 
 

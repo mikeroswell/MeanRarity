@@ -35,7 +35,7 @@ Sources += vignettes/*.Rmd
 %.html: %.Rmd
 	$(rmdh_r)
 
-## vignettes/Using_MeanRarity.vig.html: vignettes/Using_MeanRarity.Rmd
+## Using_MeanRarity.vig.html: vignettes/Using_MeanRarity.Rmd
 %.vig.html: vignettes/%.Rmd
 	$(rmdh_r)
 

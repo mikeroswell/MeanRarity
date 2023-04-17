@@ -36,6 +36,7 @@ Sources += vignettes/*.Rmd
 	$(rmdh_r)
 
 ## Using_MeanRarity.vig.html: vignettes/Using_MeanRarity.Rmd
+Ignore += *.vig.html
 %.vig.html: vignettes/%.Rmd
 	$(rmdh_r)
 

@@ -293,7 +293,7 @@ leftPlot <- togn %>%
     dplyr::filter(methlab != "asymptotic") %>% 
     ggplot2::ggplot(aes(site, qD, color = site, shape = site)) +
     ggplot2::geom_errorbar(aes(ymin = qD.LCL, ymax = qD.UCL)
-                  , size = ebsize, width = ebw) +
+                  , linewidth = ebsize, width = ebw) +
     ggplot2::geom_point(size = psize) +
     ggplot2::facet_grid(divind ~ methlab, switch = "y", scales = "free_y") +
     ggplot2::theme_classic() +
@@ -318,7 +318,7 @@ rightPlot <- togn %>%
   dplyr::filter(methlab == "asymptotic") %>% 
   ggplot2::ggplot(ggplot2::aes(site, qD, color = site, shape = site)) +
   ggplot2::geom_errorbar(ggplot2::aes(ymin = qD.LCL, ymax = qD.UCL)
-                         , size = ebsize, width = ebw) +
+                         , linewidth = ebsize, width = ebw) +
   ggplot2::geom_point(size = psize) +
   ggplot2::facet_grid(divind~methlab, switch = "y", scales = "free_y") +
   ggplot2::theme_classic() +

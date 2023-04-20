@@ -14,9 +14,6 @@ Sources += .Rbuildignore
 
 Ignore += Meta/ doc/
 
-package:
-	R CMD INSTALL .
-
 ######################################################################
 
 Sources += $(wildcard dev/*.R)
@@ -38,7 +35,8 @@ Sources += vignettes/*.Rmd
 %.html: %.Rmd
 	$(rmdh_r)
 
-## vignettes/Using_MeanRarity.vig.html: vignettes/Using_MeanRarity.Rmd
+## Using_MeanRarity.vig.html: vignettes/Using_MeanRarity.Rmd
+Ignore += *.vig.html
 %.vig.html: vignettes/%.Rmd
 	$(rmdh_r)
 

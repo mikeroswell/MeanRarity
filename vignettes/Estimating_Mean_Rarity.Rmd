@@ -343,8 +343,8 @@ rightPlot <- togn %>%
                               , "#e7298a"
                               , "#d95f02" ))
 
-
-leftPlot + rightPlot + plot_layout(widths = c(3, 1))
+# throwing errors 20230420
+#leftPlot + rightPlot + plot_layout(widths = c(3, 1))
 
 ```
 

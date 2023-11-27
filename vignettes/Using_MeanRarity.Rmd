@@ -1,13 +1,13 @@
 ---
 title: "Using MeanRarity"
 output: 
-  rmarkdown::html_vignette: 
-    fig_width: 3
-    fig_height: 3
   rmarkdown::pdf_document: 
     fig_width: 3
     fig_height: 3
     latex_engine: xelatex
+  rmarkdown::html_vignette: 
+    fig_width: 3
+    fig_height: 3
   rmarkdown::html_document:
     fig_width: 3
     fig_height: 3
@@ -368,17 +368,16 @@ un
 ```
 
 `fit_SAD()` generates an ideal species abundance distribution, with relative
-abundances for a assemblage with infinite abundance. To take a finite sample, we
-use `sample_infinite()` (so named because it samples an infinite SAD;
+abundances for an assemblage with infinite abundance. To take a finite sample,
+we use `sample_infinite()` (so named because it samples an infinite SAD;
 `sample_finite()` is for sub-sampling from a realized assemblage/finite sample).
 The realized samples have Poisson-type noise about the mean species relative
 abundances given by `fit_SAD()` (that is, they are samples from a multinomial
 distribution). The diversity of a sample asymptotically approaches the simulated
-diversity as sample size approaches infinity.
-<!-- the section above could be tightened. A key issue is that the paragraphs
-above make it clear what `fit_SAD` does but not as much what it is for. A
-central point is that one generates samples from the distribution given by
-fit_SAD-->
+diversity as sample size approaches infinity. <!-- the section above could be
+tightened. A key issue is that the paragraphs above make it clear what `fit_SAD`
+does but not as much what it is for. A central point is that one generates
+samples from the distribution given by fit_SAD-->
 <!-- plot RADs and hill profiles together on same plots. May modify package 
 functions to enable this -->
 
@@ -395,7 +394,8 @@ even_sample
 uneven_sample
 
 # we can compare evenness (given a scaling parameter `l`)
-# the evenness is the normalized ratio of an arbitrary Hill diversity to richness
+# the evenness is the normalized ratio of an arbitrary Hill diversity to 
+# richness
 e3Fun(even_sample, -1)
 e3Fun(uneven_sample, -1)
 
@@ -432,7 +432,8 @@ chosen value of the scaling parameter $\ell$. For a comprehensive answer, one
 might look across values of $\ell$, also known as a Hill "diversity profile"
 [@Chao2014b]. **MeanRarity** provides a function to generate a Hill diversity
 profile based on $\ell$ (rather than $q$): `divpro()`.
-<!-- these should be on a single plot, will be much more interesting that way!-->
+<!-- these should be on a single plot, will be much more interesting that
+way!-->
 
 ```{r diversity profile}
 # the even and uneven communities have same richness but different Hill 
@@ -484,11 +485,12 @@ $\ell \leq 1$. The degree of mismatch between the sample and true diversity is
 difficult to know with real assemblages, but this can be addressed directly
 through simulation. At the same time, current asymptotic Hill diversity
 estimators [@Chao2015] typically exhibit little bias when sample sizes are
-reasonably large (hundreds of individuals) and $\ell < \sim 0.25 $. Less
-well-understood is how different features of the species abundance distribution
-(e.g. evenness, or just how rare the rarest species are) drive the degree of
-difference between either sampled diversity or asymptotic estimators, and the
-true diversity of the sampled species abundance distribution.
+reasonably large (hundreds of individuals) and $\ell < \sim 0.25 $. <!--
+rendering issues for pdf--> Less well-understood is how different features of
+the species abundance distribution (e.g. evenness, or just how rare the rarest
+species are) drive the degree of difference between either sampled diversity or
+asymptotic estimators, and the true diversity of the sampled species abundance
+distribution.
 
 Similarly, the sampling variation in Hill diversity estimates (both sample
 diversity/the naïve estimator, and asymptotic estimators) is poorly understood.
@@ -535,8 +537,6 @@ choice of scaling exponent for Hill diversity affects total error, bias, and
 sampling variability, and explored the interactions with evenness,
 distributional assumption, and sample size.
 
-
-
 The diversity of a sample of fixed size was a stable, accurate measure of
 rarefied diversity across all the SADs we tested. The total error, greatest for
 Hill-Simpson diversity, when samples were smaller, and for less even SADs,
@@ -567,8 +567,7 @@ depended to some degree on both distributional assumption and sampling
 intensity. For the asymptotic Hill diversity estimates, bias at very low sample
 sizes was less than sample diversity but could still be extreme. However, this
 bias evaporated quickly for both sample and asymptotic Hill diversity estimates
-when the scaling exponent $\ell << 1 $.
-
+when the scaling exponent $\ell << 1$.
 
 <-- check theme options like panel.spacing and legend.key.width -->
 
@@ -612,16 +611,18 @@ purrr::map(c("lnorm", "gamma", "invgamma"), function(dist){
                    )+
     ggplot2::scale_x_continuous(limits = c(-1,1)
                                 ) +
-    ggplot2::scale_y_continuous(labels = function(x){str2expression(print_operator(x))}
+    ggplot2::scale_y_continuous(labels = function(x){str2expression(
+      print_operator(x))}
                         , breaks = rat_breaks()) + 
     ggplot2::scale_color_manual(values = hcl.colors(4
-                                                    , palette = "SunsetDark")[1:3]
+                                , palette = "SunsetDark")[1:3]
                                 ) +
     ggplot2::scale_linetype_manual(values = c("solid", "dashed", "dotted"))+
     ggplot2::facet_grid(err_type~sample_size
-                        , labeller = ggplot2::labeller(sample_size = ggplot2::label_both
-                                              , err_type = ggplot2::label_value
-                                              )
+                        , labeller = ggplot2::labeller(
+                          sample_size = ggplot2::label_both
+                          , err_type = ggplot2::label_value
+                          )
                         , scales = "free_y"
                         , space = "free_y"
                         , switch = "y"
@@ -673,13 +674,14 @@ purrr::map(c("lnorm", "gamma", "invgamma"), function(dist){
 #     ggplot2::scale_x_continuous(limits = c(-1,1)
 #                                 ) +
 #     ggplot2::scale_color_manual(values = hcl.colors(4
-#                                                     , palette = "SunsetDark")[1:3]
+#                                 , palette = "SunsetDark")[1:3]
 #                                 ) +
 #     ggplot2::scale_linetype_manual(values = c("solid", "dashed", "dotted"))+
 #     ggplot2::facet_grid(err_type~sample_size
-#                         , labeller = ggplot2::labeller(sample_size = ggplot2::label_both
-#                                               , err_type = ggplot2::label_value
-#                                               )
+#                         , labeller = ggplot2::labeller(
+#                             sample_size = ggplot2::label_both
+#                             , err_type = ggplot2::label_value
+#                             )
 #                         , scales = "free_y"
 #                         , space = "free_y"
 #                         , switch = "y"
@@ -693,7 +695,8 @@ purrr::map(c("lnorm", "gamma", "invgamma"), function(dist){
 ```
 
 <!-- fig caption draft -->
-Figure X: Hill-Simpson diversity estimates have high variability under random sampling.  
+Figure X: Hill-Simpson diversity estimates have high variability under random 
+sampling.  
 
 ```{r sidenote on when naive beats asymptotic}
 
@@ -706,7 +709,8 @@ Figure X: Hill-Simpson diversity estimates have high variability under random sa
 # 
 # occam %>% 
 #   dplyr::filter(total %in% c(TRUE, FALSE)) %>% 
-#   ggplot2::ggplot(ggplot2::aes(total, ell, color = as.factor(sample_size), shape = distribution ))+
+#   ggplot2::ggplot(ggplot2::aes(total, ell
+#     , color = as.factor(sample_size), shape = distribution ))+
 #   ggplot2::geom_jitter(height = 0, width = 0.4)+
 #   ggplot2::scale_color_manual(values = hcl.colors(4, "Plasma")) +
 #   ggplot2::facet_wrap(~evenness)+
@@ -727,7 +731,8 @@ Figure X: Hill-Simpson diversity estimates have high variability under random sa
 # 
 # occam %>% 
 #   dplyr::filter(variability %in% c(TRUE, FALSE)) %>% 
-#   ggplot2::ggplot(ggplot2::aes(variability, ell, color = as.factor(sample_size), shape = distribution ))+
+#   ggplot2::ggplot(ggplot2::aes(variability, ell
+#     , color = as.factor(sample_size), shape = distribution ))+
 #   ggplot2::geom_jitter(height = 0, width = 0.4)+
 #   ggplot2::scale_color_manual(values = hcl.colors(4, "Plasma")) +
 #   ggplot2::facet_wrap(~evenness)+
@@ -828,6 +833,8 @@ available in several R packages.
   scenarios.
 1. **entropart**
 1. **EntropyEstimation**
+1. **Richness** https://github.com/EWTekwa/Richness
+<!-- search for others -->
 
 # CONCLUSIONS
 
@@ -850,8 +857,7 @@ coherent framework absent from other statistical packages, and enables
 continuing research into the properties of these metrics.
 
 ## Acknowledgements
-We thank Luke Harmon for early feedback on the R package, Dan Gruner for his
-thoughtful comments on this manuscript, and....
+We thank Luke Harmon for early feedback on the R package, ....
 
 ## Author contributions
 
@@ -868,9 +874,13 @@ This article does not use any empirical data. The package is available on Github
 
 ```{r table of functions}
 table_dat<-data.frame(
-  `Function name` = c("rarity", "rarity_plot", "radplot", "divpro", "sample_infinite", "sample_finite", "fit_SAD")
-  , `General purpose` = c("Computation", "Visualization", "Visualization", "Visualization", "Sampling", "Sampling", "Simulation")
-  , `Description` = c("Compute Hill diversity using the rarity parameterization")
+  `Function name` = c("rarity", "rarity_plot", "radplot"
+                      , "divpro", "sample_infinite", "sample_finite", "fit_SAD")
+  , `General purpose` = c("Computation", "Visualization"
+                          , "Visualization", "Visualization", "Sampling"
+                          , "Sampling", "Simulation")
+  , `Description` = c(
+    "Compute Hill diversity using the rarity parameterization")
 )
 ```
 

@@ -89,7 +89,7 @@ raref <- function(from, to, by, comm, n = 1, l, q = NULL, cores = NULL, use_furr
       message("to use parallel processing, the 'furrr' package is required")
       return(invisible())
     }
-    future::plan(strategy = future::multiprocess
+    future::plan(strategy = future::multisession
                , workers = ifelse(is.null(cores), nc, cores))
     p <- furrr::future_map_dfr(1:n, function(z){
       purrr::map_dfr(lapply(seq(from, to, by), function(b){

@@ -1,6 +1,10 @@
 ---
 title: "Using MeanRarity"
 output: 
+  rmarkdown::html_document:
+    fig_width: 3
+    fig_height: 3
+    fig.retina: NULL
   rmarkdown::pdf_document: 
     fig_width: 3
     fig_height: 3
@@ -8,10 +12,6 @@ output:
   rmarkdown::html_vignette: 
     fig_width: 3
     fig_height: 3
-  rmarkdown::html_document:
-    fig_width: 3
-    fig_height: 3
-    fig.retina: NULL
   word_document: default
 bibliography: '`r system.file( "REFERENCES.bib", package="MeanRarity")`'
 vignette: >

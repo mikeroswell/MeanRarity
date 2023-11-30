@@ -77,7 +77,7 @@
 
       
 
-      </header><script src="Gods_estimator_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Gods estimator of mean rarity</h1>
@@ -90,10 +90,31 @@
 
     
     
-<p>Hill diversities (also called “Hill numbers”) have become standard for measuring diversity in ecology (cite the Ellison 2010 special issue). While many interpretations of Hill numbers have been discussed, including their relationship to species richness, Shannon’s entropy, and Simpson’s concentration, The package <code>MeanRarity</code> is designed to illustrate an alternative interpretation of Hill numbers as means of species rarity (the reciprocal of relative abundance) in a community. In this interpretation, the control parameter <span class="math inline">\(\ell\)</span> moves the index from arithmetic to geometric to harmonic means. Thus, Hill diversities differ in the scale on which species rarity is considered, but always weights species the same way (by their abundance) regardless of the scale being used. This interpretation is distinct from the common idea that the Hill parameter controls how rare vs. common species are “weighted.”</p>
-<p>In this vignette, we show that the mean rarity perspective suggests a novel approach to estimating true diversity from a sample, using the fact that the sample mean is an unbiased estimate of the population mean. Although how to estimate a species’ rarity from sample data remains unsolved, we test the promise of this idea using what we call God’s estimator: All-knowing, God can plug in the true population parameters for each species. Nevertheless, maybe for fun, God chooses to compute the sample mean, weighting species’ true rarities by their sampled frequency.</p>
+<p>Hill diversities (also called “Hill numbers”) have become standard
+for measuring diversity in ecology (cite the Ellison 2010 special
+issue). While many interpretations of Hill numbers have been discussed,
+including their relationship to species richness, Shannon’s entropy, and
+Simpson’s concentration, The package <code>MeanRarity</code> is designed
+to illustrate an alternative interpretation of Hill numbers as means of
+species rarity (the reciprocal of relative abundance) in a community. In
+this interpretation, the control parameter <span class="math inline">\(\ell\)</span> moves the index from arithmetic to
+geometric to harmonic means. Thus, Hill diversities differ in the scale
+on which species rarity is considered, but always weights species the
+same way (by their abundance) regardless of the scale being used. This
+interpretation is distinct from the common idea that the Hill parameter
+controls how rare vs. common species are “weighted.”</p>
+<p>In this vignette, we show that the mean rarity perspective suggests a
+novel approach to estimating true diversity from a sample, using the
+fact that the sample mean is an unbiased estimate of the population
+mean. Although how to estimate a species’ rarity from sample data
+remains unsolved, we test the promise of this idea using what we call
+God’s estimator: All-knowing, God can plug in the true population
+parameters for each species. Nevertheless, maybe for fun, God chooses to
+compute the sample mean, weighting species’ true rarities by their
+sampled frequency.</p>
 <p>Let’s see how God’s estimator works!</p>
-<p>First, we simulate some SADs with known diversity using the function <code><a href="../reference/fit_SAD.html">fit_SAD()</a></code></p>
+<p>First, we simulate some SADs with known diversity using the function
+<code><a href="../reference/fit_SAD.html">fit_SAD()</a></code></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># simulate SADs for analysis</span></span>
@@ -116,7 +137,11 @@
 <span><span class="co">#&gt; Consider implied community size.</span></span>
 <span><span class="co">#&gt; Warning in fit_SAD(rich = rich, simpson = simp_Prop * (rich - 1) + 1, distr = distr): Rarest species has relative abundance  1.21155246166887e-10 . </span></span>
 <span><span class="co">#&gt; Consider implied community size.</span></span></code></pre></div>
-<p>Now, let’s test estimator performance.We’ll compare what we’ve called “God’s estimator” to the naïve estimator (the mean of the observed rarities) and to a non-parametric, asymptotic diversity estimator (CITE Chao and Jost 2015). To assess performance, let’s look at the root mean squared error, and also bias.</p>
+<p>Now, let’s test estimator performance.We’ll compare what we’ve called
+“God’s estimator” to the naïve estimator (the mean of the observed
+rarities) and to a non-parametric, asymptotic diversity estimator (CITE
+Chao and Jost 2015). To assess performance, let’s look at the root mean
+squared error, and also bias.</p>
 <p>We won’t run the first part as it could take a while.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -184,7 +209,12 @@
 <span>  <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">theme</span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"individuals"</span>, y <span class="op">=</span> <span class="st">"root mean squared error"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Joining, by = "ell"</span></span></code></pre></div>
+<span><span class="co">#&gt; Joining with `by = join_by(ell)`</span></span>
+<span><span class="co">#&gt; Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `linewidth` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span></code></pre></div>
 <p><img src="Gods_estimator_files/figure-html/plot%20rmse-1.png" width="672"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -200,10 +230,29 @@
 <span>  <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme</span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"individuals"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Joining, by = "ell"</span></span></code></pre></div>
+<span><span class="co">#&gt; Joining with `by = join_by(ell)`</span></span></code></pre></div>
 <p><img src="Gods_estimator_files/figure-html/plot%20bias-1.png" width="672"></p>
-<p>In our simulations, God’s estimator was usually both less biased (in fact, it is unbiased) and more accurate, across variation in SAD shape, sample sizes, and values of the Hill control parameter. This is expected: God’s estimator uses information not available to other methods (nor to mortal ecologists).</p>
-<p>For SAD 19 we see very large RMSE for species richness. This is because God, but not the other estimators, can distinguish the merely rare from the exceedingly rare, and SAD 19 has wildly rare species (a quarter of species have relative abundance of &lt; 1/ 10 million). When these species are included randomly in a sample, the mean rarity of that sample is very high. Our simulation may be untroubling then, even for proponents of God’s estimator. When ecologists sample SADs with hundreds of millions or billions of individuals (e.g. Rhizospheres), they likely do not attempt to quantify richness, given that it cannot be estimated reliably (CITE Haegeman et al. 2013), and also obtain reads from many more than a few hundred individuals. For God’s estimator not to be unduly swayed by the extraordinarily rare species, however, sample sizes will have to be extremely large. In the presence of such extreme rarity, God’s estimator remains unbiased, but will likely tend towards greater error than estimators that do not account for rarity orders of magnitude higher than the observed rarity in a sample.</p>
+<p>In our simulations, God’s estimator was usually both less biased (in
+fact, it is unbiased) and more accurate, across variation in SAD shape,
+sample sizes, and values of the Hill control parameter. This is
+expected: God’s estimator uses information not available to other
+methods (nor to mortal ecologists).</p>
+<p>For SAD 19 we see very large RMSE for species richness. This is
+because God, but not the other estimators, can distinguish the merely
+rare from the exceedingly rare, and SAD 19 has wildly rare species (a
+quarter of species have relative abundance of &lt; 1/ 10 million). When
+these species are included randomly in a sample, the mean rarity of that
+sample is very high. Our simulation may be untroubling then, even for
+proponents of God’s estimator. When ecologists sample SADs with hundreds
+of millions or billions of individuals (e.g. Rhizospheres), they likely
+do not attempt to quantify richness, given that it cannot be estimated
+reliably (CITE Haegeman et al. 2013), and also obtain reads from many
+more than a few hundred individuals. For God’s estimator not to be
+unduly swayed by the extraordinarily rare species, however, sample sizes
+will have to be extremely large. In the presence of such extreme rarity,
+God’s estimator remains unbiased, but will likely tend towards greater
+error than estimators that do not account for rarity orders of magnitude
+higher than the observed rarity in a sample.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#we can check out whether upping sample sizes by a factor of 100 is </span></span>
 <span><span class="co"># sufficient to bring God's estimator in line, but it's pretty time consuming to </span></span>
@@ -272,7 +321,18 @@
 <span><span class="co">#   theme_classic() +</span></span>
 <span><span class="co">#   theme(axis.text.x = element_text(angle = 90)) +</span></span>
 <span><span class="co">#   labs(x = "individuals")</span></span></code></pre></div>
-<p>What are the implications of this for mortals? These simulations suggest that developing heuristics to estimate true species rarities might enable better diversity estimates, and pave a route to more principled confidence intervals for Hill numbers than is likely possible with the non-parametric estimators more commonly used today. While it is hard to imagine how an estimator for true rarity could accurately infer rarities far below n/1 (where n is sample size), our simulations (and logic) suggest that arithmetic mean rarity (i.e. richness), highly sensitive to the stochastic inclusion of these in samples, at bests presents a bias/variance trade-off between a mean rarity estimator (like God’s, but with estimated rather than true rarities) and more traditional asymptotic diversity estimators.</p>
+<p>What are the implications of this for mortals? These simulations
+suggest that developing heuristics to estimate true species rarities
+might enable better diversity estimates, and pave a route to more
+principled confidence intervals for Hill numbers than is likely possible
+with the non-parametric estimators more commonly used today. While it is
+hard to imagine how an estimator for true rarity could accurately infer
+rarities far below n/1 (where n is sample size), our simulations (and
+logic) suggest that arithmetic mean rarity (i.e. richness), highly
+sensitive to the stochastic inclusion of these in samples, at bests
+presents a bias/variance trade-off between a mean rarity estimator (like
+God’s, but with estimated rather than true rarities) and more
+traditional asymptotic diversity estimators.</p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -290,7 +350,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

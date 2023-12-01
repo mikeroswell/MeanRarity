@@ -25,7 +25,7 @@ object."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mat
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MeanRarity</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.0004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.0005</span>
       </span>
     </div>
 
@@ -163,36 +163,45 @@ devices may require tweaking.</p>
 <span class="r-in"><span><span class="co"># ab &lt;- floor(exp(rnorm(50, 4, 1.5)))</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">richness</span> <span class="op">&lt;-</span> <span class="fu">rarity_plot</span><span class="op">(</span><span class="va">ab</span>, <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      rarity plot expects a square viewport (likely issues in the RStudio plotting device) and resizes points based on</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      min(dev.size() and noco (for number of columns).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Selecting lines = T will plot stacks of individuals as a line element,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      which tends to be more robust to window size.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Setting lines = T may be the best way to deal with overplotting,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      which results from several species with similar but not identical rarities. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      `rarity_plot()` expects a square viewport (likely issues in the RStudio</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      plotting device) and resizes points based on `min(dev.size()` and ``noco`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      (for number of columns).</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      Selecting `lines = TRUE` will plot stacks of individuals as a line</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      element, which tends to be more robust to window size.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      Setting `lines = TRUE` may be the best way to deal with overplotting,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      which results from several species with similar but not identical</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      rarities.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "diversity = 6"            "community size = 40"     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3] "max observed rarity = 40" "min observed rarity = 2" </span>
 <span class="r-in"><span><span class="va">Hill_Shannon</span> <span class="op">&lt;-</span> <span class="fu">rarity_plot</span><span class="op">(</span><span class="va">ab</span>, <span class="fl">0</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      rarity plot expects a square viewport (likely issues in the RStudio plotting device) and resizes points based on</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      min(dev.size() and noco (for number of columns).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Selecting lines = T will plot stacks of individuals as a line element,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      which tends to be more robust to window size.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Setting lines = T may be the best way to deal with overplotting,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      which results from several species with similar but not identical rarities. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      `rarity_plot()` expects a square viewport (likely issues in the RStudio</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      plotting device) and resizes points based on `min(dev.size()` and ``noco`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      (for number of columns).</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      Selecting `lines = TRUE` will plot stacks of individuals as a line</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      element, which tends to be more robust to window size.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      Setting `lines = TRUE` may be the best way to deal with overplotting,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      which results from several species with similar but not identical</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      rarities.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "diversity = 4.05787109319726" "community size = 40"         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3] "max observed rarity = 40"     "min observed rarity = 2"     </span>
 <span class="r-in"><span><span class="va">Hill_Simpson</span> <span class="op">&lt;-</span> <span class="fu">rarity_plot</span><span class="op">(</span><span class="va">ab</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      rarity plot expects a square viewport (likely issues in the RStudio plotting device) and resizes points based on</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      min(dev.size() and noco (for number of columns).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Selecting lines = T will plot stacks of individuals as a line element,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      which tends to be more robust to window size.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Setting lines = T may be the best way to deal with overplotting,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      which results from several species with similar but not identical rarities. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      `rarity_plot()` expects a square viewport (likely issues in the RStudio</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      plotting device) and resizes points based on `min(dev.size()` and ``noco`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      (for number of columns).</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      Selecting `lines = TRUE` will plot stacks of individuals as a line</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      element, which tends to be more robust to window size.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      Setting `lines = TRUE` may be the best way to deal with overplotting,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      which results from several species with similar but not identical</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>      rarities.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "diversity = 3.13725490196078" "community size = 40"         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3] "max observed rarity = 40"     "min observed rarity = 2"     </span>
 <span class="r-in"><span></span></span>

@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MeanRarity</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.0004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.0005</span>
       </span>
     </div>
 
@@ -588,14 +588,17 @@ may wish to explore the code (and even suggest improvements!).</p>
 <span><span class="va">rich_bal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rarity_plot.html">rarity_plot</a></span><span class="op">(</span><span class="va">ab</span>, <span class="fl">1</span>, base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_color_brewer</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"qual"</span>, palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span> </span>
-<span><span class="co">#&gt;      rarity plot expects a square viewport (likely issues in the RStudio plotting device) and resizes points based on</span></span>
-<span><span class="co">#&gt;      min(dev.size() and noco (for number of columns).</span></span>
-<span><span class="co">#&gt;      Selecting lines = T will plot stacks of individuals as a line element,</span></span>
-<span><span class="co">#&gt;      which tends to be more robust to window size.</span></span>
-<span><span class="co">#&gt;      Setting lines = T may be the best way to deal with overplotting,</span></span>
-<span><span class="co">#&gt;      which results from several species with similar but not identical rarities. </span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      `rarity_plot()` expects a square viewport (likely issues in the RStudio</span></span>
+<span><span class="co">#&gt;      plotting device) and resizes points based on `min(dev.size()` and ``noco`</span></span>
+<span><span class="co">#&gt;      (for number of columns).</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      Selecting `lines = TRUE` will plot stacks of individuals as a line</span></span>
+<span><span class="co">#&gt;      element, which tends to be more robust to window size.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      Setting `lines = TRUE` may be the best way to deal with overplotting,</span></span>
+<span><span class="co">#&gt;      which results from several species with similar but not identical</span></span>
+<span><span class="co">#&gt;      rarities.</span></span>
 <span><span class="co">#&gt; [1] "diversity = 6"            "community size = 40"     </span></span>
 <span><span class="co">#&gt; [3] "max observed rarity = 40" "min observed rarity = 2"</span></span>
 <span><span class="co">#&gt; Scale for <span style="color: #00BB00;">colour</span> is already present.</span></span>
@@ -604,28 +607,34 @@ may wish to explore the code (and even suggest improvements!).</p>
 <span><span class="co">#do not return all the text this time</span></span>
 <span><span class="va">shan_bal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/white_y.html">white_y</a></span><span class="op">(</span><span class="fu"><a href="../reference/rarity_plot.html">rarity_plot</a></span><span class="op">(</span><span class="va">ab</span>, <span class="fl">0</span>, base_size <span class="op">=</span> <span class="fl">12</span>, verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">scale_color_brewer</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"qual"</span>, palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      rarity plot expects a square viewport (likely issues in the RStudio plotting device) and resizes points based on</span></span>
-<span><span class="co">#&gt;      min(dev.size() and noco (for number of columns).</span></span>
-<span><span class="co">#&gt;      Selecting lines = T will plot stacks of individuals as a line element,</span></span>
-<span><span class="co">#&gt;      which tends to be more robust to window size.</span></span>
-<span><span class="co">#&gt;      Setting lines = T may be the best way to deal with overplotting,</span></span>
-<span><span class="co">#&gt;      which results from several species with similar but not identical rarities. </span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      `rarity_plot()` expects a square viewport (likely issues in the RStudio</span></span>
+<span><span class="co">#&gt;      plotting device) and resizes points based on `min(dev.size()` and ``noco`</span></span>
+<span><span class="co">#&gt;      (for number of columns).</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      Selecting `lines = TRUE` will plot stacks of individuals as a line</span></span>
+<span><span class="co">#&gt;      element, which tends to be more robust to window size.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      Setting `lines = TRUE` may be the best way to deal with overplotting,</span></span>
+<span><span class="co">#&gt;      which results from several species with similar but not identical</span></span>
+<span><span class="co">#&gt;      rarities.</span></span>
 <span><span class="co">#&gt; Scale for <span style="color: #00BB00;">colour</span> is already present.</span></span>
 <span><span class="co">#&gt; Adding another scale for <span style="color: #00BB00;">colour</span>, which will replace the existing scale.</span></span>
 <span></span>
 <span><span class="va">simp_bal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/white_y.html">white_y</a></span><span class="op">(</span><span class="fu"><a href="../reference/rarity_plot.html">rarity_plot</a></span><span class="op">(</span><span class="va">ab</span>, <span class="op">-</span><span class="fl">1</span>, base_size <span class="op">=</span> <span class="fl">12</span>, verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_color_brewer</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"qual"</span>, palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      rarity plot expects a square viewport (likely issues in the RStudio plotting device) and resizes points based on</span></span>
-<span><span class="co">#&gt;      min(dev.size() and noco (for number of columns).</span></span>
-<span><span class="co">#&gt;      Selecting lines = T will plot stacks of individuals as a line element,</span></span>
-<span><span class="co">#&gt;      which tends to be more robust to window size.</span></span>
-<span><span class="co">#&gt;      Setting lines = T may be the best way to deal with overplotting,</span></span>
-<span><span class="co">#&gt;      which results from several species with similar but not identical rarities. </span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      `rarity_plot()` expects a square viewport (likely issues in the RStudio</span></span>
+<span><span class="co">#&gt;      plotting device) and resizes points based on `min(dev.size()` and ``noco`</span></span>
+<span><span class="co">#&gt;      (for number of columns).</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      Selecting `lines = TRUE` will plot stacks of individuals as a line</span></span>
+<span><span class="co">#&gt;      element, which tends to be more robust to window size.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      Setting `lines = TRUE` may be the best way to deal with overplotting,</span></span>
+<span><span class="co">#&gt;      which results from several species with similar but not identical</span></span>
+<span><span class="co">#&gt;      rarities.</span></span>
 <span><span class="co">#&gt; Scale for <span style="color: #00BB00;">colour</span> is already present.</span></span>
 <span><span class="co">#&gt; Adding another scale for <span style="color: #00BB00;">colour</span>, which will replace the existing scale.</span></span>
 <span></span>

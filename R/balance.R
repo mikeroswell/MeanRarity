@@ -125,7 +125,8 @@ fancy_rep <- function(df){
 #' @return ggplot object with some elements of a balance plot
 #'
 #' @noRd
-base_plot <- function(ab, pointScale
+base_plot <- function(ab
+                      , pointScale
                       , fill_col = "lightgrey" #can set to match communities
                       , y_extent = max(max(ab), 15) #how tall to draw y
                       , x_max = sum(ab)/min(ab) #plots a point to extend x
@@ -146,6 +147,7 @@ base_plot <- function(ab, pointScale
 	#14 is empirically derived scaling factor; but isn't quite right.
 	# Seems like stuff below axis is about 2.5* height of 1 line of text
 	typeface_size = 14
+	# typeface_size = 15 # quick experiment
 
 	pointScale <- (typeface_size *
 	                 (min(grDevices::dev.size("cm")) /
@@ -466,6 +468,40 @@ message(strwrap("\`rarity_plot()\` expects a square viewport (likely issues in
 	)
 }
 
+#' Convenience function to label rarity plots with scaling exponent
+#'
+#' @param my_ggplot ggplot object
+#' @param l Numeric scalar, Hill diversity scaling factor
+#' @param unicode_in_title Logical, include unicode \ell
+#' @param title Character string, or NULL
+#' @param size Numeric scalar, text size for annotation
+#'
+#' @return ggplot object
+#' @noRd
+#'
+#' @examples
+#' ellnotate(my_ggplot = rarity_plot(1:10, 1), l = 1
+#' , title = "Hill-Shannon diversity")
+#'
+ellnotate <- function(my_ggplot
+                      , l
+                      , unicode_in_title = TRUE
+                      , title = NULL
+                      , size = 8){
+  toknow = ggplot2::layer_scales(my_ggplot)
+  middle = mean(toknow$x$range$range)
+  top = 1/1.1*max(toknow$y$limits)
+
+  if(unicode_in_title){
+    my_ggplot + ggplot2::annotate(geom = "text", label = paste0("\u2113 = ", l, "\n", title)
+                      , x = middle, y = top, hjust = 0.5, size = size, fontface = "bold")
+  }
+  else{my_ggplot + ggplot2::labs(title = title)}
+}
+
+
+
+
 #' Conveniently plot for l = -1:1, with reference points in each fig
 #'
 #' Convenience function for plotting balance plots for the arithmetic,
@@ -474,14 +510,23 @@ message(strwrap("\`rarity_plot()\` expects a square viewport (likely issues in
 #' @return Prints 3 ggplots into graphics device.
 #'
 #' @template l_template
+#' @inheritParams rarity_plot
 #' @param lrange Numeric vector of scaling exponent values
-#' @param ... Additional arguments passed to other functions.
+#' @param unicode_in_title Logical, include label for \ell value
+#' @param title Character string
+#'
 #'
 #' @noRd
 #'
-rarity_series <- function(ab, lrange = -1:1, means = lrange, ...){
+rarity_series <- function(ab
+                          , lrange = -1:1
+                          , means = lrange
+                          , unicode_in_title = TRUE
+                          , title = NULL
+                          , ...){
 	for(l in lrange){
-		print(rarity_plot(ab, l, means, ...))
+	  rarity_plot(ab, l, means, ...)
+
 	}
 }
 

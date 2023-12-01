@@ -40,14 +40,14 @@ https://besjournals.onlinelibrary.wiley.com/hub/journal/2041210X/features/applic
 \renewcommand{\[}{\begin{equation}}
 \renewcommand{\]}{\end{equation}}
 
-```{r, include = FALSE}
+```{r, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE
   , comment = "#>"
   , dev = "ragg_png"
 )
 ```
-```{r setup, include =F}
+```{r setup, include=FALSE}
 library(MeanRarity)
 ```
 # ABSTRACT
@@ -244,7 +244,7 @@ $\ell$ from equation 1, the argument `l`. Here, we create three balance plots
 for the three Pythagorean means, given when $\ell \in \{1, 0, -1\}$:
 
 
-```{r Balance_plot_setup, warning = FALSE, message=FALSE}
+```{r Balance_plot_setup, warning=FALSE, message=FALSE}
 
 balance_theme <- list(ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.6
                                                     , vjust = 0.5
@@ -264,7 +264,7 @@ shan_bal <- white_y( # hide y axis
   rarity_plot(ab = uneven_comm
               , l = 0
               , base_size = 12
-              , verbose = F)) +
+              , verbose = FALSE)) +
   ggplot2::labs(title = "\u2113 = 0\nHill-Shannon diversity") +
   balance_theme
 
@@ -272,12 +272,14 @@ simp_bal <- white_y(
   rarity_plot(ab = uneven_comm
               , l = -1
               , base_size = 12
-              , verbose = F)) +
+              , verbose = FALSE)) +
   ggplot2::labs(title = "\u2113 = -1\nHill-Simpson diversity") +
   
   ggplot2::labs(x = "") +
   balance_theme
 ```
+
+<!-- get the unicode stuff into the rarity_plot function in the package!-->
 
 <!-- should say more. Call more attention to the points and how they move and
 how diversity moves and all. Otherwise the coolness of this easy to miss. Also,
@@ -292,7 +294,7 @@ harmonic, given when `l= c(1, 0, -1)`, and equal to richness, Hill-Shannon
 diversity, and Hill-Simpson diversity). By default, each individual is plotted
 as a "block", and species with the same rarity are stacked vertically.
 
-```{r Balance plot print, out.width = '33%', out.height = '33%', fig.show = "hold"}
+```{r Balance_plot_print, out.width='33%', out.height='33%', fig.show="hold"}
 rich_bal
 shan_bal
 simp_bal

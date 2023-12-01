@@ -1,22 +1,22 @@
 ---
-title: "Using MeanRarity"
+title: "MeanRarity: An R package to facilitate estimation and visualization of Hill diversity"
 output: 
-  rmarkdown::html_document:
+  rmarkdown::html_vignette: 
     fig_width: 3
     fig_height: 3
-    fig.retina: NULL
   rmarkdown::pdf_document: 
     fig_width: 3
     fig_height: 3
     latex_engine: xelatex
-  rmarkdown::html_vignette: 
+  rmarkdown::html_document:
     fig_width: 3
     fig_height: 3
+    fig.retina: NULL
   word_document: default
 bibliography: '`r system.file( "REFERENCES.bib", package="MeanRarity")`'
 vignette: >
-  %\VignetteIndexEntry{Using MeanRarity}
   %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{MeanRarity: An R package to facilitate estimation and visualization of Hill diversity}
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
@@ -112,9 +112,16 @@ declining, at an unprecedented rate due to anthropogenic global change. Yet,
 detecting and describing this change means choosing just what to measure, and
 how. Ecologists are faced with a dazzling array of choices.
 
-Here, we introduce the R package **MeanRarity**, which enables estimating and
-visualizing Hill diversity (aka "Hill numbers") in terms of the average species
-"rarity." Rarity is defined as the reciprocal of relative abundance.
+Increasingly, Hill diversity or Hill numbers, a unified family of diversity
+measures that includes variants of classical metrics such as species richness
+and the Shannon and Simpson indices, have been put forward as the appropriate
+metrics for biodiversity quantification (Cite Chao, Jost, Roswell, others).
+However, even with this unified family of measures, there is a wide array of
+metrics that may be appropriate for a given case, opening the questions of how
+to choose among them or interpret differences between them. Here, we introduce
+the R package **MeanRarity**, which enables estimating and visualizing Hill
+diversity (aka "Hill numbers") in terms of the average species "rarity." Rarity
+is defined as the reciprocal of relative abundance.
 
 The average species rarity may be simpler to interpret than a transformed,
 generalized entropy (i.e., how Hill numbers are typically derived). The rarity
@@ -237,30 +244,29 @@ $\ell$ from equation 1, the argument `l`. Here, we create three balance plots
 for the three Pythagorean means, given when $\ell \in \{1, 0, -1\}$:
 
 
-```{r Balance plot setup}
+```{r Balance_plot_setup, warning = FALSE, message=FALSE}
+
+balance_theme <- list(ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.6
+                                                    , vjust = 0.5
+                                                    # , family = "Arial Unicode MS"
+                                                    )
+                 )
+                 , ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
+)
 
 rich_bal <- rarity_plot(ab = uneven_comm, l = 1, base_size = 12) +
   ggplot2::labs(x = "") +
   ggplot2::labs(title = "\u2113 = 1\n richness") +
-  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.6
-                                                    , vjust = 0.5
-                                                    # , family = "Arial Unicode MS"
-                                                    )
-                 ) + 
-  ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
+  balance_theme
+  
 
 shan_bal <- white_y( # hide y axis
   rarity_plot(ab = uneven_comm
               , l = 0
               , base_size = 12
               , verbose = F)) +
-    ggplot2::labs(title = "\u2113 = 0\nHill-Shannon diversity") +
-    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.6
-                                                    , vjust = 0.5
-                                                    # , family = "Arial Unicode MS"
-                                                    )
-                 ) + 
-    ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
+  ggplot2::labs(title = "\u2113 = 0\nHill-Shannon diversity") +
+  balance_theme
 
 simp_bal <- white_y(
   rarity_plot(ab = uneven_comm
@@ -268,13 +274,9 @@ simp_bal <- white_y(
               , base_size = 12
               , verbose = F)) +
   ggplot2::labs(title = "\u2113 = -1\nHill-Simpson diversity") +
-  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.6
-                                                    , vjust = 0.5
-                                                    # , family = "Arial Unicode MS"
-                                                    )
-                 ) +
+  
   ggplot2::labs(x = "") +
-  ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
+  balance_theme
 ```
 
 <!-- should say more. Call more attention to the points and how they move and

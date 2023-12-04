@@ -120,29 +120,29 @@ metrics for biodiversity quantification [@Roswell2021, @Chao2014, @Jost2006
 unite variants of the most popular diversity metrics with a single equation
 \ref(eq:1), but they always express diversity on an "effective numbers" scale,
 which arguably facilitates comparison and interpretation [@Jost2006,
-@Roswell2021]. However, even with this unified family of measures, there is a
-wide array of metrics that may be appropriate for a given case, opening the
-questions of how to choose among them and interpret differences between them.
+@Roswell2021]. However, despite the conceptual unity of Hill diversities, there
+is a wide array of metrics that may be appropriate for a given case, opening the
+questions of how to choose among them and to interpret differences between them.
 Doing so demands intuition about the numerical, biological, and statistical
-properties of these measures, which remain under-explored. To facilitate
-developing such intuition, we developed the R package **MeanRarity**, which
-enables estimating and visualizing Hill diversity (aka "Hill numbers") in terms
-of the average species "rarity." Rarity is defined as the reciprocal of relative
-abundance.
+properties of these measures, which remain under-explored. To facilitate such
+intuition, we developed the R package **MeanRarity**, which enables estimating
+and visualizing Hill diversity (aka "Hill numbers") in terms of the average
+species "rarity." Rarity is defined as the reciprocal of relative abundance.
 
 The average species rarity may be simpler to interpret than a transformed,
-generalized entropy (i.e., how Hill numbers are typically derived). The rarity
-parameterization clarifies the role of the scaling exponent, and this R package
-provides illustration tools to visualize that scaling concretely. Furthermore,
-this framework may provide an entry point for developing and testing diversity
-estimators and their related interval estimates (e.g., confidence intervals);
-this package contains tools to simulate species abundance distributions that
-should streamline that process.
+generalized entropy (i.e., how Hill numbers are typically derived [@Jost2006]).
+The rarity parameterization clarifies the role of the scaling exponent, and this
+R package provides illustration tools to visualize that scaling concretely.
+Furthermore, this framework may provide an entry point for developing and
+testing diversity estimators and their related interval estimates (e.g.,
+confidence intervals); this package contains tools to simulate species abundance
+distributions that should streamline that process.
 
 This R package provides functions for three purposes: (1) computing Hill
 diversity as "Mean Rarity", (2) visualizing and interpreting "Mean Rarity", and
 (3) simulating species abundance distributions with known diversity. The package
-is available online on Github (see Data accessibility). An interactive shiny
+is available online on Github (see Data accessibility). <!-- update if pushing
+to CRAN, and/or include Zenodo link with DOI --> An interactive shiny
 application for building "balance plots" is also available online
 (https://mean-rarity.shinyapps.io/rshiny_app1/).
 

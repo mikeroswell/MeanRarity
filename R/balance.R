@@ -577,7 +577,7 @@ white_y<-function(p){
                   , axis.ticks.y = ggplot2::element_line(color="white")
                   , axis.line.y = ggplot2::element_line(color="white")
                   , axis.line.x = ggplot2::element_line(
-                      colour = 'black', size=0.5, linetype='solid'
+                      colour = 'black', linewidth = 0.5, linetype = 'solid'
                     )
                   )
            )
@@ -606,7 +606,7 @@ omit_y<-function(p){
                   , axis.ticks.y = ggplot2::element_blank()
                   , axis.line.y = ggplot2::element_blank()
                   , axis.line.x = ggplot2::element_line(
-                      colour = 'black', size=0.2, linetype='solid'
+                      colour = 'black', linewidth = 0.2, linetype = 'solid'
                   )
            )
     )

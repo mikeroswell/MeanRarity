@@ -469,35 +469,23 @@ message(strwrap("\`rarity_plot()\` expects a square viewport (likely issues in
 	)
 }
 
-#' ggplot theme function for balance plots
+
+
+#' ggplot sugar for rarity plots
 #'
+#' @inheritParams ellnotate
 #'
-#' @return ggplot theme and color scale
+#' @return ggplot objects to add to rarity plot
+#' @concept Visualization
 #' @export
 #'
 #' @examples
-#' p1 <- mtcars %>%
-#'  ggplot2::ggplot(ggplot2::aes(cyl, mpg, color = as.factor(gear))) +
-#'  ggplot2::geom_point() +
-#'  ggplot2::labs(title = "example from mtcars") +
-#'  ggplot2::theme_classic()
+#' p1 <- rarity_plot(1:10, l = 1)
 #' p1
-#' p1 + theme_seesaw()
+#' p1 + seesaw_sugar(title = "Hill-Shannon diversity"
+#'   , l = 1)
 #'
-theme_seesaw <- function() {
-  list(
-    ggplot2::theme(plot.title =
-                   ggplot2::element_text(hjust = 0.6
-                                         , vjust = 0.5
-                                         # , family = "Arial Unicode MS"
-                                         )
-    )
-
-
-  )
-}
-
-rarity_sugar <- function(title = NULL
+seesaw_sugar <- function(title = NULL
                          , l
                          , unicode_in_title = TRUE
                          , ...
@@ -517,6 +505,7 @@ rarity_sugar <- function(title = NULL
 #' @param unicode_in_title Logical, include unicode ell and its value
 #' @param title Character string, or NULL
 #'
+#' @concept Visualization
 #' @return ggplot object
 #' @export
 #'

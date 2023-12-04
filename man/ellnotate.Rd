@@ -7,11 +7,13 @@
 ellnotate(title = NULL, l, unicode_in_title = TRUE, ...)
 }
 \arguments{
-\item{title}{Character string, or NULL}
+\item{title}{Character string, or NULL.}
 
 \item{l}{Scaling exponent for the mean, can be any real number.}
 
-\item{unicode_in_title}{Logical, include unicode ell and its value}
+\item{unicode_in_title}{Logical, include unicode ell and its value.}
+
+\item{...}{Additional arguments passed to other functions.}
 }
 \value{
 ggplot object

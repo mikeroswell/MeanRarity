@@ -7,11 +7,13 @@
 seesaw_sugar(title = NULL, l, unicode_in_title = TRUE, ...)
 }
 \arguments{
-\item{title}{Character string, or NULL}
+\item{title}{Character string, or NULL.}
 
 \item{l}{Scaling exponent for the mean, can be any real number.}
 
-\item{unicode_in_title}{Logical, include unicode ell and its value}
+\item{unicode_in_title}{Logical, include unicode ell and its value.}
+
+\item{...}{Additional arguments passed to other functions.}
 }
 \value{
 ggplot objects to add to rarity plot
@@ -20,7 +22,7 @@ ggplot objects to add to rarity plot
 ggplot sugar for rarity plots
 }
 \examples{
-p1 <- rarity_plot(1:10, l = 1=0)
+p1 <- rarity_plot(1:10, l = 0)
 p1
 p1 + seesaw_sugar(title = "Hill-Shannon diversity"
   , l = 0)

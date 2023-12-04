@@ -480,7 +480,7 @@ message(strwrap("\`rarity_plot()\` expects a square viewport (likely issues in
 #' @export
 #'
 #' @examples
-#' p1 <- rarity_plot(1:10, l = 1=0)
+#' p1 <- rarity_plot(1:10, l = 0)
 #' p1
 #' p1 + seesaw_sugar(title = "Hill-Shannon diversity"
 #'   , l = 0)
@@ -502,8 +502,9 @@ seesaw_sugar <- function(title = NULL
 #' Convenience function to label rarity plots with scaling exponent
 #'
 #' @template l_template
-#' @param unicode_in_title Logical, include unicode ell and its value
-#' @param title Character string, or NULL
+#' @param unicode_in_title Logical, include unicode ell and its value.
+#' @param title Character string, or NULL.
+#' @param ... Additional arguments passed to other functions.
 #'
 #' @concept Visualization
 #' @return ggplot object

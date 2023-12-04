@@ -469,91 +469,77 @@ message(strwrap("\`rarity_plot()\` expects a square viewport (likely issues in
 	)
 }
 
-#' Generate rarity plot noting $\ell$ value and optional banner title
+#' ggplot theme function for balance plots
 #'
-#' @inheritParams rarity_plot
-#' @param l_banner Logical, include unicode $\ell$ and $\ell$ value?
-#' @param title Character vector, optional banner title
 #'
-#' @return ggplot object, a rarity plot with banner annotations
+#' @return ggplot theme and color scale
 #' @export
 #'
 #' @examples
-#' rarity_plot_b(ab = 1:10, 1)
-rarity_plot_b <- function(ab
-                           , l
-                           , q = NULL
-                           , means = -1:1
-                           , noco = 1
-                           , lines = FALSE
-                           , l_banner = TRUE
-                           , title = NULL
-                           , ...)
-                          {
-  MeanRarity:::ellnotate(rarity_plot(ab = ab
-                        , l = l
-                        , q = q
-                        , means = means
-                        , noco = noco
-                        , lines = lines
-                        , ...)
-            , l = l, title = title, ...)
+#' p1 <- mtcars %>%
+#'  ggplot2::ggplot(ggplot2::aes(cyl, mpg, color = as.factor(gear))) +
+#'  ggplot2::geom_point() +
+#'  ggplot2::labs(title = "example from mtcars") +
+#'  ggplot2::theme_classic()
+#' p1
+#' p1 + theme_seesaw()
+#'
+theme_seesaw <- function() {
+  list(
+    ggplot2::theme(plot.title =
+                   ggplot2::element_text(hjust = 0.6
+                                         , vjust = 0.5
+                                         # , family = "Arial Unicode MS"
+                                         )
+    )
+
+
+  )
+}
+
+rarity_sugar <- function(title = NULL
+                         , l
+                         , unicode_in_title = TRUE
+                         , ...
+){
+  list(ggplot2::scale_color_brewer(type = "qual", palette = "Dark2")
+       , ellnotate(title = title
+            , l = l
+            , unicode_in_title = TRUE
+            , ...)
+       )
 }
 
 
 #' Convenience function to label rarity plots with scaling exponent
 #'
-#' @param my_ggplot ggplot object
-#' @param l Numeric scalar, Hill diversity scaling factor
-#' @param unicode_in_title Logical, include unicode \ell
+#' @template l_template
+#' @param unicode_in_title Logical, include unicode ell and its value
 #' @param title Character string, or NULL
-#' @param size Numeric scalar, text size for annotation
 #'
 #' @return ggplot object
-#' @noRd
+#' @export
 #'
 #' @examples
-#' MeanRarity:::ellnotate(my_ggplot = rarity_plot(1:10, 1), l = 1
-#' , title = "Hill-Shannon diversity")
+#' myp <- rarity_plot(1:10, 1)
+#' myp +
+#'  ellnotate("Hill-Shannon diversity", l = 1)
 #'
-ellnotate <- function(title, unicode_in_title = TRUE,  l, ...){
-
-  annotation <- ggplot2::annotation_custom(grid::textGrob(
-    label = paste0("\u2113 = ", l, "\n", title))
-    , xmin = -Inf
-    , xmax = Inf
-    , ymin = Inf
-    , ymax = Inf
-     )
-  return(annotation)
-}
-
-
-myp <- rarity_plot(1:10, 1)
-
-myp + ellnotate("sometext", l = 1)
-
-
-  function(my_ggplot
+ellnotate <- function(title = NULL
                       , l
                       , unicode_in_title = TRUE
-                      , title = NULL
-                      , size = 8){
-  toknow = ggplot2::layer_scales(my_ggplot)
-  left = mean(toknow$x$range$range)
-  top = 1/1.1*max(toknow$y$limits)
-
-  if(unicode_in_title){
-    my_ggplot + ggplot2::annotate(geom = "text", label = paste0("\u2113 = ", l, "\n", title)
-                      ,  xmin = -Inf, xmax = Inf, y = top
-                      # , hjust = 1
-                      , size = size, fontface = "bold")
-  }
-  else{my_ggplot + ggplot2::labs(title = title)}
+                      , ...
+                      ){
+  annotation <- ggplot2::annotation_custom(grid::textGrob(
+    label = paste0("\u2113 = ", l, "\n", title)
+    , vjust = 1)
+  , xmin = -Inf
+  , xmax = Inf
+  , ymin = Inf
+  , ymax =  Inf
+ )
+  return(annotation)
 }
-
-
-
 
 #' Conveniently plot for l = -1:1, with reference points in each fig
 #'

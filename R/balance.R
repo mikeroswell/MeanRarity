@@ -226,9 +226,11 @@ theme_plot <- function(p, base_size = 24, noco = 1, ...){
 		+ ggplot2::theme(
 		    axis.text = ggplot2::element_text(color = "black") # better than Wickham's grey?
 		    , axis.line.x = ggplot2::element_line(colour = 'black'
-		                                 , size = 0.2, linetype = 'solid')
-			, axis.line.y = ggplot2::element_line(colour = 'black'
-			                             , size = 0.2, linetype = 'solid')
+		                                          , linewidth = 0.2
+		                                          , linetype = 'solid')
+		    , axis.line.y = ggplot2::element_line(colour = 'black'
+		                                          , linewidth = 0.2
+		                                          , linetype = 'solid')
 		)
 	)
 }
@@ -526,7 +528,7 @@ ellnotate <- function(title = NULL
   , xmin = -Inf
   , xmax = Inf
   , ymin = Inf
-  , ymax =  Inf
+  , ymax = Inf
  )
   return(annotation)
 }

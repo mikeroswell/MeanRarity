@@ -397,6 +397,8 @@ fulcrum <- function(ab, l
 #'   individuals be summarized simply as the height of a line segment.
 #' @param means Numeric vector of scaling exponent values corresponding to
 #'   reference (by default, Pythagorean) means.
+#' @param lbanner Logical, include a banner with unicode for \ell
+#' @param title Character string, for an additional title
 #' @param ... Additional arguments passed to other functions.
 #'
 #'
@@ -434,6 +436,8 @@ rarity_plot <- function(ab
                         , means = -1:1
                         , noco = 1
                         , lines = FALSE
+                        , l_banner = TRUE
+                        , title = NULL
                         , ...){
 message(strwrap("\`rarity_plot()\` expects a square viewport (likely issues in
                 the RStudio plotting device) and resizes points based on
@@ -448,23 +452,24 @@ message(strwrap("\`rarity_plot()\` expects a square viewport (likely issues in
     warning("l has been set to 1-q")
   }
 
-    ab <- ab[ab != 0]
-	return(
-		scale_plot(ab
-		           , l
-		           , noco=  noco
-		           , lines = lines
-		           ,...)
-		+ mean_points(ab
-		              , means
-		              , noco = noco)
-		+ fulcrum(ab
-		          , l
-		          , noco = noco
-		          , ...)
-		+ ggplot2::scale_color_brewer(type = "qual", palette = "Set1")
-		# + scale_color_viridis_d(option="plasma")
-		# + scale_color_manual(values=c("#AA8E39", "#294F6D", "#4B2D73"))
+    ab = ab[ab != 0]
+    myp = (scale_plot(ab
+                     , l
+                     , noco=  noco
+                     , lines = lines
+                     ,...)
+          + mean_points(ab
+                        , means
+                        , noco = noco)
+          + fulcrum(ab
+                    , l
+                    , noco = noco
+                    , ...)
+          + ggplot2::scale_color_brewer(type = "qual", palette = "Set1"))
+    if(l_banner){
+      myp = ellnotate(myp, l, title, unicode_in_title = TRUE)
+    }
+	return(myp
 	)
 }
 

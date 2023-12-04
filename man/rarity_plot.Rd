@@ -4,7 +4,17 @@
 \alias{rarity_plot}
 \title{Construct rarity balance plot}
 \usage{
-rarity_plot(ab, l, q = NULL, means = -1:1, noco = 1, lines = FALSE, ...)
+rarity_plot(
+  ab,
+  l,
+  q = NULL,
+  means = -1:1,
+  noco = 1,
+  lines = FALSE,
+  l_banner = TRUE,
+  title = NULL,
+  ...
+)
 }
 \arguments{
 \item{ab}{A numeric vector of species abundances or relative abundances.}
@@ -23,7 +33,11 @@ plots in a single plotting window.}
 \item{lines}{Logical, should each individual be plotted as a "box" or should
 individuals be summarized simply as the height of a line segment.}
 
+\item{title}{Character string, for an additional title}
+
 \item{...}{Additional arguments passed to other functions.}
+
+\item{lbanner}{Logical, include a banner with unicode for \ell}
 }
 \description{
 This function takes the abundance vector, scaling exponent, and target means

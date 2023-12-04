@@ -180,19 +180,18 @@ diversity measures that includes variants of classical metrics such as
 species richness and the Shannon and Simpson indices, have been put
 forward as the appropriate metrics for biodiversity quantification <span class="citation">Chao and Jost (2015)</span>. Not only do Hill
 diversities unite variants of the most popular diversity metrics with a
-single equation (eq:1), but they always express diversity on an
-“effective numbers” scale, which arguably facilitates comparison and
-interpretation <span class="citation">Roswell, Dushoff, and Winfree
-(2021)</span>. However, despite the conceptual unity of Hill
-diversities, there is a wide array of metrics that may be appropriate
-for a given case, opening the questions of how to choose among them and
-to interpret differences between them. Doing so demands intuition about
-the numerical, biological, and statistical properties of these measures,
-which remain under-explored. To facilitate such intuition, we developed
-the R package <strong>MeanRarity</strong>, which enables estimating and
-visualizing Hill diversity (aka “Hill numbers”) in terms of the average
-species “rarity.” Rarity is defined as the reciprocal of relative
-abundance.</p>
+single equation (eq:1)<!-- why doesn't this render correctly? -->, but
+they always express diversity on an “effective numbers” scale, which
+arguably facilitates comparison and interpretation <span class="citation">Roswell, Dushoff, and Winfree (2021)</span>. However,
+despite the conceptual unity of Hill diversities, there is a wide array
+of metrics that may be appropriate for a given case, opening the
+questions of how to choose among them and to interpret differences
+between them. Doing so demands intuition about the numerical,
+biological, and statistical properties of these measures, which remain
+under-explored. To facilitate such intuition, we developed the R package
+<strong>MeanRarity</strong>, which enables estimating and visualizing
+Hill diversity (aka “Hill numbers”) in terms of the average species
+“rarity.” Rarity is defined as the reciprocal of relative abundance.</p>
 <p>The average species rarity may be simpler to interpret than a
 transformed, generalized entropy (i.e., how Hill numbers are typically
 derived <span class="citation">(Jost 2006)</span>). The rarity
@@ -463,7 +462,7 @@ generate a “Whitaker plot”).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ev</span></span>
 <span><span class="va">un</span></span></code></pre></div>
-<p><img src="Using_MeanRarity_files/figure-html/plot%20radplots-1.png" width="288"><img src="Using_MeanRarity_files/figure-html/plot%20radplots-2.png" width="288"></p>
+<p><img src="Using_MeanRarity_files/figure-html/plot%20radplots-1.png" width="450"><img src="Using_MeanRarity_files/figure-html/plot%20radplots-2.png" width="450"></p>
 <p><code><a href="../reference/fit_SAD.html">fit_SAD()</a></code> generates an ideal species abundance
 distribution, with relative abundances for an assemblage with infinite
 abundance. To take a finite sample, we use
@@ -490,17 +489,17 @@ functions to enable this --></p>
 <span><span class="va">uneven_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">uneven_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">50</span><span class="op">)</span></span>
 <span><span class="co">#sample_infinite returns a numeric vector of sample species abundances</span></span>
 <span><span class="va">even_sample</span></span>
-<span><span class="co">#&gt;  [1] 13  4  5  5  3  3  1  2  1  0  1  3  1  2  1  0  3  0  1  1</span></span>
+<span><span class="co">#&gt;  [1] 6 8 5 0 6 2 5 3 2 0 2 2 5 0 1 1 2 0 0 0</span></span>
 <span><span class="va">uneven_sample</span></span>
-<span><span class="co">#&gt;  [1] 20  9  3  3  2  1  1  2  1  0  1  2  0  3  0  1  0  0  1  0</span></span>
+<span><span class="co">#&gt;  [1] 19  6  7  4  4  1  0  1  3  1  2  0  1  0  0  0  1  0  0  0</span></span>
 <span></span>
 <span><span class="co"># we can compare evenness (given a scaling parameter `l`)</span></span>
 <span><span class="co"># the evenness is the normalized ratio of an arbitrary Hill diversity to </span></span>
 <span><span class="co"># richness</span></span>
 <span><span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.4838287</span></span>
+<span><span class="co">#&gt; [1] 0.7177368</span></span>
 <span><span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.2886809</span></span>
+<span><span class="co">#&gt; [1] 0.3673021</span></span>
 <span></span>
 <span><span class="co"># compare diversity from sample vs. ideal SAD:</span></span>
 <span><span class="co"># likely pretty far off for a small sample!</span></span>
@@ -513,7 +512,7 @@ functions to enable this --></p>
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 17   12.10025 8.741259</span></span>
+<span><span class="co">#&gt; [1,] 14   11.72722 10.33058</span></span>
 <span></span>
 <span><span class="co"># with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson</span></span>
 <span><span class="co"># richness is always lower</span></span>
@@ -524,7 +523,7 @@ functions to enable this --></p>
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 14   7.669886 4.752852</span></span>
+<span><span class="co">#&gt; [1,] 12   7.317348 5.040323</span></span>
 <span></span>
 <span></span>
 <span><span class="va">big_even_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">even_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">1e7</span><span class="op">)</span></span>
@@ -537,8 +536,8 @@ functions to enable this --></p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">l</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">big_even_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 20   15.11958 11.99917</span></span></code></pre></div>
+<span><span class="co">#&gt;      [,1] [,2]    [,3]    </span></span>
+<span><span class="co">#&gt; [1,] 20   15.1194 11.99903</span></span></code></pre></div>
 <p>For any distribution of relative abundances, one can ask, “what is
 the Hill diversity of this distribution?” Yet the answer, of course,
 depends on the chosen value of the scaling parameter <span class="math inline">\(\ell\)</span>. For a comprehensive answer, one
@@ -557,7 +556,7 @@ way!--></p>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">22</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"scaling exponent \'l\'"</span>, y <span class="op">=</span> <span class="st">"Hill diversity"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Using_MeanRarity_files/figure-html/diversity%20profile-1.png" width="700"></p>
+<p><img src="Using_MeanRarity_files/figure-html/diversity%20profile-1.png" width="1093.75"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="../reference/divpro.html">divpro</a></span><span class="op">(</span><span class="va">uneven_SAD</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
@@ -566,7 +565,7 @@ way!--></p>
 <span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">22</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"scaling exponent \'l\'"</span>, y <span class="op">=</span> <span class="st">"Hill diversity"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Using_MeanRarity_files/figure-html/diversity%20profile-2.png" width="700"></p>
+<p><img src="Using_MeanRarity_files/figure-html/diversity%20profile-2.png" width="1093.75"></p>
 </div>
 </div>
 <div class="section level2">
@@ -758,22 +757,22 @@ Hill diversity estimates when the scaling exponent <span class="math inline">\(\
 <span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
 <span><span class="co">#&gt; Warning: Removed 900 rows containing missing values (`geom_line()`).</span></span></code></pre></div>
-<p><img src="Using_MeanRarity_files/figure-html/bias%20figure%20-1.png" width="672"></p>
+<p><img src="Using_MeanRarity_files/figure-html/bias%20figure%20-1.png" width="1050"></p>
 <pre><code><span><span class="co">#&gt; Warning: Removed 900 rows containing missing values (`geom_line()`).</span></span></code></pre>
-<p><img src="Using_MeanRarity_files/figure-html/bias%20figure%20-2.png" width="672"></p>
+<p><img src="Using_MeanRarity_files/figure-html/bias%20figure%20-2.png" width="1050"></p>
 <pre><code><span><span class="co">#&gt; Warning: Removed 901 rows containing missing values (`geom_line()`).</span></span></code></pre>
-<p><img src="Using_MeanRarity_files/figure-html/bias%20figure%20-3.png" width="672"></p>
+<p><img src="Using_MeanRarity_files/figure-html/bias%20figure%20-3.png" width="1050"></p>
 <pre><code><span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt; Warning: Removed 900 rows containing missing values (`geom_line()`).</span></span></code></pre>
-<p><img src="Using_MeanRarity_files/figure-html/bias%20figure%20-4.png" width="672"></p>
+<p><img src="Using_MeanRarity_files/figure-html/bias%20figure%20-4.png" width="1050"></p>
 <pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
 <span><span class="co">#&gt; Warning: Removed 900 rows containing missing values (`geom_line()`).</span></span></code></pre>
-<p><img src="Using_MeanRarity_files/figure-html/bias%20figure%20-5.png" width="672"></p>
+<p><img src="Using_MeanRarity_files/figure-html/bias%20figure%20-5.png" width="1050"></p>
 <pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[3]]</span></span>
 <span><span class="co">#&gt; Warning: Removed 901 rows containing missing values (`geom_line()`).</span></span></code></pre>
-<p><img src="Using_MeanRarity_files/figure-html/bias%20figure%20-6.png" width="672"></p>
+<p><img src="Using_MeanRarity_files/figure-html/bias%20figure%20-6.png" width="1050"></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># #centinel scale</span></span>

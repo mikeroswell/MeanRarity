@@ -20,9 +20,9 @@ ggplot object
 Convenience function to label rarity plots with scaling exponent
 }
 \examples{
-myp <- rarity_plot(1:10, 1)
+myp <- rarity_plot(1:10, 0)
 myp +
- ellnotate("Hill-Shannon diversity", l = 1)
+ ellnotate("Hill-Shannon diversity", l = 0)
 
 }
 \concept{Visualization}

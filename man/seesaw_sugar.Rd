@@ -20,10 +20,10 @@ ggplot objects to add to rarity plot
 ggplot sugar for rarity plots
 }
 \examples{
-p1 <- rarity_plot(1:10, l = 1)
+p1 <- rarity_plot(1:10, l = 1=0)
 p1
 p1 + seesaw_sugar(title = "Hill-Shannon diversity"
-  , l = 1)
+  , l = 0)
 
 }
 \concept{Visualization}

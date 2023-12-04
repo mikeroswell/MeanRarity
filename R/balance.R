@@ -480,10 +480,10 @@ message(strwrap("\`rarity_plot()\` expects a square viewport (likely issues in
 #' @export
 #'
 #' @examples
-#' p1 <- rarity_plot(1:10, l = 1)
+#' p1 <- rarity_plot(1:10, l = 1=0)
 #' p1
 #' p1 + seesaw_sugar(title = "Hill-Shannon diversity"
-#'   , l = 1)
+#'   , l = 0)
 #'
 seesaw_sugar <- function(title = NULL
                          , l
@@ -510,9 +510,9 @@ seesaw_sugar <- function(title = NULL
 #' @export
 #'
 #' @examples
-#' myp <- rarity_plot(1:10, 1)
+#' myp <- rarity_plot(1:10, 0)
 #' myp +
-#'  ellnotate("Hill-Shannon diversity", l = 1)
+#'  ellnotate("Hill-Shannon diversity", l = 0)
 #'
 ellnotate <- function(title = NULL
                       , l

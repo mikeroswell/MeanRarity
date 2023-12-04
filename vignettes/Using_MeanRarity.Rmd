@@ -245,7 +245,7 @@ for the three Pythagorean means, given when $\ell \in \{1, 0, -1\}$:
 
 
 ```{r Balance_plot_setup, warning=FALSE, message=FALSE}
-
+#consider movign to balance.R
 balance_theme <- list(ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.6
                                                     , vjust = 0.5
                                                     # , family = "Arial Unicode MS"
@@ -256,7 +256,6 @@ balance_theme <- list(ggplot2::theme(plot.title = ggplot2::element_text(hjust = 
 
 rich_bal <- rarity_plot(ab = uneven_comm, l = 1, base_size = 12) +
   ggplot2::labs(x = "") +
-  ggplot2::labs(title = "\u2113 = 1\n richness") +
   balance_theme
   
 
@@ -264,8 +263,8 @@ shan_bal <- white_y( # hide y axis
   rarity_plot(ab = uneven_comm
               , l = 0
               , base_size = 12
-              , verbose = FALSE)) +
-  ggplot2::labs(title = "\u2113 = 0\nHill-Shannon diversity") +
+              , verbose = FALSE
+              , title = "Hill-Shannon diversity")) +
   balance_theme
 
 simp_bal <- white_y(

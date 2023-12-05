@@ -135,10 +135,10 @@ unity of Hill diversities, there is a wide array of metrics that may be
 appropriate for a given case, opening the questions of how to choose among them
 and to interpret differences between them. Doing so demands intuition about the
 numerical, biological, and statistical properties of these measures, which
-remain under-explored. To facilitate such intuition, we developed the R package
-**MeanRarity**, which enables estimating and visualizing Hill diversity (aka
-"Hill numbers") in terms of the average species "rarity." Rarity is defined as
-the reciprocal of relative abundance.
+remain under-explored. To facilitate such intuition, we developed the `R`
+package **MeanRarity**, which enables estimating and visualizing Hill diversity
+(aka "Hill numbers") in terms of the average species "rarity." Rarity is defined
+as the reciprocal of relative abundance.
 
 The average species rarity may be simpler to interpret than a transformed,
 generalized entropy (i.e., how Hill numbers are typically derived [@Jost2006]).
@@ -161,7 +161,7 @@ application for building "balance plots" is also available online
 (https://mean-rarity.shinyapps.io/rshiny_app1/). In this manuscript, we describe
 the core functions in the package, demonstrate their application in a small
 study of bias and sampling variation in Hill diversity estimates, and contrast
-**MeanRarity** with several `R` packages that provide similar and/or
+**MeanRarity** with several `R` packages that provide similar and/ or
 complementary functionality.
 
 # PACKAGE DESCRIPTION
@@ -192,8 +192,9 @@ that the scaling exponent is the "weight." The concrete meaning of "weight" when
 applied to $q$ in Equation 2 may be difficult to understand.
 
 Because Equations 1 and 2 are algebraically equivalent, `rarity(x, l)` is
-equivalent to `vegan::renyi(x, scale = 1-l, hill = T)`, `entropart::Diversity(x, 1-l, Correction = "None"))`, or the `qD` output from `iNEXT::estimateD(x)` where
-`order = 1-l`.
+equivalent to `vegan::renyi(x, scale = 1-l, hill = T)`, 
+`entropart::Diversity(x, 1-l, Correction = "None"))`, or the `qD` output from 
+`iNEXT::estimateD(x)` where `order = 1-l`.
 
 
 
@@ -252,10 +253,11 @@ rarity(even_3, -1) %>% round(2)
 
 Many authors have described $\ell$ as a factor that weights species relative
 abundances - presumably suggesting that downweighting rare species means a lower
-effective diversity, while upweighting them means a higher effective diversity.
-Another interpretation (developed in this package) is that $\ell$ **rescales**
-species *rarities*. This interpretation lends itself to concrete visualizations
-of Hill diversities as mean rarities, provided by `rarity_plot()`.
+effective diversity, while upweighting them means a higher effective diversity
+[e.g., @Chao2014b; @Haegeman2013; @Tuomisto2010]. Another interpretation
+(developed in this package) is that $\ell$ **rescales** species *rarities*. This
+interpretation lends itself to concrete visualizations of Hill diversities as
+mean rarities, provided by `rarity_plot()`.
 
 `rarity_plot()` makes "balance plots," introduced below, to visualize mean
 rarity. The idea behind a balance plot is that means measure the weighted

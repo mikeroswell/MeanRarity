@@ -34,23 +34,27 @@ Imports:
     , Rdpack
 RoxygenNote: 7.2.3
 Suggests: 
-    testthat
-    , spelling
-    , knitr
-    , patchwork
-    , rmarkdown
-    , vdiffr
-    , iNEXT
-    , tidyr
-    , forcats
-    , vegan
-    , ragg
-    , furrr
-    , parallel
-    , invgamma
+    testthat,
+    spelling,
+    knitr,
+    patchwork,
+    rmarkdown,
+    vdiffr,
+    iNEXT,
+    tidyr,
+    forcats,
+    vegan,
+    ragg,
+    furrr,
+    parallel,
+    invgamma,
+    ratioScales (>= 0.0.2.0),
+    entropart
 Roxygen: list(markdown = TRUE)
 RdMacros: Rdpack
 Language: en-US
 VignetteBuilder: knitr
 Depends: R (>= 3.3)
 URL: https://mikeroswell.github.io/MeanRarity
+Remotes: 
+    mikeroswell/ratioScales

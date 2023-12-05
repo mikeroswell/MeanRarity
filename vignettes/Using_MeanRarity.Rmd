@@ -40,17 +40,17 @@ https://besjournals.onlinelibrary.wiley.com/hub/journal/2041210X/features/applic
 \renewcommand{\[}{\begin{equation}}
 \renewcommand{\]}{\end{equation}}
 
-```{r, include=FALSE}
+```{r, setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE
   , comment = "#>"
   , dev = "ragg_png"
   , dpi = 150
+  
 )
-```
-```{r setup, include=FALSE}
 library(MeanRarity)
 ```
+
 # ABSTRACT 
 <!-- 350 words max, now 355 -->
 
@@ -189,7 +189,7 @@ equivalent to `vegan::renyi(x, scale = 1-l, hill = T)` and the `qD` output from
 
 
 
-```{r compute rarity}
+```{r compute-rarity}
 # for a totally even distribution, Hill diversity is the same regardless of `l`
 
 even_comm <- rep(2, 6)
@@ -232,7 +232,7 @@ species. At the same time, when `l = -1`, it is about as diverse as an
 assemblage with twice the number of species and tremendous unevenness, or half
 the number of species and perfect evenness:
 
-``` {r effective numbers}
+``` {r effective-numbers}
 uneven_12 <- c(531, 186, 101,  63, 41, 28, 19, 13, 9, 5, 3, 1)
 even_3 <- c(20, 20, 20)
 
@@ -261,7 +261,7 @@ $\ell$ from equation 1, the argument `l`. Here, we create three balance plots
 for the three Pythagorean means, given when $\ell \in \{1, 0, -1\}$:
 
 
-```{r Balance_plot_setup, warning=FALSE, message=FALSE}
+```{r Balance-plot-setup, warning=FALSE, message=FALSE}
 
 rich_bal <- rarity_plot(ab = uneven_comm, l = 1, base_size = 12) +
   ggplot2::labs(x = "") +
@@ -300,7 +300,7 @@ harmonic, given when `l= c(1, 0, -1)`, and equal to richness, Hill-Shannon
 diversity, and Hill-Simpson diversity). By default, each individual is plotted
 as a "block", and species with the same rarity are stacked vertically.
 
-```{r Balance_plot_print, out.width='33%', out.height='33%', fig.show="hold"}
+```{r balance-plot-print, out.width='33%', out.height='33%', fig.show="hold"}
 rich_bal
 shan_bal
 simp_bal
@@ -350,7 +350,7 @@ which is a pretty rnadom detail--> The default behavior is *not* to
 log-transform [relative] abundances (i.e. it does not, by default, generate a
 "Whitaker plot").
 
-```{r fit species abundance distributions}
+```{r fit-species-abundance-distributions}
 # set target richness and Hill-Simpson diversity levels
 rich <- 20
 simpson <- 12
@@ -391,7 +391,7 @@ samples from the distribution given by fit_SAD-->
 <!-- plot RADs and hill profiles together on same plots. May modify package 
 functions to enable this -->
 
-```{r sample from SAD}
+```{r sample-from-SAD}
 
 # diversity of a small sample unlikely to match the simulated diversity values
 
@@ -445,7 +445,7 @@ profile based on $\ell$ (rather than $q$): `divpro()`.
 <!-- these should be on a single plot, will be much more interesting that
 way!-->
 
-```{r diversity profile}
+```{r diversity-profile}
 # the even and uneven communities have same richness but different Hill 
 # diversity when `ell != 1`
 ggplot2::ggplot(divpro(even_SAD[[3]]),
@@ -581,7 +581,7 @@ when the scaling exponent $\ell << 1$.
 
 <-- check theme options like panel.spacing and legend.key.width -->
 
-```{r bias figure , fig.height = 7, fig.width = 7}
+```{r bias-figure , fig.height = 7, fig.width = 7}
 
 # ratio scale
 purrr::map(c("lnorm", "gamma", "invgamma"), function(dist){
@@ -708,7 +708,7 @@ purrr::map(c("lnorm", "gamma", "invgamma"), function(dist){
 Figure X: Hill-Simpson diversity estimates have high variability under random 
 sampling.  
 
-```{r sidenote on when naive beats asymptotic}
+```{r sidenote-when-naive-beats-asymptotic}
 
 # occam <- err_plot_data %>% 
 #   dplyr::group_by(evenness, distribution, ell, sample_size) %>% 
@@ -770,7 +770,7 @@ and distributional assumption of the SAD, the asymptotic richness estimate could
 be more, or less, than the variability in the asymptotic Hill-Simpson diversity
 estimate.
 
-```{r sampling variation in diversity estimates, fig.height = 7, fig.width = 7}
+```{r sampling-variation-in-diversity-estimates, fig.height = 7, fig.width = 7}
 
 
 ```
@@ -785,8 +785,9 @@ available in several R packages.
   The R package **iNEXT** provides tools for rarefaction and extrapolation of
   sample Hill diversity estimates, and point estimates for asymptotic estimators
   for richness, Hill-Shannon, and Hill-Simpson. It computes sample Hill
-  diversity for $\ell\leq 1 = q \geq 0$. The function `MeanRarity::rarity()`
-  also computes mean rarity when $\ell>1$. Although estimates from **iNEXT** and
+  diversity for $\ell\leq 1 = q \geq 0$. By contrast, the function
+  `MeanRarity::rarity()` also computes mean rarity when $\ell>1$
+  [@Roswell2022b]. Although estimates from **iNEXT** and
   **MeanRarity** should tend to be congruent for $\ell = 1-q$, MeanRarity
   provides users with the option to use $\ell$ throughout, emphasizing the
   MeanRarity framework developed in Roswell et al. 2021 [@Roswell2021].
@@ -799,8 +800,8 @@ available in several R packages.
   suited to students and those studying biodiversity estimation. **iNEXT** is
   well-suited to plotting empirical diversity data from a small to modest number
   of assemblages.
-1. `SpadeR`
-  The R package `SpadeR` provides similar estimates for Hill diversity as iNEXT,
+1. **SpadeR**
+  The R package **SpadeR** provides similar estimates for Hill diversity as **iNEXT**,
   also parameterized by $q$ rather than $\ell$ (**MeanRarity** allows either
   parameterization, defaulting to $\ell$). `SpadeR::diversity`, like
   `MeanRarity::divpro`, generates a Hill diversity "profile". Internal functions
@@ -810,17 +811,17 @@ available in several R packages.
   alpha- and beta-diversity, **MeanRarity** provides additional tools for
   simulation, visualization, and alternative parameterization.
 1. **vegan**
-  The R package **vegan** contains a multitude of tools for comparing community
-  data in R. Like **MeanRarity**, **vegan** contains tools to estimate Hill
-  diversity (`vegan::renyi(..., hill = TRUE)`), rarefy
-  datasets`vegan::specaccum()`, and fit parametric distributions to abundance
-  vectors `vegan::fisherfit()`. While **vegan** is highly versatile, historical
+  The `R` package **vegan** contains a multitude of tools for comparing
+  community data in `R`. Like **MeanRarity**, **vegan** contains tools to
+  estimate Hill diversity (`vegan::renyi(..., hill = TRUE)`), rarefy datasets
+  (`vegan::specaccum()`), and fit parametric distributions to abundance vectors
+  (`vegan::fisherfit()`). While **vegan** is highly versatile, historical
   artifacts may lead to confusion about Hill diversity. For example,
-  `vegan::diversity(x, "invsimpson") = 1/(1-vegan::diversity(x, "simpson"))`,
-  although users might assume that 
-  `vegan::diversity(x, "invsimpson") = 1/vegan::diversity(x, "simpson")`. 
-  **MeanRarity** focuses on the interpretation of Hill diversities as average of
-  species rarities across scales to dispel confusion.
+  `vegan::diversity(x, "invsimpson") == 1/(1-vegan::diversity(x, "simpson"))`,
+  although users might reasonably assume that `vegan::diversity(x, "invsimpson")
+  == 1/vegan::diversity(x, "simpson")`. **MeanRarity** focuses on the
+  interpretation of Hill diversities as average of species rarities across
+  scales, to dispel confusion.
 1. **sads**
   The R package **sads** provides functions to fit parametric distributions to
   abundance vectors using maximum-likelihood. The function ``sads::rsad()`, like
@@ -836,12 +837,13 @@ available in several R packages.
   The R package **mobsim** expands on the simulations provided by **sads** to
   generate spatially-explicit simulations. Unlike **MeanRarity**, **mobsim**
   provides tools to simulate and estimate diversity-area relationships. However,
-  in **mobsim** the diversity of an assemblage is an outcome of a simulation,
+  in **mobsim**, the diversity of an assemblage is an outcome of a simulation,
   rather than an input, whereas `MeanRarity::fit_SAD` allows users to input
   diversity directly. These functionalities enable complementary approaches to
   studying the behavior of diversity estimates under different sampling
   scenarios.
-1. **entropart**
+1. **entropart** 
+  The `Diversity()` function in **entropart** computes several estimators of Hill diversities (and several relevant monotonic transformations) for any real value of `q = 1-l`, and with the option `Correction = "None"` is congruent with `MeanRarity::rarity()`.   
 1. **EntropyEstimation**
 1. **Richness** https://github.com/EWTekwa/Richness
 <!-- search for others -->

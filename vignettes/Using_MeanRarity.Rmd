@@ -52,12 +52,12 @@ knitr::opts_chunk$set(
 library(MeanRarity)
 ```
 # ABSTRACT 
-<!-- 350 words max, now like 400 -->
+<!-- 350 words max, now 355 -->
 
-<!-- 1. context for and purpose of the work-->
+<!-- 1. context for and purpose of the work -->
 <!-- 2. approach and methods -->
 <!-- 3. key results -->
-<!-- 4. conclusions and the wider implications-->
+<!-- 4. conclusions and the wider implications -->
 
 1. Detecting, describing, and predicting biodiversity shifts, a critical project
 in ecology and evolution, requires metrics with well-understood numerical and
@@ -66,9 +66,9 @@ diversity measures have been promoted for their ability to accommodate many
 historical biodiversity concepts, and quantify diversity in natural "effective
 numbers" units. The "effective numbers" scale, while potentially easing
 comparison or interpretation of disparate metrics, may fuel false beliefs about
-the numerical and statistical properties of Hill diversity measures.
-Re-parameterizing the Hill number equation in terms of the generalized mean
-rarity can expose missed properties of these widely-used measures.
+their numerical and statistical properties. Re-parameterizing the Hill number
+equation in terms of the generalized mean rarity can expose missed properties of
+these widely-used measures.
 
 1. We present the `R` package **MeanRarity**, which enables estimating and
 visualizing Hill diversity (aka "Hill numbers") in terms of the average species
@@ -78,22 +78,18 @@ and their average rarity, and simulate abundance distributions with known
 diversity. To illustrate the use of **MeanRarity**, we simulate species
 abundance distributions that vary in shape but not richness, and estimate
 assemblage diversity based on random samples from these distributions. We
-investigate how bias and variability depend on the scaling parameter in the Hill
-diversity equation, features of the abundance distribution such as evenness, and
-sampling intensity.
+investigate how the bias and variability of Hill diversity estimates depend on
+the Hill diversity scaling parameter, features of the abundance distribution
+such as evenness, and sampling intensity.
 
-1.  Our simulations reveal that Hill-Simpson diversity estimates can be highly
-variable. Within the range of sample sizes we investigated, sample Hill
-diversity was always most variable for Hill Simpson diversity. While the
-asymptotic estimator for Hill-Simpson diversity was relatively more stable, it
-was still more variable than asymptotic Hill-diversity estimates between
-Hill-Simpson and Hill-Shannon. Furthermore, the asymptotic estimator for
-Hill-Simpson diversity exhibited greater bias at low sample sizes than the
-asymptotic estimator for Hill diversities with intermediate scaling parameter
-values (including Hill-Shannon diversity). As previously reported, however, the
-bias is negligible for the asymptotic estimates for all Hill diversities with a
-scaling parameter less than about 0.25, once samples sizes were relatively
-large, for all species abundance distributions tested.
+1.  Our simulations reveal that Hill-Simpson diversity can be highly variable.
+Furthermore, the asymptotic estimator for Hill-Simpson diversity exhibited
+greater bias at low sample sizes than the asymptotic estimator for Hill
+diversities with intermediate scaling parameter values (including Hill-Shannon
+diversity). As previously reported, however, the bias is negligible for the
+asymptotic estimates for all Hill diversities with a scaling parameter less than
+about 0.25, once samples sizes were relatively large, for all species abundance
+distributions tested.
 
 1. **MeanRarity** provides tools to students, researchers, and biostatisticians
 to understand and investigate Hill diversity metrics. Fixing diversity values,
@@ -104,9 +100,14 @@ and asymptotic Hill diversity estimates, lower bias and variability may be
 possible for Hill diversities between Hill-Simpson diversity and richness for
 small, incomplete samples.
 
+<!-- major question is whether we advocate using this package to ecologists who
+just want to measure diversity. I am not sure, b/c it is thin and redundant rel. 
+to Chao et al. packages. -->
+
 # KEY WORDS
 <!-- up to 8 --> 
 Hill numbers; biodiversity; sampling; species abundance distribution; R package; 
+rarity; evenness; precision
 
 
 # INTRODUCTION

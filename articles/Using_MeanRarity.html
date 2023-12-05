@@ -194,10 +194,11 @@ wide array of metrics that may be appropriate for a given case, opening
 the questions of how to choose among them and to interpret differences
 between them. Doing so demands intuition about the numerical,
 biological, and statistical properties of these measures, which remain
-under-explored. To facilitate such intuition, we developed the R package
-<strong>MeanRarity</strong>, which enables estimating and visualizing
-Hill diversity (aka “Hill numbers”) in terms of the average species
-“rarity.” Rarity is defined as the reciprocal of relative abundance.</p>
+under-explored. To facilitate such intuition, we developed the
+<code>R</code> package <strong>MeanRarity</strong>, which enables
+estimating and visualizing Hill diversity (aka “Hill numbers”) in terms
+of the average species “rarity.” Rarity is defined as the reciprocal of
+relative abundance.</p>
 <p>The average species rarity may be simpler to interpret than a
 transformed, generalized entropy (i.e., how Hill numbers are typically
 derived <span class="citation">(Jost 2006)</span>). First, ecologists,
@@ -221,7 +222,7 @@ application for building “balance plots” is also available online (<a href="
 manuscript, we describe the core functions in the package, demonstrate
 their application in a small study of bias and sampling variation in
 Hill diversity estimates, and contrast <strong>MeanRarity</strong> with
-several <code>R</code> packages that provide similar and/or
+several <code>R</code> packages that provide similar and/ or
 complementary functionality.</p>
 </div>
 <div class="section level2">
@@ -325,8 +326,10 @@ species and perfect evenness:</p>
 <p>Many authors have described <span class="math inline">\(\ell\)</span>
 as a factor that weights species relative abundances - presumably
 suggesting that downweighting rare species means a lower effective
-diversity, while upweighting them means a higher effective diversity.
-Another interpretation (developed in this package) is that <span class="math inline">\(\ell\)</span> <strong>rescales</strong> species
+diversity, while upweighting them means a higher effective diversity
+<span class="citation">(e.g., Chao et al. 2014; Haegeman et al. 2013;
+<strong>Tuomisto2010?</strong>)</span>. Another interpretation
+(developed in this package) is that <span class="math inline">\(\ell\)</span> <strong>rescales</strong> species
 <em>rarities</em>. This interpretation lends itself to concrete
 visualizations of Hill diversities as mean rarities, provided by
 <code><a href="../reference/rarity_plot.html">rarity_plot()</a></code>.</p>
@@ -520,17 +523,17 @@ functions to enable this --></p>
 <span><span class="va">uneven_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">uneven_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">50</span><span class="op">)</span></span>
 <span><span class="co">#sample_infinite returns a numeric vector of sample species abundances</span></span>
 <span><span class="va">even_sample</span></span>
-<span><span class="co">#&gt;  [1] 8 8 6 4 2 3 5 0 2 1 2 1 2 2 2 1 0 1 0 0</span></span>
+<span><span class="co">#&gt;  [1] 8 4 6 6 1 8 3 3 0 0 1 2 1 1 0 2 0 2 2 0</span></span>
 <span><span class="va">uneven_sample</span></span>
-<span><span class="co">#&gt;  [1] 18  5  6  6  2  2  2  1  2  1  0  1  0  1  2  1  0  0  0  0</span></span>
+<span><span class="co">#&gt;  [1] 19  5  6  5  2  3  4  0  1  0  2  1  1  0  1  0  0  0  0  0</span></span>
 <span></span>
 <span><span class="co"># we can compare evenness (given a scaling parameter `l`)</span></span>
 <span><span class="co"># the evenness is the normalized ratio of an arbitrary Hill diversity to </span></span>
 <span><span class="co"># richness</span></span>
 <span><span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.6220386</span></span>
+<span><span class="co">#&gt; [1] 0.6316085</span></span>
 <span><span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.3542601</span></span>
+<span><span class="co">#&gt; [1] 0.3786627</span></span>
 <span></span>
 <span><span class="co"># compare diversity from sample vs. ideal SAD:</span></span>
 <span><span class="co"># likely pretty far off for a small sample!</span></span>
@@ -542,8 +545,8 @@ functions to enable this --></p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">l</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      [,1] [,2]    [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 16   12.5218 10.33058</span></span>
+<span><span class="co">#&gt;      [,1] [,2]     [,3]   </span></span>
+<span><span class="co">#&gt; [1,] 15   11.73926 9.84252</span></span>
 <span></span>
 <span><span class="co"># with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson</span></span>
 <span><span class="co"># richness is always lower</span></span>
@@ -554,7 +557,7 @@ functions to enable this --></p>
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 14   8.515548 5.605381</span></span>
+<span><span class="co">#&gt; [1,] 12   7.568277 5.165289</span></span>
 <span></span>
 <span></span>
 <span><span class="va">big_even_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">even_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">1e7</span><span class="op">)</span></span>
@@ -568,7 +571,7 @@ functions to enable this --></p>
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">big_even_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 20   15.11922 11.99858</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,] 20   15.11916 11.99867</span></span></code></pre></div>
 <p>For any distribution of relative abundances, one can ask, “what is
 the Hill diversity of this distribution?” Yet the answer, of course,
 depends on the chosen value of the scaling parameter <span class="math inline">\(\ell\)</span>. For a comprehensive answer, one
@@ -1132,6 +1135,12 @@ Gooriah, Leana, Shane A Blowes, Alban Sagouis, Julian Schrader, Dirk N
 Karger, Holger Kreft, and Jonathan M Chase. 2021. <span>“<span class="nocase">Synthesis reveals that island species–area relationships
 emerge from processes beyond passive sampling</span>.”</span> <em>Global
 Ecology and Biogeography</em>, 1–13. <a href="https://doi.org/10.1111/geb.13361" class="external-link">https://doi.org/10.1111/geb.13361</a>.
+</div>
+<div id="ref-Haegeman2013" class="csl-entry">
+Haegeman, Bart, Jerome Hamelin, John Moriarty, Peter Neal, Jonathan
+Dushoff, and Joshua S Weitz. 2013. <span>“<span class="nocase">Robust
+estimation of microbial diversity in theory and in
+practice</span>.”</span> <em>The ISME Journal</em> 7: 1092–1101. <a href="https://doi.org/10.1038/ismej.2013.10" class="external-link">https://doi.org/10.1038/ismej.2013.10</a>.
 </div>
 <div id="ref-Jost2006" class="csl-entry">
 Jost, Lou. 2006. <span>“<span class="nocase">Entropy and

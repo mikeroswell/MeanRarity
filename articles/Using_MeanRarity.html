@@ -217,7 +217,12 @@ Rarity”, and (3) simulating species abundance distributions with known
 diversity. The package is available online on Github (see Data
 accessibility). <!-- update if pushing
 to CRAN, and/or include Zenodo link with DOI --> An interactive shiny
-application for building “balance plots” is also available online (<a href="https://mean-rarity.shinyapps.io/rshiny_app1/" class="external-link uri">https://mean-rarity.shinyapps.io/rshiny_app1/</a>).</p>
+application for building “balance plots” is also available online (<a href="https://mean-rarity.shinyapps.io/rshiny_app1/" class="external-link uri">https://mean-rarity.shinyapps.io/rshiny_app1/</a>). In this
+manuscript, we describe the core functions in the package, demonstrate
+their application in a small study of bias and sampling variation in
+Hill diversity estimates, and contrast <strong>MeanRarity</strong> with
+several <code>R</code> packages that provide similar and/or
+complementary functionality.</p>
 </div>
 <div class="section level2">
 <h2 id="package-description">PACKAGE DESCRIPTION<a class="anchor" aria-label="anchor" href="#package-description"></a>
@@ -320,8 +325,8 @@ species and perfect evenness:</p>
 <p>Many authors have described <span class="math inline">\(\ell\)</span>
 as a factor that weights species relative abundances - presumably
 suggesting that downweighting rare species means a lower effective
-diversity, upweighting them means a higher effective diversity. Another
-interpretation (developed in this package) is that <span class="math inline">\(\ell\)</span> <strong>rescales</strong> species
+diversity, while upweighting them means a higher effective diversity.
+Another interpretation (developed in this package) is that <span class="math inline">\(\ell\)</span> <strong>rescales</strong> species
 <em>rarities</em>. This interpretation lends itself to concrete
 visualizations of Hill diversities as mean rarities, provided by
 <code><a href="../reference/rarity_plot.html">rarity_plot()</a></code>.</p>
@@ -365,7 +370,6 @@ three Pythagorean means, given when <span class="math inline">\(\ell \in
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "diversity = 3.13725490196078" "community size = 40"         </span></span>
 <span><span class="co">#&gt; [3] "max observed rarity = 40"     "min observed rarity = 2"</span></span></code></pre></div>
-<!-- get the unicode stuff into the rarity_plot function in the package!-->
 <!-- should say more. Call more attention to the points and how they move and
 how diversity moves and all. Otherwise the coolness of this easy to miss. Also,
 consider making the reference points bigger since they aren't that visually
@@ -375,10 +379,25 @@ species rarities on the x-axis (values are back-transformed, but scaling
 is dictated by <code>l</code>), the mean is shown with a triangular
 “fulcrum,” and reference points are illustrated for the three
 Pythagorean means (i.e., arithmetic, geometric, and harmonic, given when
-<code>l= c(1, 0, -1)</code>, and equal to richness, Hill-Shannon
-diversity, and Hill-Simpson diversity). By default, each individual is
-plotted as a “block”, and species with the same rarity are stacked
-vertically.</p>
+<code>l = c(1, 0, -1)</code>, and equal to richness, Hill-Shannon
+diversity, and Hill-Simpson diversity in purple, red, and green
+respectively). By default, each individual is plotted as a “block”, and
+species with the same rarity are stacked vertically.</p>
+<p>As the value of the scaling exponent, <code>l</code>, increases,
+large rarity values are compressed together, while small rarity values
+are spread apart. A series of balance plots of the same abundances, but
+with different <code>l</code> values, shows this spreading and
+compression precisely. Meanwhile, the weights of each species are
+determined wholly by their abundances (visualized as a stack of blocks).
+Balance plots illustrate that even though the weights do not change with
+the scaling exponent, the balance point (or fulcrum) shifts with
+rescaling. In the first of the three plots below, the balance point sits
+at the arithmetic mean (richness) at 6 (purple point). In the second,
+the smaller rarities are shifted apart, while the larger rarity are
+shifted together. The balance point shifts leftwards to the geometric
+mean (Hill-Shannon diversity), at about 4.1 (red point). In the third,
+the balance point shifts farther left still, to the harmonic mean
+(Hill-Simpson diversity), at about 3.1 (green point).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rich_bal</span></span>
 <span><span class="va">shan_bal</span></span>
@@ -390,7 +409,7 @@ vertically.</p>
 </h3>
 <p>Unfortunately, it is difficult to assess the performance of diversity
 estimators with real-world data, because ecological communities are not
-typically fully censused, and therefore the true diversity of those
+typically fully censused, and therefore the true diversity of sampled
 communities is not known. <strong>MeanRarity</strong> includes a tool to
 simulate species abundance distributions where diversity values are
 given as parameters. This way, diversity (in this case, richness and
@@ -398,8 +417,8 @@ Hill-Simpson diversity) are known and fixed, rather than epiphenomena
 that fall out of the simulations. In order to achieve this, we simulate
 species abundance distributions with known, finite, true diversity, but
 infinite abundance, from which finite samples may be taken. The
-diversity of a given sample from such as SAD is, of course, not
-precisely pre-determined.</p>
+diversity of a given sample from such as species abundance distribution
+is, of course, not precisely pre-determined.</p>
 <p>This approach differs from species abundance distribution simulations
 implemented in other R packages. For example, <strong>mobsim</strong>
 <span class="citation">(May et al. 2018)</span> and
@@ -501,17 +520,17 @@ functions to enable this --></p>
 <span><span class="va">uneven_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">uneven_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">50</span><span class="op">)</span></span>
 <span><span class="co">#sample_infinite returns a numeric vector of sample species abundances</span></span>
 <span><span class="va">even_sample</span></span>
-<span><span class="co">#&gt;  [1]  8 10  5  7  1  1  4  2  5  2  0  0  0  2  1  2  0  0  0  0</span></span>
+<span><span class="co">#&gt;  [1]  7 11  3  5  3  4  3  2  1  2  2  1  1  1  2  1  0  0  0  1</span></span>
 <span><span class="va">uneven_sample</span></span>
-<span><span class="co">#&gt;  [1] 17  8  4  3  2  5  2  2  4  0  0  2  0  1  0  0  0  0  0  0</span></span>
+<span><span class="co">#&gt;  [1] 18 11  4  4  5  1  2  1  1  1  0  0  0  0  2  0  0  0  0  0</span></span>
 <span></span>
 <span><span class="co"># we can compare evenness (given a scaling parameter `l`)</span></span>
 <span><span class="co"># the evenness is the normalized ratio of an arbitrary Hill diversity to </span></span>
 <span><span class="co"># richness</span></span>
 <span><span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.6157718</span></span>
+<span><span class="co">#&gt; [1] 0.5384615</span></span>
 <span><span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.4733945</span></span>
+<span><span class="co">#&gt; [1] 0.3863813</span></span>
 <span></span>
 <span><span class="co"># compare diversity from sample vs. ideal SAD:</span></span>
 <span><span class="co"># likely pretty far off for a small sample!</span></span>
@@ -524,7 +543,7 @@ functions to enable this --></p>
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 13   10.00088 8.389262</span></span>
+<span><span class="co">#&gt; [1,] 17   12.57307 9.615385</span></span>
 <span></span>
 <span><span class="co"># with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson</span></span>
 <span><span class="co"># richness is always lower</span></span>
@@ -535,7 +554,7 @@ functions to enable this --></p>
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 11   7.818155 5.733945</span></span>
+<span><span class="co">#&gt; [1,] 11   6.724446 4.863813</span></span>
 <span></span>
 <span></span>
 <span><span class="va">big_even_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">even_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">1e7</span><span class="op">)</span></span>
@@ -549,7 +568,7 @@ functions to enable this --></p>
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">big_even_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 20   15.11914 11.99814</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,] 20   15.12562 12.00792</span></span></code></pre></div>
 <p>For any distribution of relative abundances, one can ask, “what is
 the Hill diversity of this distribution?” Yet the answer, of course,
 depends on the chosen value of the scaling parameter <span class="math inline">\(\ell\)</span>. For a comprehensive answer, one
@@ -1057,13 +1076,13 @@ and visualize them in a coherent framework absent from other statistical
 packages, and enables continuing research into the properties of these
 metrics.</p>
 <div class="section level3">
-<h3 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
+<h3 id="acknowledgements">ACKNOWLEDGEMENTS<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
 </h3>
 <p>We thank Luke Harmon for early feedback on the R package, Stephen
 Beckett for helpful feedback on the manuscript draft, and…</p>
 </div>
 <div class="section level3">
-<h3 id="author-contributions">Author contributions<a class="anchor" aria-label="anchor" href="#author-contributions"></a>
+<h3 id="author-contributions">AUTHOR CONTRIBUTIONS<a class="anchor" aria-label="anchor" href="#author-contributions"></a>
 </h3>
 <p>M.R. and J.D. conceived the package concept and structure and
 generated source code for package functions. M.R. implemented the first
@@ -1076,6 +1095,10 @@ manuscript with help from J.D.</p>
 </h2>
 <p>This article does not use any empirical data. The package is
 available on Github (SOME KIND OF URL OR DOI REF).</p>
+</div>
+<div class="section level2">
+<h2 class="unnumbered" id="references">REFERENCES<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Chao2016" class="csl-entry">
 Chao, Anne, and Chun Huo Chiu. 2016. <span>“<span class="nocase">Bridging the variance and diversity decomposition

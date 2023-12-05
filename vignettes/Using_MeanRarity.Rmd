@@ -21,9 +21,13 @@ vignette: >
 ---
 
 
-<!-- need to explore output formats for size, speed, and features (e.g. eqn numbers) -->
-<!-- also see prettydoc::html_pretty which might solve the equation numbering issues -->
+<!-- need to explore output formats for size, speed, and features (e.g. eqn
+numbers) -->
+<!-- also see prettydoc::html_pretty which might solve the equation numbering
+issues -->
 <!-- https://bookdown.org/yihui/rmarkdown/prettydoc.html -->
+<!-- consider "aritcle" rather than vignette:
+https://r-pkgs.org/vignettes.html#sec-vignettes-article -->
 
 <!-- Application: Short (no more than 3000-4000 words total) descriptions of new
 software that are intended to describe and promote the software as well as act
@@ -184,8 +188,8 @@ that the scaling exponent is the "weight." The concrete meaning of "weight" when
 applied to $q$ in Equation 2 may be difficult to understand.
 
 Because Equations 1 and 2 are algebraically equivalent, `rarity(x, l)` is
-equivalent to `vegan::renyi(x, scale = 1-l, hill = T)` and the `qD` output from
-`iNEXT::estimateD(x)` where `order = 1-l`.
+equivalent to `vegan::renyi(x, scale = 1-l, hill = T)`, `entropart::Diversity(x, 1-l, Correction = "None"))`, or the `qD` output from `iNEXT::estimateD(x)` where
+`order = 1-l`.
 
 
 
@@ -621,9 +625,7 @@ purrr::map(c("lnorm", "gamma", "invgamma"), function(dist){
                    )+
     ggplot2::scale_x_continuous(limits = c(-1,1)
                                 ) +
-    ggplot2::scale_y_continuous(labels = function(x){str2expression(
-      print_operator(x))}
-                        , breaks = rat_breaks()) + 
+    ratioScales::scale_y_ratio(slashStar = FALSE) + 
     ggplot2::scale_color_manual(values = hcl.colors(4
                                 , palette = "SunsetDark")[1:3]
                                 ) +
@@ -779,7 +781,8 @@ estimate.
 Functions to generate similar diversity estimates and assemblage simulations are
 available in several R packages.
 
-<!-- this is currently placeholders, but need to fill this out. Will require some serious focused time and maybe some blog posts -->
+<!-- this is currently placeholders, but need to fill this out. Will require
+some serious focused time and maybe some blog posts -->
 
 1. **iNEXT**
   The R package **iNEXT** provides tools for rarefaction and extrapolation of
@@ -800,6 +803,7 @@ available in several R packages.
   suited to students and those studying biodiversity estimation. **iNEXT** is
   well-suited to plotting empirical diversity data from a small to modest number
   of assemblages.
+  
 1. **SpadeR**
   The R package **SpadeR** provides similar estimates for Hill diversity as **iNEXT**,
   also parameterized by $q$ rather than $\ell$ (**MeanRarity** allows either
@@ -809,8 +813,9 @@ available in several R packages.
   version of`SpadeR:::Chao_Hill_abu()` is an exported function in
   **MeanRarity**). While `SpadeR` provides a suite of tools for estimating
   alpha- and beta-diversity, **MeanRarity** provides additional tools for
-  simulation, visualization, and alternative parameterization.
+  simulation, visualization, and alternative parameterization with $\ell$.
 1. **vegan**
+
   The `R` package **vegan** contains a multitude of tools for comparing
   community data in `R`. Like **MeanRarity**, **vegan** contains tools to
   estimate Hill diversity (`vegan::renyi(..., hill = TRUE)`), rarefy datasets
@@ -833,6 +838,7 @@ available in several R packages.
   functionality of `sads::rsad` by enabling users to parameterize the underlying
   species abundance distributions by both true richness and true Hill-Simpson
   diversity, rather than richness alone.
+  
 1. **mobsim**
   The R package **mobsim** expands on the simulations provided by **sads** to
   generate spatially-explicit simulations. Unlike **MeanRarity**, **mobsim**
@@ -842,11 +848,30 @@ available in several R packages.
   diversity directly. These functionalities enable complementary approaches to
   studying the behavior of diversity estimates under different sampling
   scenarios.
+  
 1. **entropart** 
-  The `Diversity()` function in **entropart** computes several estimators of Hill diversities (and several relevant monotonic transformations) for any real value of `q = 1-l`, and with the option `Correction = "None"` is congruent with `MeanRarity::rarity()`.   
+  The `Diversity()` function in **entropart** computes several estimators of
+  Hill diversities (and several relevant monotonic transformations) for any real
+  value of `q = 1-l`, and with the option `Correction = "None"` is congruent
+  with `MeanRarity::rarity()`. **entropart** uses entropy, rather than mean
+  rarity, as the conceptual starting point, and includes several entropy-focused
+  estimation tools beyond those included in **MeanRarity**, **spadeR**,
+  **iNEXT**, or **vegan**.
+  
 1. **EntropyEstimation**
-1. **Richness** https://github.com/EWTekwa/Richness
-<!-- search for others -->
+  Zhang and Grabchak 2014 provided novel entropy estimators, and this package
+  implements their estimators across a variety of entropy-based diversity
+  indices. the function `Hill.z()` computes the exponentiated estimated Renyi
+  entropy (a.k.a. Hill diversity) for order $r = 1-l$. For comparison with other 
+  Hill diversity estimators, users are referred to **entropart**.
+  
+1. **Richness** 
+  This package is available from Github https://github.com/EWTekwa/Richness and
+  provides the function `RichnessEsts()`, which generates point estimates for
+  asymptotic species richness using a variety of methods, including the novel
+  one introduces in Tekwa et al. 2023 PTRSB. This new estimator is not 
+  generalized to Hill diversities other than richness.
+<!-- search for others? -->
 
 # CONCLUSIONS
 
@@ -869,7 +894,8 @@ coherent framework absent from other statistical packages, and enables
 continuing research into the properties of these metrics.
 
 ## Acknowledgements
-We thank Luke Harmon for early feedback on the R package, ....
+We thank Luke Harmon for early feedback on the R package, Stephen Beckett for
+helpful feedback on the manuscript draft, and...
 
 ## Author contributions
 
@@ -880,26 +906,4 @@ shiny online application. M.R. wrote the manuscript with help from J.D.
 # DATA ACCESSIBILITY
 This article does not use any empirical data. The package is available on Github
 (SOME KIND OF URL OR DOI REF).
-
-<!-- looks like this was an attempt to hard-code a table of functions, but the dynamically-generated one from pkgdown or a modification thereof seems better-->
-
-
-```{r table of functions}
-table_dat<-data.frame(
-  `Function name` = c("rarity", "rarity_plot", "radplot"
-                      , "divpro", "sample_infinite", "sample_finite", "fit_SAD")
-  , `General purpose` = c("Computation", "Visualization"
-                          , "Visualization", "Visualization", "Sampling"
-                          , "Sampling", "Simulation")
-  , `Description` = c(
-    "Compute Hill diversity using the rarity parameterization")
-)
-```
-
-
-
-
-
-
-
 

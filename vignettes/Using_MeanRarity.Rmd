@@ -124,17 +124,17 @@ and the Shannon and Simpson indices, have been put forward as the appropriate
 metrics for biodiversity quantification [@Roswell2021, @Chao2014b, @Jost2006
 @Sherwin2017, @Chao2016, @Chao2019a, @Chao2015]. Not only do Hill diversities
 unite variants of the most popular diversity metrics with a single equation
-\ref(eq:1)<!-- why doesn't this render correctly? -->, but they always express
+\@ref(eq:1) <!-- why doesn't this render correctly? -->, but they always express
 diversity on an "effective numbers" scale, which arguably facilitates comparison
-and interpretation [@Jost2006,
-@Roswell2021]. However, despite the conceptual unity of Hill diversities, there
-is a wide array of metrics that may be appropriate for a given case, opening the
-questions of how to choose among them and to interpret differences between them.
-Doing so demands intuition about the numerical, biological, and statistical
-properties of these measures, which remain under-explored. To facilitate such
-intuition, we developed the R package **MeanRarity**, which enables estimating
-and visualizing Hill diversity (aka "Hill numbers") in terms of the average
-species "rarity." Rarity is defined as the reciprocal of relative abundance.
+and interpretation [@Jost2006, @Roswell2021]. However, despite the conceptual
+unity of Hill diversities, there is a wide array of metrics that may be
+appropriate for a given case, opening the questions of how to choose among them
+and to interpret differences between them. Doing so demands intuition about the
+numerical, biological, and statistical properties of these measures, which
+remain under-explored. To facilitate such intuition, we developed the R package
+**MeanRarity**, which enables estimating and visualizing Hill diversity (aka
+"Hill numbers") in terms of the average species "rarity." Rarity is defined as
+the reciprocal of relative abundance.
 
 The average species rarity may be simpler to interpret than a transformed,
 generalized entropy (i.e., how Hill numbers are typically derived [@Jost2006]).

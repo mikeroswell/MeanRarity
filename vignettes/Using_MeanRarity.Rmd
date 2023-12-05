@@ -1,10 +1,7 @@
 ---
 title: "MeanRarity: An R package to facilitate estimation and visualization of Hill diversity"
 output: 
-  rmarkdown::html_document:
-    fig_width: 3
-    fig_height: 3
-    fig.retina: NULL
+  word_document: default
   rmarkdown::html_vignette: 
     fig_width: 3
     fig_height: 3
@@ -12,7 +9,10 @@ output:
     fig_width: 3
     fig_height: 3
     latex_engine: xelatex
-  word_document: default
+  rmarkdown::html_document:
+    fig_width: 3
+    fig_height: 3
+    fig.retina: NULL
 bibliography: '`r system.file( "REFERENCES.bib", package="MeanRarity")`'
 vignette: >
   %\VignetteEncoding{UTF-8}
@@ -158,7 +158,11 @@ diversity as "Mean Rarity", (2) visualizing and interpreting "Mean Rarity", and
 is available online on Github (see Data accessibility). <!-- update if pushing
 to CRAN, and/or include Zenodo link with DOI --> An interactive shiny
 application for building "balance plots" is also available online
-(https://mean-rarity.shinyapps.io/rshiny_app1/).
+(https://mean-rarity.shinyapps.io/rshiny_app1/). In this manuscript, we describe
+the core functions in the package, demonstrate their application in a small
+study of bias and sampling variation in Hill diversity estimates, and contrast
+**MeanRarity** with several `R` packages that provide similar and/or
+complementary functionality.
 
 # PACKAGE DESCRIPTION
 ## Computing Mean Rarity
@@ -248,7 +252,7 @@ rarity(even_3, -1) %>% round(2)
 
 Many authors have described $\ell$ as a factor that weights species relative
 abundances - presumably suggesting that downweighting rare species means a lower
-effective diversity, upweighting them means a higher effective diversity.
+effective diversity, while upweighting them means a higher effective diversity.
 Another interpretation (developed in this package) is that $\ell$ **rescales**
 species *rarities*. This interpretation lends itself to concrete visualizations
 of Hill diversities as mean rarities, provided by `rarity_plot()`.
@@ -289,7 +293,6 @@ simp_bal <- white_y(
 
 ```
 
-<!-- get the unicode stuff into the rarity_plot function in the package!-->
 
 <!-- should say more. Call more attention to the points and how they move and
 how diversity moves and all. Otherwise the coolness of this easy to miss. Also,
@@ -300,9 +303,24 @@ In a balance plot, the species abundances are plotted on the y-axis, species
 rarities on the x-axis (values are back-transformed, but scaling is dictated by
 `l`), the mean is shown with a triangular "fulcrum," and reference points are
 illustrated for the three Pythagorean means (i.e., arithmetic, geometric, and
-harmonic, given when `l= c(1, 0, -1)`, and equal to richness, Hill-Shannon
-diversity, and Hill-Simpson diversity). By default, each individual is plotted
-as a "block", and species with the same rarity are stacked vertically.
+harmonic, given when `l = c(1, 0, -1)`, and equal to richness, Hill-Shannon
+diversity, and Hill-Simpson diversity in purple, red, and green respectively).
+By default, each individual is plotted as a "block", and species with the same
+rarity are stacked vertically.
+
+As the value of the scaling exponent, `l`, increases, large rarity values are
+compressed together, while small rarity values are spread apart. A series of
+balance plots of the same abundances, but with different `l` values, shows this
+spreading and compression precisely. Meanwhile, the weights of each species are
+determined wholly by their abundances (visualized as a stack of blocks). Balance
+plots illustrate that even though the weights do not change with the scaling
+exponent, the balance point (or fulcrum) shifts with rescaling. In the first of
+the three plots below, the balance point sits at the arithmetic mean (richness)
+at 6 (purple point). In the second, the smaller rarities are shifted apart,
+while the larger rarity are shifted together. The balance point shifts leftwards
+to the geometric mean (Hill-Shannon diversity), at about 4.1 (red point). In the
+third, the balance point shifts farther left still, to the harmonic mean
+(Hill-Simpson diversity), at about 3.1 (green point).
 
 ```{r balance-plot-print, out.width='33%', out.height='33%', fig.show="hold"}
 rich_bal
@@ -315,14 +333,15 @@ simp_bal
 
 Unfortunately, it is difficult to assess the performance of diversity estimators
 with real-world data, because ecological communities are not typically fully
-censused, and therefore the true diversity of those communities is not known.
+censused, and therefore the true diversity of sampled communities is not known.
 **MeanRarity** includes a tool to simulate species abundance distributions where
 diversity values are given as parameters. This way, diversity (in this case,
 richness and Hill-Simpson diversity) are known and fixed, rather than
 epiphenomena that fall out of the simulations. In order to achieve this, we
 simulate species abundance distributions with known, finite, true diversity, but
 infinite abundance, from which finite samples may be taken. The diversity of a
-given sample from such as SAD is, of course, not precisely pre-determined.
+given sample from such as species abundance distribution is, of course, not
+precisely pre-determined.
 
 This approach differs from species abundance distribution simulations
 implemented in other R packages. For example, **mobsim** [@May2018a] and
@@ -893,11 +912,11 @@ popularity, **MeanRarity** provides tools to estimate and visualize them in a
 coherent framework absent from other statistical packages, and enables
 continuing research into the properties of these metrics.
 
-## Acknowledgements
+## ACKNOWLEDGEMENTS
 We thank Luke Harmon for early feedback on the R package, Stephen Beckett for
 helpful feedback on the manuscript draft, and...
 
-## Author contributions
+## AUTHOR CONTRIBUTIONS
 
 M.R. and J.D. conceived the package concept and structure and generated source
 code for package functions. M.R. implemented the first package version and the
@@ -907,3 +926,4 @@ shiny online application. M.R. wrote the manuscript with help from J.D.
 This article does not use any empirical data. The package is available on Github
 (SOME KIND OF URL OR DOI REF).
 
+# REFERENCES

@@ -163,7 +163,8 @@ diversity and richness for small, incomplete samples.</p></li>
 </ol>
 <!-- major question is whether we advocate using this package to ecologists who
 just want to measure diversity. I am not sure, b/c it is thin and redundant rel. 
-to Chao et al. packages. -->
+to Chao et al. packages. --><!-- minor question: is this transparent enough to people not in my head? Like, 
+will readers have any idea what "Hill-Shannon" means? Or "sample diversity"? -->
 </div>
 <div class="section level2">
 <h2 id="key-words">KEY WORDS<a class="anchor" aria-label="anchor" href="#key-words"></a>
@@ -260,7 +261,7 @@ the “weight.” The concrete meaning of “weight” when applied to <span cla
 understand.</p>
 <p>Because Equations 1 and 2 are algebraically equivalent,
 <code>rarity(x, l)</code> is equivalent to
-<code>vegan::renyi(x, scale = 1-l, hill = T)</code>,
+<code>vegan::renyi(x, scale = 1-l, hill = TRUE)</code>,
 <code>entropart::Diversity(x, 1-l, Correction = "None"))</code>, or the
 <code>qD</code> output from <code>iNEXT::estimateD(x)</code> where
 <code>order = 1-l</code>.</p>
@@ -523,17 +524,17 @@ functions to enable this -->
 <span><span class="va">uneven_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">uneven_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">50</span><span class="op">)</span></span>
 <span><span class="co">#sample_infinite returns a numeric vector of sample species abundances</span></span>
 <span><span class="va">even_sample</span></span>
-<span><span class="co">#&gt;  [1] 6 2 5 6 6 2 4 1 3 3 2 1 1 1 2 2 2 1 0 0</span></span>
+<span><span class="co">#&gt;  [1] 6 2 6 5 3 5 3 3 1 3 2 1 0 1 3 2 1 1 0 2</span></span>
 <span><span class="va">uneven_sample</span></span>
-<span><span class="co">#&gt;  [1] 20  8  5  1  4  3  0  0  1  2  3  0  1  1  1  0  0  0  0  0</span></span>
+<span><span class="co">#&gt;  [1] 21  5  1  7  2  2  0  1  2  1  2  2  3  1  0  0  0  0  0  0</span></span>
 <span></span>
 <span><span class="co"># we can compare evenness (given a scaling parameter `l`)</span></span>
 <span><span class="co"># the evenness is the normalized ratio of an arbitrary Hill diversity to </span></span>
 <span><span class="co"># richness</span></span>
 <span><span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.6914766</span></span>
+<span><span class="co">#&gt; [1] 0.7234043</span></span>
 <span><span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.3362953</span></span>
+<span><span class="co">#&gt; [1] 0.296837</span></span>
 <span></span>
 <span><span class="co"># compare diversity from sample vs. ideal SAD:</span></span>
 <span><span class="co"># likely pretty far off for a small sample!</span></span>
@@ -545,8 +546,8 @@ functions to enable this -->
 <span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">l</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      [,1] [,2]     [,3]   </span></span>
-<span><span class="co">#&gt; [1,] 18   14.83447 12.7551</span></span>
+<span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
+<span><span class="co">#&gt; [1,] 18   15.17464 13.29787</span></span>
 <span></span>
 <span><span class="co"># with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson</span></span>
 <span><span class="co"># richness is always lower</span></span>
@@ -556,8 +557,8 @@ functions to enable this -->
 <span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">l</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 12   7.025966 4.699248</span></span>
+<span><span class="co">#&gt;      [,1] [,2]    [,3]    </span></span>
+<span><span class="co">#&gt; [1,] 13   7.35519 4.562044</span></span>
 <span></span>
 <span></span>
 <span><span class="va">big_even_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">even_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">1e7</span><span class="op">)</span></span>
@@ -571,7 +572,7 @@ functions to enable this -->
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">big_even_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 20   15.12005 11.99745</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,] 20   15.12391 12.00455</span></span></code></pre></div>
 <p>For any distribution of relative abundances, one can ask, “what is
 the Hill diversity of this distribution?” Yet the answer, of course,
 depends on the chosen value of the scaling parameter <span class="math inline">\(\ell\)</span>. For a comprehensive answer, one
@@ -653,7 +654,7 @@ expect. Variability, along with bias, is an important consideration when
 selecting a diversity metric. Especially when the number of replicates
 is modest, as is often the case in ecological studies, inaccuracy due to
 random sampling variability could lead to equally misleading results as
-could bias <em>CITE THIS</em>.</p>
+could bias <span class="citation">(Gelman and Carlin 2014)</span>.</p>
 <p>To explore how the shape of the species abundance distribution and
 sample size drive the sampling expectations for sample and asymptotic
 Hill diversity estimates, we can first simulate species abundance
@@ -681,13 +682,13 @@ richness. For total error, we plotted the root mean squared log ratio
 between each estimate and the target value (i.e mean sample diversity or
 true diversity), hereafter “rmsle.” For bias, we plotted the log ratio
 between the Hill diversity estimate and its target, and for variability
-we plotted and the standard deviation of the log Hill diversity (a
-unitless measure of variability). Mean squared log error is the sum of
-the squared bias and the variance in the log diversity estimates. We
-asked, on a relative scale, how choice of scaling exponent for Hill
-diversity affects total error, bias, and sampling variability, and
-explored the interactions with evenness, distributional assumption, and
-sample size.</p>
+we plotted the standard deviation of the log Hill diversity (a unitless
+measure of variability). Mean squared log error is the sum of the
+squared bias and the variance in the log diversity estimates. We asked,
+on a relative scale, how choice of scaling exponent for Hill diversity
+affects total error, bias, and sampling variability, and explored the
+interactions with evenness, distributional assumption, and sample
+size.</p>
 <p>The diversity of a sample of fixed size was a stable, accurate
 measure of rarefied diversity across all the SADs we tested. The total
 error, greatest for Hill-Simpson diversity, when samples were smaller,
@@ -719,13 +720,12 @@ For the asymptotic Hill diversity estimates, bias at very low sample
 sizes was less than sample diversity but could still be extreme.
 However, this bias evaporated quickly for both sample and asymptotic
 Hill diversity estimates when the scaling exponent <span class="math inline">\(\ell &lt;&lt; 1\)</span>.</p>
-<p>&lt;– check theme options like panel.spacing and legend.key.width
-–&gt;</p>
+<!-- check theme options like panel.spacing and legend.key.width -->
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="co"># ratio scale</span></span>
+<span></span>
 <span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lnorm"</span>, <span class="st">"gamma"</span>, <span class="st">"invgamma"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">dist</span><span class="op">)</span><span class="op">{</span></span>
-<span>   <span class="va">myp</span><span class="op">&lt;-</span><span class="va">err_plot_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>   <span class="va">myp</span> <span class="op">&lt;-</span> <span class="va">err_plot_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>naive_sdlog <span class="op">=</span> <span class="va">sample_sdlog</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">12</span>, <span class="fl">16</span><span class="op">)</span></span>
 <span>                 , names_to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"est"</span>, <span class="st">"err_type"</span><span class="op">)</span></span>
@@ -746,7 +746,7 @@ Hill diversity estimates when the scaling exponent <span class="math inline">\(\
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>this_error <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">this_error</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">2</span></span>
 <span>                                              , <span class="fu"><a href="https://rdrr.io/r/base/sign.html" class="external-link">sign</a></span><span class="op">(</span><span class="va">this_error</span><span class="op">)</span><span class="op">*</span><span class="cn">Inf</span></span>
 <span>                                              , <span class="va">this_error</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">distribution</span> <span class="op">==</span> <span class="va">dist</span> <span class="co"># "gamma"</span></span>
+<span>     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">distribution</span> <span class="op">==</span> <span class="va">dist</span> <span class="co"># </span></span>
 <span>                   <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ell</span></span>
 <span>                                 , color <span class="op">=</span> <span class="va">evenness</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -758,7 +758,7 @@ Hill diversity estimates when the scaling exponent <span class="math inline">\(\
 <span>                   , panel.spacing.x <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">1.3</span>, <span class="st">"lines"</span><span class="op">)</span></span>
 <span>                   , panel.spacing.y <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">1.3</span>, <span class="st">"lines"</span><span class="op">)</span></span>
 <span>                   , legend.key.width <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">2</span>, <span class="st">"lines"</span><span class="op">)</span></span>
-<span>                   <span class="op">)</span><span class="op">+</span></span>
+<span>                   <span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span></span>
 <span>                                <span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">ratioScales</span><span class="fu">::</span><span class="fu"><a href="https://mikeroswell.github.io/ratioScales/reference/scale_ratio.html" class="external-link">scale_y_ratio</a></span><span class="op">(</span>slashStar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -778,7 +778,7 @@ Hill diversity estimates when the scaling exponent <span class="math inline">\(\
 <span>      <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"scaling exponent \U2113"</span></span>
 <span>                  , y <span class="op">=</span> <span class="st">""</span></span>
 <span>                  , linetype <span class="op">=</span> <span class="st">"estimator"</span></span>
-<span>                    <span class="op">)</span> <span class="op">+</span></span>
+<span>                   <span class="op">)</span> <span class="op">+</span></span>
 <span>      <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, size <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">myp</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
@@ -791,100 +791,41 @@ Hill diversity estimates when the scaling exponent <span class="math inline">\(\
 <span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Warning: Removed 4810 rows containing missing values (`geom_line()`).</span></span></code></pre></div>
-<p><img src="Using_MeanRarity_files/figure-html/bias-figure%20-1.png" width="1050"></p>
+<p><img src="Using_MeanRarity_files/figure-html/bias-figure-1.png" width="1050"></p>
 <pre><code><span><span class="co">#&gt; Warning in self$trans$transform(x): NaNs produced</span></span>
 <span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Warning: Removed 5188 rows containing missing values (`geom_line()`).</span></span></code></pre>
-<p><img src="Using_MeanRarity_files/figure-html/bias-figure%20-2.png" width="1050"></p>
+<p><img src="Using_MeanRarity_files/figure-html/bias-figure-2.png" width="1050"></p>
 <pre><code><span><span class="co">#&gt; Warning in self$trans$transform(x): NaNs produced</span></span>
 <span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Warning: Removed 4629 rows containing missing values (`geom_line()`).</span></span></code></pre>
-<p><img src="Using_MeanRarity_files/figure-html/bias-figure%20-3.png" width="1050"></p>
+<p><img src="Using_MeanRarity_files/figure-html/bias-figure-3.png" width="1050"></p>
 <pre><code><span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt; Warning in self$trans$transform(x): NaNs produced</span></span>
 <span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Warning: Removed 4810 rows containing missing values (`geom_line()`).</span></span></code></pre>
-<p><img src="Using_MeanRarity_files/figure-html/bias-figure%20-4.png" width="1050"></p>
+<p><img src="Using_MeanRarity_files/figure-html/bias-figure-4.png" width="1050"></p>
 <pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
 <span><span class="co">#&gt; Warning in self$trans$transform(x): NaNs produced</span></span>
 <span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Warning: Removed 5188 rows containing missing values (`geom_line()`).</span></span></code></pre>
-<p><img src="Using_MeanRarity_files/figure-html/bias-figure%20-5.png" width="1050"></p>
+<p><img src="Using_MeanRarity_files/figure-html/bias-figure-5.png" width="1050"></p>
 <pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[3]]</span></span>
 <span><span class="co">#&gt; Warning in self$trans$transform(x): NaNs produced</span></span>
 <span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Warning: Removed 4629 rows containing missing values (`geom_line()`).</span></span></code></pre>
-<p><img src="Using_MeanRarity_files/figure-html/bias-figure%20-6.png" width="1050"></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># #centinel scale</span></span>
-<span><span class="co"># purrr::map(c("lnorm", "gamma", "invgamma"), function(dist){</span></span>
-<span><span class="co">#   myp&lt;-err_plot_data %&gt;% </span></span>
-<span><span class="co">#     dplyr::mutate(naive_sdlog = sample_sdlog) %&gt;% </span></span>
-<span><span class="co">#     tidyr::pivot_longer(c(5:12, 16)</span></span>
-<span><span class="co">#                  , names_to = c("est", "err_type")</span></span>
-<span><span class="co">#                  , names_pattern = "(.*)_(.*)"</span></span>
-<span><span class="co">#                  , values_to = "this_error"</span></span>
-<span><span class="co">#     ) %&gt;% </span></span>
-<span><span class="co">#     dplyr::mutate(err_type = factor(err_type</span></span>
-<span><span class="co">#                                     , levels = c("rmsle", "sdlog", "bias")</span></span>
-<span><span class="co">#                                     , labels = c("Average proportional error"</span></span>
-<span><span class="co">#                      , "Proportional \nVariability"</span></span>
-<span><span class="co">#                      , "Proportional Bias")</span></span>
-<span><span class="co">#                                     )</span></span>
-<span><span class="co">#                   , est = dplyr::if_else(est == "estimator", "asymptotic"</span></span>
-<span><span class="co">#                                 , dplyr::if_else(est == "naive"</span></span>
-<span><span class="co">#                                                  , "naïve"</span></span>
-<span><span class="co">#                                                  , "sample"))</span></span>
-<span><span class="co">#                   ) %&gt;% </span></span>
-<span><span class="co">#     dplyr::mutate(this_error = dplyr::if_else(abs(this_error) &gt; 2</span></span>
-<span><span class="co">#                                               , sign(this_error)*Inf</span></span>
-<span><span class="co">#                                               , this_error)) %&gt;% </span></span>
-<span><span class="co">#      dplyr::filter(distribution == dist # "gamma"</span></span>
-<span><span class="co">#                    ) %&gt;% </span></span>
-<span><span class="co">#     ggplot2::ggplot(ggplot2::aes(x = ell</span></span>
-<span><span class="co">#                                  , color = evenness)) +</span></span>
-<span><span class="co">#     ggplot2::geom_line(ggplot2::aes(y = 100*this_error</span></span>
-<span><span class="co">#       , linetype = est), size = 0.8) +</span></span>
-<span><span class="co">#     ggplot2::theme_classic() +</span></span>
-<span><span class="co">#     ggplot2::theme(strip.background = ggplot2::element_blank()</span></span>
-<span><span class="co">#                    , strip.placement.y = "outside"</span></span>
-<span><span class="co">#                    , panel.spacing.x = ggplot2::unit(1.3, "lines")</span></span>
-<span><span class="co">#                    , panel.spacing.y = ggplot2::unit(1.3, "lines")</span></span>
-<span><span class="co">#                    , legend.key.width = ggplot2::unit(2, "lines")</span></span>
-<span><span class="co">#                    )+</span></span>
-<span><span class="co">#     ggplot2::scale_x_continuous(limits = c(-1,1)</span></span>
-<span><span class="co">#                                 ) +</span></span>
-<span><span class="co">#     ggplot2::scale_color_manual(values = hcl.colors(4</span></span>
-<span><span class="co">#                                 , palette = "SunsetDark")[1:3]</span></span>
-<span><span class="co">#                                 ) +</span></span>
-<span><span class="co">#     ggplot2::scale_linetype_manual(values = c("solid", "dashed", "dotted"))+</span></span>
-<span><span class="co">#     ggplot2::facet_grid(err_type~sample_size</span></span>
-<span><span class="co">#                         , labeller = ggplot2::labeller(</span></span>
-<span><span class="co">#                             sample_size = ggplot2::label_both</span></span>
-<span><span class="co">#                             , err_type = ggplot2::label_value</span></span>
-<span><span class="co">#                             )</span></span>
-<span><span class="co">#                         , scales = "free_y"</span></span>
-<span><span class="co">#                         , space = "free_y"</span></span>
-<span><span class="co">#                         , switch = "y"</span></span>
-<span><span class="co">#                         ) +  </span></span>
-<span><span class="co">#       ggplot2::labs(x = "scaling exponent \U2113"</span></span>
-<span><span class="co">#                   , y = ""</span></span>
-<span><span class="co">#                   , linetype = "estimator"</span></span>
-<span><span class="co">#                     ) +</span></span>
-<span><span class="co">#       ggplot2::geom_hline(yintercept = 0, size = 0.2)</span></span>
-<span><span class="co"># })</span></span></code></pre></div>
+<p><img src="Using_MeanRarity_files/figure-html/bias-figure-6.png" width="1050"></p>
 <!-- fig caption draft -->
 <p>Figure X: Hill-Simpson diversity estimates have high variability
 under random sampling.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># occam &lt;- err_plot_data %&gt;% </span></span>
 <span><span class="co">#   dplyr::group_by(evenness, distribution, ell, sample_size) %&gt;% </span></span>
@@ -1127,6 +1068,11 @@ diversity, and similarity</span>.”</span> <em>Ecology</em>, no. 0: 1–15.
 Chase, Jonathan M., and Tiffany M. Knight. 2013. <span>“<span class="nocase">Scale-dependent effect sizes of ecological drivers on
 biodiversity: Why standardised sampling is not enough</span>.”</span>
 <em>Ecology Letters</em> 16 (SUPPL.1): 17–26. <a href="https://doi.org/10.1111/ele.12112" class="external-link">https://doi.org/10.1111/ele.12112</a>.
+</div>
+<div id="ref-Gelman2014" class="csl-entry">
+Gelman, Andrew, and John Carlin. 2014. <span>“<span class="nocase">Beyond Power Calculations: Assessing Type S (Sign) and
+Type M (Magnitude) Errors</span>.”</span> <em>Perspectives on
+Psychological Science</em> 9 (6): 641–51. <a href="https://doi.org/10.1177/1745691614551642" class="external-link">https://doi.org/10.1177/1745691614551642</a>.
 </div>
 <div id="ref-Gooriah2021" class="csl-entry">
 Gooriah, Leana, Shane A Blowes, Alban Sagouis, Julian Schrader, Dirk N

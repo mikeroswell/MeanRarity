@@ -184,10 +184,12 @@ a dazzling array of choices.</p>
 <p>Increasingly, Hill diversity or “Hill numbers”, a unified family of
 diversity measures that includes variants of classical metrics such as
 species richness and the Shannon and Simpson indices, have been put
-forward as the appropriate metrics for biodiversity quantification <span class="citation">Sherwin et al. (2017)</span>. Not only do Hill
-diversities unite variants of the most popular diversity metrics with a
-single equation @ref(eq:1) <!-- why doesn't this render correctly? -->,
-but they always express diversity on an “effective numbers” scale, which
+forward as the appropriate metrics for biodiversity quantification <span class="citation">(Roswell, Dushoff, and Winfree 2021; Chao et al. 2014;
+Jost 2006; Sherwin et al. 2017; Chao and Chiu 2016; Chao, Ricotta, and
+Aldo 2019; Chao and Jost 2015)</span>. Not only do Hill diversities
+unite variants of the most popular diversity metrics with a single
+equation 1 <!--\@ref(eq:1) why doesn't this render correctly? -->, but
+they always express diversity on an “effective numbers” scale, which
 arguably facilitates comparison and interpretation <span class="citation">(Jost 2006; Roswell, Dushoff, and Winfree 2021)</span>.
 However, despite the conceptual unity of Hill diversities, there is a
 wide array of metrics that may be appropriate for a given case, opening
@@ -328,11 +330,11 @@ as a factor that weights species relative abundances - presumably
 suggesting that downweighting rare species means a lower effective
 diversity, while upweighting them means a higher effective diversity
 <span class="citation">(e.g., Chao et al. 2014; Haegeman et al. 2013;
-<strong>Tuomisto2010?</strong>)</span>. Another interpretation
-(developed in this package) is that <span class="math inline">\(\ell\)</span> <strong>rescales</strong> species
-<em>rarities</em>. This interpretation lends itself to concrete
-visualizations of Hill diversities as mean rarities, provided by
-<code><a href="../reference/rarity_plot.html">rarity_plot()</a></code>.</p>
+Tuomisto 2010)</span>. Another interpretation (developed in this
+package) is that <span class="math inline">\(\ell\)</span>
+<strong>rescales</strong> species <em>rarities</em>. This interpretation
+lends itself to concrete visualizations of Hill diversities as mean
+rarities, provided by <code><a href="../reference/rarity_plot.html">rarity_plot()</a></code>.</p>
 <p><code><a href="../reference/rarity_plot.html">rarity_plot()</a></code> makes “balance plots,” introduced below,
 to visualize mean rarity. The idea behind a balance plot is that means
 measure the weighted center, or a balance point, for a set of values. Of
@@ -523,17 +525,17 @@ functions to enable this --></p>
 <span><span class="va">uneven_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">uneven_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">50</span><span class="op">)</span></span>
 <span><span class="co">#sample_infinite returns a numeric vector of sample species abundances</span></span>
 <span><span class="va">even_sample</span></span>
-<span><span class="co">#&gt;  [1] 8 4 6 6 1 8 3 3 0 0 1 2 1 1 0 2 0 2 2 0</span></span>
+<span><span class="co">#&gt;  [1] 7 6 4 5 4 2 3 3 3 1 3 2 1 1 2 0 1 0 1 1</span></span>
 <span><span class="va">uneven_sample</span></span>
-<span><span class="co">#&gt;  [1] 19  5  6  5  2  3  4  0  1  0  2  1  1  0  1  0  0  0  0  0</span></span>
+<span><span class="co">#&gt;  [1] 11 11  6  5  2  6  2  3  2  0  0  1  0  0  0  0  1  0  0  0</span></span>
 <span></span>
 <span><span class="co"># we can compare evenness (given a scaling parameter `l`)</span></span>
 <span><span class="co"># the evenness is the normalized ratio of an arbitrary Hill diversity to </span></span>
 <span><span class="co"># richness</span></span>
 <span><span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.6316085</span></span>
+<span><span class="co">#&gt; [1] 0.6914766</span></span>
 <span><span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.3786627</span></span>
+<span><span class="co">#&gt; [1] 0.5906077</span></span>
 <span></span>
 <span><span class="co"># compare diversity from sample vs. ideal SAD:</span></span>
 <span><span class="co"># likely pretty far off for a small sample!</span></span>
@@ -546,7 +548,7 @@ functions to enable this --></p>
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2]     [,3]   </span></span>
-<span><span class="co">#&gt; [1,] 15   11.73926 9.84252</span></span>
+<span><span class="co">#&gt; [1,] 18   14.80536 12.7551</span></span>
 <span></span>
 <span><span class="co"># with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson</span></span>
 <span><span class="co"># richness is always lower</span></span>
@@ -557,7 +559,7 @@ functions to enable this --></p>
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 12   7.568277 5.165289</span></span>
+<span><span class="co">#&gt; [1,] 11   8.305256 6.906077</span></span>
 <span></span>
 <span></span>
 <span><span class="va">big_even_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">even_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">1e7</span><span class="op">)</span></span>
@@ -571,7 +573,7 @@ functions to enable this --></p>
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">big_even_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 20   15.11916 11.99867</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,] 20   15.12077 12.00464</span></span></code></pre></div>
 <p>For any distribution of relative abundances, one can ask, “what is
 the Hill diversity of this distribution?” Yet the answer, of course,
 depends on the chosen value of the scaling parameter <span class="math inline">\(\ell\)</span>. For a comprehensive answer, one
@@ -1178,6 +1180,11 @@ Sciences</em> 378 (1881). <a href="https://doi.org/10.1098/rstb.2022.0186" class
 Sherwin, W. B., A. Chao, L. Jost, and P. E. Smouse. 2017. <span>“<span class="nocase">Information theory broadens the spectrum of molecular
 ecology and evolution</span>.”</span> <em>Trends in Ecology &amp;
 Evolution</em> 32 (12): 948–63. <a href="https://doi.org/10.1016/j.tree.2017.09.012" class="external-link">https://doi.org/10.1016/j.tree.2017.09.012</a>.
+</div>
+<div id="ref-Tuomisto2010a" class="csl-entry">
+Tuomisto, Hanna. 2010. <span>“<span class="nocase">A consistent
+terminology for quantifying species diversity? Yes, it does
+exist</span>.”</span> <em>Oecologia</em> 164 (4): 853–60. <a href="https://doi.org/10.1007/s00442-010-1812-0" class="external-link">https://doi.org/10.1007/s00442-010-1812-0</a>.
 </div>
 </div>
 </div>

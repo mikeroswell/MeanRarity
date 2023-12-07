@@ -196,7 +196,6 @@ equivalent to `vegan::renyi(x, scale = 1-l, hill = T)`,
 `iNEXT::estimateD(x)` where `order = 1-l`.
 
 
-
 ```{r compute-rarity}
 # for a totally even distribution, Hill diversity is the same regardless of `l`
 
@@ -250,7 +249,7 @@ rarity(even_3, -1) %>% round(2)
 
 ```
 
-Many authors have described $\ell$ as a factor that weights species relative
+Many authors have described $\ell$ as a factor that weights species' relative
 abundances - presumably suggesting that downweighting rare species means a lower
 effective diversity, while upweighting them means a higher effective diversity
 [e.g., @Chao2014b; @Haegeman2013; @Tuomisto2010a]. Another interpretation
@@ -260,14 +259,15 @@ mean rarities, provided by `rarity_plot()`.
 
 `rarity_plot()` makes "balance plots," introduced below, to visualize mean
 rarity. The idea behind a balance plot is that means measure the weighted
-center, or a balance point, for a set of values. Of course, if you have a plank
-with many weights on it, where the balance point lies depends not only on the
+center, or a balance point, for a set of values. If one imagines a plank with
+many weights on it, where the balance point lies depends not only on the
 weights, but also on their relative locations... the farther towards the ends of
 the plank a weight lies, the more leverage it has. When describing diversity,
 there are simple rules for the species weights ([relative] abundances) and where
 they lie (their *scaled* rarities). The rarity scaling is given by the exponent
-$\ell$ from equation 1, the argument `l`. Here, we create three balance plots
-for the three Pythagorean means, given when $\ell \in \{1, 0, -1\}$:
+$\ell$ from equation 1, passed to the argument `l`. Here, we create three
+balance plots for the three Pythagorean means, given when $\ell \in \{1, 0,
+-1\}$:
 
 
 ```{r Balance-plot-setup, warning=FALSE, message=FALSE}
@@ -288,12 +288,11 @@ simp_bal <- white_y(
   rarity_plot(ab = uneven_comm
               , l = -1
               , base_size = 12) +
- seesaw_sugar("Hill-Simpson diversity", l = -1) +
-  ggplot2::labs(x = "")
+      ggplot2::labs(x = "") +
+ seesaw_sugar("Hill-Simpson diversity", l = -1)
 )
 
 ```
-
 
 <!-- should say more. Call more attention to the points and how they move and
 how diversity moves and all. Otherwise the coolness of this easy to miss. Also,
@@ -305,7 +304,7 @@ rarities on the x-axis (values are back-transformed, but scaling is dictated by
 `l`), the mean is shown with a triangular "fulcrum," and reference points are
 illustrated for the three Pythagorean means (i.e., arithmetic, geometric, and
 harmonic, given when `l = c(1, 0, -1)`, and equal to richness, Hill-Shannon
-diversity, and Hill-Simpson diversity in purple, red, and green respectively).
+diversity, and Hill-Simpson diversity in purple, red, and green respectively). <!-- too much of a mouthful?-->
 By default, each individual is plotted as a "block", and species with the same
 rarity are stacked vertically.
 
@@ -330,6 +329,11 @@ simp_bal
 
 ```
 
+Rather than adjust abundances and scaling parameters in code, users may
+experiment with balance plots using the [R shiny web
+application](https://mean-rarity.shinyapps.io/rshiny_app1/) that accompanies
+this package.
+
 ## Simulating communities with known diversity
 
 Unfortunately, it is difficult to assess the performance of diversity estimators
@@ -341,12 +345,12 @@ richness and Hill-Simpson diversity) are known and fixed, rather than
 epiphenomena that fall out of the simulations. In order to achieve this, we
 simulate species abundance distributions with known, finite, true diversity, but
 infinite abundance, from which finite samples may be taken. The diversity of a
-given sample from such as species abundance distribution is, of course, not
+given sample from such a species abundance distribution is, of course, not
 precisely pre-determined.
 
 This approach differs from species abundance distribution simulations
 implemented in other R packages. For example, **mobsim** [@May2018a] and
-**sads** (CITE) allow users to specify continuous parametric probability
+**sads** [@Prado2022] allow users to specify continuous parametric probability
 distributions, but then take finite, discrete samples from those distributions
 in the simulation (in **mobsim** these can even be spatially explicit!). Users
 input canonical parameters of the probability distributions and the number of
@@ -354,10 +358,12 @@ individuals to sample. These are powerful simulation tools, but one drawback is
 that the diversity resulting from any given set of parameter values is variable.
 
 `fit_SAD()`, by contrast, does not simulate individuals at all. Instead, it
-always gives precisely the same relative abundances for a given set of
-parameters, which may be a helpful tool for exploring the behavior of diversity
-metrics under different assemblage size and sampling scenarios.
+always outputs precisely the same relative abundances for a given set of
+parameters. By generating relative abundances that do not depend on any kind of
+sampling scenario, `fit_SAD()` makes it easy to consistently distinguish the
+true, assemblage-level diversity from diversity estimates computed from samples.
 
+<!-- consider cutting the paragraph below entirely -->
 `fit_SAD()` simulates a species abundance distribution with known richness,
 Hill-Simpson diversity, and a distributional assumption (lognormal or gamma). It
 returns a shape parameter for the chosen probability distribution (because we're
@@ -402,16 +408,12 @@ un
 ```
 
 `fit_SAD()` generates an ideal species abundance distribution, with relative
-abundances for an assemblage with infinite abundance. To take a finite sample,
-we use `sample_infinite()` (so named because it samples an infinite SAD;
-`sample_finite()` is for sub-sampling from a realized assemblage/finite sample).
-The realized samples have Poisson-type noise about the mean species relative
-abundances given by `fit_SAD()` (that is, they are samples from a multinomial
-distribution). The diversity of a sample asymptotically approaches the simulated
-diversity as sample size approaches infinity. <!-- the section above could be
-tightened. A key issue is that the paragraphs above make it clear what `fit_SAD`
-does but not as much what it is for. A central point is that one generates
-samples from the distribution given by fit_SAD-->
+abundances for an assemblage with infinite abundance. We separate the process of
+taking finite samples from these distributions. In the **MeanRarity** package,
+to take a finite sample, we use `sample_infinite()` (so named because it samples
+an infinite SAD; `sample_finite()` is for sub-sampling from a realized
+assemblage/finite sample).
+
 <!-- plot RADs and hill profiles together on same plots. May modify package 
 functions to enable this -->
 
@@ -519,7 +521,7 @@ $\ell \leq 1$. The degree of mismatch between the sample and true diversity is
 difficult to know with real assemblages, but this can be addressed directly
 through simulation. At the same time, current asymptotic Hill diversity
 estimators [@Chao2015] typically exhibit little bias when sample sizes are
-reasonably large (hundreds of individuals) and $\ell < \sim 0.25 $. <!--
+reasonably large (hundreds of individuals) and $\ell \lt \sim 0.25 $. <!--
 rendering issues for pdf--> Less well-understood is how different features of
 the species abundance distribution (e.g. evenness, or just how rare the rarest
 species are) drive the degree of difference between either sampled diversity or
@@ -846,6 +848,7 @@ some serious focused time and maybe some blog posts -->
   == 1/vegan::diversity(x, "simpson")`. **MeanRarity** focuses on the
   interpretation of Hill diversities as average of species rarities across
   scales, to dispel confusion.
+  
 1. **sads**
   The R package **sads** provides functions to fit parametric distributions to
   abundance vectors using maximum-likelihood. The function ``sads::rsad()`, like
@@ -863,10 +866,11 @@ some serious focused time and maybe some blog posts -->
   generate spatially-explicit simulations. Unlike **MeanRarity**, **mobsim**
   provides tools to simulate and estimate diversity-area relationships. However,
   in **mobsim**, the diversity of an assemblage is an outcome of a simulation,
-  rather than an input, whereas `MeanRarity::fit_SAD` allows users to input
-  diversity directly. These functionalities enable complementary approaches to
-  studying the behavior of diversity estimates under different sampling
-  scenarios.
+  rather than an input, whereas `MeanRarity::fit_SAD()` allows users to input
+  diversity directly, and sample from a distribution with known diversity with
+  `MeanRarity::sample_infinite()`. These functionalities enable complementary
+  approaches to studying the behavior of diversity estimates under different
+  sampling scenarios.
   
 1. **entropart** 
   The `Diversity()` function in **entropart** computes several estimators of
@@ -875,42 +879,39 @@ some serious focused time and maybe some blog posts -->
   with `MeanRarity::rarity()`. **entropart** uses entropy, rather than mean
   rarity, as the conceptual starting point, and includes several entropy-focused
   estimation tools beyond those included in **MeanRarity**, **spadeR**,
-  **iNEXT**, or **vegan**.
+  **iNEXT**, or **vegan**. 
   
 1. **EntropyEstimation**
   Zhang and Grabchak 2014 provided novel entropy estimators, and this package
   implements their estimators across a variety of entropy-based diversity
-  indices. the function `Hill.z()` computes the exponentiated estimated Renyi
-  entropy (a.k.a. Hill diversity) for order $r = 1-l$. For comparison with other 
-  Hill diversity estimators, users are referred to **entropart**.
+  indices. The function `EntropyEstimation::Hill.z()` computes the exponentiated
+  estimated Renyi entropy (a.k.a. Hill diversity) for order $r = 1-l$. For
+  comparison with other Hill diversity estimators, users are referred to
+  **entropart**.
   
 1. **Richness** 
   This package is available from Github https://github.com/EWTekwa/Richness and
   provides the function `RichnessEsts()`, which generates point estimates for
   asymptotic species richness using a variety of methods, including the novel
   one introduces in Tekwa et al. 2023 PTRSB. This new estimator is not 
-  generalized to Hill diversities other than richness.
-<!-- search for others? -->
+  generalized to all Hill diversities, which are the focus of **MeanRarity**.
+
 
 # CONCLUSIONS
 
-<!-- this is repetitive, needs to be tightened --> 
-The combination of tools for simulation, estimation, and visualization of
-biodiversity provided by **MeanRarity** enables a coherent study of Hill diversity
-metrics through the framework of average species rarity. The package supports
-interpretation of popular diversity metrics and exploration of numerical and
-statistical properties of these metrics and their estimators. We tested how
-different distributions of relative abundance in assemblages drives sampling
+The `R` package **MeanRarity** enables a coherent study of Hill diversity
+metrics through the framework of average species rarity. As Hill diversity
+metrics gain popularity, **MeanRarity** provides tools to estimate and visualize
+them, and enables continuing research into the properties of these metrics.
+**MeanRarity** also facilitates simulating assemblages with known diversity,
+which is not easily done with other popular software packages for biodiversity
+science. To illustrate the use of the package in a research program, we tested
+how different distributions of relative abundance in assemblages drives sampling
 uncertainty in Hill diversity estimators. We found that Hill-Simpson diversity
 and its asymptotic estimator, which have been promoted as stable, robust
 measures of biodiversity due to relative emphasis on common, rather than rare
 species, exhibit high variability, especially in the presence of low evenness
-and very rare species. The **MeanRarity** package facilitates simulating
-assemblages with known diversity, which is not easily done with other popular
-software packages for biodiversity science. As Hill diversity metrics gain
-popularity, **MeanRarity** provides tools to estimate and visualize them in a
-coherent framework absent from other statistical packages, and enables
-continuing research into the properties of these metrics.
+and very rare species.
 
 ## ACKNOWLEDGEMENTS
 We thank Luke Harmon for early feedback on the R package, Stephen Beckett for

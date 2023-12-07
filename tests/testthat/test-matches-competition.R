@@ -1,5 +1,8 @@
+
+library('entropart')
 test_that("MeanRarity::rarity gives same output as equivalent functions in other
           pacakges", {
+
   expect_equal(rarity(1:10, 0)
                , as.numeric(vegan::renyi(1:10, scales = 1, hill = TRUE )))
 

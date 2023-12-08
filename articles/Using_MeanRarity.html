@@ -331,11 +331,11 @@ as a factor that weights species’ relative abundances - presumably
 suggesting that downweighting rare species means a lower effective
 diversity, while upweighting them means a higher effective diversity
 <span class="citation">(e.g., Chao et al. 2014; Haegeman et al. 2013;
-Tuomisto 2010)</span>. Another interpretation (developed in this
-package) is that <span class="math inline">\(\ell\)</span>
-<strong>rescales</strong> species <em>rarities</em>. This interpretation
-lends itself to concrete visualizations of Hill diversities as mean
-rarities, provided by <code><a href="../reference/rarity_plot.html">rarity_plot()</a></code>.</p>
+Tuomisto 2010; Cao and Hawkins 2019)</span>. Another interpretation
+(developed in this package) is that <span class="math inline">\(\ell\)</span> <strong>rescales</strong> species
+<em>rarities</em>. This interpretation lends itself to concrete
+visualizations of Hill diversities as mean rarities, provided by
+<code><a href="../reference/rarity_plot.html">rarity_plot()</a></code>.</p>
 <p><code><a href="../reference/rarity_plot.html">rarity_plot()</a></code> makes “balance plots,” introduced below,
 to visualize mean rarity. The idea behind a balance plot is that means
 measure the weighted center, or a balance point, for a set of values. If
@@ -375,14 +375,10 @@ plots for the three Pythagorean means, given when <span class="math inline">\(\e
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "diversity = 3.13725490196078" "community size = 40"         </span></span>
 <span><span class="co">#&gt; [3] "max observed rarity = 40"     "min observed rarity = 2"</span></span></code></pre></div>
-<!-- should say more. Call more attention to the points and how they move and
-how diversity moves and all. Otherwise the coolness of this easy to miss. Also,
-consider making the reference points bigger since they aren't that visually
-distinct for some eyes.-->
-<p>In a balance plot, the species abundances are plotted on the y-axis,
-species rarities on the x-axis (values are back-transformed, but scaling
-is dictated by <code>l</code>), the mean is shown with a triangular
-“fulcrum,” and reference points are illustrated for the three
+<p>In a balance plot, the species integer abundances are plotted on the
+y-axis, species rarities on the x-axis (values are back-transformed, but
+scaling is dictated by <code>l</code>), the mean is shown with a
+triangular “fulcrum,” and reference points are illustrated for the three
 Pythagorean means (i.e., arithmetic, geometric, and harmonic, given when
 <code>l = c(1, 0, -1)</code>, and equal to richness, Hill-Shannon
 diversity, and Hill-Simpson diversity in purple, red, and green
@@ -524,17 +520,17 @@ functions to enable this -->
 <span><span class="va">uneven_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">uneven_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">50</span><span class="op">)</span></span>
 <span><span class="co">#sample_infinite returns a numeric vector of sample species abundances</span></span>
 <span><span class="va">even_sample</span></span>
-<span><span class="co">#&gt;  [1] 6 2 6 5 3 5 3 3 1 3 2 1 0 1 3 2 1 1 0 2</span></span>
+<span><span class="co">#&gt;  [1] 10  6  4  4  4  3  3  3  1  2  1  0  1  1  2  1  2  0  2  0</span></span>
 <span><span class="va">uneven_sample</span></span>
-<span><span class="co">#&gt;  [1] 21  5  1  7  2  2  0  1  2  1  2  2  3  1  0  0  0  0  0  0</span></span>
+<span><span class="co">#&gt;  [1] 16 12  2  1  3  4  2  5  1  1  0  0  1  1  1  0  0  0  0  0</span></span>
 <span></span>
 <span><span class="co"># we can compare evenness (given a scaling parameter `l`)</span></span>
 <span><span class="co"># the evenness is the normalized ratio of an arbitrary Hill diversity to </span></span>
 <span><span class="co"># richness</span></span>
 <span><span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.7234043</span></span>
+<span><span class="co">#&gt; [1] 0.6109914</span></span>
 <span><span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.296837</span></span>
+<span><span class="co">#&gt; [1] 0.3656609</span></span>
 <span></span>
 <span><span class="co"># compare diversity from sample vs. ideal SAD:</span></span>
 <span><span class="co"># likely pretty far off for a small sample!</span></span>
@@ -547,7 +543,7 @@ functions to enable this -->
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 18   15.17464 13.29787</span></span>
+<span><span class="co">#&gt; [1,] 17   13.39833 10.77586</span></span>
 <span></span>
 <span><span class="co"># with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson</span></span>
 <span><span class="co"># richness is always lower</span></span>
@@ -557,8 +553,8 @@ functions to enable this -->
 <span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">l</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      [,1] [,2]    [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 13   7.35519 4.562044</span></span>
+<span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
+<span><span class="co">#&gt; [1,] 13   7.653792 5.387931</span></span>
 <span></span>
 <span></span>
 <span><span class="va">big_even_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">even_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">1e7</span><span class="op">)</span></span>
@@ -572,7 +568,7 @@ functions to enable this -->
 <span>  <span class="fu"><a href="../reference/rarity.html">rarity</a></span><span class="op">(</span><span class="va">big_even_sample</span>, <span class="va">l</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2]     [,3]    </span></span>
-<span><span class="co">#&gt; [1,] 20   15.12391 12.00455</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,] 20   15.12084 11.99884</span></span></code></pre></div>
 <p>For any distribution of relative abundances, one can ask, “what is
 the Hill diversity of this distribution?” Yet the answer, of course,
 depends on the chosen value of the scaling parameter <span class="math inline">\(\ell\)</span>. For a comprehensive answer, one
@@ -618,16 +614,23 @@ directly, treating this as a sample-size-dependent diversity measure
 diversity of the sample directly, but treat this as an estimate of the
 diversity of the entire assemblage (hereafter the “naïve estimator”)
 (CITE SOMEBODY), or c) use non-parametric estimators of the diversity of
-the entire assemblage, or an “asymptotic estimator” <span class="citation">(Chao and Jost 2015)</span>. All three approaches have
-merit for comparing communities and ecosystems <span class="citation">(Gooriah et al. 2021)</span> <!-- may want a stronger
-reference here-->. While the degree to which sample diversity and
-asymptotic estimates each differ from the true diversity (bias) has
-received substantial study, the sampling variation in each type of Hill
-diversity estimate is less understood. <strong>MeanRarity</strong>
-provides a toolkit to explore accuracy and sampling uncertainty for Hill
-diversity estimates. Because this package simulates species abundance
-distributions with known diversity, it allows examination of the drivers
-of sampling variation in Hill diversity estimates.</p>
+the entire assemblage, or an “asymptotic estimator” <span class="citation">(Chao and Jost 2015)</span>. All three approaches may
+have merit for comparing communities and ecosystems <span class="citation">(Gooriah et al. 2021)</span> <!-- may want a stronger
+reference here-->.
+<!-- I think we might need to say a bit more about sample
+diversity as its own thing (Peet 1974, Smith and Grassle, Hurlbert 1971) vs. as
+an estimator of their asymptotic values. I think McGill 2011 from MacGurran and
+McGill is really bad about this, as an e.g., but we probably won't say that
+here. --> While the degree to which sample diversity and asymptotic
+estimates each differ from the true diversity of the full assemblage
+(bias) has received substantial study, the sampling variation in each
+type of Hill diversity estimate is less understood, as are potential
+differences in this variation between sample diversities and their
+asymptotic estimators. <strong>MeanRarity</strong> provides a toolkit to
+explore accuracy and sampling uncertainty for Hill diversity estimates.
+Because this package simulates species abundance distributions with
+known diversity, it allows examination of the drivers of sampling
+variation in Hill diversity estimates.</p>
 <p>It is well known that the diversity of a sample tends to be lower
 than the diversity of the assemblage from which the sample was drawn.
 This “bias” is most acute for species richness, but can be substantial
@@ -744,8 +747,9 @@ Hill diversity estimates when the scaling exponent <span class="math inline">\(\
 <span>                                                 , <span class="st">"sample"</span><span class="op">)</span><span class="op">)</span></span>
 <span>                  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>this_error <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">this_error</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">2</span></span>
-<span>                                              , <span class="fu"><a href="https://rdrr.io/r/base/sign.html" class="external-link">sign</a></span><span class="op">(</span><span class="va">this_error</span><span class="op">)</span><span class="op">*</span><span class="cn">Inf</span></span>
-<span>                                              , <span class="va">this_error</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>                                              , <span class="fu"><a href="https://rdrr.io/r/base/sign.html" class="external-link">sign</a></span><span class="op">(</span><span class="va">this_error</span><span class="op">)</span> <span class="op">*</span> <span class="cn">Inf</span></span>
+<span>                                              , <span class="va">this_error</span><span class="op">)</span></span>
+<span>                  , this_error <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">this_error</span>, <span class="fl">11</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">distribution</span> <span class="op">==</span> <span class="va">dist</span> <span class="co"># </span></span>
 <span>                   <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ell</span></span>
@@ -761,7 +765,7 @@ Hill diversity estimates when the scaling exponent <span class="math inline">\(\
 <span>                   <span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span></span>
 <span>                                <span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">ratioScales</span><span class="fu">::</span><span class="fu"><a href="https://mikeroswell.github.io/ratioScales/reference/scale_ratio.html" class="external-link">scale_y_ratio</a></span><span class="op">(</span>slashStar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">ratioScales</span><span class="fu">::</span><span class="fu"><a href="https://mikeroswell.github.io/ratioScales/reference/scale_ratio.html" class="external-link">scale_y_ratio</a></span><span class="op">(</span>slashStar <span class="op">=</span> <span class="cn">FALSE</span>, anchor <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors</a></span><span class="op">(</span><span class="fl">4</span></span>
 <span>                                , palette <span class="op">=</span> <span class="st">"SunsetDark"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span>
 <span>                                <span class="op">)</span> <span class="op">+</span></span>
@@ -772,7 +776,7 @@ Hill diversity estimates when the scaling exponent <span class="math inline">\(\
 <span>                          , err_type <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="va"><a href="https://ggplot2.tidyverse.org/reference/labellers.html" class="external-link">label_value</a></span></span>
 <span>                          <span class="op">)</span></span>
 <span>                        , scales <span class="op">=</span> <span class="st">"free_y"</span></span>
-<span>                        , space <span class="op">=</span> <span class="st">"free_y"</span></span>
+<span>                        <span class="co"># , space = "free_y"</span></span>
 <span>                        , switch <span class="op">=</span> <span class="st">"y"</span></span>
 <span>                        <span class="op">)</span> <span class="op">+</span>  </span>
 <span>      <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"scaling exponent \U2113"</span></span>
@@ -790,37 +794,37 @@ Hill diversity estimates when the scaling exponent <span class="math inline">\(\
 <span><span class="co">#&gt; Warning in self$trans$transform(x): NaNs produced</span></span>
 <span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Transformation introduced infinite values in continuous y-axis</span></span>
-<span><span class="co">#&gt; Warning: Removed 4810 rows containing missing values (`geom_line()`).</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Removed 4808 rows containing missing values (`geom_line()`).</span></span></code></pre></div>
 <p><img src="Using_MeanRarity_files/figure-html/bias-figure-1.png" width="1050"></p>
 <pre><code><span><span class="co">#&gt; Warning in self$trans$transform(x): NaNs produced</span></span>
 <span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Transformation introduced infinite values in continuous y-axis</span></span>
-<span><span class="co">#&gt; Warning: Removed 5188 rows containing missing values (`geom_line()`).</span></span></code></pre>
+<span><span class="co">#&gt; Warning: Removed 5187 rows containing missing values (`geom_line()`).</span></span></code></pre>
 <p><img src="Using_MeanRarity_files/figure-html/bias-figure-2.png" width="1050"></p>
 <pre><code><span><span class="co">#&gt; Warning in self$trans$transform(x): NaNs produced</span></span>
 <span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Transformation introduced infinite values in continuous y-axis</span></span>
-<span><span class="co">#&gt; Warning: Removed 4629 rows containing missing values (`geom_line()`).</span></span></code></pre>
+<span><span class="co">#&gt; Warning: Removed 4621 rows containing missing values (`geom_line()`).</span></span></code></pre>
 <p><img src="Using_MeanRarity_files/figure-html/bias-figure-3.png" width="1050"></p>
 <pre><code><span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt; Warning in self$trans$transform(x): NaNs produced</span></span>
 <span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Transformation introduced infinite values in continuous y-axis</span></span>
-<span><span class="co">#&gt; Warning: Removed 4810 rows containing missing values (`geom_line()`).</span></span></code></pre>
+<span><span class="co">#&gt; Warning: Removed 4808 rows containing missing values (`geom_line()`).</span></span></code></pre>
 <p><img src="Using_MeanRarity_files/figure-html/bias-figure-4.png" width="1050"></p>
 <pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
 <span><span class="co">#&gt; Warning in self$trans$transform(x): NaNs produced</span></span>
 <span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Transformation introduced infinite values in continuous y-axis</span></span>
-<span><span class="co">#&gt; Warning: Removed 5188 rows containing missing values (`geom_line()`).</span></span></code></pre>
+<span><span class="co">#&gt; Warning: Removed 5187 rows containing missing values (`geom_line()`).</span></span></code></pre>
 <p><img src="Using_MeanRarity_files/figure-html/bias-figure-5.png" width="1050"></p>
 <pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[3]]</span></span>
 <span><span class="co">#&gt; Warning in self$trans$transform(x): NaNs produced</span></span>
 <span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span>
 <span><span class="co">#&gt; Transformation introduced infinite values in continuous y-axis</span></span>
-<span><span class="co">#&gt; Warning: Removed 4629 rows containing missing values (`geom_line()`).</span></span></code></pre>
+<span><span class="co">#&gt; Warning: Removed 4621 rows containing missing values (`geom_line()`).</span></span></code></pre>
 <p><img src="Using_MeanRarity_files/figure-html/bias-figure-6.png" width="1050"></p>
 <!-- fig caption draft -->
 <p>Figure X: Hill-Simpson diversity estimates have high variability
@@ -1041,6 +1045,11 @@ available on Github (SOME KIND OF URL OR DOI REF).</p>
 <h2 class="unnumbered" id="references">REFERENCES<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Cao2019" class="csl-entry">
+Cao, Yong, and Charles P. Hawkins. 2019. <span>“<span class="nocase">Weighting effective number of species measures by
+abundance weakens detection of diversity responses</span>.”</span>
+<em>Journal of Applied Ecology</em>, no. December 2018: 1–10. <a href="https://doi.org/10.1111/1365-2664.13345" class="external-link">https://doi.org/10.1111/1365-2664.13345</a>.
+</div>
 <div id="ref-Chao2016" class="csl-entry">
 Chao, Anne, and Chun Huo Chiu. 2016. <span>“<span class="nocase">Bridging the variance and diversity decomposition
 approaches to beta diversity via similarity and differentiation

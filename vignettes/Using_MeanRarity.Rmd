@@ -242,7 +242,7 @@ assemblage with twice the number of species and tremendous unevenness, or half
 the number of species and perfect evenness:
 
 ``` {r effective-numbers}
-uneven_12 <- c(531, 186, 101,  63, 41, 28, 19, 13, 9, 5, 3, 1)
+uneven_12 <- c(493, 186, 101,  63, 41, 28, 19, 13, 9, 5, 3, 1)
 even_3 <- c(20, 20, 20)
 
 rarity(uneven_comm, -1) %>% round(2)
@@ -399,11 +399,41 @@ un<-radplot(uneven_SAD$rel_abundances) +
   ggplot2::labs(y = "relative abundance", title =NULL) +
   ggplot2::ylim(c(0, 0.4))
 ```
-``` {r plot radplots, fig.width = 3, fig.height =3, fig.show = "hold"}
-ev
-un
+
+For any distribution of relative abundances, one can ask, "what is the Hill
+diversity of this distribution?" Yet the answer, of course, depends on the
+chosen value of the scaling parameter $\ell$. For a comprehensive answer, one
+might look across values of $\ell$, also known as a Hill "diversity profile"
+[@Chao2014b]. **MeanRarity** provides a function to generate a Hill diversity
+profile based on $\ell$ (rather than $q$): `divpro()`.
+<!-- these should be on a single plot, will be much more interesting that
+way!-->
+
+```{r diversity-profile}
+# the even and uneven communities have same richness but different Hill 
+# diversity when `ell != 1`
+ev_prof <- ggplot2::ggplot(divpro(even_SAD$rel_abundances)
+                , ggplot2::aes(ell, d)) +
+  ggplot2::geom_line() +
+  ggplot2::ylim(0,22) +
+  ggplot2::theme_classic() +
+  ggplot2::labs(x = "scaling exponent \'l\'", y = "Hill diversity")
+
+un_prof <- ggplot2::ggplot(divpro(uneven_SAD$rel_abundances)
+                , ggplot2::aes(ell, d)) +
+  ggplot2::geom_line() +
+  ggplot2::ylim(0, 22) +
+  ggplot2::theme_classic() +
+  ggplot2::labs(x = "scaling exponent \'l\'", y = "Hill diversity")
+
+
+
 ```
 
+``` {r radplots-and-profiles, fig.width=5, fig.height=5}
+(ev + ev_prof)/ (un + un_prof)
+
+```
 `fit_SAD()` generates an ideal species abundance distribution, with relative
 abundances for an assemblage with infinite abundance. We separate the process of
 taking finite samples from these distributions. In the **MeanRarity** package,
@@ -459,35 +489,7 @@ rbind(lapply(c(1, 0, -1), function(l){
 }))
 ```
 
-For any distribution of relative abundances, one can ask, "what is the Hill
-diversity of this distribution?" Yet the answer, of course, depends on the
-chosen value of the scaling parameter $\ell$. For a comprehensive answer, one
-might look across values of $\ell$, also known as a Hill "diversity profile"
-[@Chao2014b]. **MeanRarity** provides a function to generate a Hill diversity
-profile based on $\ell$ (rather than $q$): `divpro()`.
-<!-- these should be on a single plot, will be much more interesting that
-way!-->
 
-```{r diversity-profile}
-# the even and uneven communities have same richness but different Hill 
-# diversity when `ell != 1`
-ggplot2::ggplot(divpro(even_SAD[[3]]),
-                ggplot2::aes(ell, d)) +
-  ggplot2::geom_line() +
-  ggplot2::ylim(0,22) +
-  ggplot2::theme_classic() +
-  ggplot2::labs(x = "scaling exponent \'l\'", y = "Hill diversity")
-
-ggplot2::ggplot(divpro(uneven_SAD[[3]]),
-                ggplot2::aes(ell, d)) +
-  ggplot2::geom_line() +
-    ggplot2::ylim(0,22) +
-  ggplot2::theme_classic() +
-  ggplot2::labs(x = "scaling exponent \'l\'", y = "Hill diversity")
-
-
-
-```
 
 # EXAMPLE APPLICATIONS
 
@@ -631,16 +633,17 @@ purrr::map(c("lnorm", "gamma", "invgamma"), function(dist){
                                                  , "naïve"
                                                  , "sample"))
                   ) %>% 
-    dplyr::mutate(this_error = dplyr::if_else(abs(this_error) > 2
-                                              , sign(this_error) * Inf
-                                              , this_error)
-                  , this_error = round(this_error, 11)) %>%
+    # dplyr::mutate(this_error = dplyr::if_else(abs(this_error) > 2
+    #                                           , sign(this_error) * Inf
+    #                                           , this_error)
+    #               , this_error = round(this_error, 11)) %>%
      dplyr::filter(distribution == dist # 
                    ) %>% 
     ggplot2::ggplot(ggplot2::aes(x = ell
                                  , color = evenness)) +
-    ggplot2::geom_line(ggplot2::aes(y = this_error
-      , linetype = est), size = 0.8) +
+    ggplot2::geom_line(ggplot2::aes(y = this_error #exp(this_error)
+      , linetype = est), linewidth = 0.8) +
+     ggplot2::geom_hline(yintercept = 0) + 
     ggplot2::theme_classic() +
     ggplot2::theme(strip.background = ggplot2::element_blank()
                    , strip.placement.y = "outside"
@@ -650,7 +653,12 @@ purrr::map(c("lnorm", "gamma", "invgamma"), function(dist){
                    ) +
     ggplot2::scale_x_continuous(limits = c(-1,1)
                                 ) +
-    ratioScales::scale_y_ratio(slashStar = FALSE, anchor = 1) + 
+    
+    # ratioScales::scale_y_ratio(slashStar = FALSE, anchor = 1) +
+     ggplot2::scale_y_continuous(
+       labels = ratioScales::label_divMult(logscale = TRUE, slashStar = FALSE) 
+       , breaks = log(c(0.2, 0.5, 1/1.5, 1/1.2, 1, 1.2, 1.5, 2, 5))
+       ) + 
     ggplot2::scale_color_manual(values = hcl.colors(4
                                 , palette = "SunsetDark")[1:3]
                                 ) +

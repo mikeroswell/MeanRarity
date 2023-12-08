@@ -260,16 +260,16 @@ interpretation lends itself to concrete visualizations of Hill diversities as
 mean rarities, provided by `rarity_plot()`.
 
 `rarity_plot()` makes "balance plots," introduced below, to visualize mean
-rarity. The idea behind a balance plot is that means measure the weighted
+rarity. The idea behind a balance plot is that means measure the [weighted]
 center, or a balance point, for a set of values. If one imagines a plank with
-many weights on it, where the balance point lies depends not only on the
-weights, but also on their relative locations... the farther towards the ends of
-the plank a weight lies, the more leverage it has. When describing diversity,
-there are simple rules for the species weights ([relative] abundances) and where
-they lie (their *scaled* rarities). The rarity scaling is given by the exponent
-$\ell$ from equation 1, passed to the argument `l`. Here, we create three
-balance plots for the three Pythagorean means, given when $\ell \in \{1, 0,
--1\}$:
+many weights on it, where the balance point lies depends not only on the size of
+the weights weights, but also on their relative locations... the farther towards
+the ends of the plank a weight lies, the more leverage it has. When describing
+diversity, there are simple rules for the species weights ([relative]
+abundances) and where they lie (their *scaled* rarities). The rarity scaling is
+given by the exponent $\ell$ from equation 1, passed to the argument `l`. Here,
+we create three balance plots for the three Pythagorean means, given when 
+$\ell \in \{1, 0,-1\}$:
 
 
 ```{r Balance-plot-setup, warning=FALSE, message=FALSE}

@@ -88,6 +88,9 @@ power_trans = function(pow, nb) scales::trans_new(name = "power"
    , domain = c(1, 10000) #this is to deal with -Inf
 )
 
+# Note that this function requires integer abundances. Overall, no great reason
+# not to adjust rarity_plot to include fractions with the lines = TRUE
+
 #' Replicate abundance vector to make stacks with geom_point
 #'
 #' @param df data.frame of abundances and rarities.
@@ -96,11 +99,13 @@ power_trans = function(pow, nb) scales::trans_new(name = "power"
 #'
 #' @noRd
 fancy_rep <- function(df){
+  if(!all.equal(df$ab, as.integer(df$ab))){stop("rarity plot requires integer abundances")}
   mydf = data.frame(df[rep(1:nrow(df), df$ab), ])
     return(mydf %>%
               dplyr::group_by(.data$ab) %>%
               dplyr::mutate(gr = 1:length(.data$ab)
-                            , inds = rep(length(.data$ab), length(.data$ab)))
+                            , inds = rep(length(.data$ab)
+                                        , length(.data$ab)))
     )
 }
 

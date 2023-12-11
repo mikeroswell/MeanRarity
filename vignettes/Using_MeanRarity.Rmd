@@ -355,9 +355,9 @@ the ultimate stopping point for emphasis on rare species.
 
 ## Simulating communities with known diversity
 
-Unfortunately, it is difficult to assess the performance of diversity estimators
-with real-world data, because ecological communities are not typically fully
-censused, and therefore the true diversity of sampled communities is not known.
+Assessing the the performance of diversity estimators with real-world data is
+difficult, because ecological communities are not typically fully censused, and
+therefore the true diversity of sampled communities is not known.
 **MeanRarity** includes a tool to simulate species abundance distributions where
 diversity values are given as parameters. This way, diversity (in this case,
 richness and Hill-Simpson diversity) are known and fixed, rather than

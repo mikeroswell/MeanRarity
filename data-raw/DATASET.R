@@ -1,42 +1,49 @@
 ### This is a short script to make the subsetted data from  Roswell et al. 2019 PLoS One https://doi.org/10.5061/dryad.c3rr6q1 and used for figures in Roswell et al. 2020 Oikos.
+library(dplyr)
+library(tidyr)
 
 
 #################################
 #read in data from .csv on Dryad
 ################################
-XerDate<-read.csv("https://datadryad.org/stash/downloads/file_stream/93833") %>%
+XerDate <- read.csv("https://datadryad.org/stash/downloads/file_stream/93833") %>%
   dplyr::filter(keep == "Y" &
            bee_species != "sp" &
            bee_species != "species" &
            bee_genus != "sandwasp" &
            bee_genus != "sand wasp" &
            bee_genus != "Anacrabro") %>% #note non-bee accidentally uploaded
-  tidyr::unite(col="sr", site, sampling_round, remove=F) %>%
-  tidyr::unite(col="siteday",site, sday, remove=F) %>% droplevels()
+  tidyr::unite(col="sr", site, sampling_round, remove = FALSE) %>%
+  tidyr::unite(col="siteday",site, sday, remove = FALSE) %>%
+  droplevels()
 
-XerDay<-XerDate %>%
+XerDay <- XerDate %>%
   dplyr::group_by(sr, sampling_round, site) %>%
   dplyr::mutate(sday1=dplyr::dense_rank(sday))
 
-#######################################
-# Subset PLoS One dataset
-##################################
+###############################
+## Subset PLoS One dataset ####
+###############################
 
-set.seed(5062, sample.kind = "Rounding") #due to turnover in set.seed() with R 3.6.0
+#due to turnover in set.seed() with R 3.6.0
+set.seed(5062, sample.kind = "Rounding")
 
 makedat1 <- XerDay %>%
   dplyr::group_by(sr, sday) %>%
-  dplyr::do(filter(.,length(unique(boutstart)) > 4)) %>% #drop dates with unsufficient sampling effort
-  dplyr::do(dplyr::filter(., boutstart %in% sample(unique(boutstart)
-                                                   , size=5 #select 5 bouts from each day of sampling at each site (equal effort)
-                                                   , replace=F))) %>%
+  dplyr::do(filter(.,length(unique(boutstart)) > 4)) %>%
+  #drop dates with unsufficient sampling effort
+  dplyr::do(dplyr::filter(.
+                          , boutstart %in% sample(unique(boutstart)
+                                                   , size=5
+                                                  #select 5 bouts from each day of sampling at each site (equal effort)
+                                                   , replace = FALSE))) %>%
   dplyr::ungroup()
 
 
  ################################
 # create package dataset beeObs
 #################################
-beeObs<-makedat1 %>%
+beeObs <- makedat1 %>%
   dplyr::select(uniqueID, bee, start=boutstart, sr, sday1, site, sampling_round) %>%
   # FOUR SITE-ROUNDS SELECTED TO DEMONSTRATE PITFALLS IN DIVERSITY COMPARISON
   dplyr::filter(sr %in% c(
@@ -54,8 +61,8 @@ beeObs<-makedat1 %>%
 # summarizes beeObs as abundance per site-species
 beeAbunds <- beeObs %>% #summary table used in MS
   dplyr::group_by(sr, bee) %>%
-  dplyr::summarize(abund=n()) %>%
-  tidyr::spread(sr, abund, fill=0)
+  dplyr::summarize(abund = n()) %>%
+  tidyr::spread(sr, abund, fill = 0)
 
 
 
@@ -66,8 +73,8 @@ beeAbunds <- beeObs %>% #summary table used in MS
 ##############
 # this takes a long time to run so we're going to stash it but export the data it creates
 
-sz<-1:745 #sample sizes from 1 to maximum observed total abundance at a site
-nrep<-200 #Large enough because estimating means
+sz <- 1:745 #sample sizes from 1 to maximum observed total abundance at a site
+nrep <- 200 #Large enough because estimating means
 
 tictoc::tic() #time this
 nc <- parallel::detectCores() - 1 #nc is number of cores to use in parallel processing
@@ -79,7 +86,8 @@ div_ests <- purrr::map_dfr(1:nrep, function(k){
     map(2:length(beeAbunds), function(sitio){
       f<-beeAbunds %>% dplyr::select(all_of(sitio))
       if(sum(f) > x){
-        comm = dplyr::pull(f) %>% subsam(size = x)
+        comm = dplyr::pull(f) %>%
+          subsam(size = x)
         return(data.frame(obs_est(comm)
                           , site = names(f)))
       }
@@ -88,7 +96,7 @@ div_ests <- purrr::map_dfr(1:nrep, function(k){
 })
 
 tictoc::toc() #507 seconds, not bad.
-mean_narm <- function(x){mean(x, na.rm = T)}
+mean_narm <- function(x){mean(x, na.rm = TRUE)}
 
 ###########################
 # create dataset div_ests for package
@@ -162,7 +170,7 @@ effort_rare <- effort_means %>% dplyr::rename(
                 , "Hill-Simpson_observed"
                 , "Hill-Simpson_asymptotic") %>%
   tidyr::gather(key = method
-                , value =xax
+                , value = xax
                 , effort
                 , size
                 , coverage) %>%
@@ -198,12 +206,12 @@ SADs_list <- purrr::map(c("lnorm", "gamma"), function(distr){
 
 nreps <- 9999
 
-ss_to_test <- floor(10^seq(1,3, 0.2))
+ss_to_test <- floor(10^seq(1, 3, 0.2))
 
-flatsads <- purrr::flatten(flatten(SADs_list))
+flatsads <- purrr::flatten(purrr::flatten(SADs_list))
 
 nc <- parallel::detectCores() - 1
-future::plan(strategy = "multiprocess", workers = nc)
+future::plan(strategy = "multisession", workers = nc)
 # options <- furrr::furrr_options(seed = TRUE)
 
 tictoc::tic()
@@ -227,16 +235,17 @@ compare_ests <- purrr::map_dfr(1:24, function(SAD){
 })
 tictoc::toc() # ~1hr on 2.9 GHz i7 quad core processor
 # define a function for computing the root mean square
-nasum <- function(x){sum(x, na.rm =T)}
+nasum <- function(x){sum(x, na.rm = TRUE)}
 rootms <- function(x){sqrt(nasum(((x)^2)/length(x)))}
-namean <- function(x){mean(x, na.rm =T)}
+namean <- function(x){mean(x, na.rm = TRUE)}
 
 errs <- compare_ests %>%
   group_by(ell, distribution, fitted.parameter, n, SAD) %>%
   mutate(godsError = gods - truth
          , naiveError = naive - truth
          , chaoError = chaoest - truth) %>%
-  summarize_at(.vars = c("godsError", "naiveError", "chaoError"), .funs = c(rootms, namean)) %>%
+  summarize_at(.vars = c("godsError", "naiveError", "chaoError")
+               , .funs = c(rootms, namean)) %>%
   pivot_longer(godsError_fn1:chaoError_fn2,
                names_to = c("estimator", ".value"),
                names_sep = "_"
@@ -271,12 +280,13 @@ SADS<-purrr::flatten(
 
 
 # set sample size
-reps <- 1e3
+reps <- 500
 
 # set future plan
 
-future::plan(strategy = "multiprocess", workers = parallel::detectCores()-1)
-sample_data<-purrr::map_dfr(SADS, function(mySAD){
+future::plan(strategy = "multisession", workers = parallel::detectCores()-1)
+
+sample_data <- purrr::map_dfr(SADS, function(mySAD){
   evenness = (mySAD[[2]][3]-1)/(mySAD[[2]][1]-1)
   distribution = mySAD[[1]][1]
   purrr::map_dfr(sample_sizes, function(SS){
@@ -302,7 +312,7 @@ sample_data<-purrr::map_dfr(SADS, function(mySAD){
   })
 })
 
-err_plot_data<-sample_data %>%
+err_plot_data <- sample_data %>%
   dplyr::group_by(evenness, distribution, ell, SS) %>%
   dplyr::summarize(sample_sdlog = sd(ifelse(sample_diversity == 0
                                             , 0, Ln(sample_diversity)))

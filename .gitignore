@@ -6,4 +6,7 @@ inst/doc
 /doc/
 /Meta/
 docs
-.log # building PDF vignettes generates .log files
+# built .pdf vignettes
+vignettes/*.pdf
+# building PDF vignettes generates .log files
+*.log

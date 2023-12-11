@@ -343,11 +343,11 @@ this package.
 <!-- do we want ot say anything about this here? --> 
 Traditionally, Hill numbers in ecology have considered scaling parameters of
 $\ell \leq 1$ i.e., $q \geq 0$. However, scaling parameter values outside this
-range may produce useful ecological metrics as well [@Roswell2023]. Just as
+range may produce useful ecological metrics as well [@Roswell2022b]. Just as
 sample richness reflects density, total richness, and the distribution of
 relative abundances, sample Hill diversities with $\ell > 1$ ($q<0$) reflect
 multiple community aspects and may be preferable to sample richness as an ad-hoc
-index of community size and complexity [@Roswell2023]. One advantage of the
+index of community size and complexity [@Roswell2022b]. One advantage of the
 $\ell$-formulation is that it makes transparent that although properties of the
 weighted mean shift around $\ell = 1$ (increasing with observed evenness for
 $\ell <1$, decreasing with evenness for $\ell >1$), species richness need not be

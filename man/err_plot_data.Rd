@@ -5,7 +5,7 @@
 \alias{err_plot_data}
 \title{Sampling variability in Hill diversity}
 \format{
-A data.frame with 10836 rows and 15 variables:
+A data.frame with 2,196 rows and 15 variables:
 \itemize{
 \item \emph{evenness} Factor, approximately the ratio of Hill-Simpson to richness
 \item \emph{distribution} Factor, family, one of "lnorm" or "gamma"

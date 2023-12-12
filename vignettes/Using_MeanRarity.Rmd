@@ -1,17 +1,17 @@
 ---
 title: "MeanRarity: An R package to facilitate estimation and visualization of Hill diversity"
 output: 
-  rmarkdown::html_document:
-    fig_width: 3
-    fig_height: 3
-    fig.retina: NULL
-  rmarkdown::html_vignette: 
-    fig_width: 3
-    fig_height: 3
   rmarkdown::pdf_document: 
     fig_width: 3
     fig_height: 3
     latex_engine: xelatex
+  rmarkdown::html_vignette: 
+    fig_width: 3
+    fig_height: 3
+  rmarkdown::html_document:
+    fig_width: 3
+    fig_height: 3
+    fig.retina: NULL
   word_document: default
 bibliography: '`r system.file( "REFERENCES.bib", package="MeanRarity")`'
 vignette: >
@@ -436,7 +436,7 @@ diversity profile based on $\ell$ (rather than $q$): `divpro()`. `divpro()` does
 not estimate asymptotic diversity values (as does, e.g., `SpadeR::Diversity()`),
 rather it simply computes the Hill diversity profile for the [relative] 
 abundances supplied by the argument `ab`. As with all **MeanRarity** functions, 
-`divpro()` can work with any real value for the parameter `l` [@Roswell2022a].
+`divpro()` can work with any real value for the parameter `l` [@Roswell2022b].
 
 
 ```{r diversity-profile}
@@ -560,7 +560,7 @@ $\ell \leq 1$. The degree of mismatch between the sample and true diversity is
 difficult to know with real assemblages, but this can be addressed directly
 through simulation. At the same time, current asymptotic Hill diversity
 estimators [@Chao2015] typically exhibit little bias when sample sizes are
-reasonably large (hundreds of individuals) and $\ell \lt \sim 0.25$. <!--
+reasonably large (hundreds of individuals) and $\ell \lesssim 0.25$. <!--
 rendering issues for pdf--> Less well-understood is how different features of
 the species abundance distribution (e.g. evenness, or just how rare the rarest
 species are) drive the degree of difference between either sampled diversity or

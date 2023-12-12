@@ -280,7 +280,7 @@ SADS<-purrr::flatten(
 
 
 # set sample size
-reps <- 500
+reps <- 999
 
 # set future plan
 
@@ -292,7 +292,7 @@ sample_data <- purrr::map_dfr(SADS, function(mySAD){
   purrr::map_dfr(sample_sizes, function(SS){
     sample_abundances = replicate(reps, sample_infinite(ab = mySAD[[3]]
                                                         , size = SS))
-    furrr::future_map_dfr(seq(-1.5, 1.5, 0.01), function(ell){
+    furrr::future_map_dfr(seq(-1.5, 1.5, 0.05), function(ell){
       true_diversity = rarity(ab = mySAD[[3]], l = ell)
       sample_diversity = sapply(1:reps
                                 , function(rep){
@@ -332,7 +332,8 @@ err_plot_data <- sample_data %>%
                    , mean_sample = mean(sample_diversity)
                    , mean_asymptotic = mean(estimated_diversity)) %>%
   dplyr::mutate(evenness = as.factor(round(evenness, 2))) %>%
-  dplyr::rename(sample_size = SS)
+  dplyr::rename(sample_size = SS) %>%
+  dplyr::ungroup()
 
 
 #############################################

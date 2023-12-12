@@ -364,7 +364,7 @@ richness and Hill-Simpson diversity) are known and fixed, rather than
 epiphenomena that fall out of the simulations. In order to achieve this, we
 simulate species abundance distributions with known, finite, true diversity, but
 infinite abundance, from which finite samples may be taken. The diversity of a
-given sample from such a species abundance distribution is, of course, not
+given sample from such a species abundance distribution is therefore not
 precisely pre-determined.
 
 This approach differs from species abundance distribution simulations

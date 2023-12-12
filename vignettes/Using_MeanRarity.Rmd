@@ -373,8 +373,9 @@ implemented in other R packages. For example, **mobsim** [@May2018a] and
 distributions, but then take finite, discrete samples from those distributions
 in the simulation (in **mobsim** these can even be spatially explicit!). Users
 input canonical parameters of the probability distributions and the number of
-individuals to sample. These are powerful simulation tools, but one drawback is
-that the diversity resulting from any given set of parameter values is variable.
+individuals to sample. These are powerful simulation tools, but one drawback
+common among them is that the simulated diversity resulting from any given set
+of parameter values is variable.
 
 `fit_SAD()`, by contrast, does not simulate individuals at all. Instead, it 
 always outputs precisely the same relative abundances for a given set of

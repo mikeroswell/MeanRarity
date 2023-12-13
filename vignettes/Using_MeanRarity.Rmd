@@ -533,7 +533,7 @@ Accurate estimates of Hill diversity based on sample data are notoriously
 challenging [@Roswell2021]. Although many estimators have been used, the three
 most common approaches are to a) calculate the diversity of samples directly,
 treating this as a sample-size-dependent diversity measure (i.e. "sample
-diversity") (CITE SMITH AND GRASSLE), b) calculate the diversity of the sample
+diversity" [@Smith1977]), b) calculate the diversity of the sample
 directly, but treat this as an estimate of the diversity of the entire
 assemblage (sometimes called the "plug-in estimator") (CITE SOMEBODY), or c) use
 non-parametric estimators of the diversity of the entire assemblage, or an
@@ -768,21 +768,21 @@ sampling.
 Much less explored is the variability of both sample diversity, and of
 asymptotic diversity estimates, under random sampling expectations. Here, our
 results were striking, and challenged the orthodoxy that Hill-Simpson diversity
-is the low-uncertainty option for comparing assemblages [@Lande2000] <!-- this
-is probably the strongest citation I can put my hands on but insufficient to
-claim an "Orthodoxy" from this. --> . The sample Hill-Simpson diversity, which
-has been promoted as a diversity metric that is robust to variation in sampling
-intensity [@Chase2013], exhibited high sampling uncertainty for most SADs and
-sampling intensities... greater variability than for any other sample Hill
-diversity. Across Hill diversities, the asymptotic estimator was typically more
-variable than the sample diversity was. This was especially the case for
-richness. While the sampling variability in the asymptotic Hill-Simpson
-diversity was still higher than for the asymptotic Hill-Shannon diversity, as we
-saw for the sample diversity, as the scaling exponent $\ell$ approached 1 (i.e.
-increased emphasis on rare species, closer to richness), the variability was
-high and declined slowly with additional sampling. Depending on the evenness and
-distributional assumption of the SAD, the asymptotic richness estimate could be
-more, or less, variable than the asymptotic Hill-Simpson diversity estimate.
+is the low-uncertainty option for comparing assemblages [@Lande2000,
+@Haegeman2013] <!-- insufficient to claim an "Orthodoxy" from this. --> . The
+sample Hill-Simpson diversity, which has been promoted as a diversity metric
+that is robust to variation in sampling intensity [@Chase2013], exhibited high
+sampling uncertainty for most SADs and sampling intensities... greater
+variability than for any other sample Hill diversity. Across Hill diversities,
+the asymptotic estimator was typically more variable than the sample diversity
+was. This was especially the case for richness. While the sampling variability
+in the asymptotic Hill-Simpson diversity was still higher than for the
+asymptotic Hill-Shannon diversity, as we saw for the sample diversity, as the
+scaling exponent $\ell$ approached 1 (i.e. increased emphasis on rare species,
+closer to richness), the variability was high and declined slowly with
+additional sampling. Depending on the evenness and distributional assumption of
+the SAD, the asymptotic richness estimate could be more, or less, variable than
+the asymptotic Hill-Simpson diversity estimate.
 
 
 # ALTERNATIVE SOFTWARE

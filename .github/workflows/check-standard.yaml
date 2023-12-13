@@ -40,17 +40,10 @@ jobs:
           use-public-rspm: true
 
 
-    - uses: r-lib/actions/setup-r-dependencies@v2
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: |
-              any::pkgdown
-              any::rcmdcheck
-              local::.
-          needs: |
-              website
-              check
-
-
+          extra-packages: rcmdcheck
       - uses: r-lib/actions/setup-tinytex@v2
       - uses: r-lib/actions/check-r-package@v2
         with:

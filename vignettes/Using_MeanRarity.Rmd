@@ -787,10 +787,9 @@ more, or less, variable than the asymptotic Hill-Simpson diversity estimate.
 
 # ALTERNATIVE SOFTWARE
 Functions to generate similar diversity estimates and assemblage simulations are
-available in several R packages.
+available in several R packages. Here, we briefly introduce many of these
+packages and contrast their functionality and implementations with our own.
 
-<!-- this is currently placeholders, but need to fill this out. Will require
-some serious focused time and maybe some blog posts -->
 
 1. **iNEXT**
   The R package **iNEXT** provides tools for rarefaction and extrapolation of
@@ -822,8 +821,8 @@ some serious focused time and maybe some blog posts -->
   **MeanRarity**). While `SpadeR` provides a suite of tools for estimating
   alpha- and beta-diversity, **MeanRarity** provides additional tools for
   simulation, visualization, and alternative parameterization with $\ell$.
+  
 1. **vegan**
-
   The `R` package **vegan** contains a multitude of tools for comparing
   community data in `R`. Like **MeanRarity**, **vegan** contains tools to
   estimate Hill diversity (`vegan::renyi(..., hill = TRUE)`), rarefy datasets
@@ -833,8 +832,8 @@ some serious focused time and maybe some blog posts -->
   `vegan::diversity(x, "invsimpson") == 1/(1-vegan::diversity(x, "simpson"))`,
   although users might reasonably assume that `vegan::diversity(x, "invsimpson")
   == 1/vegan::diversity(x, "simpson")`. **MeanRarity** focuses on the
-  interpretation of Hill diversities as average of species rarities across
-  scales, to dispel confusion.
+  interpretation of Hill diversities as the average of scaled species rarities, 
+  to dispel confusion.
   
 1. **sads**
   The R package **sads** provides functions to fit parametric distributions to
@@ -880,7 +879,7 @@ some serious focused time and maybe some blog posts -->
   This package is available from Github https://github.com/EWTekwa/Richness and
   provides the function `RichnessEsts()`, which generates point estimates for
   asymptotic species richness using a variety of methods, including the novel
-  one introduces in Tekwa et al. 2023 PTRSB. This new estimator is not 
+  one introduces in Tekwa et al.[@Tekwa2023]. This new estimator is not 
   generalized to all Hill diversities, which are the focus of **MeanRarity**.
 
 

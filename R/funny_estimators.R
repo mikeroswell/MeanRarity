@@ -28,14 +28,14 @@ fsr<-function(x){
 #' @noRd
 fsd<-function(ab, l, q = NULL){
   if(!is.null(q)){
-    l = 1-q
+    l = 1 - q
     warning("l has been set to 1-q")
   }
-  ab<-ab[ab!=0]
+  ab <- ab[ab != 0]
   rp <- ab/sum(ab)
-  fs<-fsr(ab)
-  if(l==0) {return(exp(sum(rp*log(1/fs))))}
-  return(sign(l)*ipfun(sign(l)*sum(rp*pfun(1/fs, l)),l))
+  fs <- fsr(ab)
+  if(l == 0) {return(exp(sum(rp * log(1/fs))))}
+  return(sign(l) * ipfun(sign(l) * sum(rp * pfun(1/fs, l)),l))
 }
 
 #' Simpson's estimator of Hill-Simpson Diversity (we think?)
@@ -51,6 +51,6 @@ fsd<-function(ab, l, q = NULL){
 hill_simpson_estimator <- function(ab){
   n <- sum(ab)
   return(1/(
-    sum(ab/n)*((ab-1)/(n-1)))
+    sum(ab/n) * ((ab - 1)/(n - 1)))
   )
 }

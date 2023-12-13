@@ -9,7 +9,7 @@ test_that("MeanRarity::rarity gives same output as equivalent functions in other
   expect_equal(rarity(ab, l = 0)
                , as.numeric(entropart::Diversity(ab, 1, Correction = "None")))
 
-  expect_equal(rarity(ab, l - 0)
+  expect_equal(rarity(ab, l = 0)
                , iNEXT::iNEXT(ab
                               , q = 1
                               , size = sum(ab)

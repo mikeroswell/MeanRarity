@@ -573,17 +573,17 @@ assemblage/finite sample).</p>
 <span><span class="va">uneven_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">uneven_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">50</span><span class="op">)</span></span>
 <span><span class="co"># `sample_infinite()` returns a numeric vector of sample species abundances</span></span>
 <span><span class="va">even_sample</span></span>
-<span><span class="co">#&gt;  [1] 10  6  4  2  2  7  2  5  0  1  1  2  2  0  2  2  0  2  0  0</span></span>
+<span><span class="co">#&gt;  [1] 11  5  8  3  4  2  4  5  1  2  0  0  1  0  1  1  0  0  1  1</span></span>
 <span><span class="va">uneven_sample</span></span>
-<span><span class="co">#&gt;  [1] 21  4 10  3  1  2  2  3  0  2  0  0  2  0  0  0  0  0  0  0</span></span>
+<span><span class="co">#&gt;  [1] 17 12  5  5  3  1  1  0  1  1  1  0  0  0  1  0  1  1  0  0</span></span>
 <span></span>
 <span><span class="co"># we can compare evenness (given a scaling parameter `l`)</span></span>
 <span><span class="co"># the evenness is the normalized ratio of the specified Hill diversity to </span></span>
 <span><span class="co"># richness</span></span>
 <span><span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">even_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.6153846</span></span>
+<span><span class="co">#&gt; [1] 0.544335</span></span>
 <span><span class="fu"><a href="../reference/e3Fun.html">e3Fun</a></span><span class="op">(</span><span class="va">uneven_sample</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.3581081</span></span>
+<span><span class="co">#&gt; [1] 0.3333333</span></span>
 <span></span>
 <span><span class="co"># compare diversity from sample vs. ideal SAD:</span></span>
 <span><span class="co"># likely pretty far off for a small sample!</span></span>
@@ -597,7 +597,7 @@ assemblage/finite sample).</p>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">`colnames&lt;-`</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"richness"</span>, <span class="st">"Hill-Shannon"</span>, <span class="st">"Hill-Simpson"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      richness Hill-Shannon Hill-Simpson</span></span>
-<span><span class="co">#&gt; [1,] 15       11.82733     9.615385</span></span>
+<span><span class="co">#&gt; [1,] 15       10.87767     8.62069</span></span>
 <span></span>
 <span><span class="co"># with an uneven SAD, sample Hill-Simpson can be higher than true Hill-Simpson</span></span>
 <span><span class="co"># richness is always lower</span></span>
@@ -609,7 +609,7 @@ assemblage/finite sample).</p>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">`colnames&lt;-`</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"richness"</span>, <span class="st">"Hill-Shannon"</span>, <span class="st">"Hill-Simpson"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      richness Hill-Shannon Hill-Simpson</span></span>
-<span><span class="co">#&gt; [1,] 10       6.166713     4.222973</span></span>
+<span><span class="co">#&gt; [1,] 13       7.131692     5</span></span>
 <span></span>
 <span></span>
 <span><span class="va">big_even_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_infinite.html">sample_infinite</a></span><span class="op">(</span><span class="va">even_SAD</span><span class="op">$</span><span class="va">rel_abundances</span>, <span class="fl">1e7</span><span class="op">)</span></span>
@@ -624,7 +624,7 @@ assemblage/finite sample).</p>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">`colnames&lt;-`</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"richness"</span>, <span class="st">"Hill-Shannon"</span>, <span class="st">"Hill-Simpson"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      richness Hill-Shannon Hill-Simpson</span></span>
-<span><span class="co">#&gt; [1,] 20       15.12234     11.99998</span></span>
+<span><span class="co">#&gt; [1,] 20       15.12163     12.00284</span></span>
 <span></span>
 <span><span class="va">uneven_SAD</span><span class="op">$</span><span class="va">community_info</span></span>
 <span><span class="co">#&gt;     richness Hill-Shannon Hill-Simpson </span></span>
@@ -634,7 +634,7 @@ assemblage/finite sample).</p>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">`colnames&lt;-`</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"richness"</span>, <span class="st">"Hill-Shannon"</span>, <span class="st">"Hill-Simpson"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      richness Hill-Shannon Hill-Simpson</span></span>
-<span><span class="co">#&gt; [1,] 20       9.36983      5.998811</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,] 20       9.374891     6.005303</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -670,21 +670,22 @@ Because this package simulates species abundance distributions with
 known diversity, it allows examination of the drivers of sampling
 variation in Hill diversity estimates.</p>
 <p>It is well known that the diversity of a sample tends to be lower
-than the diversity of the assemblage from which the sample was drawn.
-This “bias” is most acute for species richness, but can be substantial
-for all Hill diversities when <span class="math inline">\(\ell \leq
-1\)</span>. The degree of mismatch between the sample and true diversity
-is difficult to know with real assemblages, but this can be addressed
-directly through simulation. At the same time, current asymptotic Hill
-diversity estimators <span class="citation">(Chao and Jost 2015)</span>
-typically exhibit little bias when sample sizes are reasonably large
-(hundreds of individuals) and <span class="math inline">\(\ell \lesssim
-0.25\)</span>. <!--
-rendering issues for pdf--> Less well-understood is how different
-features of the species abundance distribution (e.g. evenness, or just
-how rare the rarest species are) drive the degree of difference between
-either sampled diversity or asymptotic estimators, and the true
-diversity of the sampled species abundance distribution.</p>
+than the diversity of the assemblage from which the sample was drawn
+<span class="citation">(Chao and Jost 2015)</span>. This “bias” (i.e.,
+when sample diversity is used as a “plug-in” estimator for the true,
+assemblage-level diversity, rather than as its own index <span class="citation">Smith and Grassle (1977)</span>) is most acute for
+species richness, but can be substantial for all Hill diversities. The
+degree of mismatch between the sample and true diversity is difficult to
+know with real assemblages, but this can be addressed directly through
+simulation. At the same time, current asymptotic Hill diversity
+estimators <span class="citation">(Chao and Jost 2015)</span> typically
+exhibit little bias when sample sizes are reasonably large (hundreds of
+individuals) and <span class="math inline">\(\ell \lesssim
+0.25\)</span>. Less well-understood is how different features of the
+species abundance distribution (e.g. evenness, or just how rare the
+rarest species are) drive the degree of difference between either
+sampled diversity or asymptotic estimators, and the true diversity of
+the sampled species abundance distribution.</p>
 <p>Similarly, the sampling variation in Hill diversity estimates (both
 sample diversity/the naïve estimator, and asymptotic estimators) is
 poorly understood. Intuitively, sampling variability in Hill diversity
@@ -1126,6 +1127,11 @@ Dushoff, and Joshua S Weitz. 2013. <span>“<span class="nocase">Robust
 estimation of microbial diversity in theory and in
 practice</span>.”</span> <em>The ISME Journal</em> 7: 1092–1101. <a href="https://doi.org/10.1038/ismej.2013.10" class="external-link">https://doi.org/10.1038/ismej.2013.10</a>.
 </div>
+<div id="ref-Hurlbert1971" class="csl-entry">
+Hurlbert, Stuart H. 1971. <span>“<span class="nocase">The nonconcept of
+species diversity: a critique and alternative parameters</span>.”</span>
+<em>Ecology</em> 52 (4): 577–86. <a href="https://doi.org/10.2307/1934145" class="external-link">https://doi.org/10.2307/1934145</a>.
+</div>
 <div id="ref-Jost2006" class="csl-entry">
 Jost, Lou. 2006. <span>“<span class="nocase">Entropy and
 diversity</span>.”</span> <em>Oikos</em> 113: 363–75. <a href="https://doi.org/10.1111/j.2006.0030-1299.14714.x" class="external-link">https://doi.org/10.1111/j.2006.0030-1299.14714.x</a>.
@@ -1171,6 +1177,10 @@ Sciences</em> 378 (1881). <a href="https://doi.org/10.1098/rstb.2022.0186" class
 Sherwin, W. B., A. Chao, L. Jost, and P. E. Smouse. 2017. <span>“<span class="nocase">Information theory broadens the spectrum of molecular
 ecology and evolution</span>.”</span> <em>Trends in Ecology &amp;
 Evolution</em> 32 (12): 948–63. <a href="https://doi.org/10.1016/j.tree.2017.09.012" class="external-link">https://doi.org/10.1016/j.tree.2017.09.012</a>.
+</div>
+<div id="ref-Smith1977" class="csl-entry">
+Smith, Woolcott, and J. Frederick Grassle. 1977. <span>“<span class="nocase">Sampling properties of a family of diversity
+measures</span>.”</span> <em>Biometrics</em> 33: 283–92.
 </div>
 <div id="ref-Tuomisto2010a" class="csl-entry">
 Tuomisto, Hanna. 2010. <span>“<span class="nocase">A consistent

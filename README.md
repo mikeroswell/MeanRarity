@@ -40,11 +40,8 @@ metrics under different sampling scenarios.
 We are working on vignettes now. Currently Estimating_Mean_Rarity provides code
 to make the figures in Roswell et al. 2021 Oikos
 https://doi.org/10.1111/oik.07202, Gods_estimator explores a playful extension
-of the tools in this package, and Using_MeanRarity is the beginning of a more
-traditional "user's guide" type vignette. We have some work to do on this; feel
-free to share suggestions and questions!
-
-Thank you!
+of the tools in this package, and Using_MeanRarity is a more traditional,
+"user's guide" -type vignette.
 
 <!-- badges: start -->
   [![R-CMD-check](https://github.com/mikeroswell/MeanRarity/workflows/R-CMD-check/badge.svg)](https://github.com/mikeroswell/MeanRarity/actions)

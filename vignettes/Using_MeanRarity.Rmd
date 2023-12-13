@@ -554,18 +554,19 @@ distributions with known diversity, it allows examination of the drivers of
 sampling variation in Hill diversity estimates.
 
 It is well known that the diversity of a sample tends to be lower than the
-diversity of the assemblage from which the sample was drawn. This "bias" is most
-acute for species richness, but can be substantial for all Hill diversities when
-$\ell \leq 1$. The degree of mismatch between the sample and true diversity is
-difficult to know with real assemblages, but this can be addressed directly
+diversity of the assemblage from which the sample was drawn [@Chao2015]. This
+"bias" (i.e., when sample diversity is used as a "plug-in" estimator for the
+true, assemblage-level diversity, rather than as its own index [@Hurlbert1971,
+@Smith1977]) is most acute for species richness, but can be substantial for all
+Hill diversities. The degree of mismatch between the sample and true diversity
+is difficult to know with real assemblages, but this can be addressed directly
 through simulation. At the same time, current asymptotic Hill diversity
 estimators [@Chao2015] typically exhibit little bias when sample sizes are
-reasonably large (hundreds of individuals) and $\ell \lesssim 0.25$. <!--
-rendering issues for pdf--> Less well-understood is how different features of
-the species abundance distribution (e.g. evenness, or just how rare the rarest
-species are) drive the degree of difference between either sampled diversity or
-asymptotic estimators, and the true diversity of the sampled species abundance
-distribution.
+reasonably large (hundreds of individuals) and $\ell \lesssim 0.25$. Less
+well-understood is how different features of the species abundance distribution
+(e.g. evenness, or just how rare the rarest species are) drive the degree of
+difference between either sampled diversity or asymptotic estimators, and the
+true diversity of the sampled species abundance distribution.
 
 Similarly, the sampling variation in Hill diversity estimates (both sample
 diversity/the naïve estimator, and asymptotic estimators) is poorly understood.

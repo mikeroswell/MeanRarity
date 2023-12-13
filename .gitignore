@@ -8,5 +8,7 @@ inst/doc
 docs
 # built .pdf vignettes
 vignettes/*.pdf
-# building PDF vignettes generates .log files
+# building PDF vignettes generates some peripheral files
 *.log
+*.aux
+*.out

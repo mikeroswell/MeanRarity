@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Estimating mean rarity • MeanRarity</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -202,8 +202,10 @@ from the R package <code>SpadeR</code></p>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_shape_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span><span class="op">:</span><span class="fl">18</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_color_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Joining with `by = join_by(site)`</span></span>
-<span><span class="co">#&gt; Warning: Removed 257 rows containing missing values (`geom_point()`).</span></span>
-<span><span class="co">#&gt; Removed 257 rows containing missing values (`geom_point()`).</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Removed 257 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">#&gt; (`geom_point()`).</span></span>
+<span><span class="co">#&gt; Removed 257 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">#&gt; (`geom_point()`).</span></span></code></pre></div>
 <p><img src="Estimating_Mean_Rarity_files/figure-html/Species%20Accumulation%20Curves-1.png" width="480"></p>
 <p>Figure 3 in the guide shows an empirical Hill diversity profile. The
 <code>MeanRarity</code> package has a function to produce such profiles,
@@ -527,7 +529,8 @@ functions for sampling community data, to produce Fig. 5 no tools from
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_shape_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span><span class="op">:</span><span class="fl">18</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_color_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_log10</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning in ggplot2::scale_y_log10(): <span style="color: #00BB00;">log-10</span> transformation</span></span>
+<span><span class="co">#&gt; introduced infinite values.</span></span></code></pre></div>
 <p><img src="Estimating_Mean_Rarity_files/figure-html/Fig%205%20rarefaction-1.png" width="672"></p>
 <p>We examine whether the same sensitivities apply to asymptotic
 diversity estimates, which present an alternative to the data
@@ -561,7 +564,8 @@ demonstrating relative differences in diversity between communities.</p>
 <span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
 <span><span class="co">#&gt; Scale for <span style="color: #00BB00;">alpha</span> is already present.</span></span>
 <span><span class="co">#&gt; Adding another scale for <span style="color: #00BB00;">alpha</span>, which will replace the existing scale.</span></span>
-<span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning in ggplot2::scale_y_log10(): <span style="color: #00BB00;">log-10</span> transformation</span></span>
+<span><span class="co">#&gt; introduced infinite values.</span></span></code></pre></div>
 <p><img src="Estimating_Mean_Rarity_files/figure-html/Appendix%20C%20rarefaction%20with%20estimators%20-1.png" width="672"></p>
 <p>In Box 5, we visualize the mean rarity by finding a physical balance
 point. We hope this helps clarify how rarity is scaled by different
@@ -692,15 +696,15 @@ test proposed confidence intervals <span class="citation">(Béguinot
 <span><span class="op">}</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in fit_SAD(rich = rich, simpson = simp_Prop * (rich - 1) + 1, distr = distr): Rarest species has relative abundance  7.18739193244666e-47 . </span></span>
 <span><span class="co">#&gt; Consider implied community size.</span></span>
-<span><span class="co">#&gt; Warning in fit_SAD(rich = rich, simpson = simp_Prop * (rich - 1) + 1, distr = distr): Rarest species has relative abundance  1.20738866916922e-15 . </span></span>
+<span><span class="co">#&gt; Warning in fit_SAD(rich = rich, simpson = simp_Prop * (rich - 1) + 1, distr = distr): Rarest species has relative abundance  1.20738866916925e-15 . </span></span>
 <span><span class="co">#&gt; Consider implied community size.</span></span>
 <span><span class="co">#&gt; Warning in fit_SAD(rich = rich, simpson = simp_Prop * (rich - 1) + 1, distr = distr): Rarest species has relative abundance  1.7925645196612e-09 . </span></span>
 <span><span class="co">#&gt; Consider implied community size.</span></span>
-<span><span class="co">#&gt; Warning in fit_SAD(rich = rich, simpson = simp_Prop * (rich - 1) + 1, distr = distr): Rarest species has relative abundance  1.99403602229887e-53 . </span></span>
+<span><span class="co">#&gt; Warning in fit_SAD(rich = rich, simpson = simp_Prop * (rich - 1) + 1, distr = distr): Rarest species has relative abundance  1.99403602229896e-53 . </span></span>
 <span><span class="co">#&gt; Consider implied community size.</span></span>
-<span><span class="co">#&gt; Warning in fit_SAD(rich = rich, simpson = simp_Prop * (rich - 1) + 1, distr = distr): Rarest species has relative abundance  1.3608399242646e-17 . </span></span>
+<span><span class="co">#&gt; Warning in fit_SAD(rich = rich, simpson = simp_Prop * (rich - 1) + 1, distr = distr): Rarest species has relative abundance  1.36083992426459e-17 . </span></span>
 <span><span class="co">#&gt; Consider implied community size.</span></span>
-<span><span class="co">#&gt; Warning in fit_SAD(rich = rich, simpson = simp_Prop * (rich - 1) + 1, distr = distr): Rarest species has relative abundance  1.21155246166887e-10 . </span></span>
+<span><span class="co">#&gt; Warning in fit_SAD(rich = rich, simpson = simp_Prop * (rich - 1) + 1, distr = distr): Rarest species has relative abundance  1.21155246166886e-10 . </span></span>
 <span><span class="co">#&gt; Consider implied community size.</span></span></code></pre></div>
 <p>The function <code><a href="../reference/fit_SAD.html">fit_SAD()</a></code> provides useful way to simulate
 species abundance distributions. Unlike many methods to simulate SADs
@@ -777,7 +781,7 @@ available at [github link].</p>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-Baldridge2016" class="csl-entry">
 Baldridge, Elita, David J. Harris, Xiao Xiao, and Ethan P. White. 2016.
 <span>“<span class="nocase">An extensive comparison of species-abundance
@@ -852,7 +856,7 @@ diversity</span>.”</span> <em>Oikos</em> 130 (3): 321–38. <a href="https://d
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>

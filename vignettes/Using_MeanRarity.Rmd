@@ -125,11 +125,7 @@ rarity; evenness; precision
 
 # INTRODUCTION
 
-Biodiversity underpins human existence and drives the character and function of
-earth’s ecosystems. At the same time, biodiversity is shifting and, arguably,
-declining, at an unprecedented rate due to anthropogenic global change. Yet,
-detecting and describing this change means choosing just what to measure, and
-how. Ecologists are faced with a dazzling array of choices.
+Biodiversity underpins human existence and drives the character and function of earth’s ecosystems. At the same time, biodiversity is shifting and, arguably, declining, at an unprecedented rate due to anthropogenic global change. Yet, detecting and describing this change means choosing what quantities to measure, and how. Ecologists are faced with a dazzling array of choices.
 
 Increasingly, Hill diversity or "Hill numbers", a unified family of diversity
 measures that includes variants of classical metrics such as species richness
@@ -192,19 +188,14 @@ Hill diversity is more commonly written as
 $$D=\left( \sum_{i=1}^{S}p_{i}^{q} \right)^{1/1-q} \tag{2}$$
 When $\ell = 0$ ($q = 1$), these equations are defined by their limit.
 
-Equations 1 and 2 are equivalent when $\ell = 1-q$.
-Re-parameterizing Hill diversity in terms of species rarity can provide
-conceptual clarity. Equation 1 is a weighted mean rarity, where the weights
-(relative abundances, $p_i$) are factored out explicitly. Simplifying (as in
-Equation 2) hides the weighting by relative abundance, and leads to the claim
-that the scaling exponent is the "weight." The concrete meaning of "weight" when
-applied to $q$ in Equation 2 may be difficult to understand.
+Equations 1 and 2 are equivalent when $\ell = 1-q$. Re-parameterizing Hill diversity in terms of species rarity can provide conceptual tools that may aid understanding and interpretation. Equation 1 is a weighted mean rarity, where the weights (relative abundances, $p_i$) are factored out explicitly. Simplifying (as in Equation 2) hides the weighting by relative abundance, and may complicate attempts at interpretation.
+
+JD: Not sure we need this text, there's more about weights below. “leads to” seems hard to justify: `leads to the claim that the scaling exponent is the "weight." The concrete meaning of "weight" when applied to $q$ in Equation 2 may be difficult to understand.`
 
 Because Equations 1 and 2 are algebraically equivalent, `rarity(x, l)` is
 equivalent to `vegan::renyi(x, scale = 1-l, hill = TRUE)`, 
 `entropart::Diversity(x, 1-l, Correction = "None"))`, or the `qD` output from 
 `iNEXT::estimateD(x)` where `order = 1-l`.
-
 
 ```{r compute-rarity}
 # for a totally even distribution, Hill diversity is the same regardless of `l`
@@ -271,13 +262,12 @@ mean rarities, provided by `rarity_plot()`.
 rarity. The idea behind a balance plot is that means measure the [weighted]
 center, or a balance point, for a set of values. If one imagines a plank with
 many weights on it, where the balance point lies depends not only on the size of
-the weights weights, but also on their relative locations... the farther towards
+the weights, but also on their relative locations: the farther towards
 the ends of the plank a weight lies, the more leverage it has. When describing
 diversity, there are simple rules for the species weights ([relative]
 abundances) and where they lie (their *scaled* rarities). The rarity scaling is
 given by the exponent $\ell$ from equation 1, passed to the argument `l`. Here,
-we create three balance plots for the three Pythagorean means, given when 
-$\ell \in \{1, 0,-1\}$:
+we compare three balance plots for the same data, but with different values of $\ell$:
 
 
 ```{r Balance-plot-setup, warning=FALSE, message=FALSE}
@@ -305,7 +295,7 @@ simp_bal <- white_y(
 ```
 
 In a balance plot, the species integer abundances are plotted on the y-axis,
-species rarities on the x-axis (values are back-transformed, but scaling is
+species rarities on the x-axis (values are back-transformed, but the plot scaling is
 dictated by `l`), the mean is shown with a triangular "fulcrum," and reference
 points are illustrated for the three Pythagorean means (i.e., arithmetic,
 geometric, and harmonic, given when `l = c(1, 0, -1)`, and equal to richness,
@@ -319,13 +309,7 @@ balance plots of the same abundances, but with different `l` values, shows this
 spreading and compression precisely. Meanwhile, the weights of each species are
 determined wholly by their abundances (visualized as a stack of blocks). Balance
 plots illustrate that even though the weights do not change with the scaling
-exponent, the balance point (or fulcrum) shifts with rescaling. In the first of
-the three plots below, the balance point sits at the arithmetic mean (richness)
-at 6 (purple point). In the second, the smaller rarities are shifted apart,
-while the larger rarity are shifted together. The balance point shifts leftwards
-to the geometric mean (Hill-Shannon diversity), at about 4.1 (red point). In the
-third, the balance point shifts farther left still, to the harmonic mean
-(Hill-Simpson diversity), at about 3.1 (green point).
+exponent, the mean (the balance point of the plot) shifts with rescaling. In the first of the three plots below, the balance point sits at the arithmetic mean (richness) at 6 (purple point). In the second, the smaller rarities are shifted apart, while the larger rarity are shifted together. The balance point shifts leftwards to the geometric mean (Hill-Shannon diversity), at about 4.1 (red point). In the third, the balance point shifts farther left still, to the harmonic mean (Hill-Simpson diversity), at about 3.1 (green point).
 
 <!-- need to find a good way to control the balance plots for different devices/
 rendering contexts -->
@@ -340,15 +324,13 @@ simp_bal +
 
 ```
 
-Rather than adjust abundances and scaling parameters in code, users may
-experiment with balance plots using the [R shiny web
+In addition to using R code to adjust abundances and scaling parameters in code, users may experiment with balance plots using the [R shiny web
 application](https://mean-rarity.shinyapps.io/rshiny_app1/) that accompanies
-this package.
-
+this package. JD: Maybe add a citation just to the URL as well, for robustness.
 
 <!-- do we want ot say anything about this here? --> 
 Traditionally, Hill numbers in ecology have considered scaling parameters of
-$\ell \leq 1$ i.e., $q \geq 0$. However, scaling parameter values outside this
+$\ell \leq 1$ i.e., $q \geq 0$. However, values outside this
 range may produce useful ecological metrics as well [@Roswell2022b]. Just as
 sample richness reflects density, total richness, and the distribution of
 relative abundances, sample Hill diversities with $\ell > 1$ ($q<0$) reflect
@@ -361,17 +343,7 @@ the ultimate stopping point for emphasis on rare species.
 
 ## Simulating communities with known diversity
 
-Assessing the the performance of diversity estimators with real-world data is
-difficult, because ecological communities are not typically fully censused, and
-therefore the true diversity of sampled communities is not known.
-**MeanRarity** includes a tool to simulate species abundance distributions where
-diversity values are given as parameters. This way, diversity (in this case,
-richness and Hill-Simpson diversity) are known and fixed, rather than
-epiphenomena that fall out of the simulations. In order to achieve this, we
-simulate species abundance distributions with known, finite, true diversity, but
-infinite abundance, from which finite samples may be taken. The diversity of a
-given sample from such a species abundance distribution is therefore not
-precisely pre-determined.
+Assessing the the performance of diversity estimators with real-world data is difficult, because ecological communities are not typically fully censused, and therefore the true diversity of sampled communities is not known. **MeanRarity** includes a tool to simulate species abundance distributions where diversity values are given as parameters. This way, true population diversity values are known. In order to achieve this, we simulate species abundance distributions with known, finite, true diversity, but infinite abundance, from which finite samples may be taken. JD: is ff. necessary? The diversity of a given sample from such a species abundance distribution is therefore not precisely pre-determined.
 
 This approach differs from species abundance distribution simulations
 implemented in other R packages. For example, **mobsim** [@May2018a] and
@@ -388,6 +360,8 @@ always outputs precisely the same relative abundances for a given set of
 parameters. By generating relative abundances that do not depend on any kind of
 sampling scenario, `fit_SAD()` makes it easy to consistently distinguish the
 true, assemblage-level diversity from diversity estimates computed from samples.
+
+JD: Maybe we need to discuss this. It certainly sounds efficient, but the differences seem insufficiently explained. Is the main point that our way makes it easy to calculate true diversities?
 
 <!-- cut next paragraph:
 `fit_SAD()` simulates a species abundance distribution with known richness,
@@ -429,17 +403,12 @@ un <- radplot(uneven_SAD$rel_abundances) +
   ggplot2::ylim(c(0, 0.4))
 ```
 
-For any distribution of relative abundances, one can ask, "what is the Hill
-diversity of this distribution?" Yet the answer, of course, depends on the
-chosen value of the scaling parameter $\ell$. For a comprehensive answer, one
-might look across values of $\ell$, also known as a Hill "diversity profile"
-[@Chao2014b]. **MeanRarity** provides a function to generate a [sample] Hill 
+For a given distribution of relative abundances, it is possible to ask, "what is the Hill diversity of this distribution?", comprehensively, by looking at how diversity changes across values of $\ell$ with a Hill "diversity profile"
+[@Chao2014b]. **MeanRarity** provides a function to generate a Hill 
 diversity profile based on $\ell$ (rather than $q$): `divpro()`. `divpro()` does 
 not estimate asymptotic diversity values (as does, e.g., `SpadeR::Diversity()`),
-rather it simply computes the Hill diversity profile for the [relative] 
-abundances supplied by the argument `ab`. As with all **MeanRarity** functions, 
-`divpro()` can work with any real value for the parameter `l` [@Roswell2022b].
-
+rather it simply computes the Hill diversity profile for the abundances supplied by the argument `ab`. As with all **MeanRarity** functions, 
+`divpro()` can take any real value for the parameter `l` [@Roswell2022b].
 
 ```{r diversity-profile}
 # the even and uneven communities have same richness but different Hill 
@@ -471,6 +440,8 @@ package, to take a finite sample from an ideal species abundance distribution,
 we use `sample_infinite()` (so named because it samples an infinite SAD;
 `sample_finite()` is for sub-sampling from a realized assemblage/finite sample).
 
+JD: should we consider saying “sample_from_x” instead?
+
 ```{r sample-from-SAD}
 
 # diversity of a small sample unlikely to match the simulated diversity values
@@ -486,6 +457,7 @@ uneven_sample
 # we can compare evenness (given a scaling parameter `l`)
 # the evenness is the normalized ratio of the specified Hill diversity to 
 # richness
+## JD: Why is it e3fun? Do we want this here? Not that it hurts, but maybe just simplify?
 e3Fun(even_sample, -1)
 e3Fun(uneven_sample, -1)
 
@@ -531,6 +503,7 @@ rbind(lapply(c(1, 0, -1), function(l){
 
 ## Drivers of sampling uncertainty in Hill diversity estimates
 
+JD: Maybe add an older cite, too, if we're saying “notoriously”.
 Accurate estimates of Hill diversity based on sample data are notoriously
 challenging [@Roswell2021]. Although many estimators have been used, the three
 most common approaches are to a) calculate the diversity of samples directly,
@@ -554,15 +527,15 @@ provides a toolkit to explore accuracy and sampling uncertainty for Hill
 diversity estimates. Because this package simulates species abundance
 distributions with known diversity, it allows examination of the drivers of
 sampling variation in Hill diversity estimates.
-
+JD: This can be discussed a little. If we're going to go into “plug-ins” we do need to be clear what it means to “treat” these statistics differently.
 It is well known that the diversity of a sample tends to be lower than the
 diversity of the assemblage from which the sample was drawn [@Chao2015]. This
 "bias" (i.e., when sample diversity is used as a "plug-in" estimator for the
 true, assemblage-level diversity, rather than as its own index [@Hurlbert1971,
 @Smith1977]) is most acute for species richness, but can be substantial for all
 Hill diversities. The degree of mismatch between the sample and true diversity
-is difficult to know with real assemblages, but this can be addressed directly
-through simulation. At the same time, current asymptotic Hill diversity
+is difficult to know with real assemblages, but this can be addressed 
+through simulation. Available asymptotic Hill diversity
 estimators [@Chao2015] typically exhibit little bias when sample sizes are
 reasonably large (hundreds of individuals) and $\ell \lesssim 0.25$. Less
 well-understood is how different features of the species abundance distribution
@@ -570,17 +543,9 @@ well-understood is how different features of the species abundance distribution
 difference between either sampled diversity or asymptotic estimators, and the
 true diversity of the sampled species abundance distribution.
 
-Similarly, the sampling variation in Hill diversity estimates (both sample
-diversity/the naïve estimator, and asymptotic estimators) is poorly understood.
-Intuitively, sampling variability in Hill diversity estimates must depend
-jointly on sample size, the species abundance distribution, and the scaling
-exponent for Hill diversity. However, users of Hill diversity currently lack
-guidance on the relationship between their metric choice and the sampling
-variability they might expect. Variability, along with bias, is an important
-consideration when selecting a diversity metric. Especially when the number of
-replicates is modest, as is often the case in ecological studies, inaccuracy due
-to random sampling variability could lead to equally misleading results as could
-bias [@Gelman2014].
+JD: Maybe unpack a bit earlier: the naïve estimators and the sample-based estimator are the same estimator, right? Maybe say that a bit more explicitly, and then talk about _using_ that estimator as a plugin vs. sample value? 
+Took out a parenthesis from the first s. below because it would take a lot of unravelling and will be addressed clearly soon.
+Similarly, sampling variation in Hill diversity estimates is poorly understood. Intuitively, sampling variability in Hill diversity estimates must depend jointly on sample size, the species abundance distribution, and the scaling exponent for Hill diversity. However, users of Hill diversity currently lack guidance on the relationship between their metric choice and the sampling variability they might expect. Variability, along with bias, is an important consideration when selecting a diversity metric. Especially when the number of replicates is modest, as is often the case in ecological studies, inaccuracy due to sampling variability can be as misleading as bias [@Gelman2014].
 
 To explore how the shape of the species abundance distribution and sample size
 drive the sampling expectations for sample and asymptotic Hill diversity
@@ -633,23 +598,14 @@ diversity, the bias, i.e. the ratio between sample and true diversity, depends
 jointly on the choice of Hill scaling exponent, the SAD, and sampling
 completeness [@Roswell2021].
 
-We found a strong negative bias for species richness for the asymptotic
-estimator, as well as for the naïve estimator, but when sample diversity is not
-treated as an estimator for the full assemblage diversity, it has no "bias"
-(CITE Smith and Grassle, Hurlbert, Dauby & Hardy). Evenness and distributional
-assumption of the SAD affected the bias for both the naïve and asymptotic Hill
-diversity estimates. More even communities tended to exhibit lower bias for
-richness but higher bias for Hill-Simpson diversity, although this pattern
-depended to some degree on both distributional assumption and sampling
-intensity. For the asymptotic Hill diversity estimates, bias at very low sample
-sizes was less than sample diversity but could still be extreme. However, this
-bias evaporated quickly for both sample and asymptotic Hill diversity estimates
-when the scaling exponent $\ell << 1$.
-
+We found a strong negative bias for species richness for the asymptotic estimator, as well as for the naïve estimator, but when sample diversity is interpreted at the sampling level, it has no "bias" by definition (CITE Smith and Grassle, Hurlbert, Dauby & Hardy). Evenness and distributional assumption of the SAD affected the bias for both the naïve and asymptotic Hill diversity estimates. More even communities tended to exhibit lower bias for richness but higher bias for Hill-Simpson diversity, although this pattern depended to some degree on both distributional assumption and sampling intensity. For the asymptotic Hill diversity estimates, bias at very low sample sizes was less than sample diversity but could still be extreme. However, this bias evaporated quickly for both sample and asymptotic Hill diversity estimates when the scaling exponent $\ell << 1$.
 <!-- check theme options like panel.spacing and legend.key.width -->
 
-```{r bias-figure, fig.height = 7, fig.width = 7}
+JD: I'm wondering if we can find a bit more insight here. Hill-Simpson is probably pretty sensitive to evenness – I'm not spelling out why this bias suddenly makes sense to me yet, because maybe you already thought of it. And of course the other bias clearly makes sense. Like I keep telling everyone: Hill-Shannon is the Goldilocks estimator!
 
+JD: Stopping here, will try to get back soon. Should have a strategy session soon for big-picture stuff (some stuff needs to be in an appendix or something I think). What is the target and who are the authors?
+
+```{r bias-figure, fig.height = 7, fig.width = 7}
 
 purrr::map(c("lnorm", "gamma", "invgamma"), function(dist){
    myp <- err_plot_data %>% 

@@ -42,7 +42,7 @@ Ignore += *.vig.html
 	$(rmdh_r)
 
 ## Using_MeanRarity.vig.pdf: vignettes/Using_MeanRarity.Rmd
-Ignore += *.vig.html
+Ignore += *.vig.pdf
 %.vig.pdf: vignettes/%.Rmd
 	$(rmdh_p)
 
